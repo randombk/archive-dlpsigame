@@ -1,0 +1,369 @@
+{
+    "buildIronMine": {
+        "buildID": "buildIronMine",
+        "buildImage": "buildIronMine.gif",
+        "buildName": "Iron mine",
+        "buildDesc": "The Iron mine produces the iron that is required as building material for other mines. Additionally, the Blast furnace needs pig iron to produce metal. ",
+        "buildType": "resource",
+        "buildMax": 10,
+        "techReq": {},
+        "buildingReq": {},
+        "buildDifficulty": [
+            90,
+            140,
+            210,
+            320,
+            480,
+            720,
+            1080,
+            1620,
+            2460,
+            3780
+        ],
+        "resReq": [
+            { "iron": 78, "kryptonite": 25 },
+            { "iron": 118, "kryptonite": 38 },
+            { "iron": 178, "kryptonite": 58 },
+            { "iron": 269, "kryptonite": 87 },
+            { "iron": 406, "kryptonite": 130 },
+            { "iron": 613, "kryptonite": 197 },
+            { "iron": 925, "kryptonite": 297 },
+            { "iron": 1379, "kryptonite": 448 },
+            { "iron": 2109, "kryptonite": 676 },
+            { "iron": 3184, "kryptonite": 1021 }
+        ],
+        "resConsumption": [
+            { "energy": 4 },
+            { "energy": 10 },
+            { "energy": 18 },
+            { "energy": 27 },
+            { "energy": 40 },
+            { "energy": 55 },
+            { "energy": 74 },
+            { "energy": 97 },
+            { "energy": 126 },
+            { "energy": 161 }
+        ],
+        "resProduction": [
+            { "iron": 27 },
+            { "iron": 63 },
+            { "iron": 109 },
+            { "iron": 167 },
+            { "iron": 241 },
+            { "iron": 333 },
+            { "iron": 446 },
+            { "iron": 587 },
+            { "iron": 759 },
+            { "iron": 970 }
+        ]
+    },
+    "buildBlastFurnace": {
+        "buildID": "buildBlastFurnace",
+        "buildImage": "buildBlastFurnace.gif",
+        "buildName": "Blast Furnace",
+        "buildDesc": "The blast furnace converts iron to metal.",
+        "buildType": "resource",
+        "buildMax": 10,
+        "techReq": {},
+        "buildingReq": {},
+        "buildDifficulty": [
+            90,
+            140,
+            210,
+            320,
+            480,
+            720,
+            1080,
+            1620,
+            2460,
+            3780
+        ],
+        "resReq": [
+            { "iron": 78, "kryptonite": 25 },
+            { "iron": 118, "kryptonite": 38 },
+            { "iron": 178, "kryptonite": 58 },
+            { "iron": 269, "kryptonite": 87 },
+            { "iron": 406, "kryptonite": 130 },
+            { "iron": 613, "kryptonite": 197 },
+            { "iron": 925, "kryptonite": 297 },
+            { "iron": 1379, "kryptonite": 448 },
+            { "iron": 2109, "kryptonite": 676 },
+            { "iron": 3184, "kryptonite": 1021 }
+        ],
+        "resConsumption": [
+            { "iron": 24, "energy": 2},
+            { "iron": 54, "energy": 5},
+            { "iron": 94, "energy": 9},
+            { "iron": 146, "energy": 13},
+            { "iron": 210, "energy": 20},
+            { "iron": 290, "energy": 27},
+            { "iron": 390, "energy": 37},
+            { "iron": 512, "energy": 48},
+            { "iron": 664, "energy": 63},
+            { "iron": 848, "energy": 80}
+        ],
+        "resProduction": [
+            { "metal": 12 },
+            { "metal": 27 },
+            { "metal": 47 },
+            { "metal": 73 },
+            { "metal": 105 },
+            { "metal": 145 },
+            { "metal": 195 },
+            { "metal": 256 },
+            { "metal": 332 },
+            { "metal": 424 }
+        ]
+    },
+	"buildKryptoniteMine": {
+        "buildID": "buildKryptoniteMine",
+        "buildImage": "buildKryptoniteMine.gif",
+        "buildName": "Kryptonite mine",
+        "buildDesc": "produces kryptonite",
+        "buildType": "resource",
+        "buildMax": 10,
+        "techReq": {},
+        "buildingReq": {},
+        "buildDifficulty": [
+            136,
+            267,
+            270,
+            469,
+            708,
+            1069,
+            1614,
+            2400,
+            3680,
+            5556
+        ],
+        "resReq": [
+            { "iron": 90, "kryptonite": 55 },
+            { "iron": 136, "kryptonite": 84 },
+            { "iron": 206, "kryptonite": 126 },
+            { "iron": 310, "kryptonite": 190 },
+            { "iron": 468, "kryptonite": 286 },
+            { "iron": 707, "kryptonite": 432 },
+            { "iron": 1067, "kryptonite": 652 },
+            { "iron": 1611, "kryptonite": 985 },
+            { "iron": 2433, "kryptonite": 1487 },
+            { "iron": 3674, "kryptonite": 2245 }
+        ],
+        "resConsumption": [
+            { "energy": 5 },
+            { "energy": 11 },
+            { "energy": 20 },
+            { "energy": 31 },
+            { "energy": 45 },
+            { "energy": 62 },
+            { "energy": 83 },
+            { "energy": 110 },
+            { "energy": 142 },
+            { "energy": 182 }
+        ],
+        "resProduction": [
+            { "kryptonite": 14 },
+            { "kryptonite": 32 },
+            { "kryptonite": 55 },
+            { "kryptonite": 85 },
+            { "kryptonite": 123 },
+            { "kryptonite": 170 },
+            { "kryptonite": 228 },
+            { "kryptonite": 299 },
+            { "kryptonite": 387 },
+            { "kryptonite": 495 }
+        ]
+    },
+	"buildSpiceMine": {
+        "buildID": "buildSpiceMine",
+        "buildImage": "buildSpiceMine.gif",
+        "buildName": "Spice mine",
+        "buildDesc": "produces spice",
+        "buildType": "resource",
+        "buildMax": 10,
+        "techReq": {},
+        "buildingReq": {},
+        "buildDifficulty": [
+            469,
+            708,
+            1069,
+            1614,
+            2400,
+            3680,
+            5556,
+			7200,
+			10800,
+			16200
+        ],
+        "resReq": [
+            { "metal": 220, "kryptonite": 80 },
+            { "metal": 333, "kryptonite": 121 },
+            { "metal": 502, "kryptonite": 183 },
+            { "metal": 758, "kryptonite": 276 },
+            { "metal": 1144, "kryptonite": 416 },
+            { "metal": 1728, "kryptonite": 629 },
+            { "metal": 2608, "kryptonite": 949 },
+            { "metal": 3938, "kryptonite": 1432 },
+            { "metal": 5947, "kryptonite": 2163 },
+            { "metal": 8979, "kryptonite": 3265 }
+        ],
+        "resConsumption": [
+            { "energy": 9 },
+            { "energy": 21 },
+            { "energy": 36 },
+            { "energy": 55 },
+            { "energy": 80 },
+            { "energy": 111 },
+            { "energy": 148 },
+            { "energy": 195 },
+            { "energy": 253 },
+            { "energy": 323 }
+        ],
+        "resProduction": [
+            { "spice": 7 },
+            { "spice": 16 },
+            { "spice": 27 },
+            { "spice": 73 },
+            { "spice": 61 },
+            { "spice": 80 },
+            { "spice": 110 },
+            { "spice": 150 },
+            { "spice": 190 },
+            { "spice": 250 }
+        ]
+    },
+    "buildFusionPlant": {
+        "buildID": "buildFusionPlant",
+        "buildImage": "buildFusionPlant.gif",
+        "buildName": "Fusion Plant",
+        "buildDesc": "The coalescence power station is the most important building to energy production. Depending on the building level more energy is produced.",
+        "buildType": "resource",
+        "techReq": {},
+        "buildingReq": {},
+        "buildDifficulty": [
+            90,
+            140,
+            210,
+            320,
+            480,
+            720,
+            1080,
+            1620,
+            2460,
+            3780
+        ],
+         "resReq": [
+            { "iron": 80, "kryptonite": 35 },
+            { "iron": 121, "kryptonite": 53 },
+            { "iron": 138, "kryptonite": 80 },
+            { "iron": 276, "kryptonite": 121 },
+            { "iron": 416, "kryptonite": 182 },
+            { "iron": 629, "kryptonite": 275 },
+            { "iron": 949, "kryptonite": 415 },
+            { "iron": 1432, "kryptonite": 627 },
+            { "iron": 2136, "kryptonite": 946 },
+            { "iron": 3265, "kryptonite": 1429 }
+        ],
+        "resConsumption": [],
+        "resProduction": [
+            { "energy": 11 },
+            { "energy": 26 },
+            { "energy": 45 },
+            { "energy": 69 },
+            { "energy": 100 },
+            { "energy": 138 },
+            { "energy": 186 },
+            { "energy": 244 },
+            { "energy": 316 },
+            { "energy": 404 }
+        ],
+		"modifiers": [
+            { "modEnergyStorageCapacityIncrease": 20 },
+            { "modEnergyStorageCapacityIncrease": 30 },
+            { "modEnergyStorageCapacityIncrease": 50 },
+            { "modEnergyStorageCapacityIncrease": 90 },
+            { "modEnergyStorageCapacityIncrease": 170 },
+            { "modEnergyStorageCapacityIncrease": 310 },
+            { "modEnergyStorageCapacityIncrease": 610 },
+            { "modEnergyStorageCapacityIncrease": 1200 },
+            { "modEnergyStorageCapacityIncrease": 2400 },
+            { "modEnergyStorageCapacityIncrease": 4000 }
+        ]
+    },
+    "buildDevCenter": {
+        "buildID": "buildDevCenter",
+        "buildImage": "buildDevCenter.gif",
+        "buildName": "Development Center",
+        "buildDesc": "The Development centre accelerates the construction of buildings. Besides, the level of the developing centre is a condition for the construction of certain other buildings.",
+        "buildType": "rnd",
+        "techReq": {},
+        "buildingReq": {},
+        "buildDifficulty": [
+            300
+        ],
+        "resReq": [
+            { "metal": 300, "kryptonite": 300 }
+        ],
+        "resConsumption": [ ],
+        "modifiers": [
+            { "modBuildSpeedMultiplier": 50 },
+            { "modBuildSpeedMultiplier": 100 },
+            { "modBuildSpeedMultiplier": 200, "modBuildTimeDecrease": 10 },
+            { "modBuildSpeedMultiplier": 300, "modBuildTimeDecrease": 20 },
+            { "modBuildSpeedMultiplier": 400, "modBuildTimeDecrease": 30 },
+            { "modBuildSpeedMultiplier": 500, "modBuildTimeDecrease": 40 },
+            { "modBuildSpeedMultiplier": 600, "modBuildTimeDecrease": 50 },
+            { "modBuildSpeedMultiplier": 700, "modBuildTimeDecrease": 60 },
+            { "modBuildSpeedMultiplier": 800, "modBuildTimeDecrease": 70 }
+        ]
+    },
+	"buildWareHouse": {
+        "buildID": "buildWareHouse",
+        "buildImage": "buildWareHouse.jpg",
+        "buildName": "Warehouse",
+        "buildDesc": "Increases planet storage capacity",
+        "buildType": "rnd",
+        "techReq": {},
+        "buildingReq": {},
+        "buildDifficulty": [
+            300
+        ],
+        "resReq": [
+            { "iron": 2000, "metal": 300, "kryptonite": 300 }
+        ],
+        "resConsumption": [ ],
+        "modifiers": [
+            { "modStorageCapacityMultiplier": 10 },
+            { "modStorageCapacityMultiplier": 20 },
+            { "modStorageCapacityMultiplier": 30 },
+            { "modStorageCapacityMultiplier": 40 },
+            { "modStorageCapacityMultiplier": 50 },
+            { "modStorageCapacityMultiplier": 60 },
+            { "modStorageCapacityMultiplier": 70 },
+            { "modStorageCapacityMultiplier": 80 }
+        ]
+    },
+    "buildResearchLab": {
+        "buildID": "buildResearchLab",
+        "buildImage": "buildResearchLab.gif",
+        "buildName": "Research Lab",
+        "buildDesc": "Allows research",
+        "buildType": "rnd",
+        "buildMax": 5,
+        "techReq": {},
+        "buildingReq": {},
+        "buildDifficulty": [
+            100
+        ],
+        "resReq": [
+            { "iron": 2000, "metal": 300, "kryptonite": 300 }
+        ],
+        "resConsumption": [ ],
+        "researchPoints": [
+            { "Fleet": 10, "Economic": 10 },
+            { "Fleet": 20, "Economic": 20 },
+            { "Fleet": 30, "Economic": 30 },
+            { "Fleet": 40, "Economic": 40 },
+            { "Fleet": 50, "Economic": 50 }
+        ]
+    }
+}

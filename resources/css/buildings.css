@@ -1,0 +1,159 @@
+.buildingHolder {
+	position: relative;
+	display: block;
+	height: 126px;
+	margin-bottom: 10px;
+}
+
+.buildingHolder .buildingItem {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 10px;
+	right: 10px;
+	border: 1px solid #D3D3D3;
+	background: rgba(5,49,109,0.7);
+}
+
+.buildingHolder .buildingImage {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: 124px;
+	height: 124px;
+}
+
+.buildingHolder .buildingData {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 125px;
+	right: 0px;
+	background: #031A3A;
+}
+
+.buildingHolder .buildingData .buildingName {
+	position: absolute;
+	top: 0px;
+	height: 15px;
+	left: 0px;
+	right: 0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+	border-bottom: 1px solid #D3D3D3;
+}
+
+.buildingHolder .buildingData .buildingDesc {
+	position: absolute;
+	bottom: 40px;
+	top: 15px;
+	left: 0px;
+	right: 0px;
+	padding: 0px 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: center;
+}
+
+.buildingHolder .buildingData .buildingControls {
+	position: absolute;
+	bottom: 0px;
+	height: 46px;
+	left: 0px;
+	right: 0px;
+	border-top: 1px solid #D3D3D3;
+}
+
+.buildingHolder .buildingData .buildingControls .buildingData {
+	position: absolute;
+	bottom: 0px;
+	top: 0px;
+	left: 0px;
+	right: 160px;
+	text-align: center;
+}
+
+.buildingHolder .buildingData .buildingControls .buildingButtons {
+	position: absolute;
+	bottom: 0px;
+	top: 0px;
+	right: 0px;
+	width: 160px;
+	text-align: center;
+	border-left: 1px solid #D3D3D3;
+}
+
+.buildingHolder .buildingData .buildingControls .buildingButtons .buildingUpgrade {
+	position: absolute;
+	top: 0px;
+	height: 30px;
+	right: 0px;
+	left: 0px;
+	border-bottom: 1px solid #D3D3D3;
+}
+
+.buildingHolder .buildingData .buildingControls .buildingButtons .buildingInfo {
+	position: absolute;
+	top: 31px;
+	height: 15px;
+	left: 0px;
+	width: 99px;
+	border-right: 1px solid #D3D3D3;
+}
+
+.buildingHolder .buildingData .buildingControls .buildingButtons .buildingDestroy {
+	position: absolute;
+	top: 31px;
+	height: 15px;
+	right: 30px;
+	width: 30px;
+	background-color: rgb(100, 20, 20);
+}
+
+.buildingHolder .buildingData .buildingControls .buildingButtons .buildingDestroy:hover {
+	background-color: rgb(150, 0, 0);
+}
+
+.buildingHolder .buildingData .buildingControls .buildingButtons .buildingRecycle {
+	position: absolute;
+	top: 31px;
+	height: 15px;
+	right: 0px;
+	width: 30px;
+	background-color: rgb(120, 120, 20);
+}
+
+.buildingHolder .buildingData .buildingControls .buildingButtons .buildingRecycle:hover {
+	background-color: rgb(170, 170, 0);
+}
+
+#buildingQueue {
+	position: relative;
+}
+
+.buildingQueueItem {
+	position: relative;
+	width: 100%;
+	text-align: center;
+	margin-left: -1px;
+	border: 1px solid #D3D3D3;
+	margin-top: -1px;
+}
+
+.buildingQueueItem .buildingQueueCancel {
+	position: absolute;
+	top: 0px;
+	height: 14px;
+	left: 0px;
+	width: 60px;
+	background-color: rgb(100, 20, 20);
+}
+
+.buildingQueueItem .buildingQueueCancel:hover {
+	background-color: rgb(150, 0, 0);
+}
+

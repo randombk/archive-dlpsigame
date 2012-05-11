@@ -1,0 +1,51 @@
+/* Tiny Scrollbar */
+.scrollable {
+	margin: 5px 0 5px;
+}
+
+.scrollableWindow {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+}
+
+.scrollable .viewport {
+	overflow: hidden;
+	position: relative;
+	height: 100%;
+}
+
+.scrollable .overview {
+	list-style: none;
+	position: relative;
+}
+
+.scrollable .scrollbar {
+	background: rgba(20,20,20,0.4);
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	position: relative;
+	width: 10px;
+	float: right;
+	cursor: pointer;
+}
+
+.scrollable .thumb {
+	height: 20px;
+	width: 8px;
+	cursor: pointer;
+	overflow: hidden;
+	position: absolute;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	top: 0;
+	padding: 1px;
+}
+
+.scrollable .disable {
+	display: none;
+}

@@ -1,0 +1,76 @@
+{
+    
+    "modConstructionSpeedMultiplier": {
+        "modName" : "Construction Speed Percantage Multiplier",
+        "modDesc" : "Percentage increase of the construction speed for all buildings, ships, etc.",
+        "modType" : "buff"
+    },
+    "modConstructionTimeDecrease": {
+        "modName" : "Construction Time Decrease",
+        "modDesc" : "Fixed decrease of the construction time for all buildings, ships, etc.",
+        "modType" : "buff"
+    },
+    
+    "modBuildSpeedMultiplier": {
+        "modName" : "Build Speed Percentage Multiplier",
+        "modDesc" : "Percentage increase in the building speed of all buildings",
+        "modType" : "buff"
+    },
+    "modBuildTimeDecrease": {
+        "modName" : "Build Time Decrease",
+        "modDesc" : "Fixed decrease in the building time for all buildings",
+        "modType" : "buff"
+    },
+    "modBuildCostMultiplier": {
+        "modName" : "Build Cost Percentage Multiplier",
+        "modDesc" : "Percentage increase in the cost of all building upgrades",
+        "modType" : "debuff"
+    },
+    
+    "modResourceProductionMultiplier": {
+        "modName" : "Resource Production Percentage Multiplier",
+        "modDesc" : "Percentage increase in the quantity of resources extracted per hour",
+        "modType" : "buff"
+    },
+    "modResourceConsumptionMultiplier": {
+        "modName" : "Resource Consumption Percentage Multiplier",
+        "modDesc" : "Percentage increase in the quantity of resources consumed by buildings per hour",
+        "modType" : "debuff"
+    },
+    "modEnergyProductionMultiplier": {
+        "modName" : "Energy Production Percentage Multiplier",
+        "modDesc" : "Percentage increase in the quantity of energy generated per hour",
+        "modType" : "buff"
+    },
+    "modEnergyConsumptionMultiplier": {
+        "modName" : "Energy Consumption Percentage Multiplier",
+        "modDesc" : "Percentage increase in the quantity of energy consumed per hour",
+        "modType" : "debuff"
+    },
+    
+    "modStorageCapacityIncrease": {
+        "modName" : "Storage Capacity Increase",
+        "modDesc" : "Fixed increase in storage capacity",
+        "modType" : "buff"
+    },
+    "modStorageCapacityMultiplier": {
+        "modName" : "Storage Capacity Percentage Multiplier",
+        "modDesc" : "Percentage increase in storage capacity",
+        "modType" : "buff"
+    },
+    "modEnergyStorageCapacityIncrease": {
+        "modName" : "Energy Storage Capacity Increase",
+        "modDesc" : "Fixed increase in energy storage capacity",
+        "modType" : "buff"
+    },
+    "modEnergyStorageCapacityMultiplier": {
+        "modName" : "Energy Storage Capacity Percentage Multiplier",
+        "modDesc" : "Percentage increase in energy storage capacity",
+        "modType" : "buff"
+    },
+    "modBuildingCapacityMultiplier": {
+        "modName" : "Building Capacity Percentage Multiplier",
+        "modDesc" : "Percentage increase in maximum number of buildings",
+        "modType" : "buff"
+    }
+}

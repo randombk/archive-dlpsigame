@@ -1,0 +1,111 @@
+#mainBody {
+	background-attachment: fixed;
+	background-clip: border-box;
+	background-color: rgb(13, 13, 13);
+	background-image: url(../images/bg_login.jpg);
+	background-position: center center;
+	background-origin: padding-box;
+	color: #D3D3D3;
+	font-family: Verdana;
+	font-size: 12px;
+	display: block;
+	padding: 0px;
+	line-height: 14px;
+	text-align: center;
+	background-size: cover;
+}
+
+input, textarea, select, option, button {
+	background-color: #171F2F;
+	color: #BBB;
+}
+
+input, textarea, button {
+	padding: 1px 5px;
+}
+
+input, textarea, select, button {
+	border: 1px solid #444;
+}
+
+input.submitButton {
+	width: auto !important;
+	cursor: pointer;
+	margin: 0 auto;
+	display: block;
+}
+
+table, tr, td, th {
+	border: medium none;
+	border-collapse: collapse;
+	border-spacing: 0;
+	empty-cells: show;
+	margin: 0;
+	padding: 0;
+}
+
+footer, .small {
+	font-size: 9px;
+	font-weight: 700;
+	display: block
+}
+
+a {
+	color: #FFD700;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+/** Box **/
+.pageBox {
+	border-radius: 5px;
+	background-color: rgba(10,10,20,0.9);
+	border: 1px solid #D3D3D3;
+	margin: auto;
+	padding: 20px;
+	text-align: center;
+}
+
+/** HEADER **/
+nav {
+	display: block;
+}
+
+header {
+	display: block;
+	height: 20px;
+	background: rgba(5,49,109,0.9);
+}
+
+#menu {
+	margin: 0;
+	padding: 0;
+	list-style: none
+}
+
+#menu {
+	margin-left: 10px;
+}
+
+#menu li {
+	float: left;
+	padding-left: 3px;
+	padding-top: 4px;
+}
+
+#menu a {
+	color: #AAA;
+	display: block;
+	font-weight: 700;
+	text-align: center;
+	white-space: nowrap;
+	text-decoration: none;
+	font-size: 10px;
+	padding: 0 10px 0 10px;
+}
+
+#menu a:hover {
+	color: #FFD700
+}
+

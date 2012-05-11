@@ -1,0 +1,125 @@
+/*
+ * Message Handling screen
+ * */
+
+/*
+ * Control Display
+ */
+.msgControls {
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	height: 15px;
+	background-color: #0A0A14;
+	border-top: 1px solid #D3D3D3;
+	padding: 5px;
+}
+
+.msgControls .msgControl {
+	display: inline;
+	background-color: #031A3A;
+	border: 1px solid #1E3E5D;
+	margin: 1px 2px;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.msgControls .msgControl:hover {
+	background-color: #05316D;
+}
+
+/*
+ * Notification Display
+ */
+.notificationHolder {
+	position: absolute;
+	top: 15px;
+	bottom: 20px;
+	left: 0px;
+	right: 0px;
+}
+
+.msgHolder {
+	margin-left: auto;
+	margin-right: auto;
+	cursor: pointer;
+}
+
+.notificationObject {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 80px;
+	margin-bottom: 5px;
+	border: 1px solid #D3D3D3;
+}
+
+.notificationObject .image {
+	position: absolute;
+	display: block;
+	top: -1px;
+	left: -1px;
+	width: 80px;
+	height: 80px;
+	border: 1px solid #D3D3D3;
+}
+
+.notificationObject .title {
+	position: absolute;
+	display: block;
+	top: -1px;
+	left: 79px;
+	right: 30px;
+	height: 15px;
+	padding-left: 5px;
+	font-weight: bold;
+	text-align: left;
+	border: 1px solid #D3D3D3;
+}
+
+.notificationObject .message {
+	position: absolute;
+	display: block;
+	top: 15px;
+	left: 79px;
+	right: 0px;
+	bottom: 0px;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid #D3D3D3;
+}
+
+.notificationObject .close {
+	position: absolute;
+	display: block;
+	top: -1px;
+	right: 0px;
+	width: 30px;
+	height: 15px;
+	font-weight: bold;
+	text-align: center;
+	border: 1px solid #D3D3D3;
+}
+
+/*
+ Message Banners
+ * */
+#messageBanner {
+	margin-bottom: 5px;
+}
+
+#messageBanner .message {
+	position: relative;
+	border: 1px solid #D3D3D3;
+	margin-top: -1px;
+	text-align: center;
+}
+
+#messageBanner .message .close {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	width: 30px;
+}

@@ -1,0 +1,21 @@
+<?php
+/*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+class AjaxRequest_DataLoader extends AjaxRequest {
+	function __construct() {
+		parent::__construct();
+	}
+
+	function getGameData() {
+		$this->sendJSON(array(
+			"dataBUILDINGS" 	=> GameCache::get("BUILDINGS"),
+			"dataRESOURCES" 	=> GameCache::get("RESOURCES"),
+			"dataMODIFIERS" 	=> GameCache::get("MODIFIERS"),
+			"dataRESEARCH" 		=> GameCache::get("RESEARCH"),
+			"dataRESEARCHPOS" 	=> GameCache::get("RESEARCHPOS")
+		));
+	}
+	
+}

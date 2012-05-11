@@ -1,0 +1,49 @@
+/*
+ Tooltips
+ * */
+.tooltip-main {
+	position: absolute;
+	z-index: 900;
+	-webkit-box-shadow: 0 0 5px #aaa;
+	box-shadow: 0 0 5px #aaa;
+	background-color: rgba(3,26,58,0.9);
+}
+
+.tooltipContent table.hoverTable {
+	position: relative;
+	table-layout: auto;
+	background-color: rgba(10,10,20, 0.8);
+	background-size: 20px 20px;
+}
+
+.tooltipContent .hoverTable td, .tooltipContent .hoverTable th, .tooltipContent .hoverTable tr {
+	border-left: 1px solid rgb(221,221,221);
+	border-bottom: 1px solid rgb(221,221,221);
+}
+
+.tooltipContent .hoverTable td {
+	padding-left: 2px;
+}
+
+.tooltipContent .hoverTable th {
+	background-color: #1E3E5D;
+}
+
+/*
+ * Hover Building Info Display
+ */
+.tooltipContent #buildingImgHolder {
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: 100px;
+	background-color: rgba(10,10,20, 0.8);
+	padding: 0px;
+}
+
+.tooltipContent .resDescHolder {
+	white-space: normal;
+	word-wrap: break-word;
+	word-break: break-all;
+	max-width: 100px;
+}

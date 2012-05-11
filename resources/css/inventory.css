@@ -1,0 +1,198 @@
+/*
+ * Inventory management screen
+ * */
+
+#toggleMaxMain {
+	position: absolute;
+	top: -1px;
+	height: 20px;
+	left: 250px;
+	width: 10px;
+	background: rgba(2,26,58,0.8);
+	cursor: pointer;
+	border: 1px solid #D3D3D3;
+	z-index: 999;
+}
+
+.invLeftPanel {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: 250px;
+	background: rgba(2,26,58,0.8);
+	border-right: 1px #D3D3D3 solid;
+	min-height: 40px;
+}
+
+.invLeftPanel .objectListSearch {
+	position: absolute;
+	top: 0px;
+	height: 30px;
+	left: 0px;
+	right: 0px;
+	background: rgba(5,49,109,0.5);
+	border-bottom: 1px #D3D3D3 solid;
+}
+
+.invLeftPanel .objectListHolder {
+	position: absolute;
+	top: 31px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	overflow: hidden;
+}
+
+.invLeftPanel .objectListHolder .objectListItem {
+	height: 60px;
+	border-top: 1px #D3D3D3 solid;
+	border-bottom: 1px #D3D3D3 solid;
+	margin-top: 3px;
+	cursor: pointer;
+}
+
+.invMainPanel {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 251px;
+	right: 0px;
+	background: rgba(2,26,58,0.8);
+	min-width: 500px;
+	min-height: 400px;
+}
+
+.invMainPanel .invTopInfo {
+	position: absolute;
+	top: 0px;
+	height: 80px;
+	left: 0px;
+	right: 0px;
+	background: rgba(2,26,58,0.8);
+	border-bottom: 1px #D3D3D3 solid;
+}
+
+.invMainPanel .invTiles {
+	position: absolute;
+	top: 81px;
+	bottom: 51px;
+	left: 0px;
+	right: 0px;
+	cursor: pointer;
+}
+
+.invMainPanel .invControls {
+	position: absolute;
+	bottom: 0px;
+	height: 50px;
+	left: 0px;
+	right: 0px;
+	background: rgba(2,26,58,0.8);
+	border-top: 1px #D3D3D3 solid;
+	padding: 3px;
+}
+
+/*
+ * Control Display
+ */
+.invControlHolder {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.invMainPanel .invControls .invControlHolder .invControl {
+	display: inline-block;
+	background-color: #031A3A;
+	border: 1px solid #1E3E5D;
+	margin: 1px 2px;
+	padding: 1px;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.invMainPanel .invControls .invControlHolder .invControl:hover {
+	background-color: #05316D;
+}
+
+/*
+ * Item Display
+ */
+.invHolder {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.invObject {
+	position: relative;
+	display: inline-block;
+	height: 110px;
+	width: 80px;
+	background-color: #333333;
+	border: 1px solid #031A3A;
+	margin: 2px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.invObject:hover {
+	background-color: rgba(5,49,109,0.8);
+}
+
+.invObject.selected {
+	border: 1px solid #D3D3D3;
+	background: rgb(2,26,58);
+}
+
+.invObject.selected:hover {
+	background-color: rgba(5,49,109,0.8);
+}
+
+.invObject .selText {
+	position: absolute;
+	top: 15px;
+	height: 35px;
+	left: 0px;
+	right: 0px;
+	background: rgba(20,20,20,0.7);
+	color: #D3D3D3;
+}
+
+.invObject img {
+	display: block;
+	margin: 2px;
+	margin-bottom: 0px;
+	width: 74px;
+	height: 60px;
+	background-color: rgba(80,80,80,0.8);
+	border: 1px solid #C1C1C1;
+}
+
+.invObject .hoverContainer {
+	pointer-events: none;
+	visibility: hidden;
+}
+
+.invObject .invInfo {
+	position: absolute;
+	margin: 2px;
+	margin-top: 0px;
+	height: 50px;
+	width: 75px;
+}
+
+.invObject .invInfo .itemQuantity {
+	height: 14px;
+	text-align: right;
+	background-color: rgba(10,10,20,0.3);
+	border: 1px solid #C1C1C1;
+	border-top: none;
+}
+
+.invObject .itemName {
+	color: #D3D3D3;
+	text-align: center;
+	height: 30px;
+}

@@ -1,0 +1,11 @@
+<div class='buildingQueueItem'> 
+	{{#if endTime}}Current Construction:{{else}}Queued Construction:{{/if}} {{operation}} {{buildName}} (Level {{buildLevel}})
+	{{#if endTime}}
+		<span id="{{id}}" class='mousePointer progressbar' data-progressbar='yes' data-beginning='{{startTime}}' data-end='{{endTime}}' data-callback='loadNotificationData(); loadData();'>
+			<span id="text-{{id}}" class="ui-progressbar-centerText"></span>
+		</span>
+	{{/if}}
+	<div class="buildingQueueCancel buttonDiv" data-id="{{id}}">
+		Cancel
+	</div>
+</div>

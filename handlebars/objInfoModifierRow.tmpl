@@ -1,0 +1,13 @@
+<tr class="gen">
+	<td>{{itemName}}</td>
+	<td>
+		{{#key_value modifiers}}
+			<span class="modLink" data-modID="{{key}}" data-amount="{{value}}">{{key}} -- {{value}}</span>
+		{{/key_value}}
+	</td>
+	<td>
+		{{#ifdef activity}}
+			<input class="activity_{{id}} activityInput" data-id="{{id}}" type="number" value="{{activity}}" min="0" max="100">%
+		{{/ifdef}}
+	</td>
+</tr>

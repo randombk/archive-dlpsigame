@@ -1,0 +1,336 @@
+/* Global defs */
+html, body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	cursor: pointer;
+	color: #DDD;
+	text-decoration: none;
+}
+
+img {
+	border: 0 none;
+}
+
+.absFill {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	height: 100%;
+}
+
+.scaffold, .scaffold td, .scaffold tr, .scaffold th {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+footer {
+	margin-bottom: 40px;
+}
+
+/* Page Layout */
+table.pageTable {
+	position: relative;
+	width: 100%;
+	background-color: rgba(10,10,20, 0.8);
+	background-size: 20px 20px;
+}
+
+table.pageTable td, table.pageTable th, table.pageTable tr {
+	border-left: 1px solid rgba(221,221,221,0.5);
+	border-right: 1px solid rgba(0,0,0,0.5);
+	border-top: 1px solid rgba(221,221,221,0.5);
+	border-bottom: 1px solid rgba(0,0,0,0.5);
+}
+
+table.pageTable th {
+	background-color: #1E3E5D;
+	width: 100%;
+}
+
+/* Inner table Layout */
+table.innerTable {
+	position: relative;
+	width: 100%;
+	background-color: rgba(3,26,58,0.5);
+}
+
+table.innerTable td, table.innerTable th, table.innerTable tr {
+	border: 0px;
+}
+
+table.innerTable th {
+	background-color: rgba(5,49,109,0.5);
+	text-align: left;
+	width: 100%;
+}
+
+/* Inner Bordered table Layout */
+table.innerBorderedTable {
+	position: relative;
+	width: 100%;
+	background-color: rgba(3,26,58,0.5);
+}
+
+table.innerBorderedTable tr {
+	border: 0px;
+}
+
+table.innerBorderedTable td, table.innerBorderedTable th {
+	border: 1px solid rgba(221,221,221,0.2);
+}
+
+table.innerBorderedTable tr:first-child th {
+	border-top: 0;
+}
+table.innerBorderedTable tr:last-child td {
+	border-bottom: 0;
+}
+table.innerBorderedTable tr td:first-child, table.innerBorderedTable tr th:first-child {
+	border-left: 0;
+}
+table.innerBorderedTable tr td:last-child, table.innerBorderedTable tr th:last-child {
+	border-right: 0;
+}
+
+table.innerBorderedTable th {
+	background-color: rgba(5,49,109,0.5);
+	text-align: left;
+	width: 100%;
+}
+
+/* Tabs */
+#tabContainer #tabs {
+	list-style: none;
+	display: inline;
+}
+
+#tabContainer #tabs span {
+	display: inline;
+	text-decoration: none;
+	cursor: pointer;
+	padding: 1px 10px;
+	background: rgba(3,26,58,0.7);
+	color: #D3D3D3;
+}
+
+#tabContainer #tabs span.active {
+	background: rgba(5,49,109,0.7);
+	color: #D3D3D3;
+}
+
+#tabContainer #tabContent .tabContentHolder {
+	padding: 10px 0px;
+	width: 100%;
+	background: rgba(5,49,109,0.7);
+}
+
+/*
+ Buttons
+ * */
+.buttonDiv {
+	cursor: pointer;
+}
+
+.buttonDiv:hover {
+	background-color: #05316D;
+}
+
+/*
+ Texts
+ * */
+.resLink {
+	cursor: pointer;
+	padding-right: 1em;
+	padding-left: 1em;
+	text-align: center;
+	display: inline-block;
+}
+
+.modLink {
+	cursor: pointer;
+	padding-right: 1em;
+	display: block;
+}
+
+.red {
+	color: red;
+}
+
+.red-over {
+	background-color: rgba(170, 0, 0, 0.7);
+}
+
+.red-over:hover {
+	background-color: rgba(200, 0, 0, 0.8);
+}
+
+.green {
+	color: green;
+}
+
+.green-over {
+	background-color: rgba(0, 150, 0, 0.6);
+}
+
+.green-over:hover {
+	background-color: rgba(0, 200, 0, 0.8);
+}
+
+.yellow {
+	color: yellow;
+}
+
+.yellow-over {
+	background-color: rgba(130, 130, 0, 0.6);
+}
+
+.yellow-over:hover {
+	background-color: rgba(150, 150, 0, 0.8);
+}
+
+.blue {
+	color: blue;
+}
+
+.blue-over {
+	background-color: rgba(3,26,58,0.6);
+}
+
+.blue-over:hover {
+	background-color: rgba(5,49,109,0.8);
+}
+
+/*
+ Mouse
+ * */
+.mousePointer {
+	cursor: pointer;
+}
+
+/*
+ Progress Bar
+ * */
+.ui-progressbar {
+	display: inline-block;
+	position: relative;
+	height: 15px;
+	width: 100%;
+	vertical-align: middle;
+	border-top: #05316D 1px solid;
+	background-color: #031A3A;
+}
+
+.ui-progressbar-value {
+	position: absolute;
+	border-right: #05316D 1px solid;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #05316D;
+	background-image: url(http://code.jquery.com/ui/1.10.3/themes/smoothness/images/animated-overlay.gif);
+}
+
+.ui-progressbar-centerText {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	text-align: center;
+	z-index: 100;
+}
+
+#blankOut {
+	display: none;
+	background-color: rgba(20, 20, 20, 0.6);
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 900;
+}
+
+#confirmBox {
+	display: none;
+	background-color: #05316D;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+	position: fixed;
+	width: 400px;
+	left: 50%;
+	top: 30%;
+	margin-left: -150px;
+	padding: 10px 8px 8px;
+	box-sizing: border-box;
+	text-align: center;
+	z-index: 999;
+}
+
+#confirmBox .button {
+	background-color: #031A3A;
+	display: inline-block;
+	border-radius: 3px;
+	border: 1px solid #aaa;
+	padding: 2px;
+	text-align: center;
+	width: 80px;
+	cursor: pointer;
+}
+
+#confirmBox .button:hover {
+	background-color: #05316D;
+}
+
+#confirmBox .message {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+#messageBanner {
+	z-index: 999;
+}
+
+#inputBox {
+	display: none;
+	background-color: #05316D;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+	position: fixed;
+	width: 400px;
+	left: 50%;
+	top: 30%;
+	margin-left: -150px;
+	padding: 10px 8px 8px;
+	box-sizing: border-box;
+	text-align: center;
+	z-index: 999;
+}
+
+#inputBox .button {
+	background-color: #031A3A;
+	display: inline-block;
+	border-radius: 3px;
+	border: 1px solid #aaa;
+	padding: 2px;
+	text-align: center;
+	width: 80px;
+	cursor: pointer;
+}
+
+#inputBox .button:hover {
+	background-color: #05316D;
+}
+
+#inputBox .inputText {
+	text-align: center;
+	margin-bottom: 10px;
+}

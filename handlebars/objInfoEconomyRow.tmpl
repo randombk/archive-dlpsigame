@@ -1,0 +1,22 @@
+<tr class="gen">
+	<td>{{itemName}}</td>
+	<td>
+		{{#if production}}
+			{{#key_value production}}
+				<span class="resLink" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+			{{/key_value}}
+		{{/if}}
+	</td>
+	<td>
+		{{#if consumption}}
+			{{#key_value consumption}}
+				<span class="resLink" data-type="diff" data-res="{{key}}" data-quantity="-{{value}}"></span>
+			{{/key_value}}
+		{{/if}}
+	</td>
+	<td>
+		{{#ifdef activity}}
+			<input class="activity_{{id}} activityInput" data-id="{{id}}" type="number" value="{{activity}}" min="0" max="100">%
+		{{/ifdef}}
+	</td>
+</tr>

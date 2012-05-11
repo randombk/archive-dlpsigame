@@ -1,0 +1,43 @@
+<tr class="gen">
+	<td>{{itemName}}</td>
+	<td style="text-align: center;">
+		{{#if research.Weapons}}
+			{{research.Weapons}}
+		{{else}}
+			0
+		{{/if}}
+	</td>
+	<td style="text-align: center;">
+		{{#if research.Defense}}
+			{{research.Defense}}
+		{{else}}
+			0
+		{{/if}}
+	</td>
+	<td style="text-align: center;">
+		{{#if research.Diplomatic}}
+			{{research.Diplomatic}}
+		{{else}}
+			0
+		{{/if}}
+	</td>
+	<td style="text-align: center;">
+		{{#if research.Economic}}
+			{{research.Economic}}
+		{{else}}
+			0
+		{{/if}}
+	</td>
+	<td style="text-align: center;">
+		{{#if research.Fleet}}
+			{{research.Fleet}}
+		{{else}}
+			0
+		{{/if}}
+	</td>
+	<td>
+		{{#ifdef activity}}
+			<input class="activity_{{id}} activityInput" data-id="{{id}}" type="number" value="{{activity}}" min="0" max="100">%
+		{{/ifdef}}
+	</td>
+</tr>

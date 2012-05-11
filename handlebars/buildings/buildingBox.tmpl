@@ -1,0 +1,41 @@
+<div class="buildingHolder">
+	<div class="buildingItem">
+		<img class="buildingImage" src="resources/images/building/{{buildImage}}"></img>
+		<div class="buildingData">	
+			<div class="buildingName">{{#if curLevel}} Level {{curLevel}} {{/if}}{{buildName}}</div>
+			<div class="buildingDesc">{{buildDesc}}</div>
+			<div class="buildingControls">
+				<div class="buildingData">
+					{{#if nextLevel}} 
+						Resources Required for Upgrade:<br>
+						{{#key_value nextResReq}}
+							<span class="resLink" data-res="{{key}}" data-quantity="{{value}}"></span>
+						{{/key_value}}			
+					{{/if}}
+				</div>
+				<div class="buildingButtons">
+					{{#if nextLevel}} 
+						<div class="buildingUpgrade buttonDiv" data-buildingID="{{buildID}}" data-buildingLevel="{{nextLevel}}">
+							Upgrade to Level {{nextLevel}}
+							<br>
+							({{upgradeTime}})
+						</div>
+					{{else}}
+						<div class="buildingUpgrade">
+							Reached max level!
+						</div>
+					{{/if}}
+					<div class="buildingInfo buttonDiv" data-buildingID="{{buildID}}" data-buildingType="{{buildType}}">
+						Base Info
+					</div>
+					<div class="buildingDestroy buttonDiv" data-buildingID="{{buildID}}" data-buildingLevel="{{nextDestroyLevel}}">
+						X
+					</div>
+					<div class="buildingRecycle buttonDiv" data-buildingID="{{buildID}}" data-buildingLevel="{{nextDestroyLevel}}">
+						&#x2672; 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

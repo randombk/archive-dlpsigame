@@ -1,0 +1,309 @@
+/* Interface Layout */
+#mainBody {
+	-webkit-background-clip: border-box;
+	-webkit-background-origin: padding-box;
+	-webkit-background-size: auto;
+	background-attachment: fixed;
+	background-clip: border-box;
+	background-color: rgb(13, 13, 13);
+	background-image: url("../images/bg_main.jpg");
+	background-position: center center;
+	background-origin: padding-box;
+	background-size: auto;
+	font-family: Verdana;
+	font-size: 10px;
+	color: rgb(221, 221, 221);
+	display: block;
+	padding: 0px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#winBody {
+	-webkit-background-clip: border-box;
+	-webkit-background-origin: padding-box;
+	-webkit-background-size: auto;
+	background-attachment: fixed;
+	background-clip: border-box;
+	background-color: rgb(13, 13, 13);
+	background-image: url("../images/bg_main.jpg");
+	background-position: center center;
+	background-origin: padding-box;
+	background-size: auto;
+	font-family: Verdana;
+	font-size: 10px;
+	color: rgb(221, 221, 221);
+	display: block;
+	padding: 0px;
+	min-width: 400px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#gameContainer {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	z-index: 2;
+}
+
+#gameMenuContainer {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 200px;
+	float: left;
+}
+
+#gameTopContainer {
+	position: absolute;
+	top: 0px;
+	left: 200px;
+	height: 100px;
+	right: 0px;
+	float: left;
+}
+
+#gameTopContainer .playerImage {
+	position: absolute;
+	background-color: #1E3E5D;
+	left: 0px;
+	width: 100px;
+	top: 0px;
+	height: 100px;
+	text-align: center;
+}
+
+#gameTopContainer .topBanner {
+	position: absolute;
+	left: 100px;
+	right: 0px;
+	top: 0px;
+	height: 85px;
+}
+
+#gameTopContainer .topBanner .playerBox {
+	position: absolute;
+	left: 0px;
+	width: 200px;
+	top: 0px;
+	bottom: 0px;
+	background: rgba(3,26,58,0.6);
+	text-align: center;
+}
+
+#gameTopContainer .topBanner .playerBox .playerName {
+	position: absolute;
+	left: 0px;
+	right: 0;
+	top: 0px;
+	height: 15px;
+	border-top: 1px solid rgba(221,221,221,0.5);
+	border-bottom: 1px solid rgba(0,0,0,0.5);
+	background-color: #1E3E5D;
+	text-align: center;
+}
+
+#gameTopContainer .topBanner .playerBox .dataHolder {
+	position: absolute;
+	left: 0px;
+	right: 0;
+	top: 15px;
+}
+
+#gameTopContainer .topBanner .playerBox .dataHolder .dataUnit {
+	display: block;
+	float: left;
+	width: 50%;
+	height: 15px;
+	text-align: left;
+}
+
+#gameTopContainer .topBanner .playerBox .dataHolder .dataUnit-long {
+	display: block;
+	float: left;
+	width: 100%;
+	height: 15px;
+	text-align: left;
+}
+
+#gameTopContainer .topBanner .dataBox {
+	position: absolute;
+	left: 200px;
+	right: 2px;
+	top: 0px;
+	bottom: 0px;
+	background: rgba(3,3,3,0.4);
+	text-align: center;
+}
+
+#gameTopContainer .topBanner .dataBox .notifications {
+	position: absolute;
+	left: 0px;
+	width: 50%;
+	top: 0px;
+	bottom: 0px;
+	border-left: 1px solid #D3D3D3;
+	overflow-y: scroll;
+	text-align: left;
+	cursor: pointer;
+}
+
+#gameTopContainer .topBanner .dataBox .fleet {
+	position: absolute;
+	left: 50%;
+	width: 50%;
+	top: 0px;
+	bottom: 0px;
+	border-left: 1px solid #D3D3D3;
+	overflow-y: scroll;
+	text-align: left;
+}
+
+#gameTopContainer .topBanner .dataBox .item {
+	width: 100%;
+	height: 15px;
+	border-bottom: 1px solid #D3D3D3;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#gameTopContainer .topBanner .dataBox .item:hover {
+}
+
+#gameTopContainer .objectSelector {
+	position: absolute;
+	left: 100px;
+	width: 200px;
+	bottom: 0px;
+	height: 15px;
+	background: rgba(5,49,109,0.8);
+	border-top: 1px solid rgba(221,221,221,0.5);
+	border-bottom: 1px solid rgba(0,0,0,0.5);
+	border-right: 1px solid #D3D3D3;
+	text-align: center;
+}
+
+#gameTopContainer .timeBanner {
+	position: absolute;
+	border-top: 1px solid rgba(221,221,221,0.5);
+	border-bottom: 1px solid rgba(0,0,0,0.5);
+	border-left: 0px;
+	border-right: 0px;
+	background-color: #1E3E5D;
+	left: 301px;
+	right: 0px;
+	bottom: 0px;
+	height: 15px;
+	min-width: 400px;
+	text-align: center;
+}
+
+#objectListContainer {
+	position: absolute;
+	top: 100px;
+	left: 300px;
+	width: 400px;
+	height: 400px;
+	background: rgba(2,26,58,0.8);
+	border: 1px #D3D3D3 solid;
+	z-index: 9999;
+}
+
+#objectListContainer .objectListSearch {
+	position: absolute;
+	top: 0px;
+	height: 30px;
+	left: 0px;
+	right: 0px;
+	background: rgba(5,49,109,0.5);
+	border-bottom: 1px #D3D3D3 solid;
+}
+
+#objectListContainer .objectListHolder {
+	position: absolute;
+	top: 31px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	overflow: hidden;
+}
+
+#objectListContainer .objectListHolder .objectListItem {
+	height: 60px;
+	border-top: 1px #D3D3D3 solid;
+	border-bottom: 1px #D3D3D3 solid;
+	margin-top: 3px;
+	cursor: pointer;
+}
+
+#gameMainContainer {
+	position: absolute;
+	top: 110px;
+	left: 210px;
+	bottom: 10px;
+	right: 10px;
+}
+
+#gamePageContainer {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	top: 0px;
+	bottom: 0px;
+	width: 75%;
+	min-width: 700px;
+}
+
+/* Game Menu */
+#gameMenu {
+	position: relative;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#gameMenu a {
+	display: block;
+	margin: 0;
+	padding: 4px 20px;
+}
+
+li.menuItem {
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid black;
+	background-color: rgba(13, 16, 20, 0.95);
+}
+
+li.menuWindowItem {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAKCAYAAABi8KSDAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkIxOUQwNTUzMDM0MTFFMkI5MUFGMzlFMTgwOEI4ODEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkIxOUQwNTYzMDM0MTFFMkI5MUFGMzlFMTgwOEI4ODEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCQjE5RDA1MzMwMzQxMUUyQjkxQUYzOUUxODA4Qjg4MSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCQjE5RDA1NDMwMzQxMUUyQjkxQUYzOUUxODA4Qjg4MSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqAiG1YAAAA7SURBVHjaYvz//z8DsYAJSj8E4v948AdkxSSZDALyQMyIBQtgU0ySyQOomAWJ/RCPuo8ggpGUSAEIMACTWxDft/Hl3wAAAABJRU5ErkJggg==);
+	background-repeat: no-repeat;
+	background-position: 5px;
+}
+
+li.menuItem.active {
+	background-color: #05316D;
+}
+
+.menuImage {
+	background-color: transparent;
+}

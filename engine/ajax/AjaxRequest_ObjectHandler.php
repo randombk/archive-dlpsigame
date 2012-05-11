@@ -1,0 +1,58 @@
+<?php
+/*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+
+class AjaxRequest_ObjectHandler extends AjaxRequest {
+	function __construct() {
+		parent::__construct();
+	}
+
+	function getObjectInfo() {
+		require_once(ROOT_PATH . 'engine/ajax/AjaxRequest_Buildinghandler.php');
+		$objectID = HTTP::REQ("objectID", 0);
+		if ($objectID > 0) {
+			//Check player permissions
+			if(!isset($_SESSION['OBJECTS'][$objectID])) {
+				AjaxError::sendError("Access Denied");
+			} else {
+				$objectEnv = UniUpdater::updateObject($objectID);
+				$objectMods = DataMod::calculateObjectModifiers($objectEnv);
+				$data = array(
+					"buildings" => AjaxRequest_Buildinghandler::getBuildingList($objectEnv, true),
+					"objectModifiers" => $objectMods->objMods,
+					"objectWeightPenalty" => $objectMods->weightPenalty,
+					"resources" => $objectEnv->envResources->getResourceArray(),
+					"usedStorage" => $objectEnv->envResources->getTotalWeight(),
+					"objStorage" => ObjectCalc::getObjectStorage($objectEnv, $objectMods),
+					"objEnergyStorage" => ObjectCalc::getMaxEnergyStorage($objectEnv, $objectMods),
+					"objResearchOutput" => ObjectCalc::getObjectResearchPoints($objectEnv, $objectMods),
+					"numBuildings" => $objectEnv->envBuildings->getNumBuildings(),
+					"buildQueue" => $objectEnv->buildingQueue,
+					"objectData" => $objectEnv->envObjectData,
+					"objectName" => $objectEnv->objectName,
+					"objectCoords" => $objectEnv->envObjectCoord->getCoordString()
+				);
+				$this->sendJSON($data);
+			}
+		} else {
+			AjaxError::sendError("Invalid Parameters");
+		}
+	}
+
+	function getObjectList() {
+		$data = array();
+		foreach($_SESSION['OBJECTS'] as $objectID => $objectData) {
+			$objectEnv = UniUpdater::updateObject($objectID);
+			$objectMods = DataMod::calculateObjectModifiers($objectEnv);
+			$data[$objectID] = array(
+				"usedStorage" => $objectEnv->envResources->getTotalWeight(),
+				"objStorage" => ObjectCalc::getObjectStorage($objectEnv, $objectMods),
+				"objectName" => $objectEnv->objectName,
+				"objectCoords" => $objectEnv->envObjectCoord->getCoordString()
+			);
+		}
+		$this->sendJSON($data);
+	}
+}

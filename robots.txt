@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /cache/
+Disallow: /dev/
+Disallow: /engine/
+Disallow: /pages/
+Disallow: /resources/
+Disallow: /scripts/
+Disallow: /ajaxRequest.php

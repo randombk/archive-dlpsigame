@@ -1,0 +1,86 @@
+{
+    "tech1": {
+        "techID": "tech1",
+        "q": 0,
+        "r": 0,
+        "techImage": "test.png",
+        "techName": "Test Tech 1",
+        "techNameLine1": "Test",
+        "techNameLine2": "Research",
+        "techDesc": "Testing research item number one",
+        "researchType": "Weapons",
+        "researchCost": [10, 20, 30, 40, 50]
+    },
+    "tech2": {
+        "techID": "tech2",
+        "q": 1,
+        "r": 0,
+        "techImage": "test.png",
+		"techName": "Tech Tech 2",
+		"techNameLine1": "Test",
+        "techNameLine2": "Research",
+        "techDesc": "Testing research item number two",
+        "researchType": "Defense",
+        "researchCost": [10, 20, 30, 40, 50]
+    },
+    "tech3": {
+        "q": 1,
+        "r": 1,
+        "techID": "tech3",
+        "techImage": "test3.png",
+        "techName": "Tech Tech 3",
+        "techNameLine1": "Advanced",
+        "techNameLine2": "Research Facilities",
+        "techDesc": "Testing research item number three",
+        "researchType": "Diplomatic",
+        "researchCost": [10, 20, 30, 40, 50]
+    },
+    "tech4": {
+        "q": 2,
+        "r": 1,
+        "techID": "tech4",
+        "techImage": "test4.png",
+        "techName": "Tech Tech 4",
+        "techNameLine1": "Advanced",
+        "techNameLine2": "Research Facilities",
+        "techDesc": "Testing research item number four",
+        "researchType": "Economic",
+        "researchCost": [10, 20, 30, 40, 50]
+    },
+    "tech5": {
+        "q": 2,
+        "r": 0,
+        "techID": "tech5",
+        "techImage": "test4.png",
+        "techName": "Tech Tech 5",
+        "techNameLine1": "Advanced",
+        "techNameLine2": "Research Facilities 2",
+        "techDesc": "Testing research item number four",
+        "researchType": "Fleet",
+        "researchCost": [10, 20, 30, 40, 50]
+    },
+    "tech6": {
+        "q": 0,
+        "r": 1,
+        "techID": "tech6",
+        "techImage": "test4.png",
+        "techName": "Tech Tech 6",
+        "techNameLine1": "Advanced",
+        "techNameLine2": "Research Facilities 3",
+        "techDesc": "Testing research item number five",
+        "researchType": "Weapons",
+        "researchCost": [10, 20, 30, 40, 50]
+    },
+    "tech7": {
+        "q": 0,
+        "r": -1,
+        "techID": "tech7",
+        "techImage": "test2.png",
+        "techName": "Tech Tech 7",
+        "techNameLine1": "Advanced",
+        "techNameLine2": "Research Facilities 3",
+        "techDesc": "Testing research item number five",
+        "researchType": "Weapons",
+        "researchCost": [10, 20, 30, 40, 50]
+    }
+}

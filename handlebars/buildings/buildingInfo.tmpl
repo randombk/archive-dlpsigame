@@ -1,0 +1,233 @@
+<div class="tooltipContent">
+	<span class="tableHolder">
+		<table class="hoverTable">
+			<tbody>
+				<tr>
+					{{#if nextLevel}}
+						<th colspan="4">{{buildName}}</th>
+					{{else}}
+						<th colspan="3">{{buildName}}</th>
+					{{/if}}
+				</tr>
+				<tr>
+					<td rowspan="60" id="buildingImgHolder">
+						<img src="http://placehold.it/125x125&text={{buildImage}}">
+					</td>
+				</tr>
+				<tr>
+					<td class="dataHolder"></td>
+					<td class="dataHolder"><b>Level: {{curLevel}} (Current)</b></td>
+					{{#if nextLevel}}
+						<td class="dataHolder"><b>Next Level: {{nextLevel}}</b></td>
+					{{/if}}
+				</tr>
+					
+				{{#if showConsumption}}
+					<tr>
+						<td class="dataHolder"><b>Hourly Consumption</b></td>
+						<td class="dataHolder">
+							{{#if curConsumption}}
+								{{#key_value curConsumption}}
+									<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="-{{value}}"></span>
+								{{/key_value}}
+							{{else}}
+								(none)
+							{{/if}}
+						</td>
+						{{#if nextLevel}}
+							<td class="dataHolder">
+								{{#if nextResConsumption}}
+									{{#key_value nextResConsumption}}
+										<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="-{{value}}"></span>
+									{{/key_value}}
+								{{else}}
+									(none)
+								{{/if}}
+							</td>
+						{{/if}}
+					</tr>
+				{{/if}}
+				{{#if showProduction}}
+					<tr>
+						<td class="dataHolder"><b>Hourly Production</b></td>
+						<td class="dataHolder">
+							{{#if curProduction}}
+								{{#key_value curProduction}}
+									<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+								{{/key_value}}
+							{{else}}
+								(none)
+							{{/if}}
+						</td>
+						{{#if nextLevel}}
+							<td class="dataHolder">
+								{{#if nextResProduction}}
+									{{#key_value nextResProduction}}
+										<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+									{{/key_value}}
+								{{else}}
+									(none)
+								{{/if}}
+							</td>
+						{{/if}}
+					</tr>
+				{{/if}}
+				{{#if showNetChange}}
+					<tr>
+						<td class="dataHolder"><b>Net Resource Changes</b></td>
+						<td class="dataHolder">
+							{{#if curNetChange}}
+								{{#key_value curNetChange}}
+									<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+								{{/key_value}}
+							{{else}}
+								(none)
+							{{/if}}
+						</td>
+						{{#if nextLevel}}
+							<td class="dataHolder">
+								{{#if nextResChange}}
+									{{#key_value nextResChange}}
+										<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+									{{/key_value}}
+								{{else}}
+									(none)
+								{{/if}}
+							</td>
+						{{/if}}
+					</tr>
+				{{/if}}
+				{{#if showModifiers}}
+					<tr>
+						<td class="dataHolder"><b>Modifiers</b></td>
+						<td class="dataHolder">
+							{{#if curModifiers}}
+								{{#key_value curModifiers}}
+									<span class="modLink" data-modID="{{key}}" data-amount="{{value}}">{{key}} -- {{value}}</span>
+								{{/key_value}}
+							{{else}}
+								(none)
+							{{/if}}
+						</td>
+						{{#if nextLevel}}
+							<td class="dataHolder">
+								{{#if nextModifiers}}
+									{{#key_value nextModifiers}}
+										<span class="modLink" data-modID="{{key}}" data-amount="{{value}}">{{key}} -- {{value}}</span>
+									{{/key_value}}
+								{{else}}
+									(none)
+								{{/if}}
+							</td>
+						{{/if}}
+					</tr>
+				{{/if}}
+				{{#if showWeaponsResearch}}
+					<tr>
+						<td class="dataHolder"><b>Weapons Research</b></td>
+						<td class="dataHolder">
+							{{#if curResearch.Weapons}}
+								{{curResearch.Weapons}}
+							{{else}}
+								0
+							{{/if}}
+						</td>
+						{{#if nextLevel}}
+							<td class="dataHolder">
+								{{#if nextResearch.Weapons}}
+									{{nextResearch.Weapons}}
+								{{else}}
+									0
+								{{/if}}
+							</td>
+						{{/if}}
+					</tr>
+				{{/if}}
+				{{#if showDefenseResearch}}
+					<tr>
+						<td class="dataHolder"><b>Defense Research</b></td>
+						<td class="dataHolder">
+							{{#if curResearch.Defense}}
+								{{curResearch.Defense}}
+							{{else}}
+								0
+							{{/if}}
+						</td>
+						{{#if nextLevel}}
+							<td class="dataHolder">
+								{{#if nextResearch.Defense}}
+									{{nextResearch.Defense}}
+								{{else}}
+									0
+								{{/if}}
+							</td>
+						{{/if}}
+					</tr>
+				{{/if}}
+				{{#if showDiplomaticResearch}}
+					<tr>
+						<td class="dataHolder"><b>Diplomatic Research</b></td>
+						<td class="dataHolder">
+							{{#if curResearch.Diplomatic}}
+								{{curResearch.Diplomatic}}
+							{{else}}
+								0
+							{{/if}}
+						</td>
+						{{#if nextLevel}}
+							<td class="dataHolder">
+								{{#if nextResearch.Diplomatic}}
+									{{nextResearch.Diplomatic}}
+								{{else}}
+									0
+								{{/if}}
+							</td>
+						{{/if}}
+					</tr>
+				{{/if}}
+				{{#if showEconomicResearch}}
+					<tr>
+						<td class="dataHolder"><b>Economic Research</b></td>
+						<td class="dataHolder">
+							{{#if curResearch.Economic}}
+								{{curResearch.Economic}}
+							{{else}}
+								0
+							{{/if}}
+						</td>
+						{{#if nextLevel}}
+							<td class="dataHolder">
+								{{#if nextResearch.Economic}}
+									{{nextResearch.Economic}}
+								{{else}}
+									0
+								{{/if}}
+							</td>
+						{{/if}}
+					</tr>
+				{{/if}}
+				{{#if showFleetResearch}}
+					<tr>
+						<td class="dataHolder"><b>Fleet Research</b></td>
+						<td class="dataHolder">
+							{{#if curResearch.Fleet}}
+								{{curResearch.Fleet}}
+							{{else}}
+								0
+							{{/if}}
+						</td>
+						{{#if nextLevel}}
+							<td class="dataHolder">
+								{{#if nextResearch.Fleet}}
+									{{nextResearch.Fleet}}
+								{{else}}
+									0
+								{{/if}}
+							</td>
+						{{/if}}
+					</tr>
+				{{/if}}
+			</tbody>
+		</table>
+	</span>
+</div>
