@@ -148,7 +148,7 @@
 </div>
 
 <div id="researchOverlayHolder" class="absFill" style="text-align: center; vertical-align: middle; display: none;">
-	<div id="researchInfoOverlay" style="z-index: 901; position: relative; top: 20%; margin: auto; width: 500px; height: 300px; background: rgba(3,26,58,0.9); border: 1px #D3D3D3 solid;">
+	<div id="researchInfoOverlay" style="z-index: 901; position: relative; top: 20%; margin: auto; width: 650px; height: 300px; background: rgba(3,26,58,0.9); border: 1px #D3D3D3 solid;">
 		<div id="researchInfoOverlayClose" class="buttonDiv red-over" style="position: absolute; top: 10px; right: 10px; width: 10px; height: 15px; border: 1px #D3D3D3 solid;">X</div>
 		<div style="position: absolute; top: 10px; left: 10px; width: 115px; height: 100px; border: 1px #D3D3D3 solid;">
 			<img id="researchInfoOverlayImage" height="100" width="115"/>
@@ -200,7 +200,7 @@
 				</foreignObject>
 			</svg>
 		</div>
-		<div id="" style="position: absolute; top: 120px; left: 300px; right: 10px; height: 80px; border: 1px #D3D3D3 solid;"></div>
+		<div id="researchInfoOverlayEffects" style="position: absolute; top: 120px; left: 300px; right: 10px; height: 80px; border: 1px #D3D3D3 solid; text-align: left; padding-left: 5px;"></div>
 		<div id="" style="position: absolute; top: 208px; left: 300px; right: 10px; height: 80px; border: 1px #D3D3D3 solid;"></div>
 	</div>
 </div>
@@ -235,6 +235,7 @@
 		$("#researchInfoOverlayImage").attr("src", "resources/images/research/" + data.techImage);
 		$("#researchInfoOverlayTitle").text(data.techName);
 		$("#researchInfoOverlayDesc").text(data.techDesc);
+		$("#researchInfoOverlayEffects").html(data.techEffects);
 		
 		$("#researchInfoOverlayPositionCenter1").text("Not");
 		$("#researchInfoOverlayPositionCenter2").text("Researched");
@@ -293,6 +294,7 @@
 			$("#researchInfoOverlayPositionTopRight").text("");
 		}
 		
+		loadModHover();
 		$("#researchOverlayHolder").show();
 		$("#blankOut").show();
 		

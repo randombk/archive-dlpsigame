@@ -28,7 +28,6 @@ function runOnceCondition(params, condition, func) {
     }
 }
 
-
 //Popup Handlers
 function popupwindow(url, id, w, h) {
 	var left = (screen.width / 2) - (w / 2);

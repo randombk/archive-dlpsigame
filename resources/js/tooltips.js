@@ -146,7 +146,7 @@ function loadModHover() {
 		}
 		
 		$(this).tooltip({
-			items: ".modLink",
+			items: "span.modLink",
 			tooltipClass: "tooltip-main tooltip-mod",
 			track : true,
 			content : function() {

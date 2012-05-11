@@ -8,6 +8,7 @@
         "techNameLine1": "Test",
         "techNameLine2": "Research",
         "techDesc": "Testing research item number one",
+        "techEffects": "Testing research <br> item number one <br> <span class='modLink' data-modID='modBuildSpeedMultiplier' data-amount='200'></span>",
         "researchType": "Weapons",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -20,6 +21,7 @@
 		"techNameLine1": "Test",
         "techNameLine2": "Research",
         "techDesc": "Testing research item number two",
+        "techEffects": "Testing research <br> item number one",
         "researchType": "Defense",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -32,6 +34,7 @@
         "techNameLine1": "Advanced",
         "techNameLine2": "Research Facilities",
         "techDesc": "Testing research item number three",
+        "techEffects": "Testing research <br> item number one",
         "researchType": "Diplomatic",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -44,6 +47,7 @@
         "techNameLine1": "Advanced",
         "techNameLine2": "Research Facilities",
         "techDesc": "Testing research item number four",
+        "techEffects": "Testing research <br> item number one",
         "researchType": "Economic",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -56,6 +60,7 @@
         "techNameLine1": "Advanced",
         "techNameLine2": "Research Facilities 2",
         "techDesc": "Testing research item number four",
+        "techEffects": "Testing research <br> item number one",
         "researchType": "Fleet",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -68,6 +73,7 @@
         "techNameLine1": "Advanced",
         "techNameLine2": "Research Facilities 3",
         "techDesc": "Testing research item number five",
+        "techEffects": "Testing research <br> item number one",
         "researchType": "Weapons",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -80,6 +86,7 @@
         "techNameLine1": "Advanced",
         "techNameLine2": "Research Facilities 3",
         "techDesc": "Testing research item number five",
+        "techEffects": "Testing research <br> item number one",
         "researchType": "Weapons",
         "researchCost": [10, 20, 30, 40, 50]
     }
