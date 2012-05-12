@@ -53,10 +53,13 @@ abstract class AbstractPage {
 		$this->templateObj->assign_vars(array(
 			 'playerName'	=> $_SESSION['playerName'],
 			 'playerID'		=> $_SESSION['playerID'],
+			 'isOP'			=> (int)$_SESSION['PLAYER']['isOP'],
+			 'isAdmin'		=> (int)$_SESSION['PLAYER']['isAdmin'],
 			 'numPlanets'	=> count($_SESSION['OBJECTS']),
 			 'game_name'	=> $GLOBALS['_GAME_NAME'],
 			 'VERSION'		=> $GLOBALS['_GAME_VERSION'],
 			 'timestamp'	=> TIMESTAMP,
+			 'cacheTime'	=> GameCache::getCacheTime(),
 			 'page'			=> HTTP::REQ('page', '')
 		));
 	}

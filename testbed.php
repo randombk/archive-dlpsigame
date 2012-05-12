@@ -45,12 +45,7 @@ if ($_SESSION['PLAYER']['banExpireTime'] > time()) {
 $_SESSION['OBJECTS'] = PlayerUtils::getPlayerObjects();
 
 //BEGIN TESTBED
-$newPlanetID = ObjectUtils::createPlanet(UniCoord::fromCoord(1, 1, 1, 2, 1, "Colony 2"), 2);
 
-//Give player some resources
-$res = new DataResource();
-$res->setRes("metal", 1000);
-
-ObjectUtils::setObjectResDataUsingID($newPlanetID, $res->getResourceArray(), false);
+GameCache::flush();
 
 		

@@ -153,11 +153,10 @@ class GameSession {
 		return self::$instance;
 	}
 	
-	public static function loginPlayer($playerID, $playerName, $authlevel = 0) {
+	public static function loginPlayer($playerID, $playerName) {
 		self::create();
 		$_SESSION['playerID'] = $playerID;
 		$_SESSION['playerName'] = $playerName;
-		$_SESSION['authlevel'] = $authlevel;
 	}
 	
 	public static function isLoggedIn() {

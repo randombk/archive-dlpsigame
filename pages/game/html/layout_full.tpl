@@ -81,10 +81,16 @@
 						data-windowHref="notices">
 						<a>Notices</a>
 					</li>
-				
+					
 					<li id="pageRules" class="menuItem buttonDiv" ><a href="index.php?page=rules" target="rules">Rules</a></li>
 					<li id="pageSettings" class="menuItem buttonDiv" ><a href="game.php?page=settings">Setting</a></li>
 					<li class="menuItem buttonDiv" ><a href="game.php?page=logout">Logout</a></li>
+					
+					{if $isAdmin}
+						<li class="menuItem buttonDiv" id="funcClearGameCache">
+							<a href="javascript:clearCache();">Clear Game Cache</a>
+						</li>
+					{/if}
 				</ul>
 				<div class="br" style="background-color: transparent;"></div>
 				<div class="bBottom" style="bottom: -15px;">
@@ -162,8 +168,25 @@
 		</div>
 		
 		{include file="main_scripts.tpl" bodyclass="full"}
-		{literal}
-			<script type="text/javascript">
+		<script type="text/javascript">
+			{if $isAdmin}
+				{literal}
+					function clearCache() {
+						$.post("ajaxRequest.php", 
+							{"action" : "clearCache", "ajaxType": "DataLoader"},
+							function(data){
+								if(data.code < 0) {
+									showMessage(data.message, "red", 30000);
+								} else {
+									location.reload();
+								}
+							},
+							"json"
+						).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
+					}
+				{/literal}
+			{/if}
+			{literal}
 				function winMsgReceiver(channel, payload) {
 					if (channel == "winManager" && payload.objectType == "windowMessage") {
 						if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "main")) {
@@ -208,7 +231,6 @@
 						
 						//Load Notifications
 						loadNotificationData();
-						
 						
 						//Load menu
 						$("#gameMenu li.menuWindowItem").each(function() {
@@ -337,7 +359,7 @@
 						$("#gameTopContainer .notifications").html("No Notifications");	
 					}
 				}
-			</script>
-		{/literal}
+			{/literal}
+		</script>
 	</body>
 </html>
