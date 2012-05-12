@@ -8,7 +8,14 @@
         "techNameLine1": "Test",
         "techNameLine2": "Research",
         "techDesc": "Testing research item number one",
-        "techEffects": "Testing research <br> item number one <br> <span class='modLink' data-modID='modBuildSpeedMultiplier' data-amount='200'></span>",
+        "techEffects": "Testing research <br> item number one",
+        "techMods": [
+        	{"modBuildSpeedMultiplier": 10},
+        	{"modBuildSpeedMultiplier": 20},
+        	{"modBuildSpeedMultiplier": 30},
+        	{"modBuildSpeedMultiplier": 40},
+        	{"modBuildSpeedMultiplier": 50}
+        ],
         "researchType": "Weapons",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -22,6 +29,13 @@
         "techNameLine2": "Research",
         "techDesc": "Testing research item number two",
         "techEffects": "Testing research <br> item number one",
+        "techMods": [
+        	{"modBuildSpeedMultiplier": 10},
+        	{"modBuildSpeedMultiplier": 20},
+        	{"modBuildSpeedMultiplier": 30},
+        	{"modBuildSpeedMultiplier": 40},
+        	{"modBuildSpeedMultiplier": 50}
+        ],
         "researchType": "Defense",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -35,6 +49,13 @@
         "techNameLine2": "Research Facilities",
         "techDesc": "Testing research item number three",
         "techEffects": "Testing research <br> item number one",
+        "techMods": [
+        	{"modBuildSpeedMultiplier": 10},
+        	{"modBuildSpeedMultiplier": 20},
+        	{"modBuildSpeedMultiplier": 30},
+        	{"modBuildSpeedMultiplier": 40},
+        	{"modBuildSpeedMultiplier": 50}
+        ],
         "researchType": "Diplomatic",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -48,6 +69,13 @@
         "techNameLine2": "Research Facilities",
         "techDesc": "Testing research item number four",
         "techEffects": "Testing research <br> item number one",
+        "techMods": [
+        	{"modBuildSpeedMultiplier": 10},
+        	{"modBuildSpeedMultiplier": 20},
+        	{"modBuildSpeedMultiplier": 30},
+        	{"modBuildSpeedMultiplier": 40},
+        	{"modBuildSpeedMultiplier": 50}
+        ],
         "researchType": "Economic",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -61,6 +89,13 @@
         "techNameLine2": "Research Facilities 2",
         "techDesc": "Testing research item number four",
         "techEffects": "Testing research <br> item number one",
+        "techMods": [
+        	{"modBuildSpeedMultiplier": 10},
+        	{"modBuildSpeedMultiplier": 20},
+        	{"modBuildSpeedMultiplier": 30},
+        	{"modBuildSpeedMultiplier": 40},
+        	{"modBuildSpeedMultiplier": 50}
+        ],
         "researchType": "Fleet",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -74,6 +109,13 @@
         "techNameLine2": "Research Facilities 3",
         "techDesc": "Testing research item number five",
         "techEffects": "Testing research <br> item number one",
+        "techMods": [
+        	{"modBuildSpeedMultiplier": 10},
+        	{"modBuildSpeedMultiplier": 20},
+        	{"modBuildSpeedMultiplier": 30},
+        	{"modBuildSpeedMultiplier": 40},
+        	{"modBuildSpeedMultiplier": 50}
+        ],
         "researchType": "Weapons",
         "researchCost": [10, 20, 30, 40, 50]
     },
@@ -87,6 +129,13 @@
         "techNameLine2": "Research Facilities 3",
         "techDesc": "Testing research item number five",
         "techEffects": "Testing research <br> item number one",
+        "techMods": [
+        	{"modBuildSpeedMultiplier": 10},
+        	{"modBuildSpeedMultiplier": 20},
+        	{"modBuildSpeedMultiplier": 30},
+        	{"modBuildSpeedMultiplier": 40},
+        	{"modBuildSpeedMultiplier": 50}
+        ],
         "researchType": "Weapons",
         "researchCost": [10, 20, 30, 40, 50]
     }

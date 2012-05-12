@@ -236,6 +236,11 @@
 		$("#researchInfoOverlayTitle").text(data.techName);
 		$("#researchInfoOverlayDesc").text(data.techDesc);
 		$("#researchInfoOverlayEffects").html(data.techEffects);
+		if(data.techMods[0]) {
+			for (var i in data.techMods[0]) {
+				$("#researchInfoOverlayEffects").append("<br><span class='modLink' data-modID='" + i + "' data-amount='" + data.techMods[0][i] + "'></span>");
+			}
+		}
 		
 		$("#researchInfoOverlayPositionCenter1").text("Not");
 		$("#researchInfoOverlayPositionCenter2").text("Researched");
