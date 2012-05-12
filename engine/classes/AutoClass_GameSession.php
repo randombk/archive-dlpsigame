@@ -4,27 +4,19 @@
  * Project DLPSIGAME
  */
 
-//Stolen from http://stackoverflow.com/questions/1724587/how-to-store-php-sessions-in-apc-cache
+//Written based on the example from http://stackoverflow.com/questions/1724587/how-to-store-php-sessions-in-apc-cache
 class GameSession {
-	protected $_prefix;
+	protected $_sessionName;
 	protected $_ttl;
-	protected $_lockTimeout = 60; // if empty, no session locking, otherwise seconds to lock timeout
-	protected $_playerID = -1;
+	protected $_lockTimeout; // if empty, no session locking, otherwise seconds to lock timeout
 	
 	public static $instance = null;
 	
 	public function __construct($params = array()) {
 		ini_set('session.use_cookies', '1');
-		$def = session_get_cookie_params();
-		$this->_ttl = $def['lifetime'];
-		if (isset($params['ttl'])) {
-			$this->_ttl = $params['ttl'];
-		}
+		$this->_ttl = 60;
+		$this->_lockTimeout = 10;
 		
-		if (isset($params['lock_timeout'])) {
-			$this->_lockTimeout = $params['lock_timeout'];
-		}
-
 		session_set_save_handler(
 			array($this, 'open'), 
 			array($this, 'close'), 
@@ -36,12 +28,7 @@ class GameSession {
 	}
 
 	public function open($savePath, $sessionName) {
-		$this->_prefix = $sessionName;
-		if (!apc_exists($this->_prefix)) {
-			// creating non-empty array @see http://us.php.net/manual/en/function.apc-store.php#107359
-			apc_store($this->_prefix . '/TS', array(''));
-			apc_store($this->_prefix . '/LOCK', array(''));
-		}
+		$this->_sessionName = $sessionName;
 		return true;
 	}
 
@@ -50,100 +37,65 @@ class GameSession {
 	}
 
 	public function read($id) {
-		$key = $this->_prefix . '/' . $id;
-		if (!apc_exists($key)) {
+		$baseKey = $this->_sessionName . '/' . $id;
+		$metaKey = $baseKey . '/META';
+		if (!(apc_exists($baseKey) && apc_exists($metaKey))) {
 			return ''; // no session
 		}
-
-		// redundant check for ttl before read
-		if ($this->_ttl) {
-			$ts = apc_fetch($this->_prefix . '/TS');
-			if (empty($ts[$id])) {
-				return ''; // no session
-			} elseif (!empty($ts[$id]) && $ts[$id] + $this->_ttl < time()) {
-				unset($ts[$id]);
-				apc_delete($key);
-				apc_store($this->_prefix . '/TS', $ts);
-				return ''; // session expired
-			}
-		}
 		
-		if(!$this->_lockTimeout) {
-			$locks = apc_fetch($this->_prefix . '/LOCK');
-			if (!empty($locks[$id])) {
-				while (!empty($locks[$id]) && $locks[$id] + $this->_lockTimeout >= time()) {
-					usleep(10000); // sleep 10ms
-					$locks = apc_fetch($this->_prefix . '/LOCK');
-				}
-			}
-			/*
-			  // by default will overwrite session after lock expired to allow smooth site function
-			  // alternative handling is to abort current process
-			  if (!empty($locks[$id])) {
-			  return false; // abort read of waiting for lock timed out
-			  }
-			 */
-			$locks[$id] = time(); // set session lock
-			apc_store($this->_prefix . '/LOCK', $locks);
-		}
-
-		$ip = apc_fetch($this->_prefix . '/IP/' . $id);
-		if(!$this->CompareIPs($ip)) {
-			return ''; // stolen session
+		$meta = apc_fetch($metaKey);
+		
+		while ($meta["lock"] > 0 && $meta["lock"] + $this->_lockTimeout >= time()) {
+			usleep(10000); // sleep 10ms
+			$meta = apc_fetch($metaKey);
 		}
 				
-		if($this->_playerID > 0) {
-			if($activeID != $id) {
-				return ""; //User logged in from another location
-			}
+		if ($meta["lastAccess"] + $this->_ttl < time()) {
+			$this->destroy($id);
+			return ''; // session expired
 		}
-		return apc_fetch($key);
+		
+		if(!$this->CompareIPs($meta["ip"])) {
+			return ''; // stolen session
+		}
+		
+		$meta["lock"] = time();
+		$meta["lastAccess"] = time();
+		apc_store($metaKey, $meta);
+		
+		return apc_fetch($baseKey);
 	}
 
 	public function write($id, $data) {
-		$ts = apc_fetch($this->_prefix . '/TS');
-		$ts[$id] = time();
-		apc_store($this->_prefix . '/TS', $ts);
-
-		$locks = apc_fetch($this->_prefix . '/LOCK');
-		unset($locks[$id]);
-		apc_store($this->_prefix . '/LOCK', $locks);
-		
-		apc_store($this->_prefix . '/IP/' . $id, $_SERVER['REMOTE_ADDR']);
+		$baseKey = $this->_sessionName . '/' . $id;
+		$meta = array(
+			"lastAccess"=> time(),
+			"lock"		=> -1,
+			"ip"		=> $_SERVER['REMOTE_ADDR']
+		);
 		
 		if(isset($_SESSION['playerID'])) {
-			$oldID = apc_fetch($this->_prefix . '/USERS/' . $_SESSION['playerID']);
-			apc_delete($this->_prefix . '/' . $oldID);
-			apc_store($this->_prefix . '/USERS/' . $_SESSION['playerID'], $id);
+			$oldID = apc_fetch($this->_sessionName . '/USERS/' . $_SESSION['playerID']);
+			if($oldID != $id) {
+				$this->destroy($oldID);
+				apc_store($this->_sessionName . '/USERS/' . $_SESSION['playerID'], $id);
+			}
 		}
 		
-		return apc_store($this->_prefix . '/' . $id, $data, $this->_ttl);
+		return apc_store($baseKey, $data, $this->_ttl) && apc_store($baseKey.'/META', $meta, $this->_ttl);
 	}
 
 	public function destroy($id) {
-		$ts = apc_fetch($this->_prefix . '/TS');
-		unset($ts[$id]);
-		apc_store($this->_prefix . '/TS', $ts);
-
-		$locks = apc_fetch($this->_prefix . '/LOCK');
-		unset($locks[$id]);
-		apc_store($this->_prefix . '/LOCK', $locks);
-
-		return apc_delete($this->_prefix . '/' . $id);
+		apc_delete($this->_sessionName . '/' . $id);
+		apc_delete($this->_sessionName . '/' . $id . '/META');
+			
+		return true;
 	}
 
 	public function gc($lifetime) {
-		if ($this->_ttl) {
-			$lifetime = min($lifetime, $this->_ttl);
-		}
-		$ts = apc_fetch($this->_prefix . '/TS');
-		foreach ($ts as $id => $time) {
-			if ($time + $lifetime < time()) {
-				apc_delete($this->_prefix . '/' . $id);
-				unset($ts[$id]);
-			}
-		}
-		return apc_store($this->_prefix . '/TS', $ts);
+		//Trigger APC's internal ttl cleanup
+		apc_cache_info();
+		return true;
 	}
 
 	private static function create() {
