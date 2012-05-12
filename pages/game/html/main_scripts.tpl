@@ -54,14 +54,13 @@
 <script type="text/javascript">
 	//Load scrollbars on page	
 	(function($) {
-		$(window).load(function() {
-			$('.scrollable').each(function() {
-				$(this).tinyscrollbar();
-			});
-			
-			$('.scrollbar').on('dragstart', function(event) {
-				event.preventDefault()
-			});
+		
+		$('.scrollable').each(function() {
+			$(this).tinyscrollbar();
+		});
+		
+		$('.scrollbar').on('dragstart', function(event) {
+			event.preventDefault()
 		});
 		
 		$(window).on("resize", function() {
@@ -76,9 +75,16 @@
 		loadResHover();
 	});
 </script>
-{/literal}
 
 <script>
 	//Load tickService
-	var instance = new tickService({$timestamp});
+	var instance = null;
+	
+	(function($) {
+{/literal}
+		loadGameData({$cacheTime});
+		instance = new tickService({$timestamp});
+{literal}
+	})(jQuery);
 </script>
+{/literal}
