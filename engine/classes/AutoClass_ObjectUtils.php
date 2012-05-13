@@ -256,18 +256,13 @@ class ObjectUtils {
 				return 0;
 			}
 			
-			return self::getObjectResDataUsingID($objID, false);
+			return self::getObjectResDataUsingID($objID);
 		} else {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
 	
-	static function getObjectResDataUsingID($objectID, $checkID = true) {
-		if($checkID) {
-			if(is_null(UniCoord::fromObjectID($objectID))) {
-				throw new Exception("Invalid ID - Object does not exist: $objectID");
-			}
-		}
+	static function getObjectResDataUsingID($objectID) {
 		return DataResource::fromResourceArray($GLOBALS['MONGO']->getResource("objectResource_".$objectID));
 	}
 	
@@ -281,19 +276,13 @@ class ObjectUtils {
 				return 0;
 			}
 			
-			return self::setObjectBuildingDataUsingID($objID, $buildingData, false);
+			return self::setObjectBuildingDataUsingID($objID, $buildingData);
 		} else {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
 	
-	static function setObjectBuildingDataUsingID($objectID, $buildingData, $checkID = true) {
-		if($checkID) {
-			if(is_null(UniCoord::fromObjectID($objectID))) {
-				throw new Exception("Invalid ID - Object does not exist: $objectID");
-			}
-		}
-		
+	static function setObjectBuildingDataUsingID($objectID, $buildingData) {
 		return $GLOBALS['MONGO']->setBuildings("objectBuildings_".$objectID, $buildingData);
 	}
 	
@@ -304,19 +293,13 @@ class ObjectUtils {
 				return 0;
 			}
 			
-			return self::getObjectBuildingDataUsingID($objID, false);
+			return self::getObjectBuildingDataUsingID($objID);
 		} else {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
 	
-	static function getObjectBuildingDataUsingID($objectID, $checkID = true) {
-		if($checkID) {
-			if(is_null(UniCoord::fromObjectID($objectID))) {
-				throw new Exception("Invalid ID - Object does not exist: $objectID");
-			}
-		}
-		
+	static function getObjectBuildingDataUsingID($objectID) {
 		return DataBuilding::fromBuildingArray($GLOBALS['MONGO']->getBuildings("objectBuildings_".$objectID));
 	}
 	
@@ -330,19 +313,13 @@ class ObjectUtils {
 				return 0;
 			}
 			
-			return self::setObjectDataUsingID($objID, $objectData, false);
+			return self::setObjectDataUsingID($objID, $objectData);
 		} else {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
 	
-	static function setObjectDataUsingID($objectID, $objectData, $checkID = true) {
-		if($checkID) {
-			if(is_null(UniCoord::fromObjectID($objectID))) {
-				throw new Exception("Invalid ID - Object does not exist: $objectID");
-			}
-		}
-		
+	static function setObjectDataUsingID($objectID, $objectData) {
 		return $GLOBALS['MONGO']->setObject("objectData_".$objectID, $objectData);
 	}
 	
@@ -353,19 +330,13 @@ class ObjectUtils {
 				return 0;
 			}
 			
-			return self::getObjectDataUsingID($objID, false);
+			return self::getObjectDataUsingID($objID);
 		} else {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
 	
-	static function getObjectDataUsingID($objectID, $checkID = true) {
-		if($checkID) {
-			if(is_null(UniCoord::fromObjectID($objectID))) {
-				throw new Exception("Invalid ID - Object does not exist: $objectID");
-			}
-		}
-			
+	static function getObjectDataUsingID($objectID) {
 		return $GLOBALS['MONGO']->getObject("objectData_".$objectID);
 	}
 }

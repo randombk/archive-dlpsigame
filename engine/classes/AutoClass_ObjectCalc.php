@@ -58,7 +58,11 @@ class ObjectCalc {
 	}
 	
 	public static function getObjectWeightPenalty($objectEnv, $mod) {
-		return array("modResourceProductionMultiplier" => (int)min(0, -($objectEnv->envResources->getTotalWeight() - self::getObjectStorage($objectEnv, $mod)) / (self::getObjectStorage($objectEnv, $mod) / 1000)));
+		$modAmount = (int)min(0, -($objectEnv->envResources->getTotalWeight() - self::getObjectStorage($objectEnv, $mod)) / (self::getObjectStorage($objectEnv, $mod) / 1000));
+		return array(
+			"modResourceProductionMultiplier" => $modAmount,
+			"modResourceConsumptionMultiplier" => $modAmount
+		);
 	}
 	
 	//Get list of research points

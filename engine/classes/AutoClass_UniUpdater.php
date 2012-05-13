@@ -10,11 +10,10 @@ class UniUpdater {
 			$playerID = $_SESSION['playerID'];
 		}
 		
-		while(true) {
-			$GLOBALS['RDBMS']->exec("BEGIN;");		
-			try {
-				$playerEnv = PlayerEnvironment::fromPlayerID($playerID);
-				
+		$playerEnv = PlayerEnvironment::fromPlayerID($playerID);
+		$GLOBALS['RDBMS']->exec("BEGIN;");		
+		try {
+			while(true) {
 				//Give a 1-second margin of error
 				if($playerEnv->last_update < TIMESTAMP - 1) {
 					$nextUpdate = self::getNextUpdatePoint($playerEnv);
@@ -24,18 +23,17 @@ class UniUpdater {
 					if($nextUpdate[1] == "building" && $updateTime == $nextUpdate[0]) {
 						QueueBuilding::processBuildingQueue($playerEnv->envObjects[$nextUpdate[2]], $updateTime);
 					}
-					
-					$playerEnv->apply();
 				} else {
+					$playerEnv->apply();
 					$GLOBALS['RDBMS']->exec("COMMIT;");
 					return $playerEnv;
 				}
-			} catch (Exception $e) {
-				$GLOBALS['RDBMS']->exec("ROLLBACK;");
-				throw $e;
 			}
-			$GLOBALS['RDBMS']->exec("COMMIT;");
+		} catch (Exception $e) {
+			$GLOBALS['RDBMS']->exec("ROLLBACK;");
+			throw $e;
 		}
+		$GLOBALS['RDBMS']->exec("COMMIT;");
 	}
 	
 	public static function updatePlayerResources($playerEnv, $time) {

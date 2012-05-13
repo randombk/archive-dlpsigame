@@ -46,6 +46,12 @@ $_SESSION['OBJECTS'] = PlayerUtils::getPlayerObjects();
 
 //BEGIN TESTBED
 
-GameCache::flush();
+$newPlanetID = ObjectUtils::createPlanet(ObjectUtils::getFreeObjectCoord(1, 1, "Colony"), 2);
+		
+//Give player some resources
+$res = new DataResource();
+$res->setRes("iron", 5000);
+$res->setRes("kryptonite", 5000);
 
+ObjectUtils::setObjectResDataUsingID($newPlanetID, $res->getResourceArray(), false);
 		

@@ -43,8 +43,8 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 
 	function getObjectList() {
 		$data = array();
-		foreach($_SESSION['OBJECTS'] as $objectID => $objectData) {
-			$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
+		$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+		foreach($playerEnv->envObjects as $objectID => $objectEnv) {
 			$objectMods = DataMod::calculateObjectModifiers($objectEnv);
 			$data[$objectID] = array(
 				"usedStorage" => $objectEnv->envResources->getTotalWeight(),

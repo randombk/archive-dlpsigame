@@ -86,6 +86,9 @@ class Database extends PDO {
 	}
 
 	private function filter($table, $info) {
+		//Disable filter
+		return array_keys($info);
+		
 		$driver = $this->getAttribute(PDO::ATTR_DRIVER_NAME);
 		if ($driver == 'sqlite') {
 			$sql = "PRAGMA table_info('" . $table . "');";
@@ -119,7 +122,7 @@ class Database extends PDO {
 
 	public function insert($table, $info, $needID = false) {
 		$fields = $this->filter($table, $info);
-		$sql = "INSERT INTO " . $table . " (" . implode($fields, ", ") . ") VALUES (:" . implode($fields, ", :") . ");";
+		$sql = "INSERT INTO " . $table . " (" . implode(", ", $fields) . ") VALUES (:" . implode(", :", $fields ) . ");";
 		$bind = array();
 		foreach ($fields as $field)
 			$bind[":$field"] = $info[$field];

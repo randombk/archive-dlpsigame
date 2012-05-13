@@ -297,12 +297,13 @@
 										{literal}
 										+"&objectID=" + $(this).attr("data-objectID");
 								});
+								
+								$(".scrollable").tinyscrollbar_update();
 							}
 						},
 						"json"
 					).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
 					
-					$(".scrollable").tinyscrollbar_update();
 				}
 				
 				function hideObjectList() {

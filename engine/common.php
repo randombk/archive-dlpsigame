@@ -4,14 +4,6 @@
  * Project DLPSIGAME
  */
 
-if(isset($_POST['GLOBALS']) || isset($_POST['GLOBALS']) || isset($_REQUEST['GLOBALS'])) {
-	exit('You cannot set the GLOBALS-array from outside the script.');
-}
-
-if(isset($_POST['_SESSION']) || isset($_GET['_SESSION']) || isset($_REQUEST['_SESSION'])) {
-	exit('You cannot set the _SESSION-array from outside the script.');
-}
-
 function strictString($str) {
 	$pattern = '/^([a-zA-Z0-9]+)$/';
 	preg_match($pattern, $str, $matches);
@@ -24,7 +16,7 @@ function strictString($str) {
 }
 
 function loadClass($class_name) {
-   $classFile =  ROOT_PATH . 'engine/classes/AutoClass_' . strictString(ucwords($class_name)) . '.php';
+   $classFile =  ROOT_PATH . 'engine/classes/AutoClass_' . $class_name . '.php';
 	if(file_exists($classFile)) {
 		require_once($classFile);
 	}
