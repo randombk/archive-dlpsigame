@@ -52,6 +52,21 @@ class UniCoord {
 		return $instance;
 	}
 	
+	public static function fromData($objectData) {
+		$instance = new self();
+		$star = GameCache::get('STARS')[$objectData['starID']];
+		$instance->objID		= $objectData['objectID'];
+		$instance->objGalaxy	= $star['galaxyID'];
+		$instance->objSector	= $star['sectorID'];
+		$instance->objStar		= $star['starIndex'];
+		$instance->objObject	= $objectData['objectIndex'];
+		$instance->objType		= $objectData['objectType'];
+		$instance->objName		= $objectData['objectName'];
+		$instance->objImageID	= $objectData['objectImageID'];
+		$instance->objStarID	= $objectData['starID'];
+		return $instance;
+	}
+	
 	//if isStar is true, select implicit star object
 	//else select the object		
 	public function getObjectData($id, $isStar = false) {

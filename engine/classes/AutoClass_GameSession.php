@@ -14,7 +14,7 @@ class GameSession {
 	
 	public function __construct($params = array()) {
 		ini_set('session.use_cookies', '1');
-		$this->_ttl = 60;
+		$this->_ttl = 60*60*12;
 		$this->_lockTimeout = 10;
 		
 		session_set_save_handler(

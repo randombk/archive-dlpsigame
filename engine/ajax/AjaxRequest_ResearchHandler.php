@@ -3,30 +3,23 @@
  * (C) Copyright 2012 David J. W. Li
  * Project DLPSIGAME
  */
-class AjaxRequest_BuildingHandler extends AjaxRequest {
+
+class AjaxRequest_Researchhandler extends AjaxRequest {
 	function __construct() {
 		parent::__construct();
 	}
 
-	function getBuildings() {
-		$objectID = HTTP::REQ("objectID", 0);
-		if ($objectID > 0) {
-			//Check player permissions
-			if(!isset($_SESSION['OBJECTS'][$objectID])) {
-				AjaxError::sendError("Access Denied");
-			} else {
-				$objectEnv = UniUpdater::updateObject($objectID);
-				$data = array(
-					"buildings" => self::getBuildingList($objectEnv),
-					"canBuild" => self::getUpgradeList($objectEnv),
-					"resources" => $objectEnv->envResources->getResourceArray(),
-					"buildQueue" => $objectEnv->buildingQueue
-				);
-				$this->sendJSON($data);
-			}
-		} else {
-			AjaxError::sendError("Invalid Parameters");
-		}
+	function getResearch() {
+		/*
+		$objectEnv = UniUpdater::updateObject($objectID);
+		$data = array(
+			"buildings" => self::getBuildingList($objectEnv),
+			"canBuild" => self::getUpgradeList($objectEnv),
+			"resources" => $objectEnv->envResources->getResourceArray(),
+			"buildQueue" => $objectEnv->buildingQueue
+		);
+		$this->sendJSON($data);
+		*/
 	}
 	
 	function buildBuilding() {

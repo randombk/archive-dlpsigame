@@ -360,7 +360,7 @@
 				});
 				
 				$.post("ajaxRequest.php", 
-					{"action" : "setAllBuildingActivity", "ajaxType": "Buildinghandler", "objectID": objectID, "activityData": JSON.stringify(newData)},
+					{"action" : "setAllBuildingActivity", "ajaxType": "BuildingHandler", "objectID": objectID, "activityData": JSON.stringify(newData)},
 					function(data){
 						if(data.code < 0) {
 							showMessage("Fatal Error #" + (-data.code) + ": " + data.message, "red", 30000);

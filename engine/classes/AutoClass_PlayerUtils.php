@@ -108,13 +108,18 @@ class PlayerUtils {
 			tblUNI_OBJECTS,
 			"ownerID = :playerID",
 			array(":playerID" => $playerID),
-			"objectID, objectName, objectType, objectIndex, starID"
+			"objectID, objectName, objectType, objectIndex, starID, objectImageID"
 		);
 		
 		$return = array();
 		foreach($objects as $object) {
-			$return[$object['objectID']] = UniCoord::fromObjectID($object['objectID']);
+			$return[$object['objectID']] = UniCoord::fromData($object);
 		}
+		
+		if($playerID == $_SESSION['playerID']) {
+			$_SESSION['OBJECTS'] = $return;
+		}
+		
 		return $return;
 	}
 	
@@ -126,7 +131,11 @@ class PlayerUtils {
 			$playerID = $_SESSION['playerID'];
 		}
 		
-		return $GLOBALS['MONGO']->setResearch("playerResearch_".$playerID, $researchData);
+		if($playerID == $_SESSION['playerID']) {
+			$_SESSION['RESEARCH'] = $researchData;
+		}
+		
+		return $GLOBALS['MONGO']->setResearch("playerResearch_".$playerID, $researchData->getResearchArray());
 	}
 	
 	static function getPlayerResearchData($playerID = null) {
@@ -134,6 +143,10 @@ class PlayerUtils {
 			$playerID = $_SESSION['playerID'];
 		}
 		
-		return DataResearch::fromResearchArray($GLOBALS['MONGO']->getResearch("playerResearch_".$playerID));
+		$data = DataResearch::fromResearchArray($GLOBALS['MONGO']->getResearch("playerResearch_".$playerID));
+		if($playerID == $_SESSION['playerID']) {
+			$_SESSION['RESEARCH'] = $data;
+		}
+		return $data;
 	}
 }
