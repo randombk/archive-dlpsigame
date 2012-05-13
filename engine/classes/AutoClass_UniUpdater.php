@@ -5,26 +5,30 @@
  */
 
 class UniUpdater {
-	public static function updateObject($objectID){
+	public static function updatePlayer($playerID = null){
+		if(is_null($playerID)) {
+			$playerID = $_SESSION['playerID'];
+		}
+		
 		while(true) {
 			$GLOBALS['RDBMS']->exec("BEGIN;");		
 			try {
-				$objectEnv = ObjectEnvironment::fromObjectID($objectID);
-			
+				$playerEnv = PlayerEnvironment::fromPlayerID($playerID);
+				
 				//Give a 1-second margin of error
-				if($objectEnv->last_update < TIMESTAMP - 1) {
-					$nextUpdate = self::getNextUpdatePoint($objectEnv);
-					
+				if($playerEnv->last_update < TIMESTAMP - 1) {
+					$nextUpdate = self::getNextUpdatePoint($playerEnv);
 					$updateTime = min($nextUpdate[0], TIMESTAMP);
-					self::updateResources($objectEnv, $updateTime);
 					
+					self::updatePlayerResources($playerEnv, $updateTime);
 					if($nextUpdate[1] == "building" && $updateTime == $nextUpdate[0]) {
-						QueueBuilding::processBuildingQueue($objectEnv, $updateTime);
+						QueueBuilding::processBuildingQueue($playerEnv->envObjects[$nextUpdate[2]], $updateTime);
 					}
-					$objectEnv->apply();
+					
+					$playerEnv->apply();
 				} else {
 					$GLOBALS['RDBMS']->exec("COMMIT;");
-					return $objectEnv;
+					return $playerEnv;
 				}
 			} catch (Exception $e) {
 				$GLOBALS['RDBMS']->exec("ROLLBACK;");
@@ -34,20 +38,19 @@ class UniUpdater {
 		}
 	}
 	
-	public static function updateResources($objectEnv, $time) {
-		$updatedTo = $objectEnv->last_update;
+	public static function updatePlayerResources($playerEnv, $time) {
+		$updatedTo = $playerEnv->last_update;
 		
 		// 3600 * 24 * 7
 		if($time - $updatedTo > 604800) {
 			//Send message
 			Message::sendNotification(
-				$objectEnv->ownerID, 
-				"Resource production halted on " . $objectEnv->objectName . "", 
-				"Nothing has happened on your " . $objectEnv->envObjectCoord->getTypeName() . " " 
-					. $objectEnv->objectName . " for more than 7 days. Resource production was halted to save system resources.",
+				$playerEnv->playerID, 
+				"Resource production halted on " . $playerEnv->playerName . "", 
+				"Nothing has happened on your account for more than 7 days. Resource production was halted to save system resources.",
 				"WARNING", 
 				"time.jpg", 
-				"game.php?page=objectoverview&objectID=" . $objectEnv->objectID,
+				"game.php",
 				$time
 			);
 			$updatedTo = $time - 604800;
@@ -55,34 +58,52 @@ class UniUpdater {
 		
 		while($updatedTo < $time) {
 			$updateInterval = min(3600, $time - $updatedTo);
-			$objectEnv->envResources = ObjectCalc::calcNewObjectRes($objectEnv, $updateInterval);
+			
+			foreach($playerEnv->envObjects as $objectEnv) {
+				$objectEnv->envResources = ObjectCalc::calcNewObjectRes($objectEnv, $updateInterval);
+			}
+			
 			$updatedTo += $updateInterval;
 		}
-		$objectEnv->last_update = $updatedTo;
+		$playerEnv->last_update = $updatedTo;
 	}
 	
-	public static function getNextUpdatePoint($objectEnv){
+	public static function getNextUpdatePoint($env){
 		$nextUpdateTime = PHP_INT_MAX;
 		$updateType = "object";
-		//Check research queue
-		//TODO research
+		$updateObject = -1;
 		
-		//Check building queue
-		if(isset($objectEnv->buildingQueue[0])) {
-			if($nextUpdateTime > $objectEnv->buildingQueue[0]["endTime"]) {
-				$updateType = "building";
-				$nextUpdateTime = $objectEnv->buildingQueue[0]["endTime"];
+		//Check research queue
+		if(isset($env->researchQueue[0], $env->researchProduction[$env->researchQueue[0]["type"]])) {
+			$requiredPoints = $env->researchQueue[0]["points"] - $env->envResearch->getResearchPoints($env->researchQueue[0]["research"]);
+			$nextResearchUpdateTime = min($env->researchQueue[0]["last_update"] + ceil($requiredPoints / $env->researchProduction[$env->researchQueue[0]["type"]]));
+			if($nextUpdateTime > $nextResearchUpdateTime) {
+				$nextUpdateTime = $nextResearchUpdateTime;
+				$updateType = "research";
 			}
 		}
 		
+		//Check building queue
+		foreach($env->envObjects as $envObject) {
+			if(isset($envObject->buildingQueue[0])) {
+				if($nextUpdateTime > $envObject->buildingQueue[0]["endTime"]) {
+					$nextUpdateTime = $envObject->buildingQueue[0]["endTime"];
+					$updateType = "building";
+					$updateObject = $envObject->objectID;
+				}
+			}
+		}
+
 		//Check fleets
+		/*
 		$stmtFleetupdate = $GLOBALS['RDBMS']->selectCell(
 			tblFLEET_MISSIONS,
-			"missionTargetObjectID = :objectID",
-			array(":objectID" => $objectEnv->objectID),
-			"missionEndTime",
+			"missionTargetPlayerID = :playerID",
+			array(":objectID" => $env->objectID),
+			"missionEndTime, missionTargetObjectID",
 			"ORDER BY missionEndTime LIMIT 1;"
 		);
+		
 		if($stmtFleetupdate) {
 			$fleetupdate = $stmtFleetupdate;
 		} else {
@@ -93,8 +114,8 @@ class UniUpdater {
 			$updateType = "fleet";
 			$nextUpdateTime = $fleetupdate;
 		}
-		
-		return array($nextUpdateTime, $updateType);
+		*/
+		return array($nextUpdateTime, $updateType, $updateObject);
 	}
 }
 

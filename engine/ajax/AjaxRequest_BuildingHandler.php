@@ -15,7 +15,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updateObject($objectID);
+				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 				$data = array(
 					"buildings" => self::getBuildingList($objectEnv),
 					"canBuild" => self::getUpgradeList($objectEnv),
@@ -38,7 +38,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updateObject($objectID);
+				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 				$result = QueueBuilding::appendToBuildingQueue($objectEnv, "Build", $buildingID, $buildingLevel);
 				if(!$result) {
 					$objectEnv->apply();
@@ -61,7 +61,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updateObject($objectID);
+				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 				if($objectEnv->envBuildings->getBuildingActivity($buildingID) !== (int)$activity) {
 					$objectEnv->envBuildings->setBuildingActivity($buildingID, max(0, min(100, (int)$activity)));
 					$objectEnv->apply();
@@ -82,7 +82,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 				AjaxError::sendError("Access Denied");
 			} else {
 				if(isset($activityData)) {
-					$objectEnv = UniUpdater::updateObject($objectID);
+					$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 					try {
 						foreach($activityData as $buildingID => $activity) {
 							if(!isset(GameCache::get("BUILDINGS")[$buildingID])) {
@@ -115,7 +115,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updateObject($objectID);
+				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 				$result = QueueBuilding::appendToBuildingQueue($objectEnv, "Destroy", $buildingID, $buildingLevel);
 				if(!$result) {
 					$objectEnv->apply();
@@ -138,7 +138,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updateObject($objectID);
+				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 				$result = QueueBuilding::appendToBuildingQueue($objectEnv, "Recycle", $buildingID, $buildingLevel);
 				if(!$result) {
 					$objectEnv->apply();
@@ -160,7 +160,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updateObject($objectID);
+				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 				$result = QueueBuilding::removeFromBuildingQueue($objectEnv, $queueItemID);
 				if(!$result) {
 					$objectEnv->apply();

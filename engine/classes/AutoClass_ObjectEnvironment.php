@@ -3,6 +3,7 @@
  * (C) Copyright 2012 David J. W. Li
  * Project DLPSIGAME
  */
+
 class ObjectEnvironment {
 	public $objectID = -1;
 	public $objectType = 0;

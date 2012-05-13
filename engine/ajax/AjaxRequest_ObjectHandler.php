@@ -17,7 +17,7 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updateObject($objectID);
+				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 				$objectMods = DataMod::calculateObjectModifiers($objectEnv);
 				$data = array(
 					"buildings" => AjaxRequest_BuildingHandler::getBuildingList($objectEnv, true),
@@ -44,7 +44,7 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 	function getObjectList() {
 		$data = array();
 		foreach($_SESSION['OBJECTS'] as $objectID => $objectData) {
-			$objectEnv = UniUpdater::updateObject($objectID);
+			$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 			$objectMods = DataMod::calculateObjectModifiers($objectEnv);
 			$data[$objectID] = array(
 				"usedStorage" => $objectEnv->envResources->getTotalWeight(),

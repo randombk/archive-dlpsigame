@@ -6,19 +6,46 @@
 class DataResearch {
 	private $researchArray = array();
 	
-	public function getResearch($researchID) {
-		if(isset($this->researchArray[$researchID])){
-			return $this->researchArray[$researchID];
+	public function getValue($key) {
+		if(isset($this->researchArray[$key])){
+			return $this->researchArray[$key];
 		} else {
 			return 0;
 		}
 	}
 	
-	public function setResearch($researchID, $researchLevel) {
+	public function getResearch($researchID) {
+		if(isset($this->researchArray[$researchID][0])){
+			return $this->researchArray[$researchID][0];
+		} else {
+			return 0;
+		}
+	}
+	
+	public function getResearchPoints($researchID) {
+		if(isset($this->researchArray[$researchID][1])){
+			return $this->researchArray[$researchID][1];
+		} else {
+			return 0;
+		}
+	}
+	
+	public function setResearchLevel($researchID, $researchLevel) {
 		if($researchLevel == 0){
 			unset($this->researchArray[$researchID]);
 		} else {
-			$this->researchArray[$researchID] = $researchLevel;
+			$this->researchArray[$researchID] = array($researchLevel, 0);
+		}
+	}
+	
+	public function setResearchPoints($researchID, $researchPoints) {
+		if(isset($this->researchArray[$researchID])) {
+			if($this->researchArray[$researchID][0] == 0 && $researchPoints == 0) {
+				unset($this->researchArray[$researchID]);
+			}
+			$this->researchArray[$researchID][1] = $researchPoints;
+		} else {
+			$this->researchArray[$researchID] = array(0, $researchPoints);
 		}
 	}
 	

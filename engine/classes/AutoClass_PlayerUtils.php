@@ -123,14 +123,11 @@ class PlayerUtils {
 		return $return;
 	}
 	
-	//
-	// Research
-	//
 	static function setPlayerResearchData($researchData, $playerID = null) {
 		if(is_null($playerID)) {
 			$playerID = $_SESSION['playerID'];
 		}
-		
+
 		if($playerID == $_SESSION['playerID']) {
 			$_SESSION['RESEARCH'] = $researchData;
 		}
@@ -144,9 +141,11 @@ class PlayerUtils {
 		}
 		
 		$data = DataResearch::fromResearchArray($GLOBALS['MONGO']->getResearch("playerResearch_".$playerID));
+		
 		if($playerID == $_SESSION['playerID']) {
 			$_SESSION['RESEARCH'] = $data;
 		}
+		
 		return $data;
 	}
 }
