@@ -24,7 +24,7 @@
 			</form>
 			<br>
 			<span class="small">{$loginInfo}</span>
-			<a href='index.php?page=verify&i=2&k=aaa'>dev link</a>
+			<a href='index.php?page=verify&i=3&k=aaa'>dev link</a>
 			<br>
 			<a href="index.php?page=register"><b>Register</b></a>
 		</div>

@@ -54,6 +54,7 @@ class PlayerUtils {
 	}
 	
 	static function activatePlayer($playerID, $playerData) {
+		
 		//TODO: Error handling
 		//Give player a new planet
 		$newPlanetID = ObjectUtils::createPlanet(ObjectUtils::getFreeObjectCoord(1, 1, "Colony"), $playerID);
@@ -69,7 +70,7 @@ class PlayerUtils {
 		
 		//PENDING: referrals
 		//PENDING: external authentiation
-		$GLOBALS['RDBMS']->update(tblPLAYERS, array("validationKey" => ""), "playerID = :playerID", array(":playerID" => $playerID));
+		$GLOBALS['RDBMS']->update(tblPLAYERS, array("validationKey" => "", "last_update" => TIMESTAMP), "playerID = :playerID", array(":playerID" => $playerID));
 		
 		$nameSender = 'Administrator';
 		$subject = 'Welcome';
@@ -132,7 +133,7 @@ class PlayerUtils {
 			$_SESSION['RESEARCH'] = $researchData;
 		}
 		
-		return $GLOBALS['MONGO']->setResearch("playerResearch_".$playerID, $researchData->getResearchArray());
+		return $GLOBALS['MONGO']->setResearch("playerResearch_".$playerID, $researchData);
 	}
 	
 	static function getPlayerResearchData($playerID = null) {

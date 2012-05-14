@@ -23,13 +23,13 @@ class Page_Verify extends AbstractPage {
 		if (!isset($playerData)) {
 			$this->showMessage('Invalid Request!');
 		}
-
+		
+		GameSession::loginPlayer($playerData['playerID'], $playerData['playerName']);
 		return PlayerUtils::activatePlayer($playerID, $playerData);
 	}
 
 	function show() {
 		$playerData = $this->activateUser();
-		GameSession::loginPlayer($playerData['playerID'], $playerData['playerName']);
 		HTTP::redirectTo('game.php');
 	}
 }

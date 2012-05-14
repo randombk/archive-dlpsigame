@@ -101,7 +101,7 @@ class PlayerEnvironment {
 				} 
 			}
 			
-			PlayerUtils::setPlayerResearchData($this->envResearch);
+			PlayerUtils::setPlayerResearchData($this->envResearch->getResearchArray());
 			return true;
 		} else {
 			throw new Exception("Unknown PDO Error ");
