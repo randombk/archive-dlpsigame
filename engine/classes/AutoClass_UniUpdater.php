@@ -15,7 +15,7 @@ class UniUpdater {
 					$nextUpdate = self::getNextUpdatePoint($playerEnv);
 					$updateTime = min($nextUpdate[0], $updateTo);
 					
-					self::updatePlayerResources($playerEnv, $updateTime);
+					self::updatePlayerItems($playerEnv, $updateTime);
 					if($nextUpdate[1] == "building" && $updateTime == $nextUpdate[0]) {
 						QueueBuilding::processBuildingQueue($playerEnv->envObjects[$nextUpdate[2]], $updateTime);
 					}
@@ -31,7 +31,7 @@ class UniUpdater {
 		}
 	}
 	
-	public static function updatePlayerResources($playerEnv, $time) {
+	public static function updatePlayerItems($playerEnv, $time) {
 		$updatedTo = $playerEnv->last_update;
 		
 		// 3600 * 24 * 7
@@ -51,7 +51,7 @@ class UniUpdater {
 		while($updatedTo < $time) {
 			$updateInterval = min(3600, $time - $updatedTo);
 			foreach($playerEnv->envObjects as $objectEnv) {
-				$objectEnv->envResources = ObjectCalc::calcNewObjectRes($objectEnv, $updateInterval);
+				$objectEnv->envItems = ObjectCalc::calcNewObjectRes($objectEnv, $updateInterval);
 			}
 			$updatedTo += $updateInterval;
 		}

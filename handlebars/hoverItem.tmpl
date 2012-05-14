@@ -1,0 +1,43 @@
+<div class="tooltipContent">
+	<span class="tableHolder">
+		<table class="hoverTable">
+			<tbody>
+				<tr>
+					<th rowspan="4" class="itemImgHolder"><img src="http://placehold.it/100x80/BBB&text={{itemImage}}"></th>
+					{{#if quantity}}
+						<th colspan="2">{{itemName}}</th>
+					{{else}}
+						<th colspan="1">{{itemName}}</th>
+					{{/if}}
+				</tr>
+				<tr>
+					{{#if quantity}}
+						<td class="dataHolder">Type: {{itemType}}</td>
+						<td class="dataHolder">Quantity: {{quantity}}</td>
+					{{else}}
+						<td class="dataHolder">Type: {{itemType}}</td>
+					{{/if}}
+				</tr>
+				<tr>
+					{{#if quantity}}
+						<td class="dataHolder">Weight: {{itemWeight}}</td>
+						<td class="dataHolder">Total Weight: {{itemTotalWeight}}</td>
+					{{else}}
+						<td class="dataHolder">Weight: {{itemWeight}}</td>
+					{{/if}}
+				</tr>
+				<tr>
+					{{#if quantity}}
+						<td class="dataHolder">Value: {{itemValue}}</td>
+						<td class="dataHolder">Total Value: {{itemTotalValue}}</td>
+					{{else}}
+						<td class="dataHolder">Value: {{itemValue}}</td>
+					{{/if}}
+				</tr>
+				<tr>
+					<td class="itemDescHolder" colspan="3">{{{itemDesc}}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</span>
+</div>

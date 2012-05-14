@@ -28,7 +28,7 @@
 						<td class="dataHolder">
 							{{#if curConsumption}}
 								{{#key_value curConsumption}}
-									<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="-{{value}}"></span>
+									<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="-{{value}}"></span>
 								{{/key_value}}
 							{{else}}
 								(none)
@@ -38,7 +38,7 @@
 							<td class="dataHolder">
 								{{#if nextResConsumption}}
 									{{#key_value nextResConsumption}}
-										<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="-{{value}}"></span>
+										<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="-{{value}}"></span>
 									{{/key_value}}
 								{{else}}
 									(none)
@@ -53,7 +53,7 @@
 						<td class="dataHolder">
 							{{#if curProduction}}
 								{{#key_value curProduction}}
-									<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+									<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
 								{{/key_value}}
 							{{else}}
 								(none)
@@ -63,7 +63,7 @@
 							<td class="dataHolder">
 								{{#if nextResProduction}}
 									{{#key_value nextResProduction}}
-										<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+										<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
 									{{/key_value}}
 								{{else}}
 									(none)
@@ -78,7 +78,7 @@
 						<td class="dataHolder">
 							{{#if curNetChange}}
 								{{#key_value curNetChange}}
-									<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+									<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
 								{{/key_value}}
 							{{else}}
 								(none)
@@ -88,7 +88,7 @@
 							<td class="dataHolder">
 								{{#if nextResChange}}
 									{{#key_value nextResChange}}
-										<span class="resLink" style="display: block;" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+										<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
 									{{/key_value}}
 								{{else}}
 									(none)

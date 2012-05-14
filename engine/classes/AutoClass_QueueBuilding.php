@@ -60,7 +60,7 @@ class QueueBuilding {
 			return false;
 		}
 		
-		if(!$objectEnv->envResources->contains(ObjectCalc::getBuildingUpgradeCost($objectEnv, $buildingID, $buildingLevel))) {
+		if(!$objectEnv->envItems->contains(ObjectCalc::getBuildingUpgradeCost($objectEnv, $buildingID, $buildingLevel))) {
 			Message::sendNotification(
 				$objectEnv->ownerID, 
 				"Construction Failed on " . $objectEnv->objectName . " (Missing Resources)", 
@@ -83,7 +83,7 @@ class QueueBuilding {
 				$objectEnv->envBuildings->setBuildingLevel($action["buildingID"], $action["buildingLevel"]);
 			} else if($action["operation"] == "Recycle") {
 				$objectEnv->envBuildings->setBuildingLevel($action["buildingID"], $action["buildingLevel"] - 1);
-				$objectEnv->envResources->sum(ObjectCalc::getBuildingUpgradeCost($objectEnv, $action["buildingID"], $action["buildingLevel"])->multiply(0.5));	
+				$objectEnv->envItems->sum(ObjectCalc::getBuildingUpgradeCost($objectEnv, $action["buildingID"], $action["buildingLevel"])->multiply(0.5));	
 			} else if($action["operation"] == "Destroy") {
 				$objectEnv->envBuildings->setBuildingLevel($action["buildingID"], $action["buildingLevel"] - 1);	
 			} 
@@ -103,7 +103,7 @@ class QueueBuilding {
 				if(self::canBuild($objectEnv, $action["buildingID"], $action["buildingLevel"], $time)) {
 					$objectEnv->buildingQueue[0]["startTime"] = $time;
 					$objectEnv->buildingQueue[0]["endTime"] = $time + ObjectCalc::getBuildTime($objectEnv, $action["buildingID"], $action["buildingLevel"]);
-					$objectEnv->envResources->sub(ObjectCalc::getBuildingUpgradeCost($objectEnv, $action["buildingID"], $action["buildingLevel"]));
+					$objectEnv->envItems->sub(ObjectCalc::getBuildingUpgradeCost($objectEnv, $action["buildingID"], $action["buildingLevel"]));
 					return true;
 				} else {
 					array_shift($objectEnv->buildingQueue);
@@ -164,7 +164,7 @@ class QueueBuilding {
 			if($objectEnv->buildingQueue[$i]["id"] == $queueItemID) {
 				if($i == 0) {
 					if($objectEnv->buildingQueue[$i]["operation"] == "Build") {
-						$objectEnv->envResources->sum(ObjectCalc::getBuildingUpgradeCost($objectEnv, $objectEnv->buildingQueue[0]["buildingID"], $objectEnv->buildingQueue[0]["buildingLevel"])->multiply(0.5));
+						$objectEnv->envItems->sum(ObjectCalc::getBuildingUpgradeCost($objectEnv, $objectEnv->buildingQueue[0]["buildingID"], $objectEnv->buildingQueue[0]["buildingLevel"])->multiply(0.5));
 					}
 				}
 				

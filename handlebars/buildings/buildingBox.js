@@ -29,7 +29,7 @@ function program3(depth0,data) {
 function program4(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\r\n							<span class=\"resLink\" data-res=\"";
+  buffer += "\r\n							<span class=\"itemLink\" data-item=\"";
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

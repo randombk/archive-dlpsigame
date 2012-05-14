@@ -9,7 +9,7 @@ class ObjectCalc {
 	public static function calcNewObjectRes($objectEnv, $timeDelta, $mod = null) {
 		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
 		
-		$endRes = $objectEnv->envResources;
+		$endRes = $objectEnv->envItems;
 		
 		$buildProduction = array();
 		
@@ -27,8 +27,8 @@ class ObjectCalc {
 			$factor = 1;
 			
 			//Find missing resources
-			foreach ($resCost->getResourceArray() as $resource => $amount) {
-				$factor = max(0, min($factor, $endRes->getRes($resource) / $amount));
+			foreach ($resCost->getItemArray() as $resource => $amount) {
+				$factor = max(0, min($factor, $endRes->getItem($resource) / $amount));
 			}
 						
 			$endRes->sub($resCost->multiply($factor));
@@ -40,8 +40,8 @@ class ObjectCalc {
 		
 		//Special: max energy
 		$maxEnergy = self::getMaxEnergyStorage($objectEnv, $mod);
-		if(($endRes->getRes("energy")) >= $maxEnergy) {
-			$endRes->setRes("energy", $maxEnergy);
+		if(($endRes->getItem("energy")) >= $maxEnergy) {
+			$endRes->setItem("energy", $maxEnergy);
 		}
 		
 		return $endRes;
@@ -58,7 +58,7 @@ class ObjectCalc {
 	}
 	
 	public static function getObjectWeightPenalty($objectEnv, $mod) {
-		$modAmount = (int)min(0, -($objectEnv->envResources->getTotalWeight() - self::getObjectStorage($objectEnv, $mod)) / (self::getObjectStorage($objectEnv, $mod) / 1000));
+		$modAmount = (int)min(0, -($objectEnv->envItems->getTotalWeight() - self::getObjectStorage($objectEnv, $mod)) / (self::getObjectStorage($objectEnv, $mod) / 1000));
 		return array(
 			"modResourceProductionMultiplier" => $modAmount,
 			"modResourceConsumptionMultiplier" => $modAmount
@@ -183,9 +183,9 @@ class ObjectCalc {
 		
 		$retObject = null;
 		if($level > $maxBalLevel) {
-			$retObject = DataResource::fromResourceArray(GameCache::get("BUILDINGS")[$buildingID]["resReq"][$maxBalLevel - 1])->multiply(pow(2, $level - $maxBalLevel));
+			$retObject = DataItem::fromItemArray(GameCache::get("BUILDINGS")[$buildingID]["resReq"][$maxBalLevel - 1])->multiply(pow(2, $level - $maxBalLevel));
 		} else {
-			$retObject = DataResource::fromResourceArray(GameCache::get("BUILDINGS")[$buildingID]["resReq"][$level - 1]);
+			$retObject = DataItem::fromItemArray(GameCache::get("BUILDINGS")[$buildingID]["resReq"][$level - 1]);
 		}
 		
 		$retObject->multiply(1 + $mod->getMod("modBuildCostMultiplier")/100);
@@ -216,11 +216,11 @@ class ObjectCalc {
 	
 	public static function getBuildingProduction($objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["resProduction"])) 
-			return new DataResource();
+			return new DataItem();
 		$maxBalLevel = sizeof(GameCache::get("BUILDINGS")[$buildingID]["resProduction"]);
 
 		if($maxBalLevel <= 0 || $level <= 0) {
-			return new DataResource();
+			return new DataItem();
 		}
 		
 		if($mod == null) 
@@ -228,13 +228,13 @@ class ObjectCalc {
 		
 		$retObject = null;
 		if($level > $maxBalLevel) {
-			$retObject = DataResource::fromResourceArray(GameCache::get("BUILDINGS")[$buildingID]["resProduction"][$maxBalLevel - 1])->multiply(pow(2, $level - $maxBalLevel));
+			$retObject = DataItem::fromItemArray(GameCache::get("BUILDINGS")[$buildingID]["resProduction"][$maxBalLevel - 1])->multiply(pow(2, $level - $maxBalLevel));
 		} else {
-			$retObject = DataResource::fromResourceArray(GameCache::get("BUILDINGS")[$buildingID]["resProduction"][$level - 1]);
+			$retObject = DataItem::fromItemArray(GameCache::get("BUILDINGS")[$buildingID]["resProduction"][$level - 1]);
 		}
 		
-		foreach ($retObject->getResourceArray() as $res => $amount) {
-			$retObject->setRes($res, $amount * (max(0, 1 + $mod->getMod("mod". GameCache::get("RESOURCES")[$res]["resType"] ."ProductionMultiplier")/100)));
+		foreach ($retObject->getItemArray() as $res => $amount) {
+			$retObject->setItem($res, $amount * (max(0, 1 + $mod->getMod("mod". GameCache::get("ITEMS")[$res]["itemType"] ."ProductionMultiplier")/100)));
 		}
 		
 		return $retObject->multiply($activity / 100);
@@ -242,11 +242,11 @@ class ObjectCalc {
 	
 	public static function getBuildingConsumption($objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["resConsumption"]))
-			return new DataResource();
+			return new DataItem();
 		$maxBalLevel = sizeof(GameCache::get("BUILDINGS")[$buildingID]["resConsumption"]);
 		
 		if($maxBalLevel <= 0 || $level <= 0) {
-			return new DataResource();
+			return new DataItem();
 		}
 		
 		if($mod == null) 
@@ -254,13 +254,13 @@ class ObjectCalc {
 		
 		$retObject = null;
 		if($level > $maxBalLevel) {
-			$retObject = DataResource::fromResourceArray(GameCache::get("BUILDINGS")[$buildingID]["resConsumption"][$maxBalLevel - 1])->multiply(pow(2, $level - $maxBalLevel));
+			$retObject = DataItem::fromItemArray(GameCache::get("BUILDINGS")[$buildingID]["resConsumption"][$maxBalLevel - 1])->multiply(pow(2, $level - $maxBalLevel));
 		} else {
-			$retObject = DataResource::fromResourceArray(GameCache::get("BUILDINGS")[$buildingID]["resConsumption"][$level - 1]);
+			$retObject = DataItem::fromItemArray(GameCache::get("BUILDINGS")[$buildingID]["resConsumption"][$level - 1]);
 		}
 		
-		foreach ($retObject->getResourceArray() as $res => $amount) {
-			$retObject->setRes($res, $amount * (max(0, 1 + $mod->getMod("mod". GameCache::get("RESOURCES")[$res]["resType"] ."ConsumptionMultiplier")/100)));
+		foreach ($retObject->getItemArray() as $res => $amount) {
+			$retObject->setItem($res, $amount * (max(0, 1 + $mod->getMod("mod". GameCache::get("ITEMS")[$res]["itemType"] ."ConsumptionMultiplier")/100)));
 		}
 		
 		return $retObject->multiply($activity / 100);

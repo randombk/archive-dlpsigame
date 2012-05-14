@@ -63,7 +63,7 @@ function program8(depth0,data) {
 function program9(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n									<span class=\"resLink\" style=\"display: block;\" data-type=\"diff\" data-res=\"";
+  buffer += "\n									<span class=\"itemLink\" style=\"display: block;\" data-type=\"diff\" data-item=\"";
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -103,7 +103,7 @@ function program14(depth0,data) {
 function program15(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n										<span class=\"resLink\" style=\"display: block;\" data-type=\"diff\" data-res=\"";
+  buffer += "\n										<span class=\"itemLink\" style=\"display: block;\" data-type=\"diff\" data-item=\"";
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -146,7 +146,7 @@ function program20(depth0,data) {
 function program21(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n									<span class=\"resLink\" style=\"display: block;\" data-type=\"diff\" data-res=\"";
+  buffer += "\n									<span class=\"itemLink\" style=\"display: block;\" data-type=\"diff\" data-item=\"";
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -180,7 +180,7 @@ function program24(depth0,data) {
 function program25(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n										<span class=\"resLink\" style=\"display: block;\" data-type=\"diff\" data-res=\"";
+  buffer += "\n										<span class=\"itemLink\" style=\"display: block;\" data-type=\"diff\" data-item=\"";
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

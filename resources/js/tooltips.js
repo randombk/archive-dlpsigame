@@ -37,44 +37,44 @@ function staticTT(element, options) {
 	);
 }
 
-function getTTInvItem(resName, quantity) {
-	var resObj = dbResData[resName];
-	var template = Handlebars.templates['hoverResource.tmpl'];
+function getTTInvItem(itemName, quantity) {
+	var itemObj = dbResData[itemName];
+	var template = Handlebars.templates['hoverItem.tmpl'];
 	var context = {};
 	if(quantity < 0)
 		quantity = -quantity;
 	if(quantity > 0) {
 		context = {
 			quantity: niceNumber(quantity),
-			resName: resObj.resName,
-			resDesc: resObj.resDesc,
-			resType: resObj.resType,
-			resWeight: niceNumber(resObj.resWeight),
-			resTotalWeight: niceNumber(resObj.resWeight * quantity),
-			resValue: niceNumber(resObj.resWeight),
-			resTotalValue: niceNumber(resObj.resWeight * quantity),
-			resImage: resObj.resImage
+			itemName: itemObj.itemName,
+			itemDesc: itemObj.itemDesc,
+			itemType: itemObj.itemType,
+			itemWeight: niceNumber(itemObj.itemWeight),
+			itemTotalWeight: niceNumber(itemObj.itemWeight * quantity),
+			itemValue: niceNumber(itemObj.itemWeight),
+			itemTotalValue: niceNumber(itemObj.itemWeight * quantity),
+			itemImage: itemObj.itemImage
 		};
 	} else {
 		context = {
 			quantity: null,
-			resName: resObj.resName,
-			resDesc: resObj.resDesc,
-			resType: resObj.resType,
-			resWeight: niceNumber(resObj.resWeight),
-			resValue: niceNumber(resObj.resWeight),
-			resImage: resObj.resImage
+			itemName: itemObj.itemName,
+			itemDesc: itemObj.itemDesc,
+			itemType: itemObj.itemType,
+			itemWeight: niceNumber(itemObj.itemWeight),
+			itemValue: niceNumber(itemObj.itemWeight),
+			itemImage: itemObj.itemImage
 		};
 	}
 	return template(context);
 }
 
-function loadResHover(resources) {
-	$(".resLink").each(function() {
+function loadResHover(items) {
+	$(".itemLink").each(function() {
 		var quantity = $(this).attr("data-quantity");
-		var resID = $(this).attr("data-res");
+		var itemID = $(this).attr("data-item");
 		if(quantity) {
-			$(this).text(niceNumber(quantity) + " " + dbResData[resID].resName);
+			$(this).text(niceNumber(quantity) + " " + dbResData[itemID].itemName);
 			if($(this).attr("data-type") == "diff") {
 				if(quantity > 0) {
 					$(this).addClass("green");
@@ -82,8 +82,8 @@ function loadResHover(resources) {
 					$(this).addClass("red")
 				}		
 			} else {
-				if(typeof resources !== 'undefined') {
-					if(resources[resID] >= quantity) {
+				if(typeof items !== 'undefined') {
+					if(items[itemID] >= quantity) {
 						$(this).addClass("green");
 					} else {
 						$(this).addClass("red")
@@ -91,23 +91,23 @@ function loadResHover(resources) {
 				}
 			}
 		} else {
-			$(this).text(dbResData[resID].resName);
+			$(this).text(dbResData[itemID].itemName);
 			$(this).addClass("green");
 		}
 		
 		if($(this).hasClass("tt-init")) {
 			$(this).tooltip("option", "content", function() {
-				return getTTInvItem($(this).attr("data-res"), quantity);
+				return getTTInvItem($(this).attr("data-item"), quantity);
 			});
 		} else {
 			staticTT(
 				$(this), 
 				{
 					content : function() {
-						return getTTInvItem($(this).attr("data-res"), quantity);
+						return getTTInvItem($(this).attr("data-item"), quantity);
 					}, 
 					open: function( event, ui ) {
-						loadHovers({resources: resources});
+						loadHovers({items: items});
 					},
 					show: { delay: 300, effect: "show" }
 				}
@@ -158,6 +158,6 @@ function loadModHover() {
 }
 
 function loadHovers(data) {
-	loadResHover(data.resources);
+	loadResHover(data.items);
 	loadModHover();
 }

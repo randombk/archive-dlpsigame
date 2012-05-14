@@ -179,7 +179,7 @@
 			}
 			
 			function loadObjectInfoPage(data) {
-				$.jStorage.publish("dataUpdater", new Message("msgUpdateResources", {"objectID" : objectID, "resData" : data.resources}, ["all"], window.name));
+				$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.items}, ["all"], window.name));
 				$(".gen").remove();
 				//Load object info
 				
@@ -338,7 +338,7 @@
 				
 				//Load totals
 				for(var key in economyTotal) {
-					$("#econNetChange").append("<span class='resLink gen' data-type='diff' data-res='" + key + "' data-quantity='" + economyTotal[key] +"'></span>");
+					$("#econNetChange").append("<span class='itemLink gen' data-type='diff' data-item='" + key + "' data-quantity='" + economyTotal[key] +"'></span>");
 				}
 				
 				for(var key in modifierTotal) {
@@ -349,7 +349,7 @@
 					$("#research" + key + "Total").text(researchTotal[key]);
 				};
 				
-				loadHovers({resources: data.resources});
+				loadHovers({items: data.items});
 			}
 			
 			function updateBuildingActivity () {

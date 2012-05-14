@@ -24,7 +24,7 @@
 <script src="resources/js/calculations.js?v={$VERSION}"></script>
 
 <!-- Load global handlebars templates -->
-<script src="handlebars/hoverResource.js"></script>
+<script src="handlebars/hoverItem.js"></script>
 <script src="handlebars/objectListItem.js?v={$VERSION}"></script>
 
 <!-- Load Tool Tips -->
@@ -70,7 +70,7 @@
 		});
 	})(jQuery);
 
-	//Register all resource links
+	//Register all item links
 	$(document).on('gameDataLoaded', function() {
 		loadResHover();
 	});

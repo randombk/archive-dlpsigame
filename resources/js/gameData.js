@@ -31,7 +31,7 @@ function loadGameData(cacheTime) {
 			"ajaxType" : "DataLoader"
 		}, function(data) {
 			if (data.code >= 0) {
-				localStorage.setItem("dbResData", JSON.stringify(data.dataRESOURCES));
+				localStorage.setItem("dbResData", JSON.stringify(data.dataITEMS));
 				localStorage.setItem("dbBuildData", JSON.stringify(data.dataBUILDINGS));
 				localStorage.setItem("dbModData", JSON.stringify(data.dataMODIFIERS));
 				localStorage.setItem("dbResearchData", JSON.stringify(data.dataRESEARCH));

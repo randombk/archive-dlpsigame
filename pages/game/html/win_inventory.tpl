@@ -130,7 +130,7 @@
 	{literal}
 		<script type="text/javascript">
 			var objectID = -1;
-			var selectedResources = {};
+			var selectedItems = {};
 			
 			(function($) {
 				$(document).on('gameDataLoaded', function() {
@@ -157,10 +157,10 @@
 							if (inArray(payload.msgTarget, "all")) {
 								switch (payload.msgType) {
 									case "msgUpdateObjectInfo": {
-										if(payload.msgData.objectID == objectID && jQuery.isEmptyObject(selectedResources)) {
+										if(payload.msgData.objectID == objectID && jQuery.isEmptyObject(selectedItems)) {
 											loadInfoPage(payload.msgData.objectInfo);
-											loadInventoryPage(payload.msgData.objectInfo.resources);
-											$.jStorage.publish("dataUpdater", new Message("msgUpdateResources", {"objectID" : objectID, "resData" : payload.msgData.objectInfo.resources}, ["all"], window.name));
+											loadInventoryPage(payload.msgData.objectInfo.items);
+											$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : payload.msgData.objectInfo.items}, ["all"], window.name));
 										}
 										break;
 									}
@@ -253,8 +253,8 @@
 					$("#storageUsed").removeClass("red");
 				}
 				
-				$("#energyCapacity").text(niceNumber(data.resources.energy) + " / " + niceNumber(data.objEnergyStorage));									
-				if(data.resources.energy >= data.objEnergyStorage) {
+				$("#energyCapacity").text(niceNumber(data.items.energy) + " / " + niceNumber(data.objEnergyStorage));									
+				if(data.items.energy >= data.objEnergyStorage) {
 					$("#energyCapacity").addClass("red");
 				} else {
 					$("#energyCapacity").removeClass("red");
@@ -274,24 +274,24 @@
 					if(i == "code") {
 						continue;
 					}
-					var resObj = dbResData[i];
-					if(resObj.resVisibility > 0){
+					var itemObj = dbResData[i];
+					if(itemObj.itemVisibility > 0){
 						var template = Handlebars.templates['invObject.tmpl'];
 						context = {
 							quantity: niceNumber(data[i]),
-							resName: resObj.resName,
-							resImage: resObj.resImage
+							itemName: itemObj.itemName,
+							itemImage: itemObj.itemImage
 						};
 						
 						var html = $(template(context));
-						html.addClass("type_" + resObj.resType)
-					    	.attr("data-resType", resObj.resType)
-						    .attr("data-resName", resObj.resName)
-						    .attr("data-resID", resObj.resID)
-						    .attr("data-resQuantity", data[i])
-						    .attr("data-resVisibility", resObj.resVisibility)
-						    .attr("data-resUnitWeight", resObj.resWeight)
-						    .attr("data-resTotalWeight", resObj.resWeight * data[i]);
+						html.addClass("type_" + itemObj.itemType)
+					    	.attr("data-itemType", itemObj.itemType)
+						    .attr("data-itemName", itemObj.itemName)
+						    .attr("data-itemID", itemObj.itemID)
+						    .attr("data-itemQuantity", data[i])
+						    .attr("data-itemVisibility", itemObj.itemVisibility)
+						    .attr("data-itemUnitWeight", itemObj.itemWeight)
+						    .attr("data-itemTotalWeight", itemObj.itemWeight * data[i]);
 						$(".invHolder").append(html);
 						
 						//Selection Toggling
@@ -299,7 +299,7 @@
 							if($(this).hasClass("selected")) {
 								$(this).removeClass("selected");
 								$(this).find(".selText").remove();
-								delete selectedResources[$(this).attr("data-resID")];
+								delete selectedItems[$(this).attr("data-itemID")];
 							} else {
 								var element = $(this);
 								doInput("Number:", function(number) {
@@ -307,9 +307,9 @@
 									element.append(
 										$("<div></div>").addClass("selText").text("Selected: " + niceNumber(number))
 									);
-									selectedResources[element.attr("data-resID")] = number; 
+									selectedItems[element.attr("data-itemID")] = number; 
 								updateControls();
-								}, "text", Math.round($(this).attr("data-resQuantity")));
+								}, "text", Math.round($(this).attr("data-itemQuantity")));
 							}
 							updateControls();
 						});
@@ -319,13 +319,13 @@
 			}
 			
 			function updateControls() {
-				if(!jQuery.isEmptyObject(selectedResources)) {
+				if(!jQuery.isEmptyObject(selectedItems)) {
 					var totalNumber = 0;
 					var totalWeight = 0;
 					
-					for (var i in selectedResources) {
-						totalNumber += parseInt(selectedResources[i]);
-						totalWeight += parseInt(selectedResources[i] * dbResData[i].resWeight);
+					for (var i in selectedItems) {
+						totalNumber += parseInt(selectedItems[i]);
+						totalWeight += parseInt(selectedItems[i] * dbResData[i].itemWeight);
 					}
 					
 					$("#invControlText").text("Selected " + niceNumber(totalNumber) + " items, weighing " + niceNumber(totalWeight));
@@ -339,7 +339,7 @@
 			}
 			
 			function clearSelections() {
-				selectedResources = {};
+				selectedItems = {};
 				updateControls();
 				$(".invObject").each(function() {
 					$(this).removeClass("selected");
@@ -351,14 +351,14 @@
 				$(".invObject").each(function() {
 					if($(this).hasClass("tt-init")) {
 						$(this).tooltip("option", "content", function() {
-							return getTTInvItem($(this).attr("data-resID"), $(this).attr("data-resQuantity"));
+							return getTTInvItem($(this).attr("data-itemID"), $(this).attr("data-itemQuantity"));
 						});
 					} else {
 						staticTT(
 							$(this), 
 							{
 								content : function() {
-									return getTTInvItem($(this).attr("data-resID"), $(this).attr("data-resQuantity"));
+									return getTTInvItem($(this).attr("data-itemID"), $(this).attr("data-itemQuantity"));
 								}, 
 								show: { delay: 600, effect: "show" }
 							}
@@ -369,10 +369,10 @@
 			
 			function sortType() {
 				function sortQuery(a,b){
-					var aVis = parseInt(a.getAttribute("data-resVisibility"));
-					var bVis = parseInt(b.getAttribute("data-resVisibility"));
+					var aVis = parseInt(a.getAttribute("data-itemVisibility"));
+					var bVis = parseInt(b.getAttribute("data-itemVisibility"));
 					if(aVis == bVis) {
-				    	return a.getAttribute("data-resName").toLowerCase() > b.getAttribute("data-resName").toLowerCase() ? 1 : -1;	
+				    	return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? 1 : -1;	
 					} else {
 						return aVis > bVis ? 1 : -1;	
 					}
@@ -384,10 +384,10 @@
 		
 			function sortInvType() {
 				function sortQuery(a,b){
-					var aVis = parseInt(a.getAttribute("data-resVisibility"));
-					var bVis = parseInt(b.getAttribute("data-resVisibility"));
+					var aVis = parseInt(a.getAttribute("data-itemVisibility"));
+					var bVis = parseInt(b.getAttribute("data-itemVisibility"));
 					if(aVis == bVis) {
-				    	return a.getAttribute("data-resName").toLowerCase() > b.getAttribute("data-resName").toLowerCase() ? -1 : 1;	
+				    	return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? -1 : 1;	
 					} else {
 						return aVis > bVis ? -1 : 1;	
 					}
@@ -399,7 +399,7 @@
 			
 			function sortName() {
 				function sortQuery(a,b){
-				 	return a.getAttribute("data-resName").toLowerCase() > b.getAttribute("data-resName").toLowerCase() ? 1 : -1;	
+				 	return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? 1 : -1;	
 				};
 				
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
@@ -408,7 +408,7 @@
 		
 			function sortInvName() {
 				function sortQuery(a,b){
-				  	return a.getAttribute("data-resName").toLowerCase() > b.getAttribute("data-resName").toLowerCase() ? -1 : 1;	
+				  	return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? -1 : 1;	
 				};
 				
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
@@ -417,7 +417,7 @@
 			
 			function sortWeight() {
 				function sortQuery(a,b){
-				 	return parseInt(a.getAttribute("data-resTotalWeight")) > parseInt(b.getAttribute("data-resTotalWeight")) ? 1 : -1;	
+				 	return parseInt(a.getAttribute("data-itemTotalWeight")) > parseInt(b.getAttribute("data-itemTotalWeight")) ? 1 : -1;	
 				};
 				
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
@@ -426,7 +426,7 @@
 		
 			function sortInvWeight() {
 				function sortQuery(a,b){
-				  	return parseInt(a.getAttribute("data-resTotalWeight")) > parseInt(b.getAttribute("data-resTotalWeight")) ? -1 : 1;	
+				  	return parseInt(a.getAttribute("data-itemTotalWeight")) > parseInt(b.getAttribute("data-itemTotalWeight")) ? -1 : 1;	
 				};
 				
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
@@ -435,7 +435,7 @@
 			
 			function sortQuantity() {
 				function sortQuery(a,b){
-				 	return parseInt(a.getAttribute("data-resQuantity")) > parseInt(b.getAttribute("data-resQuantity")) ? 1 : -1;	
+				 	return parseInt(a.getAttribute("data-itemQuantity")) > parseInt(b.getAttribute("data-itemQuantity")) ? 1 : -1;	
 				};
 				
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
@@ -444,7 +444,7 @@
 		
 			function sortInvQuantity() {
 				function sortQuery(a,b){
-				  	return parseInt(a.getAttribute("data-resQuantity")) > parseInt(b.getAttribute("data-resQuantity")) ? -1 : 1;	
+				  	return parseInt(a.getAttribute("data-itemQuantity")) > parseInt(b.getAttribute("data-itemQuantity")) ? -1 : 1;	
 				};
 				
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');

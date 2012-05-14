@@ -3,14 +3,14 @@
 	<td>
 		{{#if production}}
 			{{#key_value production}}
-				<span class="resLink" data-type="diff" data-res="{{key}}" data-quantity="{{value}}"></span>
+				<span class="itemLink" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
 			{{/key_value}}
 		{{/if}}
 	</td>
 	<td>
 		{{#if consumption}}
 			{{#key_value consumption}}
-				<span class="resLink" data-type="diff" data-res="{{key}}" data-quantity="-{{value}}"></span>
+				<span class="itemLink" data-type="diff" data-item="{{key}}" data-quantity="-{{value}}"></span>
 			{{/key_value}}
 		{{/if}}
 	</td>

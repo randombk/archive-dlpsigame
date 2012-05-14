@@ -23,8 +23,8 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 					"buildings" => AjaxRequest_BuildingHandler::getBuildingList($objectEnv, true),
 					"objectModifiers" => $objectMods->objMods,
 					"objectWeightPenalty" => $objectMods->weightPenalty,
-					"resources" => $objectEnv->envResources->getResourceArray(),
-					"usedStorage" => $objectEnv->envResources->getTotalWeight(),
+					"items" => $objectEnv->envItems->getItemArray(),
+					"usedStorage" => $objectEnv->envItems->getTotalWeight(),
 					"objStorage" => ObjectCalc::getObjectStorage($objectEnv, $objectMods),
 					"objEnergyStorage" => ObjectCalc::getMaxEnergyStorage($objectEnv, $objectMods),
 					"objResearchOutput" => ObjectCalc::getObjectResearchPoints($objectEnv, $objectMods),
@@ -47,7 +47,7 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 		foreach($playerEnv->envObjects as $objectID => $objectEnv) {
 			$objectMods = DataMod::calculateObjectModifiers($objectEnv);
 			$data[$objectID] = array(
-				"usedStorage" => $objectEnv->envResources->getTotalWeight(),
+				"usedStorage" => $objectEnv->envItems->getTotalWeight(),
 				"objStorage" => ObjectCalc::getObjectStorage($objectEnv, $objectMods),
 				"objectName" => $objectEnv->objectName,
 				"objectCoords" => $objectEnv->envObjectCoord->getCoordString()

@@ -225,28 +225,28 @@ class ObjectUtils {
 	//Data functions
 	
 	//
-	// Resources
+	// Items
 	//
-	static function setObjectResDataUsingLoc($Position, $resData) {
+	static function setObjectResDataUsingLoc($Position, $itemData) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$objID = self::getObjectID($Position);
 			if($objID == 0) {
 				return 0;
 			}
 			
-			return self::setObjectResDataUsingID($objID, $resData, false);
+			return self::setObjectResDataUsingID($objID, $itemData, false);
 		} else {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
 	
-	static function setObjectResDataUsingID($objectID, $resData, $checkID = true) {
+	static function setObjectResDataUsingID($objectID, $itemData, $checkID = true) {
 		if($checkID) {
 			if(is_null(UniCoord::fromObjectID($objectID))) {
 				throw new Exception("Invalid ID - Object does not exist: $objectID");
 			}
 		}
-		return $GLOBALS['MONGO']->setResource("objectResource_".$objectID, $resData);
+		return $GLOBALS['MONGO']->setItem("objectItem_".$objectID, $itemData);
 	}
 	
 	static function getObjectResDataUsingLoc($Position) {
@@ -263,7 +263,7 @@ class ObjectUtils {
 	}
 	
 	static function getObjectResDataUsingID($objectID) {
-		return DataResource::fromResourceArray($GLOBALS['MONGO']->getResource("objectResource_".$objectID));
+		return DataItem::fromItemArray($GLOBALS['MONGO']->getItem("objectItem_".$objectID));
 	}
 	
 	//

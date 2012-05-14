@@ -12,7 +12,7 @@ class AjaxRequest_DataLoader extends AjaxRequest {
 	function getGameData() {
 		$this->sendJSON(array(
 			"dataBUILDINGS" 	=> GameCache::get("BUILDINGS"),
-			"dataRESOURCES" 	=> GameCache::get("RESOURCES"),
+			"dataITEMS" 	=> GameCache::get("ITEMS"),
 			"dataMODIFIERS" 	=> GameCache::get("MODIFIERS"),
 			"dataRESEARCH" 		=> GameCache::get("RESEARCH"),
 			"dataRESEARCHPOS" 	=> GameCache::get("RESEARCHPOS"),

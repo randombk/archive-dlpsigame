@@ -24,7 +24,7 @@ function program5(depth0,data) {
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\" class='countdown progressbar' data-progressbar='yes' data-beginning='";
+    + "\" class='mousePointer progressbar' data-progressbar='yes' data-beginning='";
   if (stack1 = helpers.startTime) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.startTime; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

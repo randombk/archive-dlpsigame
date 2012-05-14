@@ -17,7 +17,7 @@ class ObjectEnvironment {
 	public $buildingQueue = array();
 	
 	public $envBuildings = null; //DataBuilding
-	public $envResources = null; //DataResource
+	public $envItems = null; //DataItem
 	public $envMods = null; //DataMod
 	public $envObjectCoord = null; //UniCoord 
 	public $envObjectData = null;
@@ -66,7 +66,7 @@ class ObjectEnvironment {
 	
 	private function getMongoData() {
 		$this->envBuildings = ObjectUtils::getObjectBuildingDataUsingID($this->objectID);
-		$this->envResources = ObjectUtils::getObjectResDataUsingID($this->objectID);
+		$this->envItems = ObjectUtils::getObjectResDataUsingID($this->objectID);
 		$this->envObjectData = ObjectUtils::getObjectDataUsingID($this->objectID);
 	}
 	
@@ -87,7 +87,7 @@ class ObjectEnvironment {
 		);
 		
 		if($result !== false) {
-			ObjectUtils::setObjectResDataUsingID($this->objectID, $this->envResources->getResourceArray());
+			ObjectUtils::setObjectResDataUsingID($this->objectID, $this->envItems->getItemArray());
 			ObjectUtils::setObjectBuildingDataUsingID($this->objectID, $this->envBuildings->getBuildingArray());
 			ObjectUtils::setObjectDataUsingID($this->objectID, $this->envObjectData);
 			return true;

@@ -45,24 +45,24 @@ class MongoHandler {
 	}
 	
 	/*
-	 * Resources
+	 * Items
 	 * 
 	 * */
-	public function collResources() {
-		return $this->database->resourceData;
+	public function collItems() {
+		return $this->database->itemData;
 	}
 	
-	public function getResource($uniqueID) {
+	public function getItem($uniqueID) {
 		try {
-			return $this->get($this->collResources(), $uniqueID);
+			return $this->get($this->collItems(), $uniqueID);
 		} catch (Exception $e) {
 			throw new Exception("Unknown error");
 		}
 	}
 	
-	public function setResource($uniqueID, $resourceData) {
+	public function setItem($uniqueID, $itemData) {
 		try {
-			return $this->update($this->collResources(), $uniqueID, $resourceData);
+			return $this->update($this->collItems(), $uniqueID, $itemData);
 		} catch (Exception $e) {
 			throw new Exception("Unknown error");
 		}

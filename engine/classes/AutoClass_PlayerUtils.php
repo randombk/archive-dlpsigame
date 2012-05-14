@@ -59,11 +59,11 @@ class PlayerUtils {
 		$newPlanetID = ObjectUtils::createPlanet(ObjectUtils::getFreeObjectCoord(1, 1, "Colony"), $playerID);
 		
 		//Give player some resources
-		$res = new DataResource();
-		$res->setRes("iron", 5000);
-		$res->setRes("kryptonite", 5000);
+		$item = new DataItem();
+		$item->setItem("iron", 5000);
+		$item->setItem("kryptonite", 5000);
 		
-		ObjectUtils::setObjectResDataUsingID($newPlanetID, $res->getResourceArray(), false);
+		ObjectUtils::setObjectResDataUsingID($newPlanetID, $item->getItemArray(), false);
 		
 		self::setPlayerResearchData(array(), $playerID);
 		

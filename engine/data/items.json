@@ -1,0 +1,65 @@
+{
+    "iron": {
+        "itemID": "iron",
+        "itemType": "Resource",
+        "itemVisibility": "1",
+        "itemImage": "resIron.jpg",
+        "itemName": "Iron",
+        "itemDesc": "Basic mineral (SI)",
+        "itemWeight": "1"
+    },
+    "metal": {
+        "itemID": "metal",
+        "itemType": "Resource",
+        "itemVisibility": "1",
+        "itemImage": "resMetal.jpg",
+        "itemName": "Refined Metal",
+        "itemDesc": "Basic building material (SI)",
+        "itemWeight": "5"
+    },
+    "kryptonite": {
+        "itemID": "kryptonite",
+        "itemType": "Resource",
+        "itemVisibility": "1",
+        "itemImage": "resKryptonite.jpg",
+        "itemName": "Kryptonite",
+        "itemDesc": "Crystal (SI)",
+        "itemWeight": "1"
+    },
+    "spice": {
+        "itemID": "spice",
+        "itemType": "Resource",
+        "itemVisibility": "1",
+        "itemImage": "resSpice.jpg",
+        "itemName": "Spice",
+        "itemDesc": "Basic fuel (SI)",
+        "itemWeight": "1"
+    },
+   "energy": {
+        "itemID": "energy",
+        "itemType": "Energy",
+        "itemVisibility": "-1",
+        "itemImage": "",
+        "itemName": "Energy",
+        "itemDesc": "Energy is required to run all sorts of buildings and operations",
+        "itemWeight": "0"
+    }, 
+    "chipset_1": {
+        "itemID": "chipset_1",
+        "itemType": "Item",
+        "itemVisibility": "2",
+        "itemImage": "itemBasicChipset.jpg",
+        "itemName": "Basic Chipset",
+        "itemDesc": "Basic chipset used in advanced computers<br>Speed: 7 pflops",
+        "itemWeight": "10"
+    },
+    "missile_1": {
+        "itemID": "missile_1",
+        "itemType": "Ammo",
+        "itemVisibility": "3",
+        "itemImage": "ammoBasicMissile.jpg",
+        "itemName": "Basic Missile",
+        "itemDesc": "Basic missile<br>Damage: 200",
+        "itemWeight": "100"
+    }
+}

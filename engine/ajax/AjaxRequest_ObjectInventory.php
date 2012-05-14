@@ -16,7 +16,7 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 				AjaxError::sendError("Access Denied");
 			} else {
 				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
-				$this->sendJSON($objectEnv->envResources->getResourceArray());
+				$this->sendJSON($objectEnv->envItems->getItemArray());
 			}
 		} else {
 			AjaxError::sendError("Invalid Parameters");

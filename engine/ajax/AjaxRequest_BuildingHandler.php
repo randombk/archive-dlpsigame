@@ -19,7 +19,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 				$data = array(
 					"buildings" => self::getBuildingList($objectEnv),
 					"canBuild" => self::getUpgradeList($objectEnv),
-					"resources" => $objectEnv->envResources->getResourceArray(),
+					"items" => $objectEnv->envItems->getItemArray(),
 					"buildQueue" => $objectEnv->buildingQueue
 				);
 				$this->sendJSON($data);
@@ -187,8 +187,8 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			
 			$buildings[$id]["curModifiers"] = ObjectCalc::getBuildingModifiers($objectEnv, $id, $data[0], $data[1]);
 			if($includeProduction) {
-				$buildings[$id]["curResConsumption"] = ObjectCalc::getBuildingConsumption($objectEnv, $id, $data[0], $mod, $data[1])->getResourceArray();
-				$buildings[$id]["curResProduction"] = ObjectCalc::getBuildingProduction($objectEnv, $id, $data[0], $mod, $data[1])->getResourceArray();
+				$buildings[$id]["curResConsumption"] = ObjectCalc::getBuildingConsumption($objectEnv, $id, $data[0], $mod, $data[1])->getItemArray();
+				$buildings[$id]["curResProduction"] = ObjectCalc::getBuildingProduction($objectEnv, $id, $data[0], $mod, $data[1])->getItemArray();
 				$buildings[$id]["curResearch"] = ObjectCalc::getBuildingResearch($objectEnv, $id, $data[0], $mod, $data[1]);
 			}
 		}
@@ -215,7 +215,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 							
 			$canBuild[$id]["nextLevel"] = $nextLevel;
 			$canBuild[$id]["upgradeTime"] = ObjectCalc::getBuildTime($objectEnv, $id, $nextLevel, $mod);
-			$canBuild[$id]["nextResReq"] = ObjectCalc::getBuildingUpgradeCost($objectEnv, $id, $nextLevel, $mod)->getResourceArray();
+			$canBuild[$id]["nextResReq"] = ObjectCalc::getBuildingUpgradeCost($objectEnv, $id, $nextLevel, $mod)->getItemArray();
 			
 			$canBuild[$id]["nextModifiers"] = ObjectCalc::getBuildingModifiers($objectEnv, $id, $nextLevel);
 		}

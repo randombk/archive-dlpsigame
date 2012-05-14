@@ -81,7 +81,7 @@
 						if(data.code < 0) {
 							$("#tabContainer").text("Fatal Error #" + (-data.code) + ": " + data.message);
 						} else {
-							$.jStorage.publish("dataUpdater", new Message("msgUpdateResources", {"objectID" : objectID, "resData" : data.resources}, ["all"], window.name));
+							$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.items}, ["all"], window.name));
 							
 							//Load building queue
 							$("#buildingQueue").html("");
@@ -313,13 +313,13 @@
 											return templateBuildingInfo(context);
 										},
 										open: function( event, ui ) {
-											loadHovers({resources: data.resources});
+											loadHovers({items: data.items});
 										}
 									}
 								);
 							});
 							
-							loadHovers({resources: data.resources});
+							loadHovers({items: data.items});
 						}
 					}, 
 					"json"
