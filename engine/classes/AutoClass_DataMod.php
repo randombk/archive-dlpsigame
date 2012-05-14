@@ -49,6 +49,7 @@ class DataMod {
 		$instance->weightPenalty = ObjectCalc::getObjectWeightPenalty($objectEnv, $instance);
 		$instance->mergeModifierArray($instance->weightPenalty);
 		
+		$objectEnv->envMods = $instance;
 		return $instance;
 	}
 }

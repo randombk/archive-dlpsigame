@@ -5,19 +5,15 @@
  */
 
 class UniUpdater {
-	public static function updatePlayer($playerID = null){
-		if(is_null($playerID)) {
-			$playerID = $_SESSION['playerID'];
-		}
-		
+	public static function updatePlayer($playerID, $updateTo = TIMESTAMP){
 		$playerEnv = PlayerEnvironment::fromPlayerID($playerID);
 		$GLOBALS['RDBMS']->exec("BEGIN;");		
 		try {
 			while(true) {
 				//Give a 1-second margin of error
-				if($playerEnv->last_update < TIMESTAMP - 1) {
+				if($playerEnv->last_update < $updateTo - 1) {
 					$nextUpdate = self::getNextUpdatePoint($playerEnv);
-					$updateTime = min($nextUpdate[0], TIMESTAMP);
+					$updateTime = min($nextUpdate[0], $updateTo);
 					
 					self::updatePlayerResources($playerEnv, $updateTime);
 					if($nextUpdate[1] == "building" && $updateTime == $nextUpdate[0]) {
@@ -33,7 +29,6 @@ class UniUpdater {
 			$GLOBALS['RDBMS']->exec("ROLLBACK;");
 			throw $e;
 		}
-		$GLOBALS['RDBMS']->exec("COMMIT;");
 	}
 	
 	public static function updatePlayerResources($playerEnv, $time) {
@@ -41,7 +36,6 @@ class UniUpdater {
 		
 		// 3600 * 24 * 7
 		if($time - $updatedTo > 604800) {
-			//Send message
 			Message::sendNotification(
 				$playerEnv->playerID, 
 				"Resource production halted on " . $playerEnv->playerName . "", 
@@ -56,11 +50,9 @@ class UniUpdater {
 		
 		while($updatedTo < $time) {
 			$updateInterval = min(3600, $time - $updatedTo);
-			
 			foreach($playerEnv->envObjects as $objectEnv) {
 				$objectEnv->envResources = ObjectCalc::calcNewObjectRes($objectEnv, $updateInterval);
 			}
-			
 			$updatedTo += $updateInterval;
 		}
 		$playerEnv->last_update = $updatedTo;
@@ -68,7 +60,7 @@ class UniUpdater {
 	
 	public static function getNextUpdatePoint($env){
 		$nextUpdateTime = PHP_INT_MAX;
-		$updateType = "object";
+		$updateType = "normal";
 		$updateObject = -1;
 		
 		//Check research queue

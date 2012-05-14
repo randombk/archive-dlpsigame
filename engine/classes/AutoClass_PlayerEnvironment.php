@@ -73,7 +73,7 @@ class PlayerEnvironment {
 				$this->envStars[$starID] = GameCache::get('STARS')[$starID];
 				$this->envStars[$starID]["objects"] = array();
 			}
-			$this->envStars[$starID]["objects"][$objectID] = $object;
+			array_push($this->envStars[$starID]["objects"], $objectID);
 		}
 	}
 	

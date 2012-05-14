@@ -18,9 +18,9 @@ class ObjectEnvironment {
 	
 	public $envBuildings = null; //DataBuilding
 	public $envResources = null; //DataResource
-	public $envResearch = null;
-	public $envObjectData = null;	
-	public $envObjectCoord = null;
+	public $envMods = null; //DataMod
+	public $envObjectCoord = null; //UniCoord 
+	public $envObjectData = null;
 	
 	public static function fromObjectID($objectID) {
 		$stmt = $GLOBALS['RDBMS']->prepare("
