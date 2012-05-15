@@ -25,7 +25,7 @@ class Page_Verify extends AbstractPage {
 		}
 		
 		GameSession::loginPlayer($playerData['playerID'], $playerData['playerName']);
-		return PlayerUtils::activatePlayer($playerID, $playerData);
+		return UtilPlayer::activatePlayer($playerID, $playerData);
 	}
 
 	function show() {

@@ -34,7 +34,7 @@ class Page_Register extends AbstractPage {
 			$errors[] = 'You must enter a username!';
 		}
 
-		if (!PlayerUtils::isPlayerNameValid($playerName)) {
+		if (!UtilPlayer::isPlayerNameValid($playerName)) {
 			$errors[] = 'Your username must consist in numbers, Letters, Spaces, _, -, . only!';
 		}
 
@@ -46,7 +46,7 @@ class Page_Register extends AbstractPage {
 			$errors[] = 'Entering 2 different Passwords!';
 		}
 
-		if (!PlayerUtils::isPlayerEmailValid($mailAddress)) {
+		if (!UtilPlayer::isPlayerEmailValid($mailAddress)) {
 			$errors[] = 'Invalid E-Mail address!';
 		}
 
@@ -88,7 +88,7 @@ class Page_Register extends AbstractPage {
 			exit;
 		}
 
-		$result = PlayerUtils::createPlayer($playerName, $password, $mailAddress);
+		$result = UtilPlayer::createPlayer($playerName, $password, $mailAddress);
 		if($result === true) {
 			$this->showMessage('Thank you for the registration. Check your email for activation.');
 		} else {

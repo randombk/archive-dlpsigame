@@ -4,8 +4,7 @@
  * Project DLPSIGAME
  */
 
-//NONOPTIMAL: Load star data into cache, as that is fixed
-class PlayerUtils {
+class UtilPlayer {
 	static function cryptPassword($password) {
 		require_once(ROOT_PATH . 'engine/config.php');
 		return crypt($password, '$2a$09$' . $GLOBALS['_SALT'] . '$');
@@ -26,7 +25,7 @@ class PlayerUtils {
 			array(
 			    "playerName" => $playerName,
 			    "validationKey" => $validationKey,
-			    "playerPass" => PlayerUtils::cryptPassword($password),
+			    "playerPass" => UtilPlayer::cryptPassword($password),
 			    "playerEmail" => $mailAddress,
 			    "joinDate" => TIMESTAMP,
 			    "joinIP" => $_SERVER['REMOTE_ADDR']
@@ -57,14 +56,14 @@ class PlayerUtils {
 		
 		//TODO: Error handling
 		//Give player a new planet
-		$newPlanetID = ObjectUtils::createPlanet(ObjectUtils::getFreeObjectCoord(1, 1, "Colony"), $playerID);
+		$newPlanetID = UtilObject::createPlanet(UtilObject::getFreeObjectCoord(1, 1, "Colony"), $playerID);
 		
 		//Give player some resources
 		$item = new DataItem();
 		$item->setItem("iron", 5000);
 		$item->setItem("kryptonite", 5000);
 		
-		ObjectUtils::setObjectResDataUsingID($newPlanetID, $item->getItemArray(), false);
+		UtilObject::setObjectResDataUsingID($newPlanetID, $item->getItemArray(), false);
 		
 		self::setPlayerResearchData(array(), $playerID);
 		

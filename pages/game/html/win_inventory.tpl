@@ -274,7 +274,7 @@
 					if(i == "code") {
 						continue;
 					}
-					var itemObj = dbResData[i];
+					var itemObj = dbItemData[i];
 					if(itemObj.itemVisibility > 0){
 						var template = Handlebars.templates['invObject.tmpl'];
 						context = {
@@ -325,7 +325,7 @@
 					
 					for (var i in selectedItems) {
 						totalNumber += parseInt(selectedItems[i]);
-						totalWeight += parseInt(selectedItems[i] * dbResData[i].itemWeight);
+						totalWeight += parseInt(selectedItems[i] * dbItemData[i].itemWeight);
 					}
 					
 					$("#invControlText").text("Selected " + niceNumber(totalNumber) + " items, weighing " + niceNumber(totalWeight));

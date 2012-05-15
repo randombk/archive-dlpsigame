@@ -7,6 +7,7 @@
 <script src="resources/js/vendor/jstorage.min.js?v={$VERSION}"></script>
 <script src="resources/js/vendor/moment.min.js?v={$VERSION}"></script>
 <script src="resources/js/vendor/handlebars.runtime.js?v={$VERSION}"></script>
+<script src="resources/js/vendor/sprintf.min.js?v={$VERSION}"></script>
 
 <!-- Load jQuery plug-ins -->
 <script src="resources/js/vendor/jQueryUI/jquery-ui.min.js?v={$VERSION}"></script>
@@ -29,6 +30,9 @@
 
 <!-- Load Tool Tips -->
 <script src="resources/js/tooltips.js?v={$VERSION}"></script>
+
+<!-- Load handlers -->
+<script src="resources/js/itemHandlers.js?v={$VERSION}"></script>
 
 {block name="additionalIncluding"}{/block}
 

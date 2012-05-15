@@ -42,16 +42,16 @@ if ($_SESSION['PLAYER']['banExpireTime'] > time()) {
 	ErrorPage::printError("<font size=;6px'>Your account has been banned!</font><br>Expiry Time: " . $_SESSION['PLAYER']['banExpireTime']);
 }
 
-$_SESSION['OBJECTS'] = PlayerUtils::getPlayerObjects();
+$_SESSION['OBJECTS'] = UtilPlayer::getPlayerObjects();
 
 //BEGIN TESTBED
 
-$newPlanetID = ObjectUtils::createPlanet(ObjectUtils::getFreeObjectCoord(1, 1, "Colony"), 2);
+$newPlanetID = UtilObject::createPlanet(UtilObject::getFreeObjectCoord(1, 1, "Colony"), 2);
 		
 //Give player some items
 $item = new DataItem();
 $item->setItem("iron", 5000);
 $item->setItem("kryptonite", 5000);
 
-ObjectUtils::setObjectResDataUsingID($newPlanetID, $item->getItemArray(), false);
+UtilObject::setObjectResDataUsingID($newPlanetID, $item->getItemArray(), false);
 		

@@ -1,12 +1,13 @@
 {
     "iron": {
-        "itemID": "iron",
+		"itemID": "iron",
         "itemType": "Resource",
         "itemVisibility": "1",
         "itemImage": "resIron.jpg",
         "itemName": "Iron",
-        "itemDesc": "Basic mineral (SI)",
-        "itemWeight": "1"
+        "itemDesc": "Basic mineral <br> (SI)",
+        "itemWeight": "1",
+        "itemFlags": {}
     },
     "metal": {
         "itemID": "metal",
@@ -15,7 +16,8 @@
         "itemImage": "resMetal.jpg",
         "itemName": "Refined Metal",
         "itemDesc": "Basic building material (SI)",
-        "itemWeight": "5"
+        "itemWeight": "5",
+        "itemFlags": {}
     },
     "kryptonite": {
         "itemID": "kryptonite",
@@ -24,7 +26,8 @@
         "itemImage": "resKryptonite.jpg",
         "itemName": "Kryptonite",
         "itemDesc": "Crystal (SI)",
-        "itemWeight": "1"
+        "itemWeight": "1",
+        "itemFlags": {}
     },
     "spice": {
         "itemID": "spice",
@@ -33,7 +36,8 @@
         "itemImage": "resSpice.jpg",
         "itemName": "Spice",
         "itemDesc": "Basic fuel (SI)",
-        "itemWeight": "1"
+        "itemWeight": "1",
+        "itemFlags": {}
     },
    "energy": {
         "itemID": "energy",
@@ -42,24 +46,25 @@
         "itemImage": "",
         "itemName": "Energy",
         "itemDesc": "Energy is required to run all sorts of buildings and operations",
-        "itemWeight": "0"
-    }, 
-    "chipset_1": {
-        "itemID": "chipset_1",
-        "itemType": "Item",
-        "itemVisibility": "2",
-        "itemImage": "itemBasicChipset.jpg",
-        "itemName": "Basic Chipset",
-        "itemDesc": "Basic chipset used in advanced computers<br>Speed: 7 pflops",
-        "itemWeight": "10"
+        "itemWeight": "0",
+        "itemFlags": {}
     },
-    "missile_1": {
-        "itemID": "missile_1",
-        "itemType": "Ammo",
-        "itemVisibility": "3",
-        "itemImage": "ammoBasicMissile.jpg",
-        "itemName": "Basic Missile",
-        "itemDesc": "Basic missile<br>Damage: 200",
-        "itemWeight": "100"
+   "research-notes": {
+		"itemID": "research-notes",
+        "itemType": "Item",
+        "itemVisibility": "20",
+        "itemImage": "researchNotes.jpg",
+        "itemName": "Research Notes - %s",
+        "itemDesc": "Energy is required to run all sorts of buildings and operations",
+        "itemWeight": "0",
+        "itemFlags": {
+        	"Usable": {
+        		"singleUse": false,
+        		"itemhandlerUse": ""
+        	}, 
+        	"MultiItem": {
+        		"itemhandlerDisplayData": "itemhandlerDisplayResearchNotes"
+        	}
+        }
     }
 }

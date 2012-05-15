@@ -65,9 +65,9 @@ class ObjectEnvironment {
 	}
 	
 	private function getMongoData() {
-		$this->envBuildings = ObjectUtils::getObjectBuildingDataUsingID($this->objectID);
-		$this->envItems = ObjectUtils::getObjectResDataUsingID($this->objectID);
-		$this->envObjectData = ObjectUtils::getObjectDataUsingID($this->objectID);
+		$this->envBuildings = UtilObject::getObjectBuildingDataUsingID($this->objectID);
+		$this->envItems = UtilObject::getObjectResDataUsingID($this->objectID);
+		$this->envObjectData = UtilObject::getObjectDataUsingID($this->objectID);
 	}
 	
 	public function apply() {
@@ -87,9 +87,9 @@ class ObjectEnvironment {
 		);
 		
 		if($result !== false) {
-			ObjectUtils::setObjectResDataUsingID($this->objectID, $this->envItems->getItemArray());
-			ObjectUtils::setObjectBuildingDataUsingID($this->objectID, $this->envBuildings->getBuildingArray());
-			ObjectUtils::setObjectDataUsingID($this->objectID, $this->envObjectData);
+			UtilObject::setObjectResDataUsingID($this->objectID, $this->envItems->getItemArray());
+			UtilObject::setObjectBuildingDataUsingID($this->objectID, $this->envBuildings->getBuildingArray());
+			UtilObject::setObjectDataUsingID($this->objectID, $this->envObjectData);
 			return true;
 		} else {
 			throw new Exception("Unknown PDO Error ");

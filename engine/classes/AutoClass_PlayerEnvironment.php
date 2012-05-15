@@ -60,11 +60,11 @@ class PlayerEnvironment {
 	}
 	
 	private function getResearchData() {
-		$this->envResearch = PlayerUtils::getPlayerResearchData($this->playerID);
+		$this->envResearch = UtilPlayer::getPlayerResearchData($this->playerID);
 	}
 	
 	private function getObjects() {
-		$this->objects = PlayerUtils::getPlayerObjects($this->playerID);
+		$this->objects = UtilPlayer::getPlayerObjects($this->playerID);
 		foreach ($this->objects as $object) {
 			$starID = $object->getStarID();
 			$objectID = $object->getObjectID();
@@ -101,7 +101,7 @@ class PlayerEnvironment {
 				} 
 			}
 			
-			PlayerUtils::setPlayerResearchData($this->envResearch->getResearchArray());
+			UtilPlayer::setPlayerResearchData($this->envResearch->getResearchArray());
 			return true;
 		} else {
 			throw new Exception("Unknown PDO Error ");

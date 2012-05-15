@@ -18,6 +18,10 @@ function inArray(array, value) {
 	return $.inArray(value, array) >= 0;
 }
 
+function isset(variable) {
+	return (typeof variable !== 'undefined');
+}
+
 function runOnceCondition(params, condition, func) {
     if(condition(params)) {
         func(params);
@@ -27,7 +31,6 @@ function runOnceCondition(params, condition, func) {
         }, 10);
     }
 }
-
 
 //Popup Handlers
 function popupwindow(url, id, w, h) {

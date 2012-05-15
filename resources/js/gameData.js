@@ -1,4 +1,4 @@
-var dbResData = null;
+var dbItemData = null;
 var dbBuildData = null;
 var dbModData = null;
 var dbResearchData = null;
@@ -9,13 +9,13 @@ function loadGameDataFailure(code) {
 }
 
 function loadCachedData() {
-	dbResData = JSON.parse(localStorage.getItem("dbResData"));
+	dbItemData = JSON.parse(localStorage.getItem("dbItemData"));
 	dbBuildData = JSON.parse(localStorage.getItem("dbBuildData"));
 	dbModData = JSON.parse(localStorage.getItem("dbModData"));
 	dbResearchData = JSON.parse(localStorage.getItem("dbResearchData"));
 	dbResearchPosData = JSON.parse(localStorage.getItem("dbResearchPosData"));
 
-	if (dbResData != null && dbBuildData != null && dbModData != null && dbResearchData != null && dbResearchPosData != null) {
+	if (dbItemData != null && dbBuildData != null && dbModData != null && dbResearchData != null && dbResearchPosData != null) {
 		$(document).trigger('gameDataLoaded');
 	} else {
 		loadGameDataFailure(5);
@@ -31,7 +31,7 @@ function loadGameData(cacheTime) {
 			"ajaxType" : "DataLoader"
 		}, function(data) {
 			if (data.code >= 0) {
-				localStorage.setItem("dbResData", JSON.stringify(data.dataITEMS));
+				localStorage.setItem("dbItemData", JSON.stringify(data.dataITEMS));
 				localStorage.setItem("dbBuildData", JSON.stringify(data.dataBUILDINGS));
 				localStorage.setItem("dbModData", JSON.stringify(data.dataMODIFIERS));
 				localStorage.setItem("dbResearchData", JSON.stringify(data.dataRESEARCH));

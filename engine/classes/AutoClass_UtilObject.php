@@ -5,7 +5,7 @@
  */
 
 //NONOPTIMAL: Handle MySQL errors instead of performing manual error checking
-class ObjectUtils {
+class UtilObject {
 	
 	static function getStarID($Position) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {

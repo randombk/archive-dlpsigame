@@ -20,7 +20,7 @@ class Page_Login extends AbstractPage {
 		$loginData = $GLOBALS['RDBMS']->selectTop(tblPLAYERS, "playerName = :playerName", array(":playerName" => $playername), "playerID, playerPass, validationKey");
 		
 		if (isset($loginData)) {
-			$hashedPassword = PlayerUtils::cryptPassword($password);
+			$hashedPassword = UtilPlayer::cryptPassword($password);
 			if ($loginData['playerPass'] != $hashedPassword) {
 				HTTP::redirectTo('index.php?code=1');
 			}

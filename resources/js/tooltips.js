@@ -38,7 +38,7 @@ function staticTT(element, options) {
 }
 
 function getTTInvItem(itemName, quantity) {
-	var itemObj = dbResData[itemName];
+	var itemObj = dbItemData[itemName];
 	var template = Handlebars.templates['hoverItem.tmpl'];
 	var context = {};
 	if(quantity < 0)
@@ -74,7 +74,7 @@ function loadResHover(items) {
 		var quantity = $(this).attr("data-quantity");
 		var itemID = $(this).attr("data-item");
 		if(quantity) {
-			$(this).text(niceNumber(quantity) + " " + dbResData[itemID].itemName);
+			$(this).text(niceNumber(quantity) + " " + dbItemData[itemID].itemName);
 			if($(this).attr("data-type") == "diff") {
 				if(quantity > 0) {
 					$(this).addClass("green");
@@ -91,7 +91,7 @@ function loadResHover(items) {
 				}
 			}
 		} else {
-			$(this).text(dbResData[itemID].itemName);
+			$(this).text(dbItemData[itemID].itemName);
 			$(this).addClass("green");
 		}
 		
