@@ -74,6 +74,8 @@ class GameSession {
 			"ip"		=> $_SERVER['REMOTE_ADDR']
 		);
 		
+		$success = apc_store($baseKey, $data, $this->_ttl) && apc_store($baseKey.'/META', $meta, $this->_ttl);
+		
 		if(isset($_SESSION['playerID'])) {
 			$oldID = apc_fetch($this->_sessionName . '/USERS/' . $_SESSION['playerID']);
 			if($oldID != $id) {
@@ -81,8 +83,7 @@ class GameSession {
 				apc_store($this->_sessionName . '/USERS/' . $_SESSION['playerID'], $id);
 			}
 		}
-		
-		return apc_store($baseKey, $data, $this->_ttl) && apc_store($baseKey.'/META', $meta, $this->_ttl);
+		return $success;
 	}
 
 	public function destroy($id) {
@@ -99,9 +100,11 @@ class GameSession {
 	}
 
 	private static function create() {
-		session_name("gameSession");
-		self::$instance = new self;
-		session_start();
+		if(is_null(self::$instance)) {
+			session_name("gameSession");
+			self::$instance = new self;
+			session_start();
+		}
 		return self::$instance;
 	}
 	

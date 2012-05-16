@@ -37,53 +37,28 @@ function staticTT(element, options) {
 	);
 }
 
-function getTTInvItem(itemName, quantity) {
-	var itemObj = dbItemData[itemName];
-	var template = Handlebars.templates['hoverItem.tmpl'];
-	var context = {};
-	if(quantity < 0)
-		quantity = -quantity;
-	if(quantity > 0) {
-		context = {
-			quantity: niceNumber(quantity),
-			itemName: itemObj.itemName,
-			itemDesc: itemObj.itemDesc,
-			itemType: itemObj.itemType,
-			itemWeight: niceNumber(itemObj.itemWeight),
-			itemTotalWeight: niceNumber(itemObj.itemWeight * quantity),
-			itemValue: niceNumber(itemObj.itemWeight),
-			itemTotalValue: niceNumber(itemObj.itemWeight * quantity),
-			itemImage: itemObj.itemImage
-		};
-	} else {
-		context = {
-			quantity: null,
-			itemName: itemObj.itemName,
-			itemDesc: itemObj.itemDesc,
-			itemType: itemObj.itemType,
-			itemWeight: niceNumber(itemObj.itemWeight),
-			itemValue: niceNumber(itemObj.itemWeight),
-			itemImage: itemObj.itemImage
-		};
-	}
-	return template(context);
-}
-
-function loadResHover(items) {
+function loadItemHover(items) {
 	$(".itemLink").each(function() {
-		var quantity = $(this).attr("data-quantity");
+		var parameters = $(this).attr("data-parameters");
 		var itemID = $(this).attr("data-item");
-		if(quantity) {
-			$(this).text(niceNumber(quantity) + " " + dbItemData[itemID].itemName);
+		var negative = $(this).attr("data-quantitysign") === "-";
+		
+		var item = new Item(itemID, JSON.parse(parameters));
+		if(item.quantity) {
+			$(this).text(niceNumber(item.quantity) + " " + item.itemName);
 			if($(this).attr("data-type") == "diff") {
-				if(quantity > 0) {
-					$(this).addClass("green");
-				} else {
+				if(negative && item.quantity > 0) {
 					$(this).addClass("red")
-				}		
+				} else {
+					if(item.quantity > 0) {
+						$(this).addClass("green");
+					} else {
+						$(this).addClass("red")
+					}	
+				}	
 			} else {
-				if(typeof items !== 'undefined') {
-					if(items[itemID] >= quantity) {
+				if(isset(items)) {
+					if(isset(items[itemID]) && items[itemID].quantity >= item.quantity) {
 						$(this).addClass("green");
 					} else {
 						$(this).addClass("red")
@@ -91,20 +66,20 @@ function loadResHover(items) {
 				}
 			}
 		} else {
-			$(this).text(dbItemData[itemID].itemName);
+			$(this).text(item.itemName);
 			$(this).addClass("green");
 		}
 		
 		if($(this).hasClass("tt-init")) {
 			$(this).tooltip("option", "content", function() {
-				return getTTInvItem($(this).attr("data-item"), quantity);
+				return item.getHoverContent();
 			});
 		} else {
 			staticTT(
 				$(this), 
 				{
 					content : function() {
-						return getTTInvItem($(this).attr("data-item"), quantity);
+						return item.getHoverContent();
 					}, 
 					open: function( event, ui ) {
 						loadHovers({items: items});
@@ -158,6 +133,6 @@ function loadModHover() {
 }
 
 function loadHovers(data) {
-	loadResHover(data.items);
+	loadItemHover(data.items);
 	loadModHover();
 }

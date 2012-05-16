@@ -2,69 +2,68 @@
     "iron": {
 		"itemID": "iron",
         "itemType": "Resource",
-        "itemVisibility": "1",
+        "itemVisibility": 1,
         "itemImage": "resIron.jpg",
         "itemName": "Iron",
         "itemDesc": "Basic mineral <br> (SI)",
-        "itemWeight": "1",
+        "itemWeight": 1,
         "itemFlags": {}
     },
     "metal": {
         "itemID": "metal",
         "itemType": "Resource",
-        "itemVisibility": "1",
+        "itemVisibility": 1,
         "itemImage": "resMetal.jpg",
         "itemName": "Refined Metal",
         "itemDesc": "Basic building material (SI)",
-        "itemWeight": "5",
+        "itemWeight": 5,
         "itemFlags": {}
     },
     "kryptonite": {
         "itemID": "kryptonite",
         "itemType": "Resource",
-        "itemVisibility": "1",
+        "itemVisibility": 1,
         "itemImage": "resKryptonite.jpg",
         "itemName": "Kryptonite",
         "itemDesc": "Crystal (SI)",
-        "itemWeight": "1",
+        "itemWeight": 1,
         "itemFlags": {}
     },
     "spice": {
         "itemID": "spice",
         "itemType": "Resource",
-        "itemVisibility": "1",
+        "itemVisibility": 1,
         "itemImage": "resSpice.jpg",
         "itemName": "Spice",
         "itemDesc": "Basic fuel (SI)",
-        "itemWeight": "1",
+        "itemWeight": 1,
         "itemFlags": {}
     },
    "energy": {
         "itemID": "energy",
         "itemType": "Energy",
-        "itemVisibility": "-1",
+        "itemVisibility": -1,
         "itemImage": "",
         "itemName": "Energy",
         "itemDesc": "Energy is required to run all sorts of buildings and operations",
-        "itemWeight": "0",
+        "itemWeight": 0,
         "itemFlags": {}
     },
    "research-notes": {
 		"itemID": "research-notes",
         "itemType": "Item",
-        "itemVisibility": "20",
+        "itemVisibility": 20,
         "itemImage": "researchNotes.jpg",
         "itemName": "Research Notes - %s",
-        "itemDesc": "Energy is required to run all sorts of buildings and operations",
-        "itemWeight": "0",
+        "itemDesc": "These research notes may be used to advance research for %s.",
+        "itemWeight": 0,
         "itemFlags": {
         	"Usable": {
         		"singleUse": false,
         		"itemhandlerUse": ""
         	}, 
-        	"MultiItem": {
-        		"itemhandlerDisplayData": "itemhandlerDisplayResearchNotes"
-        	}
+        	"MultiItem": {},
+        	"Cached": {}
         }
     }
 }

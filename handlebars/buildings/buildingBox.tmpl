@@ -8,9 +8,9 @@
 				<div class="buildingData">
 					{{#if nextLevel}} 
 						Resources Required for Upgrade:<br>
-						{{#key_value nextResReq}}
-							<span class="itemLink" data-item="{{key}}" data-quantity="{{value}}"></span>
-						{{/key_value}}			
+						{{#key_value_object nextResReq}}
+							<span class="itemLink" data-item="{{key}}" data-parameters="{{value}}"></span>
+						{{/key_value_object}}			
 					{{/if}}
 				</div>
 				<div class="buildingButtons">

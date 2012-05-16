@@ -32,7 +32,7 @@
 <script src="resources/js/tooltips.js?v={$VERSION}"></script>
 
 <!-- Load handlers -->
-<script src="resources/js/itemHandlers.js?v={$VERSION}"></script>
+<script src="resources/js/Items.js?v={$VERSION}"></script>
 
 {block name="additionalIncluding"}{/block}
 
@@ -76,7 +76,7 @@
 
 	//Register all item links
 	$(document).on('gameDataLoaded', function() {
-		loadResHover();
+		loadItemHover();
 	});
 </script>
 

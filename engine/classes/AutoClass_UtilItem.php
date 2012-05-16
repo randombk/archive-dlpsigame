@@ -14,9 +14,28 @@ class UtilItem {
 		return isset($idArray[0]) ? $idArray[0] : "";
 	}
 	
-	static function getItemSubID($itemID) {
+	static function getItemSpecialID($itemID) {
 		$idArray = self::splitItemID($itemID);
 		return isset($idArray[1]) ? $idArray[1] : "";
+	}
+	
+	static function getItemParamData($itemID) {
+		if(isset(GameCache::get("ITEMPARAMS")[$itemID])) {
+			return GameCache::get("ITEMPARAMS")[$itemID];
+		} else {
+			$data = $GLOBALS["MONGO"]->getItemParams($itemID);
+			return is_null($data) ? array() : $data;
+		}
+	}
+	
+	static function buildItemDataArray($dataItem) {
+		$dataArray = array();
+		$inv = $dataItem->getItemArray();
+		foreach ($inv as $itemID => $quantity) {
+			$dataArray[$itemID] = self::getItemParamData($itemID);
+			$dataArray[$itemID]["quantity"] = $quantity;
+		}
+		return $dataArray;
 	}
 }
 ?>

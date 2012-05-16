@@ -26,10 +26,10 @@
 					<tr>
 						<td class="dataHolder"><b>Hourly Consumption</b></td>
 						<td class="dataHolder">
-							{{#if curConsumption}}
-								{{#key_value curConsumption}}
-									<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="-{{value}}"></span>
-								{{/key_value}}
+							{{#if curResConsumption}}
+								{{#key_value_object curResConsumption}}
+									<span class="itemLink" style="display: block;" data-type="diff" data-quantitysign="-" data-item="{{key}}" data-parameters='{{value}}'></span>
+								{{/key_value_object}}
 							{{else}}
 								(none)
 							{{/if}}
@@ -37,9 +37,9 @@
 						{{#if nextLevel}}
 							<td class="dataHolder">
 								{{#if nextResConsumption}}
-									{{#key_value nextResConsumption}}
-										<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="-{{value}}"></span>
-									{{/key_value}}
+									{{#key_value_object nextResConsumption}}
+										<span class="itemLink" style="display: block;" data-type="diff" data-quantitysign="-" data-item="{{key}}" data-parameters='{{value}}'></span>
+									{{/key_value_object}}
 								{{else}}
 									(none)
 								{{/if}}
@@ -51,10 +51,10 @@
 					<tr>
 						<td class="dataHolder"><b>Hourly Production</b></td>
 						<td class="dataHolder">
-							{{#if curProduction}}
-								{{#key_value curProduction}}
-									<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
-								{{/key_value}}
+							{{#if curResProduction}}
+								{{#key_value_object curResProduction}}
+									<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-parameters='{{value}}'></span>
+								{{/key_value_object}}
 							{{else}}
 								(none)
 							{{/if}}
@@ -62,9 +62,9 @@
 						{{#if nextLevel}}
 							<td class="dataHolder">
 								{{#if nextResProduction}}
-									{{#key_value nextResProduction}}
-										<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
-									{{/key_value}}
+									{{#key_value_object nextResProduction}}
+										<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-parameters='{{value}}'></span>
+									{{/key_value_object}}
 								{{else}}
 									(none)
 								{{/if}}
@@ -76,10 +76,10 @@
 					<tr>
 						<td class="dataHolder"><b>Net Resource Changes</b></td>
 						<td class="dataHolder">
-							{{#if curNetChange}}
-								{{#key_value curNetChange}}
-									<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
-								{{/key_value}}
+							{{#if curResChange}}
+								{{#key_value_object curResChange}}
+									<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-parameters='{{value}}'></span>
+								{{/key_value_object}}
 							{{else}}
 								(none)
 							{{/if}}
@@ -87,9 +87,9 @@
 						{{#if nextLevel}}
 							<td class="dataHolder">
 								{{#if nextResChange}}
-									{{#key_value nextResChange}}
-										<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
-									{{/key_value}}
+									{{#key_value_object nextResChange}}
+										<span class="itemLink" style="display: block;" data-type="diff" data-item="{{key}}" data-parameters='{{value}}'></span>
+									{{/key_value_object}}
 								{{else}}
 									(none)
 								{{/if}}
@@ -102,9 +102,9 @@
 						<td class="dataHolder"><b>Modifiers</b></td>
 						<td class="dataHolder">
 							{{#if curModifiers}}
-								{{#key_value curModifiers}}
+								{{#key_value_object curModifiers}}
 									<span class="modLink" data-modID="{{key}}" data-amount="{{value}}">{{key}} -- {{value}}</span>
-								{{/key_value}}
+								{{/key_value_object}}
 							{{else}}
 								(none)
 							{{/if}}
@@ -112,9 +112,9 @@
 						{{#if nextLevel}}
 							<td class="dataHolder">
 								{{#if nextModifiers}}
-									{{#key_value nextModifiers}}
+									{{#key_value_object nextModifiers}}
 										<span class="modLink" data-modID="{{key}}" data-amount="{{value}}">{{key}} -- {{value}}</span>
-									{{/key_value}}
+									{{/key_value_object}}
 								{{else}}
 									(none)
 								{{/if}}

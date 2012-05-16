@@ -82,11 +82,12 @@
 							$("#tabContainer").text("Fatal Error #" + (-data.code) + ": " + data.message);
 						} else {
 							$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.items}, ["all"], window.name));
-							
+							parseItemData(data.items);
+											
 							//Load building queue
 							$("#buildingQueue").html("");
 							var templateBuildingQueue = Handlebars.templates['buildingQueueItem.tmpl'];
-								
+							
 							if(typeof data.buildQueue[0] !== 'undefined') {
 								var uid = data.buildQueue[0].id;
 								$("#buildingQueue").append(templateBuildingQueue({
@@ -156,17 +157,17 @@
 								buildPageInfo[key].nextDestroyLevel = obj.nextLevel - 1;
 								buildPageInfo[key].nextResReq = obj.nextResReq;
 								
-								buildPageInfo[key].nextResConsumption = getBuildingBaseConsumption(key, obj.nextLevel);
-								if(buildPageInfo[key].nextResConsumption)
+								buildPageInfo[key].nextResConsumption = obj.nextResConsumption;
+								if(!isEmpty(buildPageInfo[key].nextResConsumption))
 									buildPageInfo[key].showConsumption = true;
 								
-								buildPageInfo[key].nextResProduction = getBuildingBaseProduction(key, obj.nextLevel);
-								if(buildPageInfo[key].nextResProduction)
+								buildPageInfo[key].nextResProduction = obj.nextResProduction;
+								if(!isEmpty(buildPageInfo[key].nextResProduction))
 									buildPageInfo[key].showProduction = true;
 								
 								if(buildPageInfo[key].showProduction && buildPageInfo[key].showConsumption) {
 									buildPageInfo[key].showNetChange = true;
-									buildPageInfo[key].nextResChange = mergeSub(buildPageInfo[key].nextResProduction, buildPageInfo[key].nextResConsumption);
+									buildPageInfo[key].nextResChange = mergeItemDataClone(buildPageInfo[key].nextResProduction, buildPageInfo[key].nextResConsumption, "-");
 								}
 								
 								buildPageInfo[key].nextResearch = getBuildingBaseResearch(key, obj.nextLevel);
@@ -200,17 +201,17 @@
 							   	if(!buildPageInfo[key].nextDestroyLevel && obj.level)
 							   		buildPageInfo[key].nextDestroyLevel = obj.level;
 								
-								buildPageInfo[key].curConsumption = getBuildingBaseConsumption(key, obj.level);
-								if(buildPageInfo[key].curConsumption)
+								buildPageInfo[key].curResConsumption = obj.curResConsumption;
+								if(!isEmpty(buildPageInfo[key].curResConsumption))
 									buildPageInfo[key].showConsumption = true;
 							
-								buildPageInfo[key].curProduction = getBuildingBaseProduction(key, obj.level);
-							   	if(buildPageInfo[key].curProduction)
+								buildPageInfo[key].curResProduction = obj.curResProduction;
+							   	if(!isEmpty(buildPageInfo[key].curResProduction))
 									buildPageInfo[key].showProduction = true;
 							    
 							    if(buildPageInfo[key].showProduction && buildPageInfo[key].showConsumption) {
 									buildPageInfo[key].showNetChange = true;
-									buildPageInfo[key].curNetChange = mergeSub(buildPageInfo[key].curProduction, buildPageInfo[key].curConsumption);
+									buildPageInfo[key].curResChange = mergeItemDataClone(buildPageInfo[key].curResProduction, buildPageInfo[key].curResConsumption, "-");
 								}
 							    
 							    buildPageInfo[key].curResearch = getBuildingBaseResearch(key, obj.nextLevel);

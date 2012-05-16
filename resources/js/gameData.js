@@ -30,7 +30,9 @@ function loadGameData(cacheTime) {
 			"action" : "getGameData",
 			"ajaxType" : "DataLoader"
 		}, function(data) {
-			if (data.code >= 0) {
+			if (data.code < 0) {
+				loadGameDataFailure(-data.code);
+			} else {
 				localStorage.setItem("dbItemData", JSON.stringify(data.dataITEMS));
 				localStorage.setItem("dbBuildData", JSON.stringify(data.dataBUILDINGS));
 				localStorage.setItem("dbModData", JSON.stringify(data.dataMODIFIERS));
@@ -39,8 +41,6 @@ function loadGameData(cacheTime) {
 				localStorage.setItem("cacheTime", JSON.stringify(data.cacheTime));
 
 				loadCachedData();
-			} else {
-				loadGameDataFailure(-data.code);
 			}
 		}, "json").fail(function() {
 			loadGameDataFailure(1);

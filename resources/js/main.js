@@ -22,6 +22,10 @@ function isset(variable) {
 	return (typeof variable !== 'undefined');
 }
 
+function isEmpty(obj) {
+	return jQuery.isEmptyObject(obj);
+}
+
 function runOnceCondition(params, condition, func) {
     if(condition(params)) {
         func(params);
@@ -176,6 +180,23 @@ Handlebars.registerHelper('key_value', function (obj, hash) {
     }
     return buffer;
 });
+
+//Register Handlebars helpers
+Handlebars.registerHelper('key_value_object', function (obj, hash) {
+    var buffer, key, value;
+    buffer = "";
+    for (key in obj) {
+        if (!Object.hasOwnProperty.call(obj, key)) {
+            continue;
+        }
+        buffer += hash.fn({
+            key: key,
+            value: JSON.stringify(obj[key])
+        }) || '';
+    }
+    return buffer;
+});
+
 
 Handlebars.registerHelper('ifdef', function(conditional, options) {
 	if(conditional || conditional === 0) {

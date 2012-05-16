@@ -273,7 +273,7 @@
 				};
 				
 				//Load planet modifiers
-				if(!jQuery.isEmptyObject(data.objectModifiers)){
+				if(!isEmpty(data.objectModifiers)){
 					objAdd(modifierTotal, data.objectModifiers);
 					$('#tableModifiers tr:last').before(modRowTemplate({
 						itemName: "Planet Bonuses",
@@ -292,9 +292,9 @@
 				//Load buildings
 				for(var key in data.buildings) {
 					var obj = data.buildings[key];
-					if(!(jQuery.isEmptyObject(obj.curResProduction) && jQuery.isEmptyObject(obj.curResConsumption))) {
-						objAdd(economyTotal, obj.curResProduction);
-						objSub(economyTotal, obj.curResConsumption);
+					if(!(isEmpty(obj.curResProduction) && isEmpty(obj.curResConsumption))) {
+						mergeItemData(economyTotal, obj.curResProduction, "+");
+						mergeItemData(economyTotal, obj.curResConsumption, "-");
 											   	
 						$('#tableEconomy tr:last').before(econRowTemplate({
 							itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
@@ -317,7 +317,7 @@
 						}));
 					}
 					
-					if(!jQuery.isEmptyObject(obj.curResearch)) {
+					if(!isEmpty(obj.curResearch)) {
 						objAdd(researchTotal, obj.curResearch);
 											   	
 						$('#tableResearch tr:last').before(researchRowTemplate({
@@ -338,7 +338,7 @@
 				
 				//Load totals
 				for(var key in economyTotal) {
-					$("#econNetChange").append("<span class='itemLink gen' data-type='diff' data-item='" + key + "' data-quantity='" + economyTotal[key] +"'></span>");
+					$("#econNetChange").append("<span class='itemLink gen' data-type='diff' data-item='" + key + "'  data-parameters='" + JSON.stringify(economyTotal[key]) +"'></span>");
 				}
 				
 				for(var key in modifierTotal) {

@@ -25,7 +25,7 @@ class DataItem {
 	public function getTotalWeight() {
 		$weight = 0;
 		foreach ($this->itemArray as $itemID => $number) {
-			$weight += GameCache::get("ITEMS")[$itemID]["itemWeight"] * $number;
+			$weight += GameCache::get("ITEMS")[UtilItem::getItemBaseID($itemID)]["itemWeight"] * $number;
 		}
 		return $weight;
 	}

@@ -18,7 +18,7 @@ class GameCache {
 		}
 	}
 	
-	public static function load($varName) {
+	private static function load($varName) {
 		try {
 			$varClass = 'CachedResource_' . ucwords($varName);
 			$classSrc = ROOT_PATH . 'engine/classes/GameCache/'.$varClass.'.php';
@@ -30,6 +30,10 @@ class GameCache {
 		} catch (Exception $e) {
 			throw new Exception("Invalid Resource Name: " . $varName);
 		}
+	}
+	
+	public static function reload($varName) {
+		return self::load($varName);
 	}
 	
 	public static function getCacheTime() {

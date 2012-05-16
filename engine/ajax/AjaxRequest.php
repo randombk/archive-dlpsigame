@@ -8,7 +8,7 @@ abstract class AjaxRequest {
 	function __construct() {	}
 
 	protected function sendJSON($data, $code = 0) {
-		$data['code'] = $code;
+		if($code != 0) $data['code'] = $code;
 		echo json_encode($data);
 		exit;
 	}

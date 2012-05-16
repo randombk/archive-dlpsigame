@@ -10,7 +10,7 @@ function program1(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\r\n			";
   options = {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.production, options) : helperMissing.call(depth0, "key_value", depth0.production, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.production, options) : helperMissing.call(depth0, "key_value_object", depth0.production, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\r\n		";
   return buffer;
@@ -22,7 +22,7 @@ function program2(depth0,data) {
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\" data-quantity=\"";
+    + "\" data-parameters=\"";
   if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -35,7 +35,7 @@ function program4(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\r\n			";
   options = {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.consumption, options) : helperMissing.call(depth0, "key_value", depth0.consumption, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.consumption, options) : helperMissing.call(depth0, "key_value_object", depth0.consumption, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\r\n		";
   return buffer;
@@ -47,7 +47,7 @@ function program5(depth0,data) {
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\" data-quantity=\"-";
+    + "\" data-quantitysign=\"-\" data-parameters=\"";
   if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

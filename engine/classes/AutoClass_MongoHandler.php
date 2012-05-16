@@ -67,6 +67,46 @@ class MongoHandler {
 			throw new Exception("Unknown error");
 		}
 	}
+	
+	/*
+	 * Item Params
+	 * 
+	 * */
+	public function collItemParams() {
+		return $this->database->itemParamData;
+	}
+	
+	public function getItemParams($itemID) {
+		try {
+			return $this->get($this->collItemParams(), $itemID);
+		} catch (Exception $e) {
+			throw new Exception("Unknown error");
+		}
+	}
+	
+	public function setItemParams($itemID, $itemParamData) {
+		try {
+			return $this->update($this->collItemParams(), $itemID, $itemParamData);
+		} catch (Exception $e) {
+			throw new Exception("Unknown error");
+		}
+	}
+	
+	public function getCachableItemParams() {
+		try {
+			$paramData = array();
+			$cursor = $this->collItemParams()->find(array('cached' => true));
+			
+			foreach ($cursor as $doc) {
+				$id = $doc["_id"];
+				unset($doc["_id"]);
+			    $paramData[$id] = $doc;
+			}
+			return $paramData;
+		} catch (Exception $e) {
+			throw new Exception("Unknown error");
+		}
+	}
 		
 	/*
 	 * Buildings
@@ -100,7 +140,6 @@ class MongoHandler {
 		return $this->update($this->collObject(), $uniqueID, $objectData);
 	}
 	
-	
 	/*
 	 * Research Data
 	 * 
@@ -116,4 +155,5 @@ class MongoHandler {
 	public function setResearch($uniqueID, $researchData) {
 		return $this->update($this->collResearch(), $uniqueID, $researchData);
 	}
+	
 }

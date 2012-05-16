@@ -42,7 +42,7 @@ function program7(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n					<tr>\n						<td class=\"dataHolder\"><b>Hourly Consumption</b></td>\n						<td class=\"dataHolder\">\n							";
-  stack1 = helpers['if'].call(depth0, depth0.curConsumption, {hash:{},inverse:self.program(11, program11, data),fn:self.program(8, program8, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.curResConsumption, {hash:{},inverse:self.program(11, program11, data),fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n						</td>\n						";
   stack1 = helpers['if'].call(depth0, depth0.nextLevel, {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
@@ -55,7 +55,7 @@ function program8(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\n								";
   options = {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.curConsumption, options) : helperMissing.call(depth0, "key_value", depth0.curConsumption, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.curResConsumption, options) : helperMissing.call(depth0, "key_value_object", depth0.curResConsumption, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n							";
   return buffer;
@@ -63,15 +63,15 @@ function program8(depth0,data) {
 function program9(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n									<span class=\"itemLink\" style=\"display: block;\" data-type=\"diff\" data-item=\"";
+  buffer += "\n									<span class=\"itemLink\" style=\"display: block;\" data-type=\"diff\" data-quantitysign=\"-\" data-item=\"";
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\" data-quantity=\"-";
+    + "\" data-parameters='";
   if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"></span>\n								";
+    + "'></span>\n								";
   return buffer;
   }
 
@@ -95,7 +95,7 @@ function program14(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\n									";
   options = {hash:{},inverse:self.noop,fn:self.program(15, program15, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.nextResConsumption, options) : helperMissing.call(depth0, "key_value", depth0.nextResConsumption, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.nextResConsumption, options) : helperMissing.call(depth0, "key_value_object", depth0.nextResConsumption, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n								";
   return buffer;
@@ -103,15 +103,15 @@ function program14(depth0,data) {
 function program15(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n										<span class=\"itemLink\" style=\"display: block;\" data-type=\"diff\" data-item=\"";
+  buffer += "\n										<span class=\"itemLink\" style=\"display: block;\" data-type=\"diff\" data-quantitysign=\"-\" data-item=\"";
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\" data-quantity=\"-";
+    + "\" data-parameters='";
   if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"></span>\n									";
+    + "'></span>\n									";
   return buffer;
   }
 
@@ -125,7 +125,7 @@ function program19(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n					<tr>\n						<td class=\"dataHolder\"><b>Hourly Production</b></td>\n						<td class=\"dataHolder\">\n							";
-  stack1 = helpers['if'].call(depth0, depth0.curProduction, {hash:{},inverse:self.program(11, program11, data),fn:self.program(20, program20, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.curResProduction, {hash:{},inverse:self.program(11, program11, data),fn:self.program(20, program20, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n						</td>\n						";
   stack1 = helpers['if'].call(depth0, depth0.nextLevel, {hash:{},inverse:self.noop,fn:self.program(23, program23, data),data:data});
@@ -138,7 +138,7 @@ function program20(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\n								";
   options = {hash:{},inverse:self.noop,fn:self.program(21, program21, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.curProduction, options) : helperMissing.call(depth0, "key_value", depth0.curProduction, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.curResProduction, options) : helperMissing.call(depth0, "key_value_object", depth0.curResProduction, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n							";
   return buffer;
@@ -150,11 +150,11 @@ function program21(depth0,data) {
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\" data-quantity=\"";
+    + "\" data-parameters='";
   if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"></span>\n								";
+    + "'></span>\n								";
   return buffer;
   }
 
@@ -172,7 +172,7 @@ function program24(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\n									";
   options = {hash:{},inverse:self.noop,fn:self.program(25, program25, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.nextResProduction, options) : helperMissing.call(depth0, "key_value", depth0.nextResProduction, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.nextResProduction, options) : helperMissing.call(depth0, "key_value_object", depth0.nextResProduction, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n								";
   return buffer;
@@ -184,11 +184,11 @@ function program25(depth0,data) {
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\" data-quantity=\"";
+    + "\" data-parameters='";
   if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"></span>\n									";
+    + "'></span>\n									";
   return buffer;
   }
 
@@ -196,7 +196,7 @@ function program27(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n					<tr>\n						<td class=\"dataHolder\"><b>Net Resource Changes</b></td>\n						<td class=\"dataHolder\">\n							";
-  stack1 = helpers['if'].call(depth0, depth0.curNetChange, {hash:{},inverse:self.program(11, program11, data),fn:self.program(28, program28, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.curResChange, {hash:{},inverse:self.program(11, program11, data),fn:self.program(28, program28, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n						</td>\n						";
   stack1 = helpers['if'].call(depth0, depth0.nextLevel, {hash:{},inverse:self.noop,fn:self.program(30, program30, data),data:data});
@@ -209,7 +209,7 @@ function program28(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\n								";
   options = {hash:{},inverse:self.noop,fn:self.program(21, program21, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.curNetChange, options) : helperMissing.call(depth0, "key_value", depth0.curNetChange, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.curResChange, options) : helperMissing.call(depth0, "key_value_object", depth0.curResChange, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n							";
   return buffer;
@@ -229,7 +229,7 @@ function program31(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\n									";
   options = {hash:{},inverse:self.noop,fn:self.program(25, program25, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.nextResChange, options) : helperMissing.call(depth0, "key_value", depth0.nextResChange, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.nextResChange, options) : helperMissing.call(depth0, "key_value_object", depth0.nextResChange, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n								";
   return buffer;
@@ -252,7 +252,7 @@ function program34(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\n								";
   options = {hash:{},inverse:self.noop,fn:self.program(35, program35, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.curModifiers, options) : helperMissing.call(depth0, "key_value", depth0.curModifiers, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.curModifiers, options) : helperMissing.call(depth0, "key_value_object", depth0.curModifiers, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n							";
   return buffer;
@@ -294,7 +294,7 @@ function program38(depth0,data) {
   var buffer = "", stack1, stack2, options;
   buffer += "\n									";
   options = {hash:{},inverse:self.noop,fn:self.program(39, program39, data),data:data};
-  stack2 = ((stack1 = helpers.key_value || depth0.key_value),stack1 ? stack1.call(depth0, depth0.nextModifiers, options) : helperMissing.call(depth0, "key_value", depth0.nextModifiers, options));
+  stack2 = ((stack1 = helpers.key_value_object || depth0.key_value_object),stack1 ? stack1.call(depth0, depth0.nextModifiers, options) : helperMissing.call(depth0, "key_value_object", depth0.nextModifiers, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n								";
   return buffer;

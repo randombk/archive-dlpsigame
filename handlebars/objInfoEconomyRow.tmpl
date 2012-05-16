@@ -2,16 +2,16 @@
 	<td>{{itemName}}</td>
 	<td>
 		{{#if production}}
-			{{#key_value production}}
-				<span class="itemLink" data-type="diff" data-item="{{key}}" data-quantity="{{value}}"></span>
-			{{/key_value}}
+			{{#key_value_object production}}
+				<span class="itemLink" data-type="diff" data-item="{{key}}" data-parameters="{{value}}"></span>
+			{{/key_value_object}}
 		{{/if}}
 	</td>
 	<td>
 		{{#if consumption}}
-			{{#key_value consumption}}
-				<span class="itemLink" data-type="diff" data-item="{{key}}" data-quantity="-{{value}}"></span>
-			{{/key_value}}
+			{{#key_value_object consumption}}
+				<span class="itemLink" data-type="diff" data-item="{{key}}" data-quantitysign="-" data-parameters="{{value}}"></span>
+			{{/key_value_object}}
 		{{/if}}
 	</td>
 	<td>

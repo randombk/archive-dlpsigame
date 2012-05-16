@@ -152,14 +152,16 @@
 					});
 					
 					$.jStorage.subscribe("dataUpdater", function(channel, payload) {
-						console.log(payload);
 						if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
 							if (inArray(payload.msgTarget, "all")) {
 								switch (payload.msgType) {
 									case "msgUpdateObjectInfo": {
 										if(payload.msgData.objectID == objectID && jQuery.isEmptyObject(selectedItems)) {
+											parseItemData(payload.msgData.objectInfo.items);
+											
 											loadInfoPage(payload.msgData.objectInfo);
 											loadInventoryPage(payload.msgData.objectInfo.items);
+											
 											$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : payload.msgData.objectInfo.items}, ["all"], window.name));
 										}
 										break;
@@ -197,8 +199,6 @@
 				var objectListItem = Handlebars.templates['objectListItem.tmpl'];
 				$("#objectList").text("");
 				for ( var i in data) {
-					if(i == "code")
-						continue;
 					$("#objectList").append(objectListItem({
 						"objectID" : i,
 						"objectName" : data[i].objectName,
@@ -215,7 +215,8 @@
 			}
 			
 			function loadObjectData(id) {
-				if(id < 0) return;
+				if(id <= 0) return;
+				
 				clearSelections();
 				objectID = id;
 				$(".invHolder").text("Loading Data...");
@@ -227,7 +228,7 @@
 						} else {
 							$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectInfo", {"objectID" : objectID, "objectInfo" : data}, ["all"], window.name));
 						}
-					}, 
+					},
 					"json"
 				).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
 			}
@@ -253,7 +254,7 @@
 					$("#storageUsed").removeClass("red");
 				}
 				
-				$("#energyCapacity").text(niceNumber(data.items.energy) + " / " + niceNumber(data.objEnergyStorage));									
+				$("#energyCapacity").text(niceNumber(isset(data.items.energy) ? data.items.energy.quantity : 0) + " / " + niceNumber(data.objEnergyStorage));									
 				if(data.items.energy >= data.objEnergyStorage) {
 					$("#energyCapacity").addClass("red");
 				} else {
@@ -264,34 +265,30 @@
 			}
 			
 			function resetInventoryPage() {
-				$(".invHolder").text("");
+				$(".invHolder").html("");
 				clearSelections();
 			}
 			
 			function loadInventoryPage(data) {
 				resetInventoryPage();
-				for (var i in data) {
-					if(i == "code") {
-						continue;
-					}
-					var itemObj = dbItemData[i];
-					if(itemObj.itemVisibility > 0){
-						var template = Handlebars.templates['invObject.tmpl'];
-						context = {
-							quantity: niceNumber(data[i]),
-							itemName: itemObj.itemName,
-							itemImage: itemObj.itemImage
-						};
+				var template = Handlebars.templates['invObject.tmpl'];
+				for(var itemID in data) {
+					var item = data[itemID];
+					if(item.itemVisibility > 0 && item.quantity > 0) {
+						var html = $(template({
+							quantity: niceNumber(item.quantity),
+							itemName: item.itemName,
+							itemImage: item.itemImage
+						}));
 						
-						var html = $(template(context));
-						html.addClass("type_" + itemObj.itemType)
-					    	.attr("data-itemType", itemObj.itemType)
-						    .attr("data-itemName", itemObj.itemName)
-						    .attr("data-itemID", itemObj.itemID)
-						    .attr("data-itemQuantity", data[i])
-						    .attr("data-itemVisibility", itemObj.itemVisibility)
-						    .attr("data-itemUnitWeight", itemObj.itemWeight)
-						    .attr("data-itemTotalWeight", itemObj.itemWeight * data[i]);
+						html.addClass("type_" + item.itemType)
+					    	.attr("data-itemType", item.itemType)
+						    .attr("data-itemName", item.itemName)
+						    .attr("data-itemID", item.itemID)
+						    .attr("data-itemQuantity", item.quantity)
+						    .attr("data-itemVisibility", item.itemVisibility)
+						    .attr("data-itemUnitWeight", item.itemWeight)
+						    .attr("data-itemTotalWeight", item.getTotalWeight());
 						$(".invHolder").append(html);
 						
 						//Selection Toggling
@@ -308,24 +305,33 @@
 										$("<div></div>").addClass("selText").text("Selected: " + niceNumber(number))
 									);
 									selectedItems[element.attr("data-itemID")] = number; 
-								updateControls();
+									updateControls(data);
 								}, "text", Math.round($(this).attr("data-itemQuantity")));
 							}
-							updateControls();
+							updateControls(data);
 						});
 					}
 				}
-				registerHover();
+				registerHover(data);
 			}
 			
-			function updateControls() {
+			function clearSelections() {
+				selectedItems = {};
+				updateControls();
+				$(".invObject").each(function() {
+					$(this).removeClass("selected");
+					$(this).find(".selText").remove();
+				});
+			}
+			
+			function updateControls(itemData) {
 				if(!jQuery.isEmptyObject(selectedItems)) {
 					var totalNumber = 0;
 					var totalWeight = 0;
 					
 					for (var i in selectedItems) {
 						totalNumber += parseInt(selectedItems[i]);
-						totalWeight += parseInt(selectedItems[i] * dbItemData[i].itemWeight);
+						totalWeight += parseInt(selectedItems[i] * itemData[i].itemWeight);
 					}
 					
 					$("#invControlText").text("Selected " + niceNumber(totalNumber) + " items, weighing " + niceNumber(totalWeight));
@@ -338,27 +344,18 @@
 				}
 			}
 			
-			function clearSelections() {
-				selectedItems = {};
-				updateControls();
-				$(".invObject").each(function() {
-					$(this).removeClass("selected");
-					$(this).find(".selText").remove();
-				});
-			}
-			
-			function registerHover() {
+			function registerHover(data) {
 				$(".invObject").each(function() {
 					if($(this).hasClass("tt-init")) {
 						$(this).tooltip("option", "content", function() {
-							return getTTInvItem($(this).attr("data-itemID"), $(this).attr("data-itemQuantity"));
+							return data[$(this).attr("data-itemID")].getHoverContent();
 						});
 					} else {
 						staticTT(
 							$(this), 
 							{
 								content : function() {
-									return getTTInvItem($(this).attr("data-itemID"), $(this).attr("data-itemQuantity"));
+									return data[$(this).attr("data-itemID")].getHoverContent();
 								}, 
 								show: { delay: 600, effect: "show" }
 							}
@@ -462,5 +459,4 @@
 			})(jQuery); 
 		</script>
 	{/if}
-	
 {/block}
