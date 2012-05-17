@@ -60,10 +60,11 @@
         "itemFlags": {
         	"Usable": {
         		"singleUse": false,
-        		"itemhandlerUse": ""
+        		"itemhandlerUse": "itemhandlerUseResearchNotes"
         	}, 
         	"MultiItem": {},
-        	"Cached": {}
+        	"Cached": {},
+        	"NoDestroy": {}
         }
     }
 }

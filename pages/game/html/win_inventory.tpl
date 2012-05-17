@@ -18,8 +18,7 @@
 			</div>
 		</div>
 		<div class="viewport">
-		    <div id="objectList" class="overview">
-			</div>
+			<div id="objectList" class="overview"></div>
 		</div>
 	</div>
 </div>
@@ -39,36 +38,20 @@
 							</th>
 						</tr>
 						<tr>
-							<td style="width: 60%;">
-								Number of buildings: <span id="numBuildings"></span>
-							</td>
-							<td style="width: 40%;">
-								Planet Type: <span id="planetType"></span>
-							</td>
+							<td style="width: 60%;">Number of buildings: <span id="numBuildings"></span></td>
+							<td style="width: 40%;">Planet Type: <span id="planetType"></span></td>
 						</tr>
 						<tr>
-							<td style="width: 60%;">
-								Storage Capacity: <span id="storageUsed"></span>
-							</td>
-							<td style="width: 40%;">
-								Planet Size: <span id="planetSize"></span>
-							</td>
+							<td style="width: 60%;">Storage Capacity: <span id="storageUsed"></span></td>
+							<td style="width: 40%;">Planet Size: <span id="planetSize"></span></td>
 						</tr>
 						<tr>
-							<td style="width: 60%;">
-								Energy Capacity: <span id="energyCapacity"></span>
-							</td>
-							<td style="width: 40%;">
-								Planet Temperature: <span id="planetTemp"></span>
-							</td>
+							<td style="width: 60%;">Energy Capacity: <span id="energyCapacity"></span></td>
+							<td style="width: 40%;">Planet Temperature: <span id="planetTemp"></span></td>
 						</tr>
 						<tr>
-							<td style="width: 60%;">
-								Fleet Capacity: <span id="fleetCapacity"></span>
-							</td>
-							<td style="width: 40%;">
-								Planet Humidity: <span id="planetHumidity"></span>
-							</td>
+							<td style="width: 60%;">Fleet Capacity: <span id="fleetCapacity"></span></td>
+							<td style="width: 40%;">Planet Humidity: <span id="planetHumidity"></span></td>
 						</tr>
 					</table>
 				</td>
@@ -85,7 +68,7 @@
 			</div>
 		</div>
 		<div class="viewport">
-		    <div class="overview">
+			<div class="overview">
 				<div class="invHolder">
 					Select an object from the left panel
 				</div>
@@ -94,31 +77,19 @@
 	</div>
 	<div class="invControls">
 		<div class="invControlHolder">
-			<div class="invControl" id="reloadData" oncontextmenu="loadObjectListData(); loadObjectData(objectID);" onclick="loadObjectListData(); loadObjectData(objectID);">
-				Reload Data
-			</div>
-			<div class="invControl" id="clearSelection" oncontextmenu="return clearSelections();" onclick="return clearSelections();">
-				Clear Selection
-			</div>
-			<div class="invControl" oncontextmenu="return sortInvName();" onclick="return sortName();">
-				Sort Name
-			</div>
-			<div class="invControl" oncontextmenu="return sortInvType();" onclick="return sortType();">
-				Sort Type
-			</div>	
-			<div class="invControl" oncontextmenu="return sortInvQuantity();" onclick="return sortQuantity();">
-				Sort Quantity
-			</div>	
-			<div class="invControl" oncontextmenu="return sortInvWeight();" onclick="return sortWeight();">
-				Sort Weight
-			</div>
-			<div class="invControl" oncontextmenu="return sortInvType();" onclick="return sortType();">
-				Sort Value (NYI)
-			</div>
+			<div class="invControl" id="reloadData" 	onclick="loadObjectListData(); loadObjectData(objectID);">Reload Data</div>
+			<div class="invControl" id="clearSelection" onclick="return clearSelections();">Clear Selection</div>
+			<div class="invControl" id="sortName"		onclick="return sortName();">Sort Name</div>
+			<div class="invControl" id="sortType"		onclick="return sortType();">Sort Type</div>	
+			<div class="invControl" id="sortQuantity"	onclick="return sortQuantity();">Sort Quantity</div>	
+			<div class="invControl" id="sortWeight"		onclick="return sortWeight();">Sort Weight</div>
+			<div class="invControl" id="Type"			onclick="return sortType();">Sort Value (NYI)</div>
 		</div>
-		<div id="invControlText" class="invControlHolder">
-			
+		<div class="invControlHolder">
+			<div class="invControl" id="useItem" 		onclick="return sortName();">Use Item</div>
+			<div class="invControl" id="discardItem" 	onclick="return sortType();">Discard selected items</div>
 		</div>
+		<div id="invControlText" class="invControlHolder"></div>
 	</div>
 </div>
 <div id="toggleMaxMain">
@@ -131,6 +102,7 @@
 		<script type="text/javascript">
 			var objectID = -1;
 			var selectedItems = {};
+			var curSortBy = "";
 			
 			(function($) {
 				$(document).on('gameDataLoaded', function() {
@@ -178,11 +150,11 @@
 					loadObjectListData();
 					resetInfoPage();
 				});
-			})(jQuery); 
+			})(jQuery);
 			
 			function loadObjectListData() {
 				$("#objectList").text("Loading Data...");
-				$.post("ajaxRequest.php", 
+				$.post("ajaxRequest.php",
 					{"action" : "getObjectList", "ajaxType": "ObjectHandler"},
 					function(data){
 						if(data.code < 0) {
@@ -220,7 +192,7 @@
 				clearSelections();
 				objectID = id;
 				$(".invHolder").text("Loading Data...");
-				$.post("ajaxRequest.php", 
+				$.post("ajaxRequest.php",
 					{"action" : "getObjectInfo", "ajaxType": "ObjectHandler", "objectID": objectID},
 					function(data){
 						if(data.code < 0) {
@@ -282,13 +254,13 @@
 						}));
 						
 						html.addClass("type_" + item.itemType)
-					    	.attr("data-itemType", item.itemType)
-						    .attr("data-itemName", item.itemName)
-						    .attr("data-itemID", item.itemID)
-						    .attr("data-itemQuantity", item.quantity)
-						    .attr("data-itemVisibility", item.itemVisibility)
-						    .attr("data-itemUnitWeight", item.itemWeight)
-						    .attr("data-itemTotalWeight", item.getTotalWeight());
+							.attr("data-itemType", item.itemType)
+							.attr("data-itemName", item.itemName)
+							.attr("data-itemID", item.itemID)
+							.attr("data-itemQuantity", item.quantity)
+							.attr("data-itemVisibility", item.itemVisibility)
+							.attr("data-itemUnitWeight", item.itemWeight)
+							.attr("data-itemTotalWeight", item.getTotalWeight());
 						$(".invHolder").append(html);
 						
 						//Selection Toggling
@@ -304,14 +276,14 @@
 									element.append(
 										$("<div></div>").addClass("selText").text("Selected: " + niceNumber(number))
 									);
-									selectedItems[element.attr("data-itemID")] = number; 
+									selectedItems[element.attr("data-itemID")] = number;
 									updateControls(data);
 								}, "text", Math.round($(this).attr("data-itemQuantity")));
 							}
 							updateControls(data);
 						});
 					}
-				}
+				}	
 				registerHover(data);
 			}
 			
@@ -337,7 +309,18 @@
 					$("#invControlText").text("Selected " + niceNumber(totalNumber) + " items, weighing " + niceNumber(totalWeight));
 					$("#reloadData").hide();
 					$("#clearSelection").show();
+					
+					if(Object.keys(selectedItems).length == 1 && (new Item(Object.keys(selectedItems)[0], {})).hasFlag("Usable")) {
+						$("#useItem").show();
+					} else {
+						$("#useItem").hide();
+					}
+					
+					$("#discardItem").show();
 				} else {
+					$("#useItem").hide();
+					$("#discardItem").hide();
+					
 					$("#invControlText").text("");
 					$("#reloadData").show();
 					$("#clearSelection").hide();
@@ -352,11 +335,11 @@
 						});
 					} else {
 						staticTT(
-							$(this), 
+							$(this),
 							{
 								content : function() {
 									return data[$(this).attr("data-itemID")].getHoverContent();
-								}, 
+								},
 								show: { delay: 600, effect: "show" }
 							}
 						);	
@@ -365,98 +348,108 @@
 			}
 			
 			function sortType() {
-				function sortQuery(a,b){
-					var aVis = parseInt(a.getAttribute("data-itemVisibility"));
-					var bVis = parseInt(b.getAttribute("data-itemVisibility"));
-					if(aVis == bVis) {
-				    	return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? 1 : -1;	
-					} else {
-						return aVis > bVis ? 1 : -1;	
-					}
-				};
-				
+				var sortQuery = null;
+				if(curSortBy != "Type") {
+					curSortBy = "Type";
+					sortQuery = function(a,b){
+						var type1 = a.getAttribute("data-itemType").toLowerCase();
+						var type2 = b.getAttribute("data-itemType").toLowerCase();
+						if(type1 == type2) {
+							var aVis = parseInt(a.getAttribute("data-itemVisibility"));
+							var bVis = parseInt(b.getAttribute("data-itemVisibility"));
+							if(aVis == bVis) {
+								return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? 1 : -1;	
+							} else {
+								return aVis > bVis ? 1 : -1;	
+							}
+						} else {
+							return type1 > type2 ? 1 : -1;
+						}
+					};
+				} else {
+					curSortBy = "InvType";
+					sortQuery = function(a,b){
+						var type1 = a.getAttribute("data-itemType").toLowerCase();
+						var type2 = b.getAttribute("data-itemType").toLowerCase();
+						if(type1 == type2) {
+							var aVis = parseInt(a.getAttribute("data-itemVisibility"));
+							var bVis = parseInt(b.getAttribute("data-itemVisibility"));
+							if(aVis == bVis) {
+								return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? -1 : 1;	
+							} else {
+								return aVis > bVis ? -1 : 1;	
+							}
+						} else {
+							return type1 > type2 ? -1 : 1;
+						}
+					};
+				}
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
 				return false;
 			}
-		
-			function sortInvType() {
-				function sortQuery(a,b){
-					var aVis = parseInt(a.getAttribute("data-itemVisibility"));
-					var bVis = parseInt(b.getAttribute("data-itemVisibility"));
-					if(aVis == bVis) {
-				    	return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? -1 : 1;	
-					} else {
-						return aVis > bVis ? -1 : 1;	
-					}
-				};
-				
-				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
-				return false;
-			}
-			
+
 			function sortName() {
-				function sortQuery(a,b){
-				 	return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? 1 : -1;	
-				};
+				var sortQuery = null;
+				if(curSortBy != "Name") {
+					curSortBy = "Name";
+					sortQuery = function(a,b){
+						return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? 1 : -1;
+					};
+				} else {
+					curSortBy = "InvName";
+					sortQuery = function(a,b){
+						return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? -1 : 1;	
+					};
+				}
 				
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
 				return false;
 			}
-		
-			function sortInvName() {
-				function sortQuery(a,b){
-				  	return a.getAttribute("data-itemName").toLowerCase() > b.getAttribute("data-itemName").toLowerCase() ? -1 : 1;	
-				};
-				
-				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
-				return false;
-			}
-			
+
 			function sortWeight() {
-				function sortQuery(a,b){
-				 	return parseInt(a.getAttribute("data-itemTotalWeight")) > parseInt(b.getAttribute("data-itemTotalWeight")) ? 1 : -1;	
-				};
-				
-				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
-				return false;
-			}
-		
-			function sortInvWeight() {
-				function sortQuery(a,b){
-				  	return parseInt(a.getAttribute("data-itemTotalWeight")) > parseInt(b.getAttribute("data-itemTotalWeight")) ? -1 : 1;	
-				};
+				var sortQuery = null;
+				if(curSortBy != "Weight") {
+					curSortBy = "Weight";
+					sortQuery = function(a,b){
+						return parseInt(a.getAttribute("data-itemTotalWeight")) > parseInt(b.getAttribute("data-itemTotalWeight")) ? -1 : 1;	
+					};
+				} else {
+					curSortBy = "InvWeight";
+					sortQuery = function(a,b){
+						return parseInt(a.getAttribute("data-itemTotalWeight")) > parseInt(b.getAttribute("data-itemTotalWeight")) ? 1 : -1;	
+					};
+				}
 				
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
 				return false;
 			}
 			
 			function sortQuantity() {
-				function sortQuery(a,b){
-				 	return parseInt(a.getAttribute("data-itemQuantity")) > parseInt(b.getAttribute("data-itemQuantity")) ? 1 : -1;	
-				};
-				
-				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
-				return false;
-			}
-		
-			function sortInvQuantity() {
-				function sortQuery(a,b){
-				  	return parseInt(a.getAttribute("data-itemQuantity")) > parseInt(b.getAttribute("data-itemQuantity")) ? -1 : 1;	
-				};
+				var sortQuery = null;
+				if(curSortBy != "Quantity") {
+					curSortBy = "Quantity";
+					sortQuery = function(a,b){
+						return parseInt(a.getAttribute("data-itemQuantity")) > parseInt(b.getAttribute("data-itemQuantity")) ? -1 : 1;
+					};
+				} else {
+					curSortBy = "InvQuantity";
+					sortQuery = function(a,b){
+						return parseInt(a.getAttribute("data-itemQuantity")) > parseInt(b.getAttribute("data-itemQuantity")) ? 1 : -1;
+					};
+				}
 				
 				$('.invHolder .invObject').sort(sortQuery).appendTo('.invHolder');
 				return false;
 			}
 		</script>
 	{/literal}
-	
-	{if $objectID > 0}
+		{if $objectID > 0}
 		<script type="text/javascript">
 			(function($) {
 				$(document).on('gameDataLoaded', function() {
 					loadObjectData({$objectID});
 				});
-			})(jQuery); 
+			})(jQuery);
 		</script>
 	{/if}
 {/block}

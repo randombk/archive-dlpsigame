@@ -19,6 +19,15 @@ class UtilItem {
 		return isset($idArray[1]) ? $idArray[1] : "";
 	}
 	
+	static function getItemBaseData($itemID) {
+		$baseID = self::getItemBaseID($itemID);
+		if(isset(GameCache::get("ITEMS")[$baseID])) {
+			return GameCache::get("ITEMS")[$baseID];
+		} else {
+			return null;
+		}
+	}
+	
 	static function getItemParamData($itemID) {
 		if(isset(GameCache::get("ITEMPARAMS")[$itemID])) {
 			return GameCache::get("ITEMPARAMS")[$itemID];

@@ -103,7 +103,7 @@ MapGalaxy.prototype.loadImage = function(url, x, y, w, h, layer) {
 MapGalaxy.prototype.resize = function(newW, newH) {
 	this.stage.setSize(newW, newH);
 	this.reflow();
-}
+};
 
 MapGalaxy.prototype.reflow = function() {
 	this.width = $("#"+this.holderID).width() - 10;
@@ -177,15 +177,15 @@ MapGalaxy.prototype.initPanZoom = function(){
 	}, false);
 	
 	return scroller;
-}
+};
 
 MapGalaxy.prototype.toX = function(q, r, size) {
 	return this.contentWidth/2 + (size * Math.sqrt(3) * (q + r/2));
-}
+};
 
 MapGalaxy.prototype.toY = function(q, r, size) {
 	return this.contentHeight/2 + (size * 3/2 * r);
-}
+};
 
 MapGalaxy.prototype.drawHexagon = function(q, r, size, id, group, instance) {
 	
@@ -217,7 +217,7 @@ MapGalaxy.prototype.drawHexagon = function(q, r, size, id, group, instance) {
 
    
 	group.add(hexagon);
-}
+};
 
 MapGalaxy.prototype.labelHexagon = function(q, r, size, id, group, instance) {
 	var label = new Kinetic.Text({
@@ -231,5 +231,5 @@ MapGalaxy.prototype.labelHexagon = function(q, r, size, id, group, instance) {
 	});
 	label.setAlign('center');
 	group.add(label);
-}
+};
 

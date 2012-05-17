@@ -29,17 +29,17 @@ function Item(itemID, itemParams) {
 
 Item.prototype.hasFlag = function(flag) {
 	return isset(this.itemFlags[flag]);
-}
+};
 
 Item.prototype.runHandlers = function() {
 	if(this.hasFlag("MultiItem")) {
 		this.itemhandlerDisplayData();
 	}
-}
+};
 
 Item.prototype.getTotalWeight = function() {
 	return this.quantity * this.itemWeight;
-}
+};
 
 Item.prototype.getHoverContent = function() {
 	var template = Handlebars.templates['hoverItem.tmpl'];
@@ -71,7 +71,7 @@ Item.prototype.getHoverContent = function() {
 		};
 	}
 	return template(context);
-}
+};
 
 //Item Handlers
 Item.prototype.itemhandlerDisplayData = function() {
@@ -92,4 +92,4 @@ Item.prototype.itemhandlerDisplayData = function() {
 	}
 	
 	return this;
-}
+};

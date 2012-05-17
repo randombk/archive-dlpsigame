@@ -15,7 +15,7 @@ function loadCachedData() {
 	dbResearchData = JSON.parse(localStorage.getItem("dbResearchData"));
 	dbResearchPosData = JSON.parse(localStorage.getItem("dbResearchPosData"));
 
-	if (dbItemData != null && dbBuildData != null && dbModData != null && dbResearchData != null && dbResearchPosData != null) {
+	if (dbItemData !== null && dbBuildData !== null && dbModData !== null && dbResearchData !== null && dbResearchPosData !== null) {
 		$(document).trigger('gameDataLoaded');
 	} else {
 		loadGameDataFailure(5);
