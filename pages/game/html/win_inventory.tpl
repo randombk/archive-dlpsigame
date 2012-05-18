@@ -255,7 +255,7 @@
 							itemImage: item.itemImage
 						}));
 						
-						html.addClass("type_" + item.itemType)
+						html.addClass("type_" + item.itemType.replace(" ", "_"))
 							.attr("data-itemType", item.itemType)
 							.attr("data-itemName", item.itemName)
 							.attr("data-itemID", item.itemID)

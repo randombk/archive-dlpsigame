@@ -10,11 +10,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.itemImage) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.itemImage; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\">\r\n	<div class=\"invInfo\">\r\n		<div class=\"itemName\">";
+    + "\">\r\n	<div class=\"invInfo\">\r\n		<div class=\"itemName\">\r\n			<p style=\"display: table-cell; vertical-align: middle; text-align: center; line-height: 95%;\">\r\n				";
   if (stack1 = helpers.itemName) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.itemName; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</div>\r\n		<div class=\"itemQuantity\">";
+    + "\r\n			</p>\r\n		</div>\r\n		<div class=\"itemQuantity\">";
   if (stack1 = helpers.quantity) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.quantity; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

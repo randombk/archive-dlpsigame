@@ -196,11 +196,10 @@
 
 .invObject .itemName {
 	position: absolute;
-	bottom: 14px;
-	left: 0px;
-	right: 0px;
+	display: table;
+	height: 40px;
+	width: 86px;
 	top: 0px;
 	color: #D3D3D3;
 	text-align: center;
-	line-height: 95%;
 }

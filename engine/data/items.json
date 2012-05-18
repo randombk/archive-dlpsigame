@@ -51,7 +51,7 @@
     },
    "research-notes": {
 		"itemID": "research-notes",
-        "itemType": "ResearchNotes",
+        "itemType": "Research Notes",
         "itemVisibility": 20,
         "itemImage": "researchNotes.jpg",
         "itemName": "%s Research Notes",
