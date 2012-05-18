@@ -32,7 +32,11 @@ class HTTP {
 		}
 
 		if ($default === "json") {
-			return json_decode($_REQUEST[$name], true);
+			try {
+				return json_decode($_REQUEST[$name], true);
+			} catch (Exception $e) {
+				return array();
+			}
 		}
 		
 		if (is_string($default)) {

@@ -86,8 +86,8 @@
 			<div class="invControl" id="Type"			onclick="return sortType();">Sort Value (NYI)</div>
 		</div>
 		<div class="invControlHolder">
-			<div class="invControl" id="useItem" 		onclick="return sortName();">Use Item</div>
-			<div class="invControl" id="discardItem" 	onclick="return sortType();">Discard selected items</div>
+			<div class="invControl" id="useItem" 		onclick="return useSelected();">Use Item</div>
+			<div class="invControl" id="discardItem" 	onclick="return discardSelected();">Discard selected items</div>
 		</div>
 		<div id="invControlText" class="invControlHolder"></div>
 	</div>
@@ -152,6 +152,7 @@
 				});
 			})(jQuery);
 			
+			//Object List
 			function loadObjectListData() {
 				$("#objectList").text("Loading Data...");
 				$.post("ajaxRequest.php",
@@ -186,6 +187,7 @@
 				});
 			}
 			
+			//Object information
 			function loadObjectData(id) {
 				if(id <= 0) return;
 				
@@ -287,46 +289,6 @@
 				registerHover(data);
 			}
 			
-			function clearSelections() {
-				selectedItems = {};
-				updateControls();
-				$(".invObject").each(function() {
-					$(this).removeClass("selected");
-					$(this).find(".selText").remove();
-				});
-			}
-			
-			function updateControls(itemData) {
-				if(!jQuery.isEmptyObject(selectedItems)) {
-					var totalNumber = 0;
-					var totalWeight = 0;
-					
-					for (var i in selectedItems) {
-						totalNumber += parseInt(selectedItems[i]);
-						totalWeight += parseInt(selectedItems[i] * itemData[i].itemWeight);
-					}
-					
-					$("#invControlText").text("Selected " + niceNumber(totalNumber) + " items, weighing " + niceNumber(totalWeight));
-					$("#reloadData").hide();
-					$("#clearSelection").show();
-					
-					if(Object.keys(selectedItems).length == 1 && (new Item(Object.keys(selectedItems)[0], {})).hasFlag("Usable")) {
-						$("#useItem").show();
-					} else {
-						$("#useItem").hide();
-					}
-					
-					$("#discardItem").show();
-				} else {
-					$("#useItem").hide();
-					$("#discardItem").hide();
-					
-					$("#invControlText").text("");
-					$("#reloadData").show();
-					$("#clearSelection").hide();
-				}
-			}
-			
 			function registerHover(data) {
 				$(".invObject").each(function() {
 					if($(this).hasClass("tt-init")) {
@@ -347,6 +309,93 @@
 				});
 			}
 			
+			//Selection handling and controls
+			function clearSelections() {
+				selectedItems = {};
+				updateControls();
+				$(".invObject").each(function() {
+					$(this).removeClass("selected");
+					$(this).find(".selText").remove();
+				});
+			}
+			
+			function updateControls(itemData) {
+				if(!jQuery.isEmptyObject(selectedItems)) {
+					var totalNumber = 0;
+					var totalWeight = 0;
+					
+					$("#reloadData").hide();
+					$("#clearSelection").show();
+					
+					//By default, show everything
+					$("#discardItem").show();
+					$("#useItem").show();
+					
+					//Then, block out as criteria are not met
+					if(Object.keys(selectedItems).length > 1) {
+						$("#useItem").hide();
+					}
+					
+					for (var i in selectedItems) {
+						totalNumber += parseInt(selectedItems[i]);
+						totalWeight += parseInt(selectedItems[i] * itemData[i].itemWeight);
+						if(!itemData[i].hasFlag("Usable")){
+							$("#useItem").hide();
+						}
+						if(itemData[i].hasFlag("NoDestroy")) {
+							$("#discardItem").hide();
+						}
+					}
+					
+					$("#invControlText").text("Selected " + niceNumber(totalNumber) + " items, weighing " + niceNumber(totalWeight));
+				} else {
+					$("#useItem").hide();
+					$("#discardItem").hide();
+					
+					$("#invControlText").text("");
+					$("#reloadData").show();
+					$("#clearSelection").hide();
+				}
+			}
+			
+			//Special actions
+			function discardSelected() {
+				//All sanity checking is handled server-side, so dont bother checking again here.
+				doConfirm("Are you sure you want to permanently discard the selected items?", function() {
+					$.post("ajaxRequest.php",
+						{"action" : "discardItem", "ajaxType": "ObjectInventory", "objectID": objectID, "itemArray": JSON.stringify(selectedItems)},
+						function(data){
+							if(data.code < 0) {
+								showMessage(data.message, "red", 30000);
+							} else {
+								loadObjectData(objectID);
+							}
+						}, 
+						"json"
+					).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
+					clearSelections();
+				}, function(){});
+			}
+			
+			function useSelected() {
+				//All sanity checking is handled server-side, so dont bother checking again here.
+				var itemID = Object.keys(selectedItems)[0];
+				var numItem = selectedItems[itemID];
+				$.post("ajaxRequest.php",
+					{"action" : "useItem", "ajaxType": "ObjectInventory", "objectID": objectID, "itemID": itemID, "itemAmount": numItem},
+					function(data){
+						if(data.code < 0) {
+							showMessage(data.message, "red", 30000);
+						} else {
+							loadObjectData(objectID);
+						}
+					},
+					"json"
+				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
+				clearSelections();
+			}
+			
+			//Sorting
 			function sortType() {
 				var sortQuery = null;
 				if(curSortBy != "Type") {

@@ -63,6 +63,7 @@ temp/
 contrib/
 
 .project
+.settings/
 
 /DLPSIGAME/nbproject/private/
 dev/

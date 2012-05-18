@@ -197,10 +197,14 @@ Handlebars.registerHelper('key_value_object', function (obj, hash) {
     return buffer;
 });
 
-
 Handlebars.registerHelper('ifdef', function(conditional, options) {
 	if(conditional || conditional === 0) {
 		return options.fn(this);
 	}
 });
-			
+
+Handlebars.registerHelper('ifnotempty', function(conditional, options) {
+	if(!isEmpty(conditional)) {
+		return options.fn(this);
+	}
+});			

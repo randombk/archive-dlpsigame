@@ -53,6 +53,7 @@ Item.prototype.getHoverContent = function() {
 			itemName: this.itemName,
 			itemDesc: this.itemDesc,
 			itemType: this.itemType,
+			itemFlags: this.itemFlags,
 			itemWeight: niceNumber(this.itemWeight),
 			itemTotalWeight: niceNumber(context.quantity * this.itemWeight),
 			itemValue: "NYI",
@@ -65,6 +66,7 @@ Item.prototype.getHoverContent = function() {
 			itemName: this.itemName,
 			itemDesc: this.itemDesc,
 			itemType: this.itemType,
+			itemFlags: this.itemFlags,
 			itemWeight: niceNumber(this.itemWeight),
 			itemValue:  "NYI",
 			itemImage:  this.itemImage

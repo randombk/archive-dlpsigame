@@ -59,7 +59,6 @@
         "itemWeight": 0,
         "itemFlags": {
         	"Usable": {
-        		"singleUse": false,
         		"itemhandlerUse": "itemhandlerUseResearchNotes"
         	}, 
         	"MultiItem": {},
