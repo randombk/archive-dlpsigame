@@ -108,7 +108,7 @@ function program15(depth0,data) {
 function program17(depth0,data) {
   
   var buffer = "", stack1, stack2, options;
-  buffer += "\r\n					<tr>\r\n						<td class=\"itemDescHolder\" style=\"color: #BB0000\" colspan=\"3\">\r\n							";
+  buffer += "\r\n					<tr>\r\n						<td class=\"itemDescHolder\" style=\"color: #BB0000;\" colspan=\"3\">\r\n							";
   options = {hash:{},inverse:self.noop,fn:self.program(18, program18, data),data:data};
   stack2 = ((stack1 = helpers.ifdef || depth0.ifdef),stack1 ? stack1.call(depth0, ((stack1 = depth0.itemFlags),stack1 == null || stack1 === false ? stack1 : stack1.NoTrade), options) : helperMissing.call(depth0, "ifdef", ((stack1 = depth0.itemFlags),stack1 == null || stack1 === false ? stack1 : stack1.NoTrade), options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
@@ -160,13 +160,13 @@ function program22(depth0,data) {
 function program24(depth0,data) {
   
   
-  return "\r\n								This item is unique<br>\r\n							";
+  return "\r\n								<span style=\"color: #00BB00;\">This item is unique</span><br>\r\n							";
   }
 
 function program26(depth0,data) {
   
   
-  return "\r\n								This item is usable<br>\r\n							";
+  return "\r\n								<span style=\"color: #00BB00;\">This item is usable</span><br>\r\n							";
   }
 
 function program28(depth0,data) {
@@ -178,7 +178,7 @@ function program28(depth0,data) {
 function program30(depth0,data) {
   
   
-  return "\r\n								This item may be used a fuel for ships<br>\r\n							";
+  return "\r\n								<span style=\"color: #00BB00;\">This item may be used a fuel for ships</span><br>\r\n							";
   }
 
   buffer += "<div class=\"tooltipContent\">\r\n	<span class=\"tableHolder\">\r\n		<table class=\"hoverTable\">\r\n			<tbody>\r\n				<tr>\r\n					<th rowspan=\"4\" class=\"itemImgHolder\"><img src=\"http://placehold.it/100x80/BBB&text=";

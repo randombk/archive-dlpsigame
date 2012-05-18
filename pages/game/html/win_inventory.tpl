@@ -276,7 +276,7 @@
 								doInput("Number:", function(number) {
 									element.addClass("selected");
 									element.append(
-										$("<div></div>").addClass("selText").text("Selected: " + niceNumber(number))
+										$("<div></div>").addClass("selText").html("Selected:<br>" + niceNumber(number))
 									);
 									selectedItems[element.attr("data-itemID")] = number;
 									updateControls(data);

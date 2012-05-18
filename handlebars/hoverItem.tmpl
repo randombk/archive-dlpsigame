@@ -39,7 +39,7 @@
 				</tr>
 				{{#ifnotempty itemFlags}}
 					<tr>
-						<td class="itemDescHolder" style="color: #BB0000" colspan="3">
+						<td class="itemDescHolder" style="color: #BB0000;" colspan="3">
 							{{#ifdef itemFlags.NoTrade}}
 								This item may not be traded<br>
 							{{/ifdef}}
@@ -50,16 +50,16 @@
 								This item may not be destroyed or discarded<br>
 							{{/ifdef}}
 							{{#ifdef itemFlags.Unique}}
-								This item is unique<br>
+								<span style="color: #00BB00;">This item is unique</span><br>
 							{{/ifdef}}
 							{{#ifdef itemFlags.Usable}}
-								This item is usable<br>
+								<span style="color: #00BB00;">This item is usable</span><br>
 							{{/ifdef}}
 							{{#ifdef itemFlags.NoTransport}}
 								This item may not be transported on ships<br>
 							{{/ifdef}}
 							{{#ifdef itemFlags.Fuel}}
-								This item may be used a fuel for ships<br>
+								<span style="color: #00BB00;">This item may be used a fuel for ships</span><br>
 							{{/ifdef}}
 						</td>
 					</tr>

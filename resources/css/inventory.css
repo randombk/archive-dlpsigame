@@ -128,8 +128,8 @@
 .invObject {
 	position: relative;
 	display: inline-block;
-	height: 110px;
-	width: 80px;
+	height: 120px;
+	width: 90px;
 	background-color: #333333;
 	border: 1px solid #031A3A;
 	margin: 2px;
@@ -164,7 +164,7 @@
 	display: block;
 	margin: 2px;
 	margin-bottom: 0px;
-	width: 74px;
+	width: 84px;
 	height: 60px;
 	background-color: rgba(80,80,80,0.8);
 	border: 1px solid #C1C1C1;
@@ -177,22 +177,30 @@
 
 .invObject .invInfo {
 	position: absolute;
-	margin: 2px;
-	margin-top: 0px;
-	height: 50px;
-	width: 75px;
+	left: 2px;
+	right: 2px;
+	top: 65px;
+	bottom: 2px;
 }
 
 .invObject .invInfo .itemQuantity {
+	position: absolute;
+	
+	bottom: 0px;
 	height: 14px;
+	left: 0px;
+	right: 0px;
 	text-align: right;
-	background-color: rgba(10,10,20,0.3);
-	border: 1px solid #C1C1C1;
-	border-top: none;
+	background-color: rgba(10,10,20,0.75);
 }
 
 .invObject .itemName {
+	position: absolute;
+	bottom: 14px;
+	left: 0px;
+	right: 0px;
+	top: 0px;
 	color: #D3D3D3;
 	text-align: center;
-	height: 30px;
+	line-height: 95%;
 }

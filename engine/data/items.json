@@ -51,10 +51,10 @@
     },
    "research-notes": {
 		"itemID": "research-notes",
-        "itemType": "Item",
+        "itemType": "ResearchNotes",
         "itemVisibility": 20,
         "itemImage": "researchNotes.jpg",
-        "itemName": "Research Notes - %s",
+        "itemName": "%s Research Notes",
         "itemDesc": "These research notes may be used to advance research for %s.",
         "itemWeight": 0,
         "itemFlags": {
