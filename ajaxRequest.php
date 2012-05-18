@@ -32,9 +32,6 @@ if ($_SESSION['PLAYER']['banExpireTime'] > time()) {
 if(!isset($_SESSION['OBJECTS']))
 	$_SESSION['OBJECTS'] = UtilPlayer::getPlayerObjects();
 
-if(!isset($_SESSION['RESEARCH']))
-	$_SESSION['RESEARCH'] = UtilPlayer::getPlayerResearchData();
-
 $what = HTTP::REQ('ajaxType', '');
 $whatName = strictString($what);
 

@@ -127,10 +127,6 @@ class UtilPlayer {
 		if(is_null($playerID)) {
 			$playerID = $_SESSION['playerID'];
 		}
-
-		if($playerID == $_SESSION['playerID']) {
-			$_SESSION['RESEARCH'] = $researchData;
-		}
 		
 		return $GLOBALS['MONGO']->setResearch("playerResearch_".$playerID, $researchData);
 	}
@@ -140,12 +136,24 @@ class UtilPlayer {
 			$playerID = $_SESSION['playerID'];
 		}
 		
-		$data = DataResearch::fromResearchArray($GLOBALS['MONGO']->getResearch("playerResearch_".$playerID));
-		
-		if($playerID == $_SESSION['playerID']) {
-			$_SESSION['RESEARCH'] = $data;
+		$data = DataResearch::fromResearchArray($GLOBALS['MONGO']->getResearch("playerResearch_".$playerID));		
+		return $data;
+	}
+	
+	static function setPlayerData($playerData, $playerID = null) {
+		if(is_null($playerID)) {
+			$playerID = $_SESSION['playerID'];
+		}
+
+		return $GLOBALS['MONGO']->setPlayer("playerData_".$playerID, $playerData);
+	}
+	
+	static function getPlayerData($playerID = null) {
+		if(is_null($playerID)) {
+			$playerID = $_SESSION['playerID'];
 		}
 		
+		$data = DataPlayer::fromDataArray($GLOBALS['MONGO']->getPlayer("playerData_".$playerID));		
 		return $data;
 	}
 }

@@ -170,6 +170,7 @@
 									buildPageInfo[key].nextResChange = mergeItemDataClone(buildPageInfo[key].nextResProduction, buildPageInfo[key].nextResConsumption, "-");
 								}
 								
+								/*
 								buildPageInfo[key].nextResearch = getBuildingBaseResearch(key, obj.nextLevel);
 								if(buildPageInfo[key].nextResearch) {
 									if(buildPageInfo[key].nextResearch.Weapons)
@@ -183,6 +184,7 @@
 									if(buildPageInfo[key].nextResearch.Fleet)
 										buildPageInfo[key].showFleetResearch = true;
 								}
+								*/
 								
 								buildPageInfo[key].nextModifiers = obj.nextModifiers;
 								if(buildPageInfo[key].nextModifiers)
@@ -213,7 +215,8 @@
 									buildPageInfo[key].showNetChange = true;
 									buildPageInfo[key].curResChange = mergeItemDataClone(buildPageInfo[key].curResProduction, buildPageInfo[key].curResConsumption, "-");
 								}
-							    
+								
+							    /*
 							    buildPageInfo[key].curResearch = getBuildingBaseResearch(key, obj.nextLevel);
 								if(buildPageInfo[key].curResearch) {
 									if(buildPageInfo[key].curResearch.Weapons)
@@ -227,6 +230,7 @@
 									if(buildPageInfo[key].curResearch.Fleet)
 										buildPageInfo[key].showFleetResearch = true;
 								}
+								*/
 							    
 							    buildPageInfo[key].curModifiers = obj.curModifiers;
 								if(buildPageInfo[key].curModifiers)
@@ -249,6 +253,10 @@
 							$(".buildingUpgrade").on("click", function(){
 								var buildingID = $(this).attr("data-buildingID");
 								var buildingLevel = $(this).attr("data-buildingLevel");
+								
+								if(!isset(buildingLevel)) {
+									return;
+								}
 								
 								$.post("ajaxRequest.php", 
 									{"action" : "buildBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},

@@ -10,9 +10,14 @@ class ItemHandlers {
 		$specialID = UtilItem::getItemSpecialID($itemID);
 		
 		if($baseID == "research-notes") {
-			Message::sendNotification($playerEnv->playerID, "Item Used", $numUsed . " on " . $objectID, "OK", "", "game.php", TIMESTAMP);
+			if($playerEnv->envPlayerData->getValue("flagResearchCenterPlanet") == $objectID) {
+				Message::sendNotification($playerEnv->playerID, "Item Used", $numUsed . " on " . $objectID, "OK", "", "game.php", TIMESTAMP);
+				return true;	
+			} else {
+				return "Research Notes can only be used on planets with a Research Center!";
+			}
 		} else {
-			throw new Exception("Invalid Parameter - Item may not be used with this handler");
+			return "Invalid Parameter - Item may not be used with this handler";
 		}
 	}
 }

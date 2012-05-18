@@ -347,23 +347,14 @@
         "buildImage": "buildResearchLab.gif",
         "buildName": "Research Lab",
         "buildDesc": "Allows research",
+        "buildHoverSpecial": "Allows research notes to be spent at this planet. Only one planet may have this building at any time. Destruction of this building will result in the loss of in all research notes spent that have not been converted into levels",
         "buildType": "rnd",
-        "buildMax": 5,
+        "buildMax": 1,
         "techReq": {},
         "buildingReq": {},
         "buildDifficulty": [
-            100
+            50
         ],
-        "resReq": [
-            { "iron": 2000, "metal": 300, "kryptonite": 300 }
-        ],
-        "resConsumption": [ ],
-        "researchPoints": [
-            { "Fleet": 10, "Economic": 10 },
-            { "Fleet": 20, "Economic": 20 },
-            { "Fleet": 30, "Economic": 30 },
-            { "Fleet": 40, "Economic": 40 },
-            { "Fleet": 50, "Economic": 50 }
-        ]
+        "resReq": [{ "iron": 200, "kryptonite": 300 }]
     }
 }

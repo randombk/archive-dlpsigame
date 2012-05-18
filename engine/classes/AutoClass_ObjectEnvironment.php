@@ -22,7 +22,9 @@ class ObjectEnvironment {
 	public $envObjectCoord = null; //UniCoord 
 	public $envObjectData = null;
 	
-	public static function fromObjectID($objectID) {
+	public $envPlayer = null; //PlayerEnvironment
+	
+	public static function fromObjectID($objectID, $envPlayer) {
 		$stmt = $GLOBALS['RDBMS']->prepare("
 			SELECT 
 				objectID, 
@@ -47,6 +49,7 @@ class ObjectEnvironment {
 			if(!isset($obj->buildingQueue)) {
 				$obj->buildingQueue = array();
 			}
+			$obj->envPlayer = $envPlayer;
 			return $obj;
 		} else {
 			throw new Exception("Invalid objectID");

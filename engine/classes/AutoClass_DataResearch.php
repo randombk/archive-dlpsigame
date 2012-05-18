@@ -79,8 +79,15 @@ class DataResearch {
 	
 	public static function fromResearchString($researchString) {
 		$instance = new self();
-		$instance->getResearchString($researchString);
+		$instance->setResearchString($researchString);
 		return $instance;
+	}
+	
+	//Special actions
+	public function resetUnsavedPoints() {
+		foreach ($this->researchArray as $research => $data) {
+			$this->researchArray[$research][1] = 0;
+		}
 	}
 }
 ?>

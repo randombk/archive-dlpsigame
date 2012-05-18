@@ -84,8 +84,13 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 						} else {
 							try {
 								$handlerHame = $baseData["itemFlags"]["Usable"]["itemhandlerUse"];
-								ItemHandlers::$handlerHame($itemID, $itemAmount, $objectID, $playerEnv);
-								$this->sendCode(0);	
+								
+								$result = ItemHandlers::$handlerHame($itemID, $itemAmount, $objectID, $playerEnv);
+								if($result === true) {
+									$this->sendCode(0);	
+								} else {
+									AjaxError::sendError($result);
+								}	
 							} catch (Exception $e) {
 								AjaxError::sendError("Unknown Error");
 							}	

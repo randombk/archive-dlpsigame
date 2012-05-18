@@ -141,6 +141,22 @@ class MongoHandler {
 	}
 	
 	/*
+	 * Player Data
+	 * 
+	 * */
+	public function collPlayer() {
+		return $this->database->playerData;
+	}
+	
+	public function getPlayer($uniqueID) {
+		return $this->get($this->collPlayer(), $uniqueID);
+	}
+	
+	public function setPlayer($uniqueID, $playerData) {
+		return $this->update($this->collPlayer(), $uniqueID, $playerData);
+	}
+	
+	/*
 	 * Research Data
 	 * 
 	 * */

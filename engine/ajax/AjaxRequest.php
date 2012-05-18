@@ -3,7 +3,7 @@
  * (C) Copyright 2012 David J. W. Li
  * Project DLPSIGAME
  */
-
+ 
 abstract class AjaxRequest {
 	function __construct() {	}
 

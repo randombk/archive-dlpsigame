@@ -1,5 +1,4 @@
 {
-    
     "modConstructionSpeedMultiplier": {
         "modName" : "Construction Speed Percantage Multiplier",
         "modDesc" : "Percentage increase of the construction speed for all buildings, ships, etc.",

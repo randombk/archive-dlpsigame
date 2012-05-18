@@ -46,7 +46,7 @@ $_SESSION['OBJECTS'] = UtilPlayer::getPlayerObjects();
 
 //BEGIN TESTBED
 
-$newPlanetID = UtilObject::createPlanet(UtilObject::getFreeObjectCoord(1, 1, "Colony"), 2);
+$newPlanetID = UtilObject::createPlanet(UtilObject::getFreeObjectCoord(1, 1, "Colony"), 3);
 		
 //Give player some items
 $item = new DataItem();

@@ -45,9 +45,6 @@ if ($_SESSION['PLAYER']['banExpireTime'] > time()) {
 if(!isset($_SESSION['OBJECTS']))
 	UtilPlayer::getPlayerObjects();
 
-if(!isset($_SESSION['RESEARCH']))
-	UtilPlayer::getPlayerResearchData();
-
 $page = HTTP::REQ('page', 'index');
 $mode = HTTP::REQ('mode', 'show');
 $mode = strictString(str_replace(array('_', '\\', '/', '.', "\0"), '', $mode));

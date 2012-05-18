@@ -17,7 +17,8 @@ class PlayerEnvironment {
 	public $objects = array();
 	public $envStars = array();
 	public $envObjects = array();
-	public $envResearch = null;
+	public $envResearch = null; //DataResearch
+	public $envPlayerData = null; //DataPlayer
 	
 	public $researchProduction = null;
 	
@@ -56,6 +57,7 @@ class PlayerEnvironment {
 		}
 		
 		$this->getResearchData();
+		$this->getPlayerData();
 		$this->getObjects();
 	}
 	
@@ -63,12 +65,16 @@ class PlayerEnvironment {
 		$this->envResearch = UtilPlayer::getPlayerResearchData($this->playerID);
 	}
 	
+	private function getPlayerData() {
+		$this->envPlayerData = UtilPlayer::getPlayerData($this->playerID);
+	}
+	
 	private function getObjects() {
 		$this->objects = UtilPlayer::getPlayerObjects($this->playerID);
 		foreach ($this->objects as $object) {
 			$starID = $object->getStarID();
 			$objectID = $object->getObjectID();
-			$this->envObjects[$objectID] = ObjectEnvironment::fromObjectID($objectID);
+			$this->envObjects[$objectID] = ObjectEnvironment::fromObjectID($objectID, $this);
 			if(!isset($this->envStars[$starID])) {
 				$this->envStars[$starID] = GameCache::get('STARS')[$starID];
 				$this->envStars[$starID]["objects"] = array();
@@ -101,7 +107,8 @@ class PlayerEnvironment {
 				} 
 			}
 			
-			UtilPlayer::setPlayerResearchData($this->envResearch->getResearchArray());
+			UtilPlayer::setPlayerResearchData($this->envResearch->getResearchArray(), $this->playerID);
+			UtilPlayer::setPlayerData($this->envPlayerData->getDataArray(), $this->playerID);
 			return true;
 		} else {
 			throw new Exception("Unknown PDO Error ");
