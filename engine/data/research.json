@@ -7,6 +7,7 @@
         "techName": "Test Tech 1",
         "techNameLine1": "Test",
         "techNameLine2": "Research",
+        "techNameLine3": "2",
         "techDesc": "Testing research item number one",
         "techEffects": "Testing research <br> item number one",
         "techMods": [
@@ -16,7 +17,6 @@
         	{"modBuildSpeedMultiplier": 40},
         	{"modBuildSpeedMultiplier": 50}
         ],
-        "techEntryPoint": true,
         "researchCost": [10, 20, 30, 40, 50]
     },
     "tech2": {
@@ -27,6 +27,7 @@
 		"techName": "Tech Tech 2",
 		"techNameLine1": "Test",
         "techNameLine2": "Research",
+        "techNameLine3": "2",
         "techDesc": "Testing research item number two",
         "techEffects": "Testing research <br> item number one",
         "techMods": [
@@ -43,10 +44,11 @@
         "r": 1,
         "techID": "tech3",
         "techImage": "test3.png",
-        "techName": "Tech Tech 3",
+        "techName": "Advanced Research Facilities",
         "techNameLine1": "Advanced",
         "techNameLine2": "Research Facilities",
-        "techDesc": "Testing research item number three",
+        "techNameLine3": "2",
+        "techDesc": "Advanced Research Facilities",
         "techEffects": "Testing research <br> item number one",
         "techMods": [
         	{"modBuildSpeedMultiplier": 10},
@@ -62,10 +64,11 @@
         "r": 1,
         "techID": "tech4",
         "techImage": "test4.png",
-        "techName": "Tech Tech 4",
+        "techName": "Advanced Research Facilities",
         "techNameLine1": "Advanced",
         "techNameLine2": "Research Facilities",
-        "techDesc": "Testing research item number four",
+        "techNameLine3": "2",
+        "techDesc": "Advanced Research Facilities",
         "techEffects": "Testing research <br> item number one",
         "techMods": [
         	{"modBuildSpeedMultiplier": 10},
@@ -81,10 +84,11 @@
         "r": 0,
         "techID": "tech5",
         "techImage": "test4.png",
-        "techName": "Tech Tech 5",
+        "techName": "Advanced Research Facilities 2",
         "techNameLine1": "Advanced",
-        "techNameLine2": "Research Facilities 2",
-        "techDesc": "Testing research item number four",
+        "techNameLine2": "Research Facilities",
+        "techNameLine3": "2",
+        "techDesc": "Advanced Research Facilities 2",
         "techEffects": "Testing research <br> item number one",
         "techMods": [
         	{"modBuildSpeedMultiplier": 10},
@@ -100,10 +104,11 @@
         "r": 1,
         "techID": "tech6",
         "techImage": "test4.png",
-        "techName": "Tech Tech 6",
+        "techName": "Advanced X-ray Lasers",
         "techNameLine1": "Advanced",
-        "techNameLine2": "Research Facilities 3",
-        "techDesc": "Testing research item number five",
+        "techNameLine2": "X-ray Lasers",
+        "techNameLine3": "2",
+        "techDesc": "Advanced X-ray Lasers",
         "techEffects": "Testing research <br> item number one",
         "techMods": [
         	{"modBuildSpeedMultiplier": 10},
@@ -121,7 +126,8 @@
         "techImage": "test2.png",
         "techName": "Tech Tech 7",
         "techNameLine1": "Advanced",
-        "techNameLine2": "Research Facilities 3",
+        "techNameLine2": "Research Facilities",
+        "techNameLine3": "2",
         "techDesc": "Testing research item number five",
         "techEffects": "Testing research <br> item number one",
         "techMods": [

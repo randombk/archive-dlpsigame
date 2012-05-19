@@ -32,7 +32,8 @@
 <script src="resources/js/tooltips.js?v={$VERSION}"></script>
 
 <!-- Load handlers -->
-<script src="resources/js/Items.js?v={$VERSION}"></script>
+<script src="resources/js/Item.js?v={$VERSION}"></script>
+<script src="resources/js/Research.js?v={$VERSION}"></script>
 
 {block name="additionalIncluding"}{/block}
 

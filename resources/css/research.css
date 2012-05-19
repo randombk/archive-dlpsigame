@@ -50,3 +50,86 @@
 #researchSVG g {
 	cursor: pointer;
 }
+
+/*
+ * Research Production page
+ * */
+
+#toggleMaxMain {
+	position: absolute;
+	top: 0px;
+	height: 20px;
+	left: 251px;
+	width: 10px;
+	background: rgba(2,26,58,0.8);
+	cursor: pointer;
+	border: 1px solid #D3D3D3;
+	z-index: 999;
+}
+
+.researchLeftPanel {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: 250px;
+	background: rgba(2,26,58,0.8);
+	border: 1px #D3D3D3 solid;
+	min-height: 40px;
+}
+
+.researchLeftPanel .researchListSearch {
+	position: absolute;
+	top: 0px;
+	height: 30px;
+	left: 0px;
+	right: 0px;
+	background: rgba(5,49,109,0.5);
+	border-bottom: 1px #D3D3D3 solid;
+}
+
+.researchLeftPanel .researchListHolder {
+	position: absolute;
+	top: 31px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	overflow: hidden;
+}
+
+.researchLeftPanel .researchListHolder .researchListItem {
+	height: 52px;
+	border-top: 1px #D3D3D3 solid;
+	border-bottom: 1px #D3D3D3 solid;
+	margin-top: 3px;
+	cursor: pointer;
+}
+
+.researchMainPanel {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 251px;
+	right: 0px;
+	background: rgba(2,26,58,0.8);
+	border: 1px #D3D3D3 solid;
+}
+
+.researchMainPanel .researchQueueHolder {
+	position: absolute;
+	top: 0px;
+	height: 80px;
+	left: 0px;
+	right: 0px;
+	background: rgba(2,26,58,0.8);
+	border-bottom: 1px #D3D3D3 solid;
+}
+
+.researchMainPanel .researchInfo {
+	position: absolute;
+	top: 81px;
+	bottom: 56px;
+	left: 0px;
+	right: 0px;
+	cursor: pointer;
+}

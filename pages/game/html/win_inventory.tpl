@@ -133,7 +133,9 @@
 											
 											loadInfoPage(payload.msgData.objectInfo);
 											loadInventoryPage(payload.msgData.objectInfo.items);
-											
+																		
+											$("[data-active=true]").attr("data-active", "");
+											$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
 											$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : payload.msgData.objectInfo.items}, ["all"], window.name));
 										}
 										break;
@@ -190,7 +192,6 @@
 			//Object information
 			function loadObjectData(id) {
 				if(id <= 0) return;
-				
 				clearSelections();
 				objectID = id;
 				$(".invHolder").text("Loading Data...");

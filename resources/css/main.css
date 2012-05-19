@@ -168,7 +168,7 @@ table.innerBorderedTable th {
 	background-color: rgba(170, 0, 0, 0.7);
 }
 
-.red-over:hover {
+.red-over:hover, .red-over[data-active=true] {
 	background-color: rgba(200, 0, 0, 0.8);
 }
 
@@ -180,8 +180,32 @@ table.innerBorderedTable th {
 	background-color: rgba(0, 150, 0, 0.6);
 }
 
-.green-over:hover {
+.green-over:hover, .green-over[data-active=true] {
 	background-color: rgba(0, 200, 0, 0.8);
+}
+
+.cyan {
+	color: #00FFFF;
+}
+
+.cyan-over {
+	background-color: rgba(0, 150, 150, 0.6);
+}
+
+.cyan-over:hover, .cyan-over[data-active=true] {
+	background-color: rgba(0, 200, 200, 0.8);
+}
+
+.orange {
+	color: orange;
+}
+
+.orange-over {
+	background-color: rgba(150, 75, 0, 0.6);
+}
+
+.orange-over:hover, .orange-over[data-active=true] {
+	background-color: rgba(200, 100, 0, 0.8);
 }
 
 .yellow {
@@ -192,7 +216,7 @@ table.innerBorderedTable th {
 	background-color: rgba(130, 130, 0, 0.6);
 }
 
-.yellow-over:hover {
+.yellow-over:hover, .yellow-over[data-active=true] {
 	background-color: rgba(150, 150, 0, 0.8);
 }
 
@@ -204,7 +228,7 @@ table.innerBorderedTable th {
 	background-color: rgba(3,26,58,0.6);
 }
 
-.blue-over:hover {
+.blue-over:hover, .blue-over[data-active=true] {
 	background-color: rgba(5,49,109,0.8);
 }
 

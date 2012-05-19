@@ -15,8 +15,8 @@
 
 					<li id="pageOverview" class="menuItem buttonDiv" ><a href="game.php?page=overview">Overview</a></li>
 					<li id="pageFleetSummary" class="menuItem buttonDiv" ><a href="game.php?page=research">Fleet Summary</a></li>
-					<li id="pageResearch" class="menuItem buttonDiv" ><a href="game.php?page=research">Research</a></li>
 					<li id="pageMap" class="menuItem buttonDiv" ><a href="game.php?page=map&mode=uniMap">Universe Map</a></li>
+					<li id="pageResearchMap" class="menuItem buttonDiv" ><a href="game.php?page=researchmap">Research Map</a></li>
 					
 					<li class="menuItem menuWindowItem buttonDiv"
 						id="winInventory"
@@ -30,8 +30,9 @@
 					<img class="menuImage" src="http://placehold.it/200x30/fff&text=Object+Functions">
 					<li id="pageObjectOverview" class="menuItem buttonDiv" ><a href="game.php?page=objectoverview&objectID={$currentObject}">{$currentObjectTypeName} Overview</a></li>
 					<li id="pageBuildings" class="menuItem buttonDiv" ><a href="game.php?page=buildings&objectID={$currentObject}">Buildings</a></li>
-					<li id="pageFactory" class="menuItem buttonDiv" ><a href="game.php?page=shipyard&amp;mode=fleet">Orbital Factory</a></li>
-					<li id="pageFleet" class="menuItem buttonDiv" ><a href="game.php?page=fleetTable">Fleet Commands</a></li>
+					<li id="pageResearch" class="menuItem buttonDiv" ><a href="game.php?page=research&objectID={$currentObject}">Research</a></li>
+					<li id="pageFactory" class="menuItem buttonDiv" ><a href="game.php?page=shipyard&mode=fleet&objectID={$currentObject}">Orbital Factory</a></li>
+					<li id="pageFleet" class="menuItem buttonDiv" ><a href="game.php?page=fleetTable&objectID={$currentObject}">Fleet Commands</a></li>
 					
 					<img class="menuImage" src="http://placehold.it/200x30/fff&text=Game+Functions">
 					<li class="menuItem menuWindowItem buttonDiv"
@@ -169,6 +170,7 @@
 		
 		{include file="main_scripts.tpl" bodyclass="full"}
 		<script type="text/javascript">
+			var objectID = {$currentObject}; 
 			{if $isAdmin}
 				{literal}
 					function clearCache() {
@@ -289,8 +291,9 @@
 									}));
 								}
 								
+								
 								$(".objectListItem").on("click", function() {
-									document.location = document.location.origin 
+									document.location = document.location.origin
 										+ document.location.pathname 
 										{/literal}
 										+ "?page={$page}"
@@ -299,6 +302,7 @@
 								});
 								
 								$(".scrollable").tinyscrollbar_update();
+								$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
 							}
 						},
 						"json"
