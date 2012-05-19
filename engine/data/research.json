@@ -16,7 +16,7 @@
         	{"modBuildSpeedMultiplier": 40},
         	{"modBuildSpeedMultiplier": 50}
         ],
-        "researchType": "Weapons",
+        "techEntryPoint": true,
         "researchCost": [10, 20, 30, 40, 50]
     },
     "tech2": {
@@ -36,7 +36,6 @@
         	{"modBuildSpeedMultiplier": 40},
         	{"modBuildSpeedMultiplier": 50}
         ],
-        "researchType": "Defense",
         "researchCost": [10, 20, 30, 40, 50]
     },
     "tech3": {
@@ -56,7 +55,6 @@
         	{"modBuildSpeedMultiplier": 40},
         	{"modBuildSpeedMultiplier": 50}
         ],
-        "researchType": "Diplomatic",
         "researchCost": [10, 20, 30, 40, 50]
     },
     "tech4": {
@@ -76,7 +74,6 @@
         	{"modBuildSpeedMultiplier": 40},
         	{"modBuildSpeedMultiplier": 50}
         ],
-        "researchType": "Economic",
         "researchCost": [10, 20, 30, 40, 50]
     },
     "tech5": {
@@ -96,7 +93,6 @@
         	{"modBuildSpeedMultiplier": 40},
         	{"modBuildSpeedMultiplier": 50}
         ],
-        "researchType": "Fleet",
         "researchCost": [10, 20, 30, 40, 50]
     },
     "tech6": {
@@ -116,7 +112,6 @@
         	{"modBuildSpeedMultiplier": 40},
         	{"modBuildSpeedMultiplier": 50}
         ],
-        "researchType": "Weapons",
         "researchCost": [10, 20, 30, 40, 50]
     },
     "tech7": {
@@ -136,7 +131,6 @@
         	{"modBuildSpeedMultiplier": 40},
         	{"modBuildSpeedMultiplier": 50}
         ],
-        "researchType": "Weapons",
         "researchCost": [10, 20, 30, 40, 50]
     }
 }
