@@ -69,11 +69,15 @@
 		});
 		
 		$(window).on("resize", function() {
-			$('.scrollable').each(function() {
-				$(this).tinyscrollbar_update();
-			});
+			updateAllScrollbars();
 		});
 	})(jQuery);
+
+	function updateAllScrollbars() {
+		$('.scrollable').each(function() {
+			$(this).tinyscrollbar_update();
+		});
+	}
 
 	//Register all item links
 	$(document).on('gameDataLoaded', function() {

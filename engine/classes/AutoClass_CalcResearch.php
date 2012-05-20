@@ -63,6 +63,16 @@ class CalcResearch {
 		
 		return false;	
 	}
+	
+	public static function getReqResearchPoints($techID, $playerEnv) {
+		if(self::canResearch($techID, $playerEnv)) {
+			$baseCost = GameCache::get("RESEARCH")[$techID][""]
+			
+			
+		} else {
+			return null;
+		}
+	}
 }
 
 ?>

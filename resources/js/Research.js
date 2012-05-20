@@ -80,3 +80,37 @@ Research.prototype.getResearchColor = function(researchData) {
 		return "red";
 	}
 };
+
+Research.prototype.getResearchMods = function(level) {
+	if(!level && level !== 0) {
+		level = this.techLevel;
+	}
+	var mods = {};
+	
+	for(var i in this.techMods) {
+		var modInfo = this.techMods[i];
+		if(level >= modInfo[0]) {
+			mods[i] = modInfo[1]*Math.pow(level-modInfo[0], modInfo[2]) + modInfo[3];
+		}
+	}
+	return mods;
+};
+
+Research.prototype.getResearchEffect = function(level) {
+	if(!level && level !== 0) {
+		level = this.techLevel;
+	}
+	var effectHTML = "";
+	for(var i = 1; i <= level; i++) {
+		if(isset(this.techEffects[i])) {
+			effectHTML += this.techEffects[i] + "<br>";	
+		}
+	}
+	
+	var researchMods = this.getResearchMods(level);
+	for(var i in researchMods) {
+		effectHTML += "<span class='modLink' data-modID='" + i + "' data-amount='" + researchMods[i] + "'></span>";
+	}
+	
+	return effectHTML;
+};

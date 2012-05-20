@@ -1,6 +1,5 @@
 /* Tiny Scrollbar */
 .scrollable {
-	margin: 5px 0 5px;
 }
 
 .scrollableWindow {
@@ -31,6 +30,7 @@
 	width: 10px;
 	float: right;
 	cursor: pointer;
+	overflow: hidden;
 }
 
 .scrollable .thumb {

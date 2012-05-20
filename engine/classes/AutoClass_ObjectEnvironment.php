@@ -90,13 +90,18 @@ class ObjectEnvironment {
 		);
 		
 		if($result !== false) {
-			UtilObject::setObjectResDataUsingID($this->objectID, $this->envItems->getItemArray());
-			UtilObject::setObjectBuildingDataUsingID($this->objectID, $this->envBuildings->getBuildingArray());
-			UtilObject::setObjectDataUsingID($this->objectID, $this->envObjectData);
+			$this->applyObjectMongo();
 			return true;
 		} else {
 			throw new Exception("Unknown PDO Error ");
 		}
+	}
+	
+	public function applyObjectMongo() {
+		UtilObject::setObjectResDataUsingID($this->objectID, $this->envItems->getItemArray());
+		UtilObject::setObjectBuildingDataUsingID($this->objectID, $this->envBuildings->getBuildingArray());
+		UtilObject::setObjectDataUsingID($this->objectID, $this->envObjectData);
+			
 	}
 }
 ?>

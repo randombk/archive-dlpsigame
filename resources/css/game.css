@@ -9,7 +9,7 @@
 	background-image: url("../images/bg_main.jpg");
 	background-position: center center;
 	background-origin: padding-box;
-	background-size: auto;
+	background-size: cover;
 	font-family: Verdana;
 	font-size: 10px;
 	color: rgb(221, 221, 221);

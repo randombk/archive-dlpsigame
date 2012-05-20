@@ -9,15 +9,17 @@
         "techNameLine2": "Research",
         "techNameLine3": "2",
         "techDesc": "Testing research item number one",
-        "techEffects": "Test research.",
-        "techMods": [
-        	{"modBuildTimeDecrease": 10},
-        	{"modBuildTimeDecrease": 20},
-        	{"modBuildTimeDecrease": 30},
-        	{"modBuildTimeDecrease": 40},
-        	{"modBuildTimeDecrease": 50}
-        ],
-        "researchCost": [10, 20, 30, 40, 50]
+        "techEffects": {
+            "1": "Test Level 1 Desc", 
+            "3": "Test Level 3 Desc", 
+            "4": "Test Level 4 Desc", 
+            "7": "Test Level 7 Desc"
+        },
+        "techMods": {
+            "modBuildSpeedMultiplier": [1, 2, 2, 50],
+            "modBuildTimeDecrease": [5, 2, 2, 50]
+        },
+        "researchCost": [10, 1.3, 30]
     },
     "tech2": {
         "techID": "tech2",
@@ -29,15 +31,17 @@
         "techNameLine2": "Research",
         "techNameLine3": "2",
         "techDesc": "Testing research item number two",
-        "techEffects": "Testing research <br> item number one",
-        "techMods": [
-        	{"modBuildSpeedMultiplier": 10},
-        	{"modBuildSpeedMultiplier": 20},
-        	{"modBuildSpeedMultiplier": 30},
-        	{"modBuildSpeedMultiplier": 40},
-        	{"modBuildSpeedMultiplier": 50}
-        ],
-        "researchCost": [10, 20, 30, 40, 50]
+        "techEffects": {
+            "1": "Test Level 1 Desc", 
+            "3": "Test Level 3 Desc", 
+            "4": "Test Level 4 Desc", 
+            "7": "Test Level 7 Desc"
+        },
+        "techMods": {
+            "modBuildSpeedMultiplier": [1, 2, 2, 50],
+            "modBuildTimeDecrease": [5, 2, 2, 50]
+        },
+        "researchCost": [10, 1.3, 30]
     },
     "tech3": {
         "q": 1,
@@ -49,15 +53,17 @@
         "techNameLine2": "Research Facilities",
         "techNameLine3": "2",
         "techDesc": "Advanced Research Facilities",
-        "techEffects": "Testing research <br> item number one",
-        "techMods": [
-        	{"modBuildSpeedMultiplier": 10},
-        	{"modBuildSpeedMultiplier": 20},
-        	{"modBuildSpeedMultiplier": 30},
-        	{"modBuildSpeedMultiplier": 40},
-        	{"modBuildSpeedMultiplier": 50}
-        ],
-        "researchCost": [10, 20, 30, 40, 50]
+        "techEffects": {
+            "1": "Test Level 1 Desc", 
+            "3": "Test Level 3 Desc", 
+            "4": "Test Level 4 Desc", 
+            "7": "Test Level 7 Desc"
+        },
+        "techMods": {
+            "modBuildSpeedMultiplier": [1, 2, 2, 50],
+            "modBuildTimeDecrease": [5, 2, 2, 50]
+        },
+        "researchCost": [10, 1.3, 30]
     },
     "tech4": {
         "q": 2,
@@ -69,15 +75,17 @@
         "techNameLine2": "Research Facilities",
         "techNameLine3": "2",
         "techDesc": "Advanced Research Facilities",
-        "techEffects": "Testing research <br> item number one",
-        "techMods": [
-        	{"modBuildSpeedMultiplier": 10},
-        	{"modBuildSpeedMultiplier": 20},
-        	{"modBuildSpeedMultiplier": 30},
-        	{"modBuildSpeedMultiplier": 40},
-        	{"modBuildSpeedMultiplier": 50}
-        ],
-        "researchCost": [10, 20, 30, 40, 50]
+        "techEffects": {
+            "1": "Test Level 1 Desc", 
+            "3": "Test Level 3 Desc", 
+            "4": "Test Level 4 Desc", 
+            "7": "Test Level 7 Desc"
+        },
+        "techMods": {
+            "modBuildSpeedMultiplier": [1, 2, 2, 50],
+            "modBuildTimeDecrease": [5, 2, 2, 50]
+        },
+        "researchCost": [10, 1.3, 30]
     },
     "tech5": {
         "q": 2,
@@ -89,15 +97,17 @@
         "techNameLine2": "Research Facilities",
         "techNameLine3": "2",
         "techDesc": "Advanced Research Facilities 2",
-        "techEffects": "Testing research <br> item number one",
-        "techMods": [
-        	{"modBuildSpeedMultiplier": 10},
-        	{"modBuildSpeedMultiplier": 20},
-        	{"modBuildSpeedMultiplier": 30},
-        	{"modBuildSpeedMultiplier": 40},
-        	{"modBuildSpeedMultiplier": 50}
-        ],
-        "researchCost": [10, 20, 30, 40, 50]
+        "techEffects": {
+            "1": "Test Level 1 Desc", 
+            "3": "Test Level 3 Desc", 
+            "4": "Test Level 4 Desc", 
+            "7": "Test Level 7 Desc"
+        },
+        "techMods": {
+            "modBuildSpeedMultiplier": [1, 2, 2, 50],
+            "modBuildTimeDecrease": [5, 2, 2, 50]
+        },
+        "researchCost": [10, 1.3, 30]
     },
     "tech6": {
         "q": 0,
@@ -109,15 +119,17 @@
         "techNameLine2": "X-ray Lasers",
         "techNameLine3": "2",
         "techDesc": "Advanced X-ray Lasers",
-        "techEffects": "Testing research <br> item number one",
-        "techMods": [
-        	{"modBuildSpeedMultiplier": 10},
-        	{"modBuildSpeedMultiplier": 20},
-        	{"modBuildSpeedMultiplier": 30},
-        	{"modBuildSpeedMultiplier": 40},
-        	{"modBuildSpeedMultiplier": 50}
-        ],
-        "researchCost": [10, 20, 30, 40, 50]
+        "techEffects": {
+            "1": "Test Level 1 Desc", 
+            "3": "Test Level 3 Desc", 
+            "4": "Test Level 4 Desc", 
+            "7": "Test Level 7 Desc"
+        },
+        "techMods": {
+            "modBuildSpeedMultiplier": [1, 2, 2, 50],
+            "modBuildTimeDecrease": [5, 2, 2, 50]
+        },
+        "researchCost": [10, 1.3, 30]
     },
     "tech7": {
         "q": 0,
@@ -129,14 +141,16 @@
         "techNameLine2": "Research Facilities",
         "techNameLine3": "2",
         "techDesc": "Testing research item number five",
-        "techEffects": "Testing research <br> item number one",
-        "techMods": [
-        	{"modBuildSpeedMultiplier": 10},
-        	{"modBuildSpeedMultiplier": 20},
-        	{"modBuildSpeedMultiplier": 30},
-        	{"modBuildSpeedMultiplier": 40},
-        	{"modBuildSpeedMultiplier": 50}
-        ],
-        "researchCost": [10, 20, 30, 40, 50]
+        "techEffects": {
+            "1": "Test Level 1 Desc", 
+            "3": "Test Level 3 Desc", 
+            "4": "Test Level 4 Desc", 
+            "7": "Test Level 7 Desc"
+        },
+        "techMods": {
+            "modBuildSpeedMultiplier": [1, 2, 2, 50],
+            "modBuildTimeDecrease": [5, 2, 2, 50]
+        },
+        "researchCost": [10, 1.3, 30]
     }
 }

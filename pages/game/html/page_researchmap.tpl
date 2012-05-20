@@ -90,7 +90,6 @@
 					</feMerge>
 				</filter>
 			</defs>
-			<g id="center"></g>
 			<g id="researchTileHolder">
 			</g>
 		</svg>
@@ -145,9 +144,28 @@
 				
 				<line id="researchInfoOverlayPosition_1_-1_Line" x1="-25" y1="15" x2="-40" y2="25" style="stroke:#D3D3D3; stroke-width:1;"/>
 				<foreignObject x="-140" y="20" width="100" height="30"><span xmlns="http://www.w3.org/1999/xhtml" id="researchInfoOverlayPosition_1_-1"></span></foreignObject>
-			</svg>
+			
+			</ svg>
 		</div>
-		<div id="researchInfoOverlayEffects" class="stdBorder abs" style="top: 120px; left: 300px; right: 10px; height: 80px; text-align: left; padding-left: 5px;"></div>
+		
+		<div id="researchInfoOverlayEffectsControls" class="stdBorder abs" style="top: 120px; left: 300px; width: 19px; height: 80px;">
+			<div id="researchInfoOverlayEffectsControlsUp" class="stdBorder abs buttonDiv" style="text-align: center; padding-top: 5px; top: -1px; left: -1px; right: -1px; height: 25px;">&uarr;</div>
+			<div id="researchInfoOverlayEffectsControlsLevel" class="abs" style="text-align: center; padding-top: 10px; top: 22px; left: -1px; right: -1px; height: 25px;"></div>
+			<div id="researchInfoOverlayEffectsControlsDown" class="stdBorder abs buttonDiv" style="text-align: center; padding-top: 5px; bottom: -1px; left: -1px; right: -1px; height: 25px;">&darr;</div>
+		</div>
+		
+		<div id="researchInfoOverlayEffectsHolder" class="stdBorder abs scrollable" style="top: 120px; left: 320px; right: 10px; height: 80px; text-align: left; padding-left: 5px;">
+			<div class="scrollbar">
+			<div class="track">
+					<div class="thumb green-over">
+						<div class="end"></div>
+					</div>
+				</div>
+			</div>
+			<div class="viewport">
+				<div id="researchInfoOverlayEffects" class="overview"></div>
+			</div>
+		</div>
 		<div id="" class="stdBorder abs" style="top: 208px; left: 300px; right: 10px; height: 80px;"></div>
 	</div>
 </div>
@@ -155,6 +173,10 @@
 {/block}
 
 {block name="winHandlers" append}
+<script>
+	var centerTech = "{$techID}";
+</script>
+
 {literal}
 <script>
 	//Override container size
@@ -165,7 +187,7 @@
 	});
 	
 	$("#researchSVG").ready(function() {
-		$("#researchHolder").overscroll().overscrollTo("#center");
+		$("#researchHolder").overscroll();
 	});
 	
 	function toY(q, r) {
@@ -182,12 +204,33 @@
 		$("#researchInfoOverlayImage").attr("src", "resources/images/research/" + tech.techImage);
 		$("#researchInfoOverlayTitle").text(tech.techName);
 		$("#researchInfoOverlayDesc").text(tech.techDesc);
-		$("#researchInfoOverlayEffects").html(tech.techEffects);
-		if(tech.techMods[0]) {
-			for (var i in tech.techMods[0]) {
-				$("#researchInfoOverlayEffects").append("<br><span class='modLink' data-modID='" + i + "' data-amount='" + tech.techMods[0][i] + "'></span>");
+		$("#researchInfoOverlayEffects").html(tech.getResearchEffect(Math.max(tech.techLevel, 1)));
+		
+		$("#researchInfoOverlayEffectsControlsLevel").text(Math.max(tech.techLevel, 1)).attr("data-level", Math.max(tech.techLevel, 1)).attr("data-techID", tech.techID);
+		
+		$('#researchInfoOverlayEffectsControlsUp').unbind('click');
+		$('#researchInfoOverlayEffectsControlsUp').bind('click', function() {
+			var level = parseInt($("#researchInfoOverlayEffectsControlsLevel").attr("data-level"));
+			if(level < tech.techLevel + 10) {
+				var newLevel = level + 1;
+				$("#researchInfoOverlayEffects").html(tech.getResearchEffect(newLevel));
+				$("#researchInfoOverlayEffectsControlsLevel").text(newLevel).attr("data-level", newLevel).attr("data-techID", tech.techID);
+				loadModHover();
+				updateAllScrollbars();
 			}
-		}
+		});
+		
+		$('#researchInfoOverlayEffectsControlsDown').unbind('click');
+		$('#researchInfoOverlayEffectsControlsDown').bind('click', function() {
+			var level = parseInt($("#researchInfoOverlayEffectsControlsLevel").attr("data-level"));
+			if(level > 1) {
+				var newLevel = level - 1;
+				$("#researchInfoOverlayEffects").html(tech.getResearchEffect(newLevel));
+				$("#researchInfoOverlayEffectsControlsLevel").text(newLevel).attr("data-level", newLevel).attr("data-techID", tech.techID);
+				loadModHover();
+				updateAllScrollbars();
+			}
+		});
 		
 		if(tech.techLevel) {
 			$("#researchInfoOverlayPositionCenter1").text("Level");
@@ -265,6 +308,7 @@
 							case "msgUpdateResearchInfo": {
 								parseResearchData(payload.msgData.researchData.research);
 								loadResearchMap(payload.msgData.researchData.research);
+								$("#researchHolder").overscrollTo("#" + centerTech);
 								break;
 							}
 						}

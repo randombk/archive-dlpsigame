@@ -10,6 +10,11 @@ class Page_Researchmap extends AbstractPage {
 	}
 
 	function show() {
+		$techID = HTTP::REQ("techID", "tech1");
+		
+		$this->templateObj->assign_vars(array(
+			 'techID' => $techID
+		));
 		$this->display('page_researchmap.tpl');
 	}
 }

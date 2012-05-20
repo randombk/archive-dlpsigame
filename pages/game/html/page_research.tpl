@@ -29,11 +29,30 @@
 		<div class="stdBorder abs" style="top: 10px; left: 10px; width: 115px; height: 100px; ">
 			<img id="researchInfoImage" width="115" height="100">
 		</div>
-		<div id="researchInfoTitle" class="stdBorder abs" style="top: 10px; left: 135px; right: 10px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
+		<div id="researchInfoTitle" class="stdBorder abs" style="top: 10px; left: 135px; right: 160px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
+		<div id="researchInfoLink" class="stdBorder abs buttonDiv" style="top: 10px; right: 10px; width: 149px; height: 15px; text-align: center;">
+			View in Research Map >>
+		</div>
 		<div id="researchInfoDesc" 	class="stdBorder abs" style="top: 35px; left: 135px; right: 10px; height: 75px;"></div>
 		
 		<div id="researchInfoControls" class="stdBorder abs" style="top: 120px; left: 10px; width: 220px; height: 100px;"></div>
-		<div id="researchInfoEffects"  class="stdBorder abs" style="top: 120px; left: 240px; right: 10px; height: 100px; text-align: left; padding-left: 5px;"></div>
+		<div id="researchInfoEffectsControls" class="stdBorder abs" style="top: 120px; left: 240px; width: 19px; height: 100px;">
+			<div id="researchInfoEffectsControlsUp" class="stdBorder abs buttonDiv" style="text-align: center; padding-top: 10px; top: -1px; left: -1px; right: -1px; height: 25px;">&uarr;</div>
+			<div id="researchInfoEffectsControlsLevel" class="abs" style="text-align: center; padding-top: 10px; top: 32px; left: -1px; right: -1px; height: 25px;"></div>
+			<div id="researchInfoEffectsControlsDown" class="stdBorder abs buttonDiv" style="text-align: center; padding-top: 10px; bottom: -1px; left: -1px; right: -1px; height: 25px;">&darr;</div>
+		</div>
+		<div id="researchInfoEffectsHolder" class="stdBorder abs scrollable" style="top: 120px; left: 260px; right: 10px; height: 100px; text-align: left; padding-left: 5px;">
+			<div class="scrollbar">
+			<div class="track">
+					<div class="thumb green-over">
+						<div class="end"></div>
+					</div>
+				</div>
+			</div>
+			<div class="viewport">
+				<div id="researchInfoEffects" class="overview"></div>
+			</div>
+		</div>
 		
 		<div class="stdBorder abs" style="top: 230px; left: 10px; right: 10px; bottom: 10px;"></div>
 	</div>
@@ -65,7 +84,7 @@
 							$("#researchMainPanel").css("left", 0);
 							$(this).text(">");
 						}
-						$(".scrollable").tinyscrollbar_update();
+						updateAllScrollbars();
 					});
 					
 					$.jStorage.subscribe("dataUpdater", function(channel, payload) {
@@ -139,218 +158,48 @@
 			}
 			
 			function loadResearchInfo(researchData, techID) {
+				$("[data-active=true]").attr("data-active", "");
+				$(".researchListItem[data-techID=" + techID + "]").attr("data-active", "true");
+											
 				var tech = researchData[techID];
 		
 				$("#researchInfoImage").attr("src", "resources/images/research/" + tech.techImage);
 				$("#researchInfoTitle").text(tech.techName);
 				$("#researchInfoDesc").text(tech.techDesc);
-				$("#researchInfoEffects").html(tech.techEffects);
-				if(tech.techMods[0]) {
-					for (var i in tech.techMods[0]) {
-						$("#researchInfoEffects").append("<br><span class='modLink' data-modID='" + i + "' data-amount='" + tech.techMods[0][i] + "'></span>");
+				$("#researchInfoEffects").html(tech.getResearchEffect(Math.max(tech.techLevel, 1)));
+				
+				$("#researchInfoLink").unbind('click').bind('click', function() {
+					document.location = "game.php?page=researchmap&techID=" + techID;
+				});
+				
+				$("#researchInfoEffectsControlsLevel").text(Math.max(tech.techLevel, 1)).attr("data-level", Math.max(tech.techLevel, 1)).attr("data-techID", tech.techID);
+				
+				$('#researchInfoEffectsControlsUp').unbind('click');
+				$('#researchInfoEffectsControlsUp').bind('click', function() {
+					var level = parseInt($("#researchInfoEffectsControlsLevel").attr("data-level"));
+					if(level < tech.techLevel + 10) {
+						var newLevel = level + 1;
+						$("#researchInfoEffects").html(tech.getResearchEffect(newLevel));
+						$("#researchInfoEffectsControlsLevel").text(newLevel).attr("data-level", newLevel).attr("data-techID", tech.techID);
+						loadModHover();
+						updateAllScrollbars();
 					}
-				}
+				});
+				
+				$('#researchInfoEffectsControlsDown').unbind('click');
+				$('#researchInfoEffectsControlsDown').bind('click', function() {
+					var level = parseInt($("#researchInfoEffectsControlsLevel").attr("data-level"));
+					if(level > 1) {
+						var newLevel = level - 1;
+						$("#researchInfoEffects").html(tech.getResearchEffect(newLevel));
+						$("#researchInfoEffectsControlsLevel").text(newLevel).attr("data-level", newLevel).attr("data-techID", tech.techID);
+						loadModHover();
+						updateAllScrollbars();
+					}
+				});
 				
 				loadModHover();
 			}
-			
-			//Load research data
-			/*
-
-			function loadObjectInfoPage(data) {
-				$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.items}, ["all"], window.name));
-				$(".gen").remove();
-				//Load object info
-				
-				$("#planetName").text(data.objectName);
-				$("#planetLoc").text(data.objectCoords);
-				$("#planetType").text(data.objectData.planetType);
-				$("#planetSize").text(data.objectData.planetSize);	
-				$("#planetTemp").text(data.objectData.planetTemp);	
-				$("#planetHumidity").text(data.objectData.planetHumidity);	
-				$("#numBuildings").text(data.numBuildings);
-				$("#storageUsed").text(niceNumber(data.usedStorage) + " / " + niceNumber(data.objStorage));									
-				if(data.usedStorage >= data.objStorage) {
-					$("#storageUsed").addClass("red");
-				} else {
-					$("#storageUsed").removeClass("red");
-				}
-				
-				//Load building queue
-				$("#constructionQueue").html("");
-				var buildingQueueTemplate = Handlebars.templates['buildingQueueItem.tmpl'];
-					
-				if(typeof data.buildQueue[0] !== 'undefined') {
-					var uid = data.buildQueue[0].id;
-					$("#constructionQueue").append(buildingQueueTemplate({
-						operation: data.buildQueue[0].operation,
-						buildName: dbBuildData[data.buildQueue[0].buildingID].buildName,
-						buildLevel: data.buildQueue[0].buildingLevel,
-						startTime: data.buildQueue[0].startTime,
-						endTime: data.buildQueue[0].endTime,
-						id: uid
-					}));
-					
-					$("#" + uid).progressbar({
-		      			value: 0,
-		      			max: data.buildQueue[0].endTime - data.buildQueue[0].startTime,
-		      			change: function() {
-							$("#text-" + uid).text(
-								niceETA(
-									moment.duration($("#" + uid).progressbar("option", "max") - $("#" + uid).progressbar("value"), 'seconds')
-								) + " left"
-							);
-		        		},
-		      			complete: function() {
-		        			$("#text-" + uid).text( "Complete!" );
-		      			}
-		    		});
-				
-					for(var i = 1; i < data.buildQueue.length; i++) {
-						$("#constructionQueue").append(
-							buildingQueueTemplate({
-								operation: data.buildQueue[i].operation,
-								buildName: dbBuildData[data.buildQueue[i].buildingID].buildName,
-								buildLevel: data.buildQueue[i].buildingLevel,
-								id: data.buildQueue[i].id
-							})
-						);
-					}
-					
-					//Load buttons
-					$(".buildingQueueCancel").on("click", function(){
-						var queueID = $(this).attr("data-id");
-						$.post(
-							"ajaxRequest.php", 
-							{"action" : "cancelBuildingQueueItem", "ajaxType": "BuildingHandler", "objectID": objectID, "queueItemID": queueID},
-							function(data){
-								if(data.code < 0) {
-									loadNotificationData();
-								} else {
-									loadData();
-								}
-							},
-							"json"
-						).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
-					});
-				} else {
-					$("#constructionQueue").text("No construction in progress");
-				}
-				
-				var econRowTemplate = Handlebars.templates['objInfoEconomyRow.tmpl'];
-				var modRowTemplate = Handlebars.templates['objInfoModifierRow.tmpl'];
-				var researchRowTemplate = Handlebars.templates['objInfoResearchRow.tmpl'];
-				
-				var economyTotal = {};
-				var modifierTotal = {};
-				var researchTotal = {
-					"Weapons": 0,
-					"Defense": 0,
-					"Diplomatic": 0,
-					"Economic": 0,
-					"Fleet": 0
-				};
-				
-				//Load planet modifiers
-				if(!isEmpty(data.objectModifiers)){
-					objAdd(modifierTotal, data.objectModifiers);
-					$('#tableModifiers tr:last').before(modRowTemplate({
-						itemName: "Planet Bonuses",
-						modifiers: data.objectModifiers
-					}));
-				}
-				//Load storage penalties
-				if(data.usedStorage >= data.objStorage) {
-					objAdd(modifierTotal, data.objectWeightPenalty);
-					$('#tableModifiers tr:last').before(modRowTemplate({
-						itemName: "Storage Overflow Penalty",
-						modifiers: data.objectWeightPenalty
-					}));	
-				}
-				
-				//Load buildings
-				for(var key in data.buildings) {
-					var obj = data.buildings[key];
-					if(!(isEmpty(obj.curResProduction) && isEmpty(obj.curResConsumption))) {
-						mergeItemData(economyTotal, obj.curResProduction, "+");
-						mergeItemData(economyTotal, obj.curResConsumption, "-");
-											   	
-						$('#tableEconomy tr:last').before(econRowTemplate({
-							itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
-							production: obj.curResProduction,
-							consumption: obj.curResConsumption,
-							activity: obj.activity,
-							id: key
-						}));
-						
-					}
-					
-					if(obj.curModifiers) {
-						objAdd(modifierTotal, obj.curModifiers);
-											   	
-						$('#tableModifiers tr:last').before(modRowTemplate({
-							itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
-							modifiers: obj.curModifiers,
-							activity: obj.activity,
-							id: key
-						}));
-					}
-					
-					if(!isEmpty(obj.curResearch)) {
-						objAdd(researchTotal, obj.curResearch);
-											   	
-						$('#tableResearch tr:last').before(researchRowTemplate({
-							itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
-							research: obj.curResearch,
-							activity: obj.activity,
-							id: key
-						}));
-					}
-					
-					$(".activity_"+key).on("change", function() {
-						var value = $(this).val();
-						$(".activity_"+$(this).attr("data-id")).each(function() {
-					   		$(this).val(value);
-						});
-					});
-				}
-				
-				//Load totals
-				for(var key in economyTotal) {
-					$("#econNetChange").append("<span class='itemLink gen' data-type='diff' data-item='" + key + "'  data-parameters='" + JSON.stringify(economyTotal[key]) +"'></span>");
-				}
-				
-				for(var key in modifierTotal) {
-					$("#modifierTotal").append("<span class='modLink gen' data-modID='" + key + "' data-amount='" + modifierTotal[key] +"'></span>");
-				}
-				
-				for(var key in researchTotal) {
-					$("#research" + key + "Total").text(researchTotal[key]);
-				};
-				
-				loadHovers({items: data.items});
-			}
-			
-			function updateBuildingActivity () {
-				var newData = {};
-				
-				$(".activityInput").each(function() {
-					newData[$(this).attr("data-id")] = $(this).val();
-				});
-				
-				$.post("ajaxRequest.php", 
-					{"action" : "setAllBuildingActivity", "ajaxType": "BuildingHandler", "objectID": objectID, "activityData": JSON.stringify(newData)},
-					function(data){
-						if(data.code < 0) {
-							showMessage("Fatal Error #" + (-data.code) + ": " + data.message, "red", 30000);
-						}
-					}, 
-				"json")
-				.fail(function() { showMessage("An error occurred while updating activity data", "red", 30000);})
-				.always(function() {  });
-				
-				loadData();
-			}*/
 		</script>
 	{/literal}
 {/block}
