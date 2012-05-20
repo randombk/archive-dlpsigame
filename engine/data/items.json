@@ -54,7 +54,7 @@
         "itemType": "Research Notes",
         "itemVisibility": 20,
         "itemImage": "researchNotes.jpg",
-        "itemName": "%s Research Notes",
+        "itemName": "Research Notes: %s",
         "itemDesc": "These research notes may be used to advance research for %s.",
         "itemWeight": 0,
         "itemFlags": {

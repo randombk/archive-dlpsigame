@@ -13,6 +13,19 @@ class CachedResource_RESEARCH {
 		
 		foreach($RESEARCH as $researchID => $data) {
 			$RESEARCHPOS[$data["q"] . ":" . $data["r"]] = $data;
+			$GLOBALS["MONGO"]->setItemParams("research-notes_" . $data["techID"], 
+				array (
+				    'cached' => true,
+				    'formatNameParams' => 
+					    array (
+					      0 => $data["techName"],
+					    ),
+				    'formatDescParams' => 
+					    array (
+					      0 => $data["techName"],
+					    ),
+  				)
+			);
 		}
 		
 		apc_store('CachedResource/RESEARCH', $RESEARCH);
