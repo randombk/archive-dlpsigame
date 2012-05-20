@@ -14,7 +14,7 @@ class DataResearch {
 		}
 	}
 	
-	public function getResearch($researchID) {
+	public function getResearchLevel($researchID) {
 		if(isset($this->researchArray[$researchID][0])){
 			return $this->researchArray[$researchID][0];
 		} else {

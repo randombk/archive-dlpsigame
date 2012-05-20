@@ -7,18 +7,25 @@
 class ItemHandlers {
 	static function itemhandlerUseResearchNotes($itemID, $numUsed, $objectID, $playerEnv) {
 		$baseID = UtilItem::getItemBaseID($itemID);
-		$specialID = UtilItem::getItemSpecialID($itemID);
+		$techID = UtilItem::getItemSpecialID($itemID);
 		
 		if($baseID == "research-notes") {
 			if($playerEnv->envPlayerData->getValue("flagResearchCenterPlanet") == $objectID) {
-				
-				//Message::sendNotification($playerEnv->playerID, "Item Used", $numUsed . " on " . $objectID, "OK", "", "game.php", TIMESTAMP);
-				return true;	
+				if(CalcResearch::canResearch($techID, $playerEnv)) {
+					$oldResearchPoints = $playerEnv->envResearch->getResearchPoints($techID);
+					$newResearchPoints = $oldResearchPoints + $numUsed;
+					
+					$playerEnv->envResearch->setResearchPoints($techID, $newResearchPoints);
+					$playerEnv->applyPlayerMongo();
+					return true;
+				} else {
+					return "You cannot research that technology!";
+				}
 			} else {
 				return "Research Notes can only be used on planets with a Research Center!";
 			}
 		} else {
-			return "Invalid Parameter - Item may not be used with this handler";
+			return "Invalid Parameter - Item may not be used with this handler!";
 		}
 	}
 }

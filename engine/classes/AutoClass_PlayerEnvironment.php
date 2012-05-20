@@ -114,5 +114,10 @@ class PlayerEnvironment {
 			throw new Exception("Unknown PDO Error ");
 		}
 	}
+	
+	public function applyPlayerMongo() {
+		UtilPlayer::setPlayerResearchData($this->envResearch->getResearchArray(), $this->playerID);
+		UtilPlayer::setPlayerData($this->envPlayerData->getDataArray(), $this->playerID);
+	}
 }
 ?>
