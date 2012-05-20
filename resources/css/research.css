@@ -17,16 +17,6 @@
 	border: 1px solid #D3D3D3;
 }
 
-#researchInfoHolder {
-	position: absolute;
-	top: 0px;
-	height: 150px;
-	left: 0px;
-	width: 250px;
-	border: 1px #D3D3D3 solid;
-	background: rgba(3,26,58,0.8);
-}
-
 #researchObjectListHolder {
 	position: absolute;
 	top: 151px;
@@ -67,7 +57,7 @@
 	z-index: 999;
 }
 
-.researchLeftPanel {
+#researchLeftPanel {
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
@@ -78,7 +68,7 @@
 	min-height: 40px;
 }
 
-.researchLeftPanel .researchListSearch {
+#researchLeftPanel .researchListSearch {
 	position: absolute;
 	top: 0px;
 	height: 30px;
@@ -88,7 +78,7 @@
 	border-bottom: 1px #D3D3D3 solid;
 }
 
-.researchLeftPanel .researchListHolder {
+#researchLeftPanel .researchListHolder {
 	position: absolute;
 	top: 31px;
 	bottom: 0px;
@@ -97,7 +87,7 @@
 	overflow: hidden;
 }
 
-.researchLeftPanel .researchListHolder .researchListItem {
+#researchLeftPanel .researchListHolder .researchListItem {
 	height: 52px;
 	border-top: 1px #D3D3D3 solid;
 	border-bottom: 1px #D3D3D3 solid;
@@ -105,7 +95,7 @@
 	cursor: pointer;
 }
 
-.researchMainPanel {
+#researchMainPanel {
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
@@ -115,7 +105,7 @@
 	border: 1px #D3D3D3 solid;
 }
 
-.researchMainPanel .researchQueueHolder {
+#researchMainPanel #researchQueueHolder {
 	position: absolute;
 	top: 0px;
 	height: 80px;
@@ -125,7 +115,16 @@
 	border-bottom: 1px #D3D3D3 solid;
 }
 
-.researchMainPanel .researchInfo {
+#researchInfoHolder {
+	position: absolute;
+	top: 81px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	background: rgba(3,26,58,0.8);
+}
+
+#researchMainPanel .researchInfo {
 	position: absolute;
 	top: 81px;
 	bottom: 56px;

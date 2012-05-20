@@ -226,43 +226,47 @@
 				}
 				
 				(function($) {
-					$(window).ready(function() {
-						//Handle window events
-						$.jStorage.subscribe("winManager", winMsgReceiver);
-						$.jStorage.subscribe("dataUpdater", dataUpdateReceiver);
-						
-						//Load Notifications
-						loadNotificationData();
-						
-						//Load menu
-						$("#gameMenu li.menuWindowItem").each(function() {
-							$(this).click(function() {
-								popupwindow($(this).attr("data-windowHref"), $(this).attr('id'), $(this).attr('data-windowWidth'), $(this).attr('data-windowHeight'));
-							});
-						});
-						
-						$.jStorage.publish("winManager", new Message("msgNewMain", null, ["all"], "main"));
+					//Handle window events
+					$.jStorage.subscribe("winManager", winMsgReceiver);
+					$.jStorage.subscribe("dataUpdater", dataUpdateReceiver);
 					
-						$("#objectListToggle").on("click", function(event){
-							if($("#objectListContainer").hasClass("open")) {
-								hideObjectList();
-							} else {
-								showObjectList();
-							}
-							event.stopPropagation();
-						});
-						
-						$(document).click(function(event) { 
-						    if($(event.target).parents().index($('#objectListContainer')) == -1) {
-						        hideObjectList();
-						    }        
+					//Load Notifications
+					loadNotificationData();
+					
+					//Load menu
+					$("#gameMenu li.menuWindowItem").each(function() {
+						$(this).click(function() {
+							popupwindow($(this).attr("data-windowHref"), $(this).attr('id'), $(this).attr('data-windowWidth'), $(this).attr('data-windowHeight'));
 						});
 					});
-		
+					
+					$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
+					
+					$.jStorage.publish("winManager", new Message("msgNewMain", null, ["all"], "main"));
+				
+					$("#objectListToggle").on("click", function(event){
+						if($("#objectListContainer").hasClass("open")) {
+							hideObjectList();
+						} else {
+							showObjectList();
+						}
+						event.stopPropagation();
+					});
+					
+					$(document).click(function(event) { 
+					    if($(event.target).parents().index($('#objectListContainer')) == -1) {
+					        hideObjectList();
+					    }        
+					});
+					
 					$(window).unload(function() {
 						$.jStorage.publish("winManager", new Message("msgCloseMain", null, ["all"], "main"));
 					});
 				})(jQuery);
+				
+				$(window).load(function() {
+					$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
+				});
 				
 				function showObjectList() {
 					$("#objectListContainer").addClass('open');

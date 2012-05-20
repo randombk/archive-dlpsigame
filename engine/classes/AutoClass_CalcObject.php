@@ -4,7 +4,7 @@
  * Project DLPSIGAME
  */
 
-class ObjectCalc {
+class CalcObject {
 	//Object Calculations
 	public static function calcNewObjectRes($objectEnv, $timeDelta, $mod = null) {
 		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
@@ -79,7 +79,7 @@ class ObjectCalc {
 		
 		//Add up active building modifiers
 		foreach ($objectEnv->envBuildings->getBuildingArray() as $buildingID => $data) {
-			foreach(ObjectCalc::getBuildingResearch($objectEnv, $buildingID, $data[0], $mod, $data[1]) as $type => $value) {
+			foreach(CalcObject::getBuildingResearch($objectEnv, $buildingID, $data[0], $mod, $data[1]) as $type => $value) {
 				$points[$type] += $value;
 			}
 		}

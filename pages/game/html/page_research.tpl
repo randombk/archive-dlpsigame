@@ -5,7 +5,10 @@
 {/block}
 
 {block name="content"}
-<div class="researchLeftPanel">
+<div id="toggleMaxMain">
+	&lt;
+</div>
+<div id="researchLeftPanel">
 	<div class="researchListSearch"></div>
 	<div class="researchListHolder scrollable">
 		<div class="scrollbar">
@@ -20,13 +23,20 @@
 		</div>
 	</div>
 </div>
-<div class="researchMainPanel">
-	<div class="researchQueueHolder">
-
+<div id="researchMainPanel">
+	<div id="researchQueueHolder"></div>
+	<div id="researchInfoHolder">
+		<div class="stdBorder abs" style="top: 10px; left: 10px; width: 115px; height: 100px; ">
+			<img id="researchInfoImage" width="115" height="100">
+		</div>
+		<div id="researchInfoTitle" class="stdBorder abs" style="top: 10px; left: 135px; right: 10px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
+		<div id="researchInfoDesc" 	class="stdBorder abs" style="top: 35px; left: 135px; right: 10px; height: 75px;"></div>
+		
+		<div id="researchInfoControls" class="stdBorder abs" style="top: 120px; left: 10px; width: 220px; height: 100px;"></div>
+		<div id="researchInfoEffects"  class="stdBorder abs" style="top: 120px; left: 240px; right: 10px; height: 100px; text-align: left; padding-left: 5px;"></div>
+		
+		<div class="stdBorder abs" style="top: 230px; left: 10px; right: 10px; bottom: 10px;"></div>
 	</div>
-</div>
-<div id="toggleMaxMain">
-	&lt;
 </div>
 {/block}
 
@@ -45,14 +55,14 @@
 						if($(this).hasClass("maxMain")) {
 							$(this).removeClass('maxMain');
 							$(this).css("left", 251);
-							$(".researchLeftPanel").show();
-							$(".researchMainPanel").css("left", 251);
+							$("#researchLeftPanel").show();
+							$("#researchMainPanel").css("left", 251);
 							$(this).text("<");
 						} else {
 							$(this).addClass('maxMain');
 							$(this).css("left", 0);
-							$(".researchLeftPanel").hide();
-							$(".researchMainPanel").css("left", 0);
+							$("#researchLeftPanel").hide();
+							$("#researchMainPanel").css("left", 0);
 							$(this).text(">");
 						}
 						$(".scrollable").tinyscrollbar_update();
@@ -98,9 +108,14 @@
 			function loadResearchList(researchData) {
 				var researchListItem = Handlebars.templates['researchListItem.tmpl'];
 				$("#researchList").text("");
+				var researchesAvaliable = false;
 				for ( var i in researchData ) {
 					var data = researchData[i];
 					if(data.canResearch(researchData)) {
+						if(!researchesAvaliable) {
+							researchesAvaliable = data.techID;
+						}
+						
 						$("#researchList").append(researchListItem({
 							"techID" : data.techID,
 							"techName" : data.techName,
@@ -112,12 +127,32 @@
 						}));
 					}
 				}
-				$(".researchListItem").on("click", function() {
-					loadObjectData($(this).attr("data-techID"));
-				});
+				if(researchesAvaliable) {
+					$(".researchListItem").on("click", function() {
+						loadResearchInfo(researchData, $(this).attr("data-techID"));
+					});
+					loadResearchInfo(researchData, researchesAvaliable);
+				} else {
+					$("#researchList").text("No Researches Avaliable!");
+					$("#researchInfoHolder").text("No Researches Avaliable!");
+				}
 			}
 			
-			
+			function loadResearchInfo(researchData, techID) {
+				var tech = researchData[techID];
+		
+				$("#researchInfoImage").attr("src", "resources/images/research/" + tech.techImage);
+				$("#researchInfoTitle").text(tech.techName);
+				$("#researchInfoDesc").text(tech.techDesc);
+				$("#researchInfoEffects").html(tech.techEffects);
+				if(tech.techMods[0]) {
+					for (var i in tech.techMods[0]) {
+						$("#researchInfoEffects").append("<br><span class='modLink' data-modID='" + i + "' data-amount='" + tech.techMods[0][i] + "'></span>");
+					}
+				}
+				
+				loadModHover();
+			}
 			
 			//Load research data
 			/*

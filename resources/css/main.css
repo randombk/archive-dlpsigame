@@ -16,6 +16,10 @@ img {
 	border: 0 none;
 }
 
+.abs {
+	position: absolute;
+}
+
 .absFill {
 	position: absolute;
 	top: 0px;
@@ -23,6 +27,10 @@ img {
 	bottom: 0px;
 	right: 0px;
 	height: 100%;
+}
+
+.stdBorder {
+	border: 1px #D3D3D3 solid;
 }
 
 .scaffold, .scaffold td, .scaffold tr, .scaffold th {

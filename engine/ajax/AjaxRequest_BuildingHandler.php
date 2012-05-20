@@ -187,10 +187,10 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			$buildings[$id]["level"] = $data[0];
 			$buildings[$id]["activity"] = $getActual ? $data[1] : 100;
 			
-			$buildings[$id]["curModifiers"] = ObjectCalc::getBuildingModifiers($objectEnv, $id, $data[0], $getActual ? $data[1]: 100);
-			$buildings[$id]["curResConsumption"] = UtilItem::buildItemDataArray(ObjectCalc::getBuildingConsumption($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
-			$buildings[$id]["curResProduction"] = UtilItem::buildItemDataArray(ObjectCalc::getBuildingProduction($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
-			$buildings[$id]["curResearch"] = ObjectCalc::getBuildingResearch($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100);
+			$buildings[$id]["curModifiers"] = CalcObject::getBuildingModifiers($objectEnv, $id, $data[0], $getActual ? $data[1]: 100);
+			$buildings[$id]["curResConsumption"] = UtilItem::buildItemDataArray(CalcObject::getBuildingConsumption($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
+			$buildings[$id]["curResProduction"] = UtilItem::buildItemDataArray(CalcObject::getBuildingProduction($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
+			$buildings[$id]["curResearch"] = CalcObject::getBuildingResearch($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100);
 		}
 		return $buildings;
 	}
@@ -216,11 +216,11 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!QueueBuilding::hasPreReq($objectEnv, $id, $nextLevel, TIMESTAMP, true)) continue;
 							
 			$canBuild[$id]["nextLevel"] = $nextLevel;
-			$canBuild[$id]["upgradeTime"] = ObjectCalc::getBuildTime($objectEnv, $id, $nextLevel, $mod);
-			$canBuild[$id]["nextResReq"] = UtilItem::buildItemDataArray(ObjectCalc::getBuildingUpgradeCost($objectEnv, $id, $nextLevel, $mod));
-			$canBuild[$id]["nextResConsumption"] = UtilItem::buildItemDataArray(ObjectCalc::getBuildingConsumption($objectEnv, $id, $nextLevel, $resMod));
-			$canBuild[$id]["nextResProduction"] = UtilItem::buildItemDataArray(ObjectCalc::getBuildingProduction($objectEnv, $id, $nextLevel, $resMod));
-			$canBuild[$id]["nextModifiers"] = ObjectCalc::getBuildingModifiers($objectEnv, $id, $nextLevel);
+			$canBuild[$id]["upgradeTime"] = CalcObject::getBuildTime($objectEnv, $id, $nextLevel, $mod);
+			$canBuild[$id]["nextResReq"] = UtilItem::buildItemDataArray(CalcObject::getBuildingUpgradeCost($objectEnv, $id, $nextLevel, $mod));
+			$canBuild[$id]["nextResConsumption"] = UtilItem::buildItemDataArray(CalcObject::getBuildingConsumption($objectEnv, $id, $nextLevel, $resMod));
+			$canBuild[$id]["nextResProduction"] = UtilItem::buildItemDataArray(CalcObject::getBuildingProduction($objectEnv, $id, $nextLevel, $resMod));
+			$canBuild[$id]["nextModifiers"] = CalcObject::getBuildingModifiers($objectEnv, $id, $nextLevel);
 		}
 		return $canBuild;
 	} 

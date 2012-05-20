@@ -9,13 +9,13 @@
         "techNameLine2": "Research",
         "techNameLine3": "2",
         "techDesc": "Testing research item number one",
-        "techEffects": "Testing research <br> item number one",
+        "techEffects": "Test research.",
         "techMods": [
-        	{"modBuildSpeedMultiplier": 10},
-        	{"modBuildSpeedMultiplier": 20},
-        	{"modBuildSpeedMultiplier": 30},
-        	{"modBuildSpeedMultiplier": 40},
-        	{"modBuildSpeedMultiplier": 50}
+        	{"modBuildTimeDecrease": 10},
+        	{"modBuildTimeDecrease": 20},
+        	{"modBuildTimeDecrease": 30},
+        	{"modBuildTimeDecrease": 40},
+        	{"modBuildTimeDecrease": 50}
         ],
         "researchCost": [10, 20, 30, 40, 50]
     },

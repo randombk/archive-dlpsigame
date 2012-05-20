@@ -37,16 +37,16 @@ class DataMod {
 		$instance = new self();
 		
 		//Add object modifiers
-		$instance->objMods = ObjectCalc::getObjectModifiers($objectEnv);
+		$instance->objMods = CalcObject::getObjectModifiers($objectEnv);
 		$instance->mergeModifierArray($instance->objMods);
 		
 		//Add up active building modifiers
 		foreach ($objectEnv->envBuildings->getBuildingArray() as $buildingID => $data) {
-			$instance->mergeModifierArray(ObjectCalc::getBuildingModifiers($objectEnv, $buildingID, $data[0], $data[1]));
+			$instance->mergeModifierArray(CalcObject::getBuildingModifiers($objectEnv, $buildingID, $data[0], $data[1]));
 		}
 		
 		//Determine weight penalties
-		$instance->weightPenalty = ObjectCalc::getObjectWeightPenalty($objectEnv, $instance);
+		$instance->weightPenalty = CalcObject::getObjectWeightPenalty($objectEnv, $instance);
 		$instance->mergeModifierArray($instance->weightPenalty);
 		
 		$objectEnv->envMods = $instance;

@@ -51,7 +51,7 @@ class UniUpdater {
 		while($updatedTo < $time) {
 			$updateInterval = min(3600, $time - $updatedTo);
 			foreach($playerEnv->envObjects as $objectEnv) {
-				$objectEnv->envItems = ObjectCalc::calcNewObjectRes($objectEnv, $updateInterval);
+				$objectEnv->envItems = CalcObject::calcNewObjectRes($objectEnv, $updateInterval);
 			}
 			$updatedTo += $updateInterval;
 		}

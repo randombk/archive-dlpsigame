@@ -9,6 +9,9 @@
 {/block}
 
 {block name="content"}
+<div id="researchControlsToggle">
+	&lt; Hide Controls
+</div>
 <div class="absFill">
 	<div id="researchHolder" class="absFill">
 		<svg id="researchSVG" xmlns="http://www.w3.org/2000/svg" version="1.1" width="6000" height="6000" viewBox="-2500 -2500 5000 5000">
@@ -93,12 +96,6 @@
 		</svg>
 	</div>
 
-	<div id="researchControlsToggle">
-		&lt; Hide Controls
-	</div>
-
-	<div id="researchInfoHolder"></div>
-
 	<div id="researchObjectListHolder">
 
 	</div>
@@ -111,14 +108,14 @@
 
 <div id="researchOverlayHolder" class="absFill" style="text-align: center; vertical-align: middle; display: none;">
 	<div id="researchInfoOverlay" style="z-index: 901; position: relative; top: 20%; margin: auto; width: 650px; height: 300px; background: rgba(3,26,58,0.9); border: 1px #D3D3D3 solid;">
-		<div id="researchInfoOverlayClose" class="buttonDiv red-over" style="position: absolute; top: 10px; right: 10px; width: 10px; height: 15px; border: 1px #D3D3D3 solid;">X</div>
-		<div style="position: absolute; top: 10px; left: 10px; width: 115px; height: 100px; border: 1px #D3D3D3 solid;">
+		<div id="researchInfoOverlayClose" class="stdBorder abs buttonDiv red-over" style="top: 10px; right: 10px; width: 10px; height: 15px;">X</div>
+		<div class="stdBorder abs" style="top: 10px; left: 10px; width: 115px; height: 100px;">
 			<img id="researchInfoOverlayImage" width="115" height="100"/>
 		</div>
-		<div id="researchInfoOverlayTitle" style="position: absolute; top: 10px; left: 135px; right: 20px; height: 15px; border: 1px #D3D3D3 solid; background-color: #1E3E5D; text-align: center;"></div>
-		<div id="researchInfoOverlayDesc" style="position: absolute; top: 35px; left: 135px; right: 10px; height: 75px; border: 1px #D3D3D3 solid;"></div>
+		<div id="researchInfoOverlayTitle" class="stdBorder abs" style="top: 10px; left: 135px; right: 20px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
+		<div id="researchInfoOverlayDesc" class="stdBorder abs" style="top: 35px; left: 135px; right: 10px; height: 75px;"></div>
 		
-		<div style="position: absolute; top: 120px; left: 10px; width: 280px; bottom: 10px; border: 1px #D3D3D3 solid;">
+		<div class="stdBorder abs" style="top: 120px; left: 10px; width: 280px; bottom: 10px;">
 			<svg
 				id="researchInfoOverlayPosition"
 				xmlns="http://www.w3.org/2000/svg"
@@ -150,8 +147,8 @@
 				<foreignObject x="-140" y="20" width="100" height="30"><span xmlns="http://www.w3.org/1999/xhtml" id="researchInfoOverlayPosition_1_-1"></span></foreignObject>
 			</svg>
 		</div>
-		<div id="researchInfoOverlayEffects" style="position: absolute; top: 120px; left: 300px; right: 10px; height: 80px; border: 1px #D3D3D3 solid; text-align: left; padding-left: 5px;"></div>
-		<div id="" style="position: absolute; top: 208px; left: 300px; right: 10px; height: 80px; border: 1px #D3D3D3 solid;"></div>
+		<div id="researchInfoOverlayEffects" class="stdBorder abs" style="top: 120px; left: 300px; right: 10px; height: 80px; text-align: left; padding-left: 5px;"></div>
+		<div id="" class="stdBorder abs" style="top: 208px; left: 300px; right: 10px; height: 80px;"></div>
 	</div>
 </div>
 

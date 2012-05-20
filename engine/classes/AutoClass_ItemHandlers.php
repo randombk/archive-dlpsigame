@@ -11,7 +11,8 @@ class ItemHandlers {
 		
 		if($baseID == "research-notes") {
 			if($playerEnv->envPlayerData->getValue("flagResearchCenterPlanet") == $objectID) {
-				Message::sendNotification($playerEnv->playerID, "Item Used", $numUsed . " on " . $objectID, "OK", "", "game.php", TIMESTAMP);
+				
+				//Message::sendNotification($playerEnv->playerID, "Item Used", $numUsed . " on " . $objectID, "OK", "", "game.php", TIMESTAMP);
 				return true;	
 			} else {
 				return "Research Notes can only be used on planets with a Research Center!";

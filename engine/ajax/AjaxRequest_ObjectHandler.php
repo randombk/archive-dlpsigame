@@ -25,9 +25,9 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 					"objectWeightPenalty" => $objectMods->weightPenalty,
 					"items" => UtilItem::buildItemDataArray($objectEnv->envItems),
 					"usedStorage" => $objectEnv->envItems->getTotalWeight(),
-					"objStorage" => ObjectCalc::getObjectStorage($objectEnv, $objectMods),
-					"objEnergyStorage" => ObjectCalc::getMaxEnergyStorage($objectEnv, $objectMods),
-					"objResearchOutput" => ObjectCalc::getObjectResearchPoints($objectEnv, $objectMods),
+					"objStorage" => CalcObject::getObjectStorage($objectEnv, $objectMods),
+					"objEnergyStorage" => CalcObject::getMaxEnergyStorage($objectEnv, $objectMods),
+					"objResearchOutput" => CalcObject::getObjectResearchPoints($objectEnv, $objectMods),
 					"numBuildings" => $objectEnv->envBuildings->getNumBuildings(),
 					"buildQueue" => $objectEnv->buildingQueue,
 					"objectData" => $objectEnv->envObjectData,
@@ -48,7 +48,7 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 			$objectMods = DataMod::calculateObjectModifiers($objectEnv);
 			$data[$objectID] = array(
 				"usedStorage" => $objectEnv->envItems->getTotalWeight(),
-				"objStorage" => ObjectCalc::getObjectStorage($objectEnv, $objectMods),
+				"objStorage" => CalcObject::getObjectStorage($objectEnv, $objectMods),
 				"objectName" => $objectEnv->objectName,
 				"objectCoords" => $objectEnv->envObjectCoord->getCoordString()
 			);
