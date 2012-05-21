@@ -41,6 +41,9 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 				$result = QueueBuilding::appendToBuildingQueue($objectEnv, "Build", $buildingID, $buildingLevel);
 				if(!$result) {
+					if($buildingID == "buildNationalArchives") {
+						$objectEnv->envPlayer->applyPlayerMongo();
+					}
 					$objectEnv->apply();
 					$this->sendCode(0);
 				} else {

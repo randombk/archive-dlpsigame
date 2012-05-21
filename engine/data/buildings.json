@@ -342,10 +342,10 @@
             { "modStorageCapacityMultiplier": 80 }
         ]
     },
-    "buildResearchLab": {
-        "buildID": "buildResearchLab",
-        "buildImage": "buildResearchLab.gif",
-        "buildName": "Research Lab",
+    "buildNationalArchives": {
+        "buildID": "buildNationalArchives",
+        "buildImage": "buildNationalArchives.gif",
+        "buildName": "National Archives",
         "buildDesc": "Allows research",
         "buildHoverSpecial": "Allows research notes to be spent at this planet. Only one planet may have this building at any time. Destruction of this building will result in the loss of in all research notes spent that have not been converted into levels",
         "buildType": "rnd",

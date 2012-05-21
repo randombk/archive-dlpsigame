@@ -19,7 +19,19 @@
             "modBuildSpeedMultiplier": [1, 2, 2, 50],
             "modBuildTimeDecrease": [5, 2, 2, 50]
         },
-        "researchCost": [10, 1.3, 30]
+        "researchCost": [10, 1.3, 30],
+        "researchNoteBuildingReq": {
+            "buildIronMine": 3
+        },
+        "researchNotePassive": {
+            "modResourceConsumptionMultiplier": 20
+        },
+        "researchNoteCost": {
+            "iron": 30
+        },
+        "researchNoteConsumption": {
+            "iron": 30
+        }
     },
     "tech2": {
         "techID": "tech2",

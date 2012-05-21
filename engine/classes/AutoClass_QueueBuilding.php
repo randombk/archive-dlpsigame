@@ -6,7 +6,7 @@
 
 class QueueBuilding {
 	public static function hasPreReq($objectEnv, $buildingID, $buildingLevel, $time = TIMESTAMP, $forQueue = false) {
-		if($buildingID == "buildResearchLab" && $objectEnv->envPlayer->envPlayerData->getValue("flagResearchCenterPlanet")) {
+		if($buildingID == "buildNationalArchives" && $objectEnv->envPlayer->envPlayerData->getValue("flagNationalArchivePlanet")) {
 			if(!$forQueue) 
 				Message::sendNotification(
 					$objectEnv->ownerID, 
@@ -95,20 +95,20 @@ class QueueBuilding {
 			if($action["operation"] == "Build") {
 				//Actions are validated upon insertion into the queue
 				$objectEnv->envBuildings->setBuildingLevel($action["buildingID"], $action["buildingLevel"]);
-				if($action["buildingID"] == "buildResearchLab") {
-					$objectEnv->envPlayer->envPlayerData->setValue("flagResearchCenterPlanet", $objectEnv->objectID);
+				if($action["buildingID"] == "buildNationalArchives") {
+					$objectEnv->envPlayer->envPlayerData->setValue("flagNationalArchivePlanet", $objectEnv->objectID);
 				}
 			} else if($action["operation"] == "Recycle") {
 				$objectEnv->envBuildings->setBuildingLevel($action["buildingID"], $action["buildingLevel"] - 1);
 				$objectEnv->envItems->sum(CalcObject::getBuildingUpgradeCost($objectEnv, $action["buildingID"], $action["buildingLevel"])->multiply(0.5));
-				if($action["buildingID"] == "buildResearchLab") {
-					$objectEnv->envPlayer->envPlayerData->setValue("flagResearchCenterPlanet", false);
+				if($action["buildingID"] == "buildNationalArchives") {
+					$objectEnv->envPlayer->envPlayerData->setValue("flagNationalArchivePlanet", false);
 					$objectEnv->envPlayer->envResearch->resetUnsavedPoints();
 				}
 			} else if($action["operation"] == "Destroy") {
 				$objectEnv->envBuildings->setBuildingLevel($action["buildingID"], $action["buildingLevel"] - 1);
-				if($action["buildingID"] == "buildResearchLab") {
-					$objectEnv->envPlayer->envPlayerData->setValue("flagResearchCenterPlanet", false);
+				if($action["buildingID"] == "buildNationalArchives") {
+					$objectEnv->envPlayer->envPlayerData->setValue("flagNationalArchivePlanet", false);
 					$objectEnv->envPlayer->envResearch->resetUnsavedPoints();
 				}
 			} 
@@ -129,8 +129,8 @@ class QueueBuilding {
 					$objectEnv->buildingQueue[0]["startTime"] = $time;
 					$objectEnv->buildingQueue[0]["endTime"] = $time + CalcObject::getBuildTime($objectEnv, $action["buildingID"], $action["buildingLevel"]);
 					$objectEnv->envItems->sub(CalcObject::getBuildingUpgradeCost($objectEnv, $action["buildingID"], $action["buildingLevel"]));
-					if($action["buildingID"] == "buildResearchLab") {
-						$objectEnv->envPlayer->envPlayerData->setValue("flagResearchCenterPlanet", "queue");
+					if($action["buildingID"] == "buildNationalArchives") {
+						$objectEnv->envPlayer->envPlayerData->setValue("flagNationalArchivePlanet", "queue");
 					}
 					return true;
 				} else {
@@ -193,8 +193,8 @@ class QueueBuilding {
 				if($i == 0) {
 					if($objectEnv->buildingQueue[$i]["operation"] == "Build") {
 						$objectEnv->envItems->sum(CalcObject::getBuildingUpgradeCost($objectEnv, $objectEnv->buildingQueue[0]["buildingID"], $objectEnv->buildingQueue[0]["buildingLevel"])->multiply(0.5));
-						if($objectEnv->buildingQueue[$i]["buildingID"] == "buildResearchLab") {
-							$objectEnv->envPlayer->envPlayerData->setValue("flagResearchCenterPlanet", false);
+						if($objectEnv->buildingQueue[$i]["buildingID"] == "buildNationalArchives") {
+							$objectEnv->envPlayer->envPlayerData->setValue("flagNationalArchivePlanet", false);
 						}
 					}
 				}

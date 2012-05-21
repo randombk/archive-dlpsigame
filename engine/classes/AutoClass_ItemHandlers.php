@@ -10,7 +10,7 @@ class ItemHandlers {
 		$techID = UtilItem::getItemSpecialID($itemID);
 		
 		if($baseID == "research-notes") {
-			if($playerEnv->envPlayerData->getValue("flagResearchCenterPlanet") == $objectID) {
+			if($playerEnv->envPlayerData->getValue("flagNationalArchivePlanet") == $objectID) {
 				if(isset(GameCache::get("RESEARCH")[$techID])) {
 					if(CalcResearch::canResearch($techID, $playerEnv)) {
 						$oldResearchPoints = $playerEnv->envResearch->getResearchPoints($techID);

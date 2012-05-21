@@ -30,9 +30,7 @@
 			<img id="researchInfoImage" width="115" height="100">
 		</div>
 		<div id="researchInfoTitle" class="stdBorder abs" style="top: 10px; left: 135px; right: 160px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
-		<div id="researchInfoLink" class="stdBorder abs buttonDiv" style="top: 10px; right: 10px; width: 149px; height: 15px; text-align: center;">
-			View in Research Map >>
-		</div>
+		<div id="researchInfoLink" class="stdBorder abs buttonDiv" style="top: 10px; right: 10px; width: 149px; height: 15px; text-align: center;">View in Research Map >></div>
 		<div id="researchInfoDesc" 	class="stdBorder abs" style="top: 35px; left: 135px; right: 10px; height: 75px;"></div>
 		
 		<div id="researchInfoControls" class="stdBorder abs" style="top: 120px; left: 10px; width: 220px; height: 100px;"></div>
@@ -54,7 +52,9 @@
 			</div>
 		</div>
 		
-		<div class="stdBorder abs" style="top: 230px; left: 10px; right: 10px; bottom: 10px;"></div>
+		<div class="stdBorder abs" style="top: 230px; left: 10px; right: 10px; bottom: 10px;">
+			
+		</div>
 	</div>
 </div>
 {/block}
