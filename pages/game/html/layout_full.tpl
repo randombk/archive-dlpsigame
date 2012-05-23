@@ -95,7 +95,7 @@
 				</ul>
 				<div class="br" style="background-color: transparent;"></div>
 				<div class="bBottom" style="bottom: -15px;">
-					<div class="bb"  style="background-color: transparent; left: 0px;"></div>
+					<div class="bb"  style="background-color: transparent; left: 0;"></div>
 					<div class="cbr" style="background-color: transparent;"></div>
 				</div>
 			</div>

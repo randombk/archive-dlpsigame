@@ -9,6 +9,9 @@
  * Class CachedResource_ITEMPARAMS
  */
 class CachedResource_ITEMPARAMS {
+	/**
+	 * @return array
+	 */
 	public static function loadGameResource() {
 		$ITEMPARAMS = DBMongo::getCachableItemParams();
 		
@@ -16,5 +19,3 @@ class CachedResource_ITEMPARAMS {
 		return $ITEMPARAMS;
 	}
 }
-
-?>

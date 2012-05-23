@@ -37,4 +37,3 @@ $GLOBALS['_MONGO']['port'] = '27017';
 $GLOBALS['_MONGO']['databasename'] = 'DLPSIGAME_DEV1';
 
 $GLOBALS['_SALT'] = 'JtP0xXyOi6RLTFs5fYW7v8';
-?>

@@ -3,7 +3,7 @@
  * (C) Copyright 2012 David J. W. Li
  * Project DLPSIGAME
  */
-//Custom datatype for spcifying locations and basic information about the stuff in them
+//Custom data type for specifying locations and basic information about the stuff in them
 /**
  * Class UniCoord
  */
@@ -223,4 +223,3 @@ class UniCoord {
 		return $this->OK;
 	}
 }
-?>

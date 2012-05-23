@@ -4,7 +4,13 @@
  * Project DLPSIGAME
  */
 
-class Page_Notificationwindow extends AbstractPage {
+/**
+ * Class Page_Notificationwindow
+ */
+class Page_Notificationwindow extends GameAbstractPage {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
         $this->setPageType('win');

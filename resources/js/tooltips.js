@@ -1,3 +1,4 @@
+"use strict";
 function staticTT(element, options) {
 	var GUID = getGUID();
 

@@ -1,3 +1,4 @@
+"use strict";
 function parseResearchData(data) {
 	for(var i in dbResearchData) {
 		var techData = data[i];

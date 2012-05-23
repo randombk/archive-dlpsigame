@@ -4,7 +4,13 @@
  * Project DLPSIGAME
  */
 
-class Page_Map extends AbstractPage {
+/**
+ * Class Page_Map
+ */
+class Page_Map extends GameAbstractPage {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 	}

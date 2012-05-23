@@ -33,7 +33,6 @@ class DataPlayer {
 		}
 	}
 	
-	//Basic accessors
 	/**
 	 * @return array
 	 */
@@ -87,4 +86,3 @@ class DataPlayer {
 		return $instance;
 	}
 }
-?>

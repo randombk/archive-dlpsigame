@@ -17,5 +17,3 @@ class CachedResource_RESEARCHPOS {
 		return CachedResource_RESEARCH::loadGameResource(true);
 	}
 }
-
-?>

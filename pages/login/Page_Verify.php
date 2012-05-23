@@ -4,11 +4,20 @@
  * Project DLPSIGAME
  */
 
-class Page_Verify extends AbstractPage {
+/**
+ * Class Page_Verify
+ */
+class Page_Verify extends LoginAbstractPage {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 	}
 
+	/**
+	 * @return array
+	 */
 	private function activateUser() {
 		$playerID = HTTP::REQ('i', 0);
 		$validationKey = HTTP::REQ('k', '');
@@ -29,7 +38,7 @@ class Page_Verify extends AbstractPage {
 	}
 
 	function show() {
-		$playerData = $this->activateUser();
+		$this->activateUser();
 		HTTP::redirectTo('game.php');
 	}
 }

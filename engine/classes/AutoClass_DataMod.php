@@ -26,7 +26,6 @@ class DataMod {
 		}
 	}
 	
-	//Basic accessors
 	/**
 	 * @return array
 	 */
@@ -70,4 +69,3 @@ class DataMod {
 		return $instance;
 	}
 }
-?>

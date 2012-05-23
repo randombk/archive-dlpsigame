@@ -204,7 +204,6 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			$buildings[$id]["curModifiers"] = CalcObject::getBuildingModifiers($objectEnv, $id, $data[0], $getActual ? $data[1]: 100);
 			$buildings[$id]["curResConsumption"] = UtilItem::buildItemDataArray(CalcObject::getBuildingConsumption($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
 			$buildings[$id]["curResProduction"] = UtilItem::buildItemDataArray(CalcObject::getBuildingProduction($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
-			$buildings[$id]["curResearch"] = CalcObject::getBuildingResearch($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100);
 		}
 		return $buildings;
 	}

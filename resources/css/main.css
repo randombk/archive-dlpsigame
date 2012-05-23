@@ -22,10 +22,10 @@ img {
 
 .absFill {
 	position: absolute;
-	top: 0px;
-	left: 0px;
-	bottom: 0px;
-	right: 0px;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
 	height: 100%;
 }
 
@@ -71,7 +71,7 @@ table.innerTable {
 }
 
 table.innerTable td, table.innerTable th, table.innerTable tr {
-	border: 0px;
+	border: 0;
 }
 
 table.innerTable th {
@@ -88,7 +88,7 @@ table.innerBorderedTable {
 }
 
 table.innerBorderedTable tr {
-	border: 0px;
+	border: 0;
 }
 
 table.innerBorderedTable td, table.innerBorderedTable th {
@@ -135,7 +135,7 @@ table.innerBorderedTable th {
 }
 
 #tabContainer #tabContent .tabContentHolder {
-	padding: 10px 0px;
+	padding: 10px 0;
 	width: 100%;
 	background: rgba(5,49,109,0.7);
 }
@@ -263,19 +263,19 @@ table.innerBorderedTable th {
 .ui-progressbar-value {
 	position: absolute;
 	border-right: #05316D 1px solid;
-	top: 0px;
-	bottom: 0px;
-	left: 0px;
+	top: 0;
+	bottom: 0;
+	left: 0;
 	background-color: #05316D;
 	background-image: url(http://code.jquery.com/ui/1.10.3/themes/smoothness/images/animated-overlay.gif);
 }
 
 .ui-progressbar-centerText {
 	position: absolute;
-	top: 0px;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	text-align: center;
 	z-index: 100;
 }
@@ -284,8 +284,8 @@ table.innerBorderedTable th {
 	display: none;
 	background-color: rgba(20, 20, 20, 0.6);
 	position: fixed;
-	left: 0px;
-	top: 0px;
+	left: 0;
+	top: 0;
 	width: 100%;
 	height: 100%;
 	z-index: 900;

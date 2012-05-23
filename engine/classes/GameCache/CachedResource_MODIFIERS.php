@@ -20,5 +20,3 @@ class CachedResource_MODIFIERS {
 		return $MODIFIERS;
 	}
 }
-
-?>

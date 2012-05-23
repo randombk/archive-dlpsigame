@@ -125,7 +125,7 @@ class GameSession {
 	 * @return bool
 	 */
 	public function gc($lifetime) {
-		//Trigger APC's internal ttl cleanup
+		//Trigger APC's internal time-to-live cleanup
 		apc_cache_info();
 		return true;
 	}
@@ -208,5 +208,3 @@ class GameSession {
 		return $ip;
 	}
 }
-
-?>

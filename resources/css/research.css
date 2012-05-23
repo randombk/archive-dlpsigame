@@ -20,18 +20,18 @@
 #researchObjectListHolder {
 	position: absolute;
 	top: 151px;
-	left: 0px;
+	left: 0;
 	width: 200px;
-	bottom: 0px;
+	bottom: 0;
 	border: 1px #D3D3D3 solid;
 	background: rgba(3,26,58,0.8);
 }
 
 #researchActivityListHolder {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	left: 251px;
-	right: 0px;
+	right: 0;
 	height: 100px;
 	border: 1px #D3D3D3 solid;
 	background: rgba(3,26,58,0.8);
@@ -47,7 +47,7 @@
 
 #toggleMaxMain {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	height: 20px;
 	left: 251px;
 	width: 10px;
@@ -59,9 +59,9 @@
 
 #researchLeftPanel {
 	position: absolute;
-	top: 0px;
-	bottom: 0px;
-	left: 0px;
+	top: 0;
+	bottom: 0;
+	left: 0;
 	width: 250px;
 	background: rgba(2,26,58,0.8);
 	border: 1px #D3D3D3 solid;
@@ -70,10 +70,10 @@
 
 #researchLeftPanel .researchListSearch {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	height: 30px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	background: rgba(5,49,109,0.5);
 	border-bottom: 1px #D3D3D3 solid;
 }
@@ -81,9 +81,9 @@
 #researchLeftPanel .researchListHolder {
 	position: absolute;
 	top: 31px;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	overflow: hidden;
 }
 
@@ -97,20 +97,20 @@
 
 #researchMainPanel {
 	position: absolute;
-	top: 0px;
-	bottom: 0px;
+	top: 0;
+	bottom: 0;
 	left: 251px;
-	right: 0px;
+	right: 0;
 	background: rgba(2,26,58,0.8);
 	border: 1px #D3D3D3 solid;
 }
 
 #researchMainPanel #researchQueueHolder {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	height: 80px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	background: rgba(2,26,58,0.8);
 	border-bottom: 1px #D3D3D3 solid;
 }
@@ -118,9 +118,9 @@
 #researchInfoHolder {
 	position: absolute;
 	top: 81px;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	background: rgba(3,26,58,0.8);
 }
 
@@ -128,7 +128,7 @@
 	position: absolute;
 	top: 81px;
 	bottom: 56px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	cursor: pointer;
 }

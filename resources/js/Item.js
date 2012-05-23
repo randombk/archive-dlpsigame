@@ -1,4 +1,5 @@
-function parseItemData(data) {
+"use strict";
+function parseItemData(data, params) {
 	for(var i in data) {
 		params = clone(data[i]);
 		data[i] = new Item(i, params);

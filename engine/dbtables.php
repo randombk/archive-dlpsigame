@@ -17,5 +17,3 @@ define('tblPASS_RECOVERY', 			'passRecovery');
 define('tblUNI_OBJECTS', 			'uniObjects');
 define('tblUNI_STARS', 				'uniStars');
 define('tblPLAYER_MESSAGES', 		'playerMessages');
-
-?>

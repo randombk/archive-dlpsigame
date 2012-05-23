@@ -12,8 +12,8 @@ require (ROOT_PATH . 'engine/ErrorHandlers.php');
 set_exception_handler('base_interfaceException');
 set_error_handler('base_interfaceError');
 
-require (ROOT_PATH . 'pages/game/AbstractPage.php');
-require (ROOT_PATH . 'pages/game/ErrorPage.php');
+require (ROOT_PATH . 'pages/game/GameAbstractPage.php');
+require (ROOT_PATH . 'pages/game/GameErrorPage.php');
 require (ROOT_PATH . 'engine/common.php');
 
 if (!GameSession::isLoggedIn()) {
@@ -40,11 +40,11 @@ if (empty($_SESSION['PLAYER'])) {
 }
 
 if ($_SESSION['PLAYER']['banExpireTime'] > time()) {
-	ErrorPage::printError("<font size=6px;'>Your account has been banned!</font><br>Expiry Time: " . $_SESSION['PLAYER']['banExpireTime']);
+	GameErrorPage::printError("<font size=6px;'>Your account has been banned!</font><br>Expiry Time: " . $_SESSION['PLAYER']['banExpireTime']);
 }
 
 if(!isset($_SESSION['OBJECTS']))
-	UtilPlayer::getPlayerObjects();
+	$_SESSION['OBJECTS'] = UtilPlayer::getPlayerObjects();
 
 $page = HTTP::REQ('page', 'index');
 $mode = HTTP::REQ('mode', 'show');
@@ -54,7 +54,7 @@ $pageClass = 'Page_' . $pageName;
 $pageSrc = ROOT_PATH . 'pages/game/' . $pageClass . '.php';
 
 if (!file_exists($pageSrc)) {
-	ErrorPage::printError("Requested Page not Found");
+	GameErrorPage::printError("Requested Page not Found");
 } else {
 	require ($pageSrc);
 	$pageObj = new $pageClass;
@@ -62,7 +62,7 @@ if (!file_exists($pageSrc)) {
 
 	if (!is_callable(array($pageObj, $mode))) {
 		if (!isset($pageProps['defaultController']) || !is_callable(array($pageObj, $pageProps['defaultController']))) {
-			ErrorPage::printError("Requested Page not Found");
+			GameErrorPage::printError("Requested Page not Found");
 		}
 		$mode = $pageProps['defaultController'];
 	}

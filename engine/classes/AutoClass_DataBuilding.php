@@ -82,7 +82,6 @@ class DataBuilding {
 		return $num;
 	}
 	
-	//Basic accessors
 	/**
 	 * @return array
 	 */
@@ -136,4 +135,3 @@ class DataBuilding {
 		return $instance;
 	}
 }
-?>

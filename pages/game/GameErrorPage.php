@@ -4,12 +4,21 @@
  * Project DLPSIGAME
  */
 
-class ErrorPage extends AbstractPage {
+/**
+ * Class GameErrorPage
+ */
+class GameErrorPage extends GameAbstractPage {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 		$this->initTemplate();
 	}
 
+	/**
+	 * @param $Message
+	 */
 	static function printError($Message) {
 		$pageObj = new self;
 		$pageObj->showMessage($Message);

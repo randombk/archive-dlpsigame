@@ -4,7 +4,13 @@
  * Project DLPSIGAME
  */
 
-class Page_Invwindow extends AbstractPage {
+/**
+ * Class Page_Invwindow
+ */
+class Page_Invwindow extends GameAbstractPage {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
         $this->setPageType('win');

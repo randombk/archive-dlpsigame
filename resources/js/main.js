@@ -1,3 +1,4 @@
+"use strict";
 function getGUID() {
 	// http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
 	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

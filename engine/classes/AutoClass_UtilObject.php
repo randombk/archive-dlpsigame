@@ -4,7 +4,6 @@
  * Project DLPSIGAME
  */
 
-//NONOPTIMAL: Handle MySQL errors instead of performing manual error checking
 /**
  * Class UtilObject
  */
@@ -41,7 +40,7 @@ class UtilObject {
 				throw new Exception("Invalid Parameter - Star ID not valid");
 			}
 			
-			$object = $GLOBALS["RDBMS"]->selectTop(
+			$object = DBMySQL::selectTop(
 				tblUNI_OBJECTS,
 				"starID = :starID AND objectIndex = :objectID",
 				array(
@@ -70,10 +69,8 @@ class UtilObject {
 	 */
 	static function getFreeObjectCoord($starID, $type = 1, $name = "Colony") {
 		if(isset(GameCache::get('STARS')[$starID])) {
-			//SELECT objectIndex FROM dlpsigame_dev1.uniobjects WHERE starID = 1 ORDER BY objectIndex DESC LIMIT 1;
-			
 			$star = GameCache::get('STARS')[$starID];
-			$objectIndex = $GLOBALS["RDBMS"]->selectCell(
+			$objectIndex = DBMySQL::selectCell(
 				tblUNI_OBJECTS,
 				"starID = :starID",
 				array(
@@ -121,10 +118,9 @@ class UtilObject {
 	 * @param $humidity
 	 * @param $size
 	 * @param $randSeed
-	 * @param $distance
 	 * @return string
 	 */
-	static function generatePlanetType(&$temp, &$humidity, &$size, &$randSeed, $distance) {
+	static function generatePlanetType(&$temp, &$humidity, &$size, &$randSeed) {
 		
 		//Have a small chance at making the planet volcanic
 		if($randSeed >= 990) {
@@ -135,7 +131,7 @@ class UtilObject {
 			return "Volcanic";
 		}
 		
-		//Hanve a small chance at making the planet a dwarf
+		//Have a small chance at making the planet a dwarf
 		if($randSeed <= 10) {
 			//Make the planet a dwarf planet
 			$temp -= Math::nDn(3, 13);
@@ -167,7 +163,7 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $Object
+	 * @param $Object UniCoord
 	 * @param $PlanetOwnerID
 	 * @return bool
 	 * @throws Exception
@@ -192,7 +188,7 @@ class UtilObject {
 			$planetSize = (int)(mt_rand(0, 100) <= 40 ? Math::nDn(20, 20) + 9 + Math::nDn(12, 18) : Math::nDn(20, 20));
 			$randSeed = mt_rand(0, 1000);
 		
-			$planetType = self::generatePlanetType($planetTemp, $planetHumidity, $planetSize, $randSeed, $r);
+			$planetType = self::generatePlanetType($planetTemp, $planetHumidity, $planetSize, $randSeed);
 			
 			$objectData = array(
 				"planetTemp" => $planetTemp,
@@ -202,7 +198,7 @@ class UtilObject {
 				"randSeed"	 => $randSeed
 			);
 			
-			$newID = $GLOBALS["RDBMS"]->insert(
+			$newID = DBMySQL::insert(
 				tblUNI_OBJECTS,
 				array(
 					"starID" => $starID,
@@ -420,4 +416,3 @@ class UtilObject {
 		return DBMongo::getObject("objectData_".$objectID);
 	}
 }
-?>

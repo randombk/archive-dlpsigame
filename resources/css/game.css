@@ -14,7 +14,7 @@
 	font-size: 10px;
 	color: rgb(221, 221, 221);
 	display: block;
-	padding: 0px;
+	padding: 0;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -38,7 +38,7 @@
 	font-size: 10px;
 	color: rgb(221, 221, 221);
 	display: block;
-	padding: 0px;
+	padding: 0;
 	min-width: 400px;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -50,36 +50,36 @@
 
 #gameContainer {
 	position: absolute;
-	top: 0px;
-	left: 0px;
-	bottom: 0px;
-	right: 0px;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
 	z-index: 2;
 }
 
 #gameMenuContainer {
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	width: 200px;
 	float: left;
 }
 
 #gameTopContainer {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	left: 200px;
 	height: 100px;
-	right: 0px;
+	right: 0;
 	float: left;
 }
 
 #gameTopContainer .playerImage {
 	position: absolute;
 	background-color: #1E3E5D;
-	left: 0px;
+	left: 0;
 	width: 100px;
-	top: 0px;
+	top: 0;
 	height: 100px;
 	text-align: center;
 }
@@ -87,26 +87,26 @@
 #gameTopContainer .topBanner {
 	position: absolute;
 	left: 100px;
-	right: 0px;
-	top: 0px;
+	right: 0;
+	top: 0;
 	height: 85px;
 }
 
 #gameTopContainer .topBanner .playerBox {
 	position: absolute;
-	left: 0px;
+	left: 0;
 	width: 200px;
-	top: 0px;
-	bottom: 0px;
+	top: 0;
+	bottom: 0;
 	background: rgba(3,26,58,0.6);
 	text-align: center;
 }
 
 #gameTopContainer .topBanner .playerBox .playerName {
 	position: absolute;
-	left: 0px;
+	left: 0;
 	right: 0;
-	top: 0px;
+	top: 0;
 	height: 15px;
 	border-top: 1px solid rgba(221,221,221,0.5);
 	border-bottom: 1px solid rgba(0,0,0,0.5);
@@ -116,7 +116,7 @@
 
 #gameTopContainer .topBanner .playerBox .dataHolder {
 	position: absolute;
-	left: 0px;
+	left: 0;
 	right: 0;
 	top: 15px;
 }
@@ -141,18 +141,18 @@
 	position: absolute;
 	left: 200px;
 	right: 2px;
-	top: 0px;
-	bottom: 0px;
+	top: 0;
+	bottom: 0;
 	background: rgba(3,3,3,0.4);
 	text-align: center;
 }
 
 #gameTopContainer .topBanner .dataBox .notifications {
 	position: absolute;
-	left: 0px;
+	left: 0;
 	width: 50%;
-	top: 0px;
-	bottom: 0px;
+	top: 0;
+	bottom: 0;
 	border-left: 1px solid #D3D3D3;
 	overflow-y: scroll;
 	text-align: left;
@@ -163,8 +163,8 @@
 	position: absolute;
 	left: 50%;
 	width: 50%;
-	top: 0px;
-	bottom: 0px;
+	top: 0;
+	bottom: 0;
 	border-left: 1px solid #D3D3D3;
 	overflow-y: scroll;
 	text-align: left;
@@ -187,7 +187,7 @@
 	position: absolute;
 	left: 100px;
 	width: 200px;
-	bottom: 0px;
+	bottom: 0;
 	height: 15px;
 	background: rgba(5,49,109,0.8);
 	border-top: 1px solid rgba(221,221,221,0.5);
@@ -200,12 +200,12 @@
 	position: absolute;
 	border-top: 1px solid rgba(221,221,221,0.5);
 	border-bottom: 1px solid rgba(0,0,0,0.5);
-	border-left: 0px;
-	border-right: 0px;
+	border-left: 0;
+	border-right: 0;
 	background-color: #1E3E5D;
 	left: 301px;
-	right: 0px;
-	bottom: 0px;
+	right: 0;
+	bottom: 0;
 	height: 15px;
 	min-width: 400px;
 	text-align: center;
@@ -224,10 +224,10 @@
 
 #objectListContainer .objectListSearch {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	height: 30px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	background: rgba(5,49,109,0.5);
 	border-bottom: 1px #D3D3D3 solid;
 }
@@ -235,9 +235,9 @@
 #objectListContainer .objectListHolder {
 	position: absolute;
 	top: 31px;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	overflow: hidden;
 }
 
@@ -261,8 +261,8 @@
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;
-	top: 0px;
-	bottom: 0px;
+	top: 0;
+	bottom: 0;
 	width: 75%;
 	min-width: 700px;
 }

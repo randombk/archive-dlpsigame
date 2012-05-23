@@ -16,18 +16,34 @@ class PlayerEnvironment {
 	public $numDraw = 0;
 	public $researchQueue = "";
 	public $last_update = PHP_INT_MAX;
-	
+
+	/**
+	 * @var UniCoord[]
+	 */
 	public $objects = array();
+
 	public $envStars = array();
+
+	/**
+	 * @var ObjectEnvironment[]
+	 */
 	public $envObjects = array();
-	public $envResearch = null; //DataResearch
-	public $envPlayerData = null; //DataPlayer
+
+	/**
+	 * @var DataResearch
+	 */
+	public $envResearch = null;
+
+	/**
+	 * @var DataPlayer
+	 */
+	public $envPlayerData = null;
 	
 	public $researchProduction = null;
 
 	/**
 	 * @param $playerID
-	 * @return mixed
+	 * @return PlayerEnvironment
 	 * @throws Exception
 	 */
 	public static function fromPlayerID($playerID) {
@@ -134,4 +150,3 @@ class PlayerEnvironment {
 		UtilPlayer::setPlayerData($this->envPlayerData->getDataArray(), $this->playerID);
 	}
 }
-?>

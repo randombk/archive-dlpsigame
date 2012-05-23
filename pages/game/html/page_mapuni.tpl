@@ -13,7 +13,7 @@
 		<th>Universe Map</th>
 	</tr>
 </table>
-<div id="mapHolder" style="top: 17px; bottom: 0px; left: 0px; right: 0px; min-height: 500px; position: absolute; background: rgba(10,10,20, 0.8);"></div>
+<div id="mapHolder" style="top: 17px; bottom: 0; left: 0; right: 0; min-height: 500px; position: absolute; background: rgba(10,10,20, 0.8);"></div>
 {/block}
 
 {block name="winHandlers" append}

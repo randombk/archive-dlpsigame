@@ -92,7 +92,7 @@ class UtilPlayer {
 		self::setPlayerResearchData(array(), $playerID);
 		
 		//PENDING: referrals
-		//PENDING: external authentiation
+		//PENDING: external authentication
 		DBMySQL::update(tblPLAYERS, array("validationKey" => "", "last_update" => TIMESTAMP), "playerID = :playerID", array(":playerID" => $playerID));
 		
 		$subject = 'Welcome';
@@ -128,7 +128,7 @@ class UtilPlayer {
 
 	/**
 	 * @param null $playerID
-	 * @return array
+	 * @return UniCoord[]
 	 */
 	static function getPlayerObjects($playerID = null) {
 		if(is_null($playerID)) {
@@ -146,11 +146,6 @@ class UtilPlayer {
 		foreach($objects as $object) {
 			$return[$object['objectID']] = UniCoord::fromData($object);
 		}
-		
-		if($playerID == $_SESSION['playerID']) {
-			$_SESSION['OBJECTS'] = $return;
-		}
-		
 		return $return;
 	}
 

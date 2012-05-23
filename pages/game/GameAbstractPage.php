@@ -4,14 +4,25 @@
  * Project DLPSIGAME
  */
 
-abstract class AbstractPage {
+/**
+ * Class GameAbstractPage
+ */
+abstract class GameAbstractPage {
+	/* @var $templateObj SmartyWrapper */
+	protected $templateObj;
 	protected $window;
-	
+
+	/**
+	 *
+	 */
 	protected function __construct() {
 		$this->setPageType('full');
 		$this->initTemplate();
 	}
 
+	/**
+	 * @return bool
+	 */
 	protected function initTemplate() {
 		if (isset($this->templateObj))
 			return true;
@@ -22,6 +33,9 @@ abstract class AbstractPage {
 		return true;
 	}
 
+	/**
+	 * @param $window
+	 */
 	protected function setPageType($window) {
 		$this->window = $window;
 	}
@@ -31,17 +45,20 @@ abstract class AbstractPage {
 			$key = array_rand($_SESSION['OBJECTS']);
 			$_SESSION['CurrentPlanet'] = $_SESSION['OBJECTS'][$key];
 		}
-		
+
+		/* @var $curPlanet UniCoord */
+		$curPlanet = $_SESSION['CurrentPlanet'];
+
 		$this->templateObj->assign_vars(array(
-			 'currentObject'		=> $_SESSION['CurrentPlanet']->getObjectID(),
-			 'currentObjectGalaxy'	=> $_SESSION['CurrentPlanet']->getGalaxy(),
-			 'currentObjectSector'	=> $_SESSION['CurrentPlanet']->getSector(),
-			 'currentObjectStar'	=> $_SESSION['CurrentPlanet']->getStar(),
-			 'currentObjectObject'	=> $_SESSION['CurrentPlanet']->getObject(),
-			 'currentObjectName'	=> $_SESSION['CurrentPlanet']->getName(),
-			 'currentObjectImage'	=> $_SESSION['CurrentPlanet']->getImageID(),
-			 'currentObjectTypeName'=> $_SESSION['CurrentPlanet']->getTypeName(),
-			 'currentObjectCoord'	=> $_SESSION['CurrentPlanet']->getCoordString()
+			 'currentObject'		=> $curPlanet->getObjectID(),
+			 'currentObjectGalaxy'	=> $curPlanet->getGalaxy(),
+			 'currentObjectSector'	=> $curPlanet->getSector(),
+			 'currentObjectStar'	=> $curPlanet->getStar(),
+			 'currentObjectObject'	=> $curPlanet->getObject(),
+			 'currentObjectName'	=> $curPlanet->getName(),
+			 'currentObjectImage'	=> $curPlanet->getImageID(),
+			 'currentObjectTypeName'=> $curPlanet->getTypeName(),
+			 'currentObjectCoord'	=> $curPlanet->getCoordString()
 		));
 	}
 
@@ -64,6 +81,9 @@ abstract class AbstractPage {
 		));
 	}
 
+	/**
+	 * @param $Message
+	 */
 	protected function showMessage($Message) {
 		$this->templateObj->assign_vars(array(
 			 'mes' => $Message,
@@ -72,6 +92,9 @@ abstract class AbstractPage {
 		$this->display('error.tpl');
 	}
 
+	/**
+	 * @param $file
+	 */
 	protected function display($file) {
 		$this->getPageVars();
 

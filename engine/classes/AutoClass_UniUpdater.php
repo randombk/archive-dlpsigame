@@ -12,7 +12,7 @@ class UniUpdater
 	/**
 	 * @param $playerID
 	 * @param int $updateTo
-	 * @return mixed
+	 * @return PlayerEnvironment|null
 	 * @throws Exception
 	 */
 	public static function updatePlayer($playerID, $updateTo = TIMESTAMP)

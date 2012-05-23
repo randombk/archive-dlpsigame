@@ -45,5 +45,3 @@ class CachedResource_RESEARCH {
 		}
 	}
 }
-
-?>

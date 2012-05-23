@@ -17,5 +17,3 @@ class CachedResource_STARPOS {
 		return CachedResource_STARS::loadGameResource(true);
 	}
 }
-
-?>

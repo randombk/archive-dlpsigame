@@ -33,17 +33,16 @@
  * Hover Building Info Display
  */
 .tooltipContent #buildingImgHolder {
-	top: 0px;
-	bottom: 0px;
-	left: 0px;
+	top: 0;
+	bottom: 0;
+	left: 0;
 	width: 100px;
 	background-color: rgba(10,10,20, 0.8);
-	padding: 0px;
+	padding: 0;
 }
 
 .tooltipContent .itemDescHolder {
 	white-space: normal;
 	word-wrap: break-word;
-	word-break: break-word;
 	max-width: 100px;
 }

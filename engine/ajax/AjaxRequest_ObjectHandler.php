@@ -33,7 +33,6 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 					"usedStorage" => $objectEnv->envItems->getTotalWeight(),
 					"objStorage" => CalcObject::getObjectStorage($objectEnv, $objectMods),
 					"objEnergyStorage" => CalcObject::getMaxEnergyStorage($objectEnv, $objectMods),
-					"objResearchOutput" => CalcObject::getObjectResearchPoints($objectEnv, $objectMods),
 					"numBuildings" => $objectEnv->envBuildings->getNumBuildings(),
 					"buildQueue" => $objectEnv->buildingQueue,
 					"objectData" => $objectEnv->envObjectData,

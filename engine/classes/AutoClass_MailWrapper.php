@@ -23,10 +23,10 @@ class MailWrapper {
 		$mailTo = $GLOBALS['_GAME_NAME'];
 
 		$mail = Swift_Message::newInstance();
-		$mail->setSubject($MailSubject)
-				  ->setFrom(array($mailFrom => $mailTo))
-				  ->setTo(array($MailTarget => $MailTargetName))
-				  ->setBody($MailContent);
+		$mail->setSubject($MailSubject);
+		$mail->setFrom(array($mailFrom => $mailTo));
+		$mail->setTo(array($MailTarget => $MailTargetName));
+		$mail->setBody($MailContent);
 
 		$mailer->send($mail);
 	}
@@ -44,13 +44,14 @@ class MailWrapper {
 		$mailTo = $GLOBALS['_GAME_NAME'];
 
 		$mail = Swift_Message::newInstance();
-		$mail->setSubject($MailSubject)->setFrom(array($mailFrom => $mailTo));
+		$mail->setSubject($MailSubject);
+		$mail->setFrom(array($mailFrom => $mailTo));
 
 		foreach ($MailTargets as $address => $data) {
 			$content = isset($data['body']) ? $data['body'] : $MailContent;
-			$mail->setTo(array($address => $data['playername']))
-					  ->setBody(strip_tags($content))
-					  ->addPart($content, 'text/html');
+			$mail->setTo(array($address => $data['playername']));
+			$mail->setBody(strip_tags($content));
+			$mail->addPart($content, 'text/html');
 
 			$mailer->send($mail);
 		}

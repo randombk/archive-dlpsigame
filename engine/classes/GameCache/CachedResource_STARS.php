@@ -33,5 +33,3 @@ class CachedResource_STARS {
 		}
 	}
 }
-
-?>

@@ -18,19 +18,41 @@ class ObjectEnvironment {
 	public $last_update = PHP_INT_MAX;
 	public $objectDesc = "";
 	public $buildingQueue = array();
-	
-	public $envBuildings = null; //DataBuilding
-	public $envItems = null; //DataItem
-	public $envMods = null; //DataMod
-	public $envObjectCoord = null; //UniCoord 
+
+	/**
+	 * @var DataBuilding
+	 */
+	public $envBuildings = null;
+
+	/**
+	 * @var DataItem
+	 */
+	public $envItems = null;
+
+	/**
+	 * @var DataMod
+	 */
+	public $envMods = null;
+
+	/**
+	 * @var UniCoord
+	 */
+	public $envObjectCoord = null;
+
+	/**
+	 *
+	 */
 	public $envObjectData = null;
-	
-	public $envPlayer = null; //PlayerEnvironment
+
+	/**
+	 * @var PlayerEnvironment
+	 */
+	public $envPlayer = null;
 
 	/**
 	 * @param $objectID
 	 * @param $envPlayer
-	 * @return mixed
+	 * @return ObjectEnvironment
 	 * @throws Exception
 	 */
 	public static function fromObjectID($objectID, $envPlayer) {
@@ -120,4 +142,3 @@ class ObjectEnvironment {
 			
 	}
 }
-?>

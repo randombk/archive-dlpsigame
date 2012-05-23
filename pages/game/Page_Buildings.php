@@ -4,7 +4,13 @@
  * Project DLPSIGAME
  */
 
-class Page_Buildings extends AbstractPage {
+/**
+ * Class Page_Buildings
+ */
+class Page_Buildings extends GameAbstractPage {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 	}
@@ -13,7 +19,7 @@ class Page_Buildings extends AbstractPage {
 		$objectID = HTTP::REQ("objectID", 0);
 		
 		if($objectID == 0 || !isset($_SESSION['OBJECTS'][$objectID])) {
-			ErrorPage::printError("Invalid object");
+			GameErrorPage::printError("Invalid object");
 		} else {
 			if($_SESSION['OBJECTS'][$objectID]->getType() == 1) {
 				$_SESSION['CurrentPlanet'] = $_SESSION['OBJECTS'][$objectID];
@@ -22,7 +28,7 @@ class Page_Buildings extends AbstractPage {
 				));
 				$this->display('page_building.tpl');	
 			} else {
-				ErrorPage::printError("Invalid object");
+				GameErrorPage::printError("Invalid object");
 			}
 		}
 	}

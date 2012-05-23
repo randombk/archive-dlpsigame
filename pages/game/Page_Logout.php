@@ -4,7 +4,13 @@
  * Project DLPSIGAME
  */
 
-class Page_Logout extends AbstractPage {
+/**
+ * Class Page_Logout
+ */
+class Page_Logout extends GameAbstractPage {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 		$this->setPageType('clean');

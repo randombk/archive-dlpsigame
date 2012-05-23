@@ -44,7 +44,6 @@ class DataItem {
 		return $weight;
 	}
 	
-	//Basic accessors
 	/**
 	 * @return array
 	 */
@@ -221,4 +220,3 @@ class DataItem {
 		return true;
 	}
 }
-?>

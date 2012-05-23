@@ -1,3 +1,4 @@
+"use strict";
 function tickService(unix_timestamp) {
 	this.offset = 0;
 	this.calcOffset(unix_timestamp);

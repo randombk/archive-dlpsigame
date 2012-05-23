@@ -4,7 +4,13 @@
  * Project DLPSIGAME
  */
 
-class Page_Rules extends AbstractPage {
+/**
+ * Class Page_Rules
+ */
+class Page_Rules extends LoginAbstractPage {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 	}

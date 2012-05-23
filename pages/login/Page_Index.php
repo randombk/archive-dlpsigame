@@ -4,7 +4,13 @@
  * Project DLPSIGAME
  */
 
-class Page_Index extends AbstractPage {
+/**
+ * Class Page_Index
+ */
+class Page_Index extends LoginAbstractPage {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 		$this->setPageType('clean');

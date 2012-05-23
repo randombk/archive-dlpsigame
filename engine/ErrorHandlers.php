@@ -5,7 +5,7 @@
  */
 
 /**
- * @param $exception
+ * @param $exception Exception|ErrorException
  */
 function base_interfaceException($exception) {
 	if(!headers_sent()) {
@@ -83,7 +83,7 @@ function base_interfaceError($errno, $errstr, $errfile, $errline) {
 }
 
 /**
- * @param $exception
+ * @param $exception Exception|ErrorException
  */
 function base_ajaxException($exception) {
 	if(!headers_sent()) {
@@ -134,5 +134,3 @@ function base_ajaxError($errno, $errstr, $errfile, $errline) {
 	}
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
-
-?>

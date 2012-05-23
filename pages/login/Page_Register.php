@@ -4,8 +4,14 @@
  * Project DLPSIGAME
  */
 
-class Page_Register extends AbstractPage {
+/**
+ * Class Page_Register
+ */
+class Page_Register extends LoginAbstractPage {
 
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 	}

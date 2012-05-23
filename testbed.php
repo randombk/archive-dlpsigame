@@ -12,8 +12,8 @@ require (ROOT_PATH . 'engine/ErrorHandlers.php');
 set_exception_handler('base_interfaceException');
 set_error_handler('base_interfaceError');
 
-require (ROOT_PATH . 'pages/game/AbstractPage.php');
-require (ROOT_PATH . 'pages/game/ErrorPage.php');
+require (ROOT_PATH . 'pages/game/GameAbstractPage.php');
+require (ROOT_PATH . 'pages/game/GameErrorPage.php');
 require (ROOT_PATH . 'engine/common.php');
 
 if (!GameSession::isLoggedIn()) {
@@ -40,19 +40,9 @@ if (empty($_SESSION['PLAYER'])) {
 }
 
 if ($_SESSION['PLAYER']['banExpireTime'] > time()) {
-	ErrorPage::printError("<font size=;6px'>Your account has been banned!</font><br>Expiry Time: " . $_SESSION['PLAYER']['banExpireTime']);
+	GameErrorPage::printError("<font size=;6px'>Your account has been banned!</font><br>Expiry Time: " . $_SESSION['PLAYER']['banExpireTime']);
 }
 
 $_SESSION['OBJECTS'] = UtilPlayer::getPlayerObjects();
 
 //BEGIN TESTBED
-
-$newPlanetID = UtilObject::createPlanet(UtilObject::getFreeObjectCoord(1, 1, "Colony"), 3);
-		
-//Give player some items
-$item = new DataItem();
-$item->setItem("iron", 5000);
-$item->setItem("kryptonite", 5000);
-
-UtilObject::setObjectResDataUsingID($newPlanetID, $item->getItemArray(), false);
-		

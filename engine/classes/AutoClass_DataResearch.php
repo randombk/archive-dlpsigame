@@ -72,7 +72,6 @@ class DataResearch {
 		}
 	}
 	
-	//Basic accessors
 	/**
 	 * @return array
 	 */
@@ -133,4 +132,3 @@ class DataResearch {
 		}
 	}
 }
-?>

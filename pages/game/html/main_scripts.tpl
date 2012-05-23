@@ -22,7 +22,6 @@
 <script src="resources/js/crossWindow.js?v={$VERSION}"></script>
 <script src="resources/js/gameData.js?v={$VERSION}"></script>
 <script src="resources/js/objectUtils.js?v={$VERSION}"></script>
-<script src="resources/js/calculations.js?v={$VERSION}"></script>
 
 <!-- Load global handlebars templates -->
 <script src="handlebars/hoverItem.js"></script>

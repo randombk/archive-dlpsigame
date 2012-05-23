@@ -61,7 +61,7 @@ class UtilItem {
 	}
 
 	/**
-	 * @param $dataItem
+	 * @param $dataItem DataItem
 	 * @return array
 	 */
 	static function buildItemDataArray($dataItem) {
@@ -74,4 +74,3 @@ class UtilItem {
 		return $dataArray;
 	}
 }
-?>

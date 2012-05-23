@@ -4,6 +4,9 @@
  * Project DLPSIGAME
  */
 
+/**
+ * @return string
+ */
 function gen_uuid() {
     return sprintf( '{%04x%04x-%04x-%04x-%04x-%04x%04x%04x}',
         // 32 bits for "time_low"
@@ -26,15 +29,25 @@ function gen_uuid() {
     );
 }
 
-abstract class AbstractPage {
+/**
+ * Class LoginAbstractPage
+ */
+abstract class LoginAbstractPage {
+	/* @var $templateObj SmartyWrapper */
 	protected $templateObj;
 	protected $window;
-	
+
+	/**
+	 *
+	 */
 	protected function __construct() {
 		$this->setPageType('normal');
 		$this->initTemplate();
 	}
 
+	/**
+	 * @return bool
+	 */
 	protected function initTemplate() {
 		if (isset($this->templateObj))
 			return true;
@@ -45,6 +58,9 @@ abstract class AbstractPage {
 		return true;
 	}
 
+	/**
+	 * @param $window
+	 */
 	protected function setPageType($window) {
 		$this->window = $window;
 	}
@@ -58,6 +74,9 @@ abstract class AbstractPage {
 		));
 	}
 
+	/**
+	 * @param $message
+	 */
 	protected function showMessage($message) {
 		$this->assign(array(
 			 'message' => $message
@@ -65,10 +84,16 @@ abstract class AbstractPage {
 		$this->render('error.tpl');
 	}
 
+	/**
+	 * @param $array
+	 */
 	protected function assign($array) {
 		$this->templateObj->assign_vars($array);
 	}
 
+	/**
+	 * @param $file
+	 */
 	protected function render($file) {
 		$this->getPageVars();
 		$this->templateObj->display('extends:layout_' . $this->window . '.tpl|' . $file);

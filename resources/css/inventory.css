@@ -16,9 +16,9 @@
 
 .invLeftPanel {
 	position: absolute;
-	top: 0px;
-	bottom: 0px;
-	left: 0px;
+	top: 0;
+	bottom: 0;
+	left: 0;
 	width: 250px;
 	background: rgba(2,26,58,0.8);
 	border-right: 1px #D3D3D3 solid;
@@ -27,10 +27,10 @@
 
 .invLeftPanel .objectListSearch {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	height: 30px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	background: rgba(5,49,109,0.5);
 	border-bottom: 1px #D3D3D3 solid;
 }
@@ -38,9 +38,9 @@
 .invLeftPanel .objectListHolder {
 	position: absolute;
 	top: 31px;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	overflow: hidden;
 }
 
@@ -54,10 +54,10 @@
 
 .invMainPanel {
 	position: absolute;
-	top: 0px;
-	bottom: 0px;
+	top: 0;
+	bottom: 0;
 	left: 251px;
-	right: 0px;
+	right: 0;
 	background: rgba(2,26,58,0.8);
 	min-width: 500px;
 	min-height: 400px;
@@ -65,10 +65,10 @@
 
 .invMainPanel .invTopInfo {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	height: 80px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	background: rgba(2,26,58,0.8);
 	border-bottom: 1px #D3D3D3 solid;
 }
@@ -77,17 +77,17 @@
 	position: absolute;
 	top: 81px;
 	bottom: 56px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	cursor: pointer;
 }
 
 .invMainPanel .invControls {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	height: 55px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	background: rgba(2,26,58,0.8);
 	border-top: 1px #D3D3D3 solid;
 	padding: 3px;
@@ -154,8 +154,8 @@
 	position: absolute;
 	top: 15px;
 	height: 35px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	background: rgba(20,20,20,0.7);
 	color: #D3D3D3;
 }
@@ -163,7 +163,7 @@
 .invObject img {
 	display: block;
 	margin: 2px;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	width: 84px;
 	height: 60px;
 	background-color: rgba(80,80,80,0.8);
@@ -186,10 +186,10 @@
 .invObject .invInfo .itemQuantity {
 	position: absolute;
 	
-	bottom: 0px;
+	bottom: 0;
 	height: 14px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	text-align: right;
 	background-color: rgba(10,10,20,0.75);
 }
@@ -199,7 +199,7 @@
 	display: table;
 	height: 40px;
 	width: 86px;
-	top: 0px;
+	top: 0;
 	color: #D3D3D3;
 	text-align: center;
 }

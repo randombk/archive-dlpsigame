@@ -60,13 +60,10 @@ documentation/
 docs/
 backups/
 temp/
-contrib/
 
 .project
 .settings/
-.idea/
 *.iml
 
-/DLPSIGAME/nbproject/private/
 dev/
 wiki/

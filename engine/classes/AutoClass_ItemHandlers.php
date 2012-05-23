@@ -12,7 +12,7 @@ class ItemHandlers {
 	 * @param $itemID
 	 * @param $numUsed
 	 * @param $objectID
-	 * @param $playerEnv
+	 * @param $playerEnv PlayerEnvironment
 	 * @return bool|string
 	 */
 	static function itemhandlerUseResearchNotes($itemID, $numUsed, $objectID, $playerEnv) {
@@ -47,4 +47,3 @@ class ItemHandlers {
 		}
 	}
 }
-?>

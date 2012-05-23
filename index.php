@@ -12,8 +12,8 @@ require (ROOT_PATH . 'engine/ErrorHandlers.php');
 set_exception_handler('base_interfaceException');
 set_error_handler('base_interfaceError');
 
-require (ROOT_PATH . 'pages/login/AbstractPage.php');
-require (ROOT_PATH . 'pages/login/ErrorPage.php');
+require (ROOT_PATH . 'pages/login/LoginAbstractPage.php');
+require (ROOT_PATH . 'pages/login/LoginErrorPage.php');
 
 if (!isset($GLOBALS['INIT'])) {
 	require (ROOT_PATH . 'engine/common.php');
@@ -27,7 +27,7 @@ $pageClass = 'Page_' . $pageName;
 $pageSrc = ROOT_PATH . 'pages/login/' . $pageClass . '.php';
 
 if (!file_exists($pageSrc)) {
-	ErrorPage::printError("Requested Page not Found");
+	LoginErrorPage::printError("Requested Page not Found");
 } else {
 	require ($pageSrc);
 	$pageObj = new $pageClass;
@@ -35,7 +35,7 @@ if (!file_exists($pageSrc)) {
 	
 	if (!is_callable(array($pageObj, $mode))) {
 		if (!isset($pageProps['defaultController']) || !is_callable(array($pageObj, $pageProps['defaultController']))) {
-			ErrorPage::printError("Requested Page not Found");
+			LoginErrorPage::printError("Requested Page not Found");
 		}
 		$mode = $pageProps['defaultController'];
 	}

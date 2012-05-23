@@ -35,7 +35,7 @@ class GameCache {
 			$varClass = 'CachedResource_' . ucwords($varName);
 			$classSrc = ROOT_PATH . 'engine/classes/GameCache/'.$varClass.'.php';
 			require_once($classSrc);
-			
+
 			$GLOBALS["GameCache"][$varName] = $varClass::loadGameResource();
 			apc_store('CachedResource', TIMESTAMP);
 			return $GLOBALS["GameCache"][$varName];
@@ -71,5 +71,3 @@ class GameCache {
 		return apc_delete($toDelete); 
 	}
 }
-
-?>

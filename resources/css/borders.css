@@ -1,47 +1,47 @@
 /* corners */
 .ctl {
 	position: absolute;
-	left: 0px;
-	top: 0px;
+	left: 0;
+	top: 0;
 	height: 30px;
 	width: 30px;
 	background-image: url("../images/borders/main_c.png");
 	background-repeat: no-repeat;
-	background-position: 0px 0px;
+	background-position: 0 0;
 	background-color: #212121;
 	pointer-events: none;
 }
 
 .ctr {
 	position: absolute;
-	right: 0px;
-	top: 0px;
+	right: 0;
+	top: 0;
 	height: 30px;
 	width: 30px;
 	background-image: url("../images/borders/main_c.png");
 	background-repeat: no-repeat;
-	background-position: -30px 0px;
+	background-position: -30px 0;
 	background-color: #212121;
 	pointer-events: none;
 }
 
 .cbl {
 	position: absolute;
-	left: 0px;
-	bottom: 0px;
+	left: 0;
+	bottom: 0;
 	height: 30px;
 	width: 30px;
 	background-image: url("../images/borders/main_c.png");
 	background-repeat: no-repeat;
-	background-position: 0px -30px;
+	background-position: 0 -30px;
 	background-color: #212121;
 	pointer-events: none;
 }
 
 .cbr {
 	position: absolute;
-	right: 0px;
-	bottom: 0px;
+	right: 0;
+	bottom: 0;
 	height: 30px;
 	width: 30px;
 	background-image: url("../images/borders/main_c.png");
@@ -54,13 +54,13 @@
 /* left border */
 .bl {
 	position: absolute;
-	left: 0px;
-	top: 0px;
-	bottom: 0px;
+	left: 0;
+	top: 0;
+	bottom: 0;
 	width: 30px;
 	background-image: url("../images/borders/main_v.png");
 	background-repeat: repeat-y;
-	background-position: 0px 0px;
+	background-position: 0 0;
 	background-color: #212121;
 	pointer-events: none;
 }
@@ -68,13 +68,13 @@
 /* right border */
 .br {
 	position: absolute;
-	right: 0px;
-	top: 0px;
-	bottom: 0px;
+	right: 0;
+	top: 0;
+	bottom: 0;
 	width: 30px;
 	background-image: url("../images/borders/main_v.png");
 	background-repeat: repeat-y;
-	background-position: -30px 0px;
+	background-position: -30px 0;
 	background-color: #212121;
 	pointer-events: none;
 }
@@ -82,13 +82,13 @@
 /* top border */
 .bt {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	right: 30px;
 	left: 30px;
 	height: 30px;
 	background-image: url("../images/borders/main_h.png");
 	background-repeat: repeat-x;
-	background-position: 0px 0px;
+	background-position: 0 0;
 	background-color: #212121;
 	pointer-events: none;
 }
@@ -96,20 +96,20 @@
 /* bottom border */
 .bb {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	right: 30px;
 	left: 30px;
 	height: 30px;
 	background-image: url("../images/borders/main_h.png");
 	background-repeat: repeat-x;
-	background-position: 0px -30px;
+	background-position: 0 -30px;
 	background-color: #212121;
 	pointer-events: none;
 }
 
 .bTop {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	height: 30px;
 	width: 100%;
 	pointer-events: none;
@@ -125,7 +125,7 @@
 
 .bBottom {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	height: 30px;
 	width: 100%;
 	pointer-events: none;
@@ -155,47 +155,47 @@
 /* corners */
 .ctl_s {
 	position: absolute;
-	left: 0px;
-	top: 0px;
+	left: 0;
+	top: 0;
 	height: 15px;
 	width: 15px;
 	background-image: url("../images/borders/main_c_s.png");
 	background-repeat: no-repeat;
-	background-position: 0px 0px;
+	background-position: 0 0;
 	background-color: #212121;
 	pointer-events: none;
 }
 
 .ctr_s {
 	position: absolute;
-	right: 0px;
-	top: 0px;
+	right: 0;
+	top: 0;
 	height: 15px;
 	width: 15px;
 	background-image: url("../images/borders/main_c_s.png");
 	background-repeat: no-repeat;
-	background-position: -15px 0px;
+	background-position: -15px 0;
 	background-color: #212121;
 	pointer-events: none;
 }
 
 .cbl_s {
 	position: absolute;
-	left: 0px;
-	bottom: 0px;
+	left: 0;
+	bottom: 0;
 	height: 15px;
 	width: 15px;
 	background-image: url("../images/borders/main_c_s.png");
 	background-repeat: no-repeat;
-	background-position: 0px -15px;
+	background-position: 0 -15px;
 	background-color: #212121;
 	pointer-events: none;
 }
 
 .cbr_s {
 	position: absolute;
-	right: 0px;
-	bottom: 0px;
+	right: 0;
+	bottom: 0;
 	height: 15px;
 	width: 15px;
 	background-image: url("../images/borders/main_c_s.png");
@@ -208,13 +208,13 @@
 /* left border */
 .bl_s {
 	position: absolute;
-	left: 0px;
-	top: 0px;
-	bottom: 0px;
+	left: 0;
+	top: 0;
+	bottom: 0;
 	width: 15px;
 	background-image: url("../images/borders/main_v_s.png");
 	background-repeat: repeat-y;
-	background-position: 0px 0px;
+	background-position: 0 0;
 	background-color: #212121;
 	pointer-events: none;
 }
@@ -222,13 +222,13 @@
 /* right border */
 .br_s {
 	position: absolute;
-	right: 0px;
-	top: 0px;
-	bottom: 0px;
+	right: 0;
+	top: 0;
+	bottom: 0;
 	width: 15px;
 	background-image: url("../images/borders/main_v_s.png");
 	background-repeat: repeat-y;
-	background-position: -15px 0px;
+	background-position: -15px 0;
 	background-color: #212121;
 	pointer-events: none;
 }
@@ -236,13 +236,13 @@
 /* top border */
 .bt_s {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	right: 15px;
 	left: 15px;
 	height: 15px;
 	background-image: url("../images/borders/main_h_s.png");
 	background-repeat: repeat-x;
-	background-position: 0px 0px;
+	background-position: 0 0;
 	background-color: #212121;
 	pointer-events: none;
 }
@@ -250,20 +250,20 @@
 /* bottom border */
 .bb_s {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	right: 15px;
 	left: 15px;
 	height: 15px;
 	background-image: url("../images/borders/main_h_s.png");
 	background-repeat: repeat-x;
-	background-position: 0px -15px;
+	background-position: 0 -15px;
 	background-color: #212121;
 	pointer-events: none;
 }
 
 .bTop_s {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	height: 15px;
 	width: 100%;
 	pointer-events: none;
@@ -279,7 +279,7 @@
 
 .bBottom_s {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	height: 15px;
 	width: 100%;
 	pointer-events: none;

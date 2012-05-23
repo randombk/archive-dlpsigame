@@ -11,7 +11,7 @@
 		<th>Sector {$sectorIndex} Map <a href="game.php?page=map&mode=uniMap">(Back to galaxy view)</a></th>
 	</tr>
 </table>
-<div id="threecontainer" style="top: 17px; bottom: 0px; left: 0px; right: 0px; min-height: 500px; position: absolute; background: rgba(10,10,20, 0.8);">
+<div id="threecontainer" style="top: 17px; bottom: 0; left: 0; right: 0; min-height: 500px; position: absolute; background: rgba(10,10,20, 0.8);">
 </div>
 {/block}
 {block name="winHandlers" append}

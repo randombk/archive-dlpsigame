@@ -10,7 +10,7 @@
 class CalcObject {
 	//Object Calculations
 	/**
-	 * @param $objectEnv
+	 * @param $objectEnv ObjectEnvironment
 	 * @param $timeDelta
 	 * @param null $mod
 	 * @return mixed
@@ -19,7 +19,8 @@ class CalcObject {
 		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
 		
 		$endRes = $objectEnv->envItems;
-		
+
+		/* @var $buildProduction DataItem[] */
 		$buildProduction = array();
 		
 		//Add total production as if everything is fine
@@ -87,48 +88,6 @@ class CalcObject {
 			"modResourceProductionMultiplier" => $modAmount,
 			"modResourceConsumptionMultiplier" => $modAmount
 		);
-	}
-	
-	//Get list of research points
-	/**
-	 * @param $objectEnv
-	 * @param null $mod
-	 * @return array
-	 */
-	public static function getObjectResearchPoints($objectEnv, $mod = null) {
-		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
-		
-		$points = array(
-			"Weapons" 	=> 0,
-			"Defense" 	=> 0,
-			"Diplomatic"=> 0,
-			"Economic" 	=> 0,
-			"Fleet" 	=> 0
-		);
-		
-		//Add up active building modifiers
-		foreach ($objectEnv->envBuildings->getBuildingArray() as $buildingID => $data) {
-			foreach(CalcObject::getBuildingResearch($objectEnv, $buildingID, $data[0], $mod, $data[1]) as $type => $value) {
-				$points[$type] += $value;
-			}
-		}
-		
-		return $points;
-	}
-
-	/**
-	 * @param $objectEnv
-	 * @param $researchID
-	 * @param null $mod
-	 * @return int
-	 */
-	public static function getObjectResearch($objectEnv, $researchID, $mod = null) {
-		if(!isset(GameCache::get("RESEARCH")[$researchID]["type"])) return 0;
-		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
-		
-		$type = GameCache::get("RESEARCH")[$researchID]["type"];
-		$points = self::getObjectResearchPoints($objectEnv, $mod);
-		return $points["base"] + $points[$type];
 	}
 
 	/**
@@ -351,30 +310,4 @@ class CalcObject {
 		
 		return $retObject->multiply($activity / 100);
 	}
-
-	/**
-	 * @param $objectEnv
-	 * @param $buildingID
-	 * @param $level
-	 * @param null $mod
-	 * @param int $activity
-	 * @return array
-	 */
-	public static function getBuildingResearch($objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
-		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["researchPoints"])) 
-			return array();
-		$numEntries = sizeof(GameCache::get("BUILDINGS")[$buildingID]["researchPoints"]);
-		
-		if(!$numEntries) {
-			return array();
-		} else {
-			$points = GameCache::get("BUILDINGS")[$buildingID]["researchPoints"][min($level -  1, $numEntries - 1)];
-			foreach($points as $type => $value) {
-				$points[$type] = $value * ($activity / 100);
-			}
-			return $points;
-		}
-	}
 }
-
-?>

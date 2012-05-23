@@ -20,5 +20,3 @@ class CachedResource_BUILDINGS {
 		return $BUILDINGS;
 	}
 }
-
-?>
