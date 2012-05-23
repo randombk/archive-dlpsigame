@@ -4,11 +4,24 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class Math
+ */
 class Math {
+	/**
+	 * @param $min
+	 * @param $max
+	 * @return mixed
+	 */
 	static function mt_randf($min, $max) {
 		return $min + abs($max - $min) * mt_rand(0, mt_getrandmax())/mt_getrandmax(); 
 	}
-	
+
+	/**
+	 * @param $rolls
+	 * @param $die
+	 * @return int
+	 */
 	static function nDn($rolls, $die) {
 		$total = 0;
 		for ($i=0; $i < $rolls; $i++) { 
@@ -16,7 +29,12 @@ class Math {
 		}
 		return $total;
 	}
-	
+
+	/**
+	 * @param $rolls
+	 * @param $die
+	 * @return int
+	 */
 	static function nDnf($rolls, $die) {
 		$total = 0;
 		for ($i=0; $i < $rolls; $i++) { 

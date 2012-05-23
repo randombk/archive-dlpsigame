@@ -4,7 +4,13 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class AjaxRequest_DataLoader
+ */
 class AjaxRequest_DataLoader extends AjaxRequest {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 	}

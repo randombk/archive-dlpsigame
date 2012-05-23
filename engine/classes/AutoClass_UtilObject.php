@@ -5,8 +5,16 @@
  */
 
 //NONOPTIMAL: Handle MySQL errors instead of performing manual error checking
+/**
+ * Class UtilObject
+ */
 class UtilObject {
-	
+
+	/**
+	 * @param $Position
+	 * @return int
+	 * @throws Exception
+	 */
 	static function getStarID($Position) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$PosString = ''.$Position->getGalaxy().'.'.$Position->getSector().'.'.$Position->getStar();
@@ -20,7 +28,12 @@ class UtilObject {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
-	
+
+	/**
+	 * @param $Position
+	 * @return int
+	 * @throws Exception
+	 */
 	static function getObjectID($Position) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$starID = self::getStarID($Position);
@@ -47,7 +60,14 @@ class UtilObject {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
-	
+
+	/**
+	 * @param $starID
+	 * @param int $type
+	 * @param string $name
+	 * @return int|UniCoord
+	 * @throws Exception
+	 */
 	static function getFreeObjectCoord($starID, $type = 1, $name = "Colony") {
 		if(isset(GameCache::get('STARS')[$starID])) {
 			//SELECT objectIndex FROM dlpsigame_dev1.uniobjects WHERE starID = 1 ORDER BY objectIndex DESC LIMIT 1;
@@ -71,34 +91,14 @@ class UtilObject {
 		} else {
 			throw new Exception("Invalid Parameter - Not a valid star ID");
 		}
-		
-		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
-			$starID = self::getStarID($Position);
-			if($starID == 0) {
-				return 0;
-			}
-			
-			$object = $GLOBALS["RDBMS"]->selectTop(
-				tblUNI_OBJECTS,
-				"starID = :starID AND objectIndex = :objectID",
-				array(
-					":starID" => $starID,
-					":objectID" => $Position->getObject()
-				),
-				"objectID"
-			);
-			
-			if(isset($object)) {
-				return $object['objectID'];
-			} else {
-				return 0;
-			}
-		} else {
-			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
-		}
 	}
 	
 	//Return starID if OK
+	/**
+	 * @param $Position
+	 * @return bool|int
+	 * @throws Exception
+	 */
 	static function isPositionFree($Position) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$starID = self::getStarID($Position);
@@ -115,7 +115,15 @@ class UtilObject {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
-	
+
+	/**
+	 * @param $temp
+	 * @param $humidity
+	 * @param $size
+	 * @param $randSeed
+	 * @param $distance
+	 * @return string
+	 */
 	static function generatePlanetType(&$temp, &$humidity, &$size, &$randSeed, $distance) {
 		
 		//Have a small chance at making the planet volcanic
@@ -157,7 +165,13 @@ class UtilObject {
 		
 		return "Rocky";
 	}
-		
+
+	/**
+	 * @param $Object
+	 * @param $PlanetOwnerID
+	 * @return bool
+	 * @throws Exception
+	 */
 	static function createPlanet($Object, $PlanetOwnerID) {
 		if(!is_null($Object) && get_class($Object) == "UniCoord" && $Object->isOK()) {
 			$starID = self::isPositionFree($Object);
@@ -213,8 +227,12 @@ class UtilObject {
 		}
 	}
 
+	/**
+	 * @param $objectID
+	 * @return mixed
+	 */
 	static function deleteObject($objectID) {
-		return $GLOBALS['RDBMS']->prepare("
+		return DBMySQL::prepare("
 			DELETE
 			FROM " . tblUNI_OBJECTS . " 
 			WHERE 
@@ -227,6 +245,12 @@ class UtilObject {
 	//
 	// Items
 	//
+	/**
+	 * @param $Position
+	 * @param $itemData
+	 * @return int|mixed
+	 * @throws Exception
+	 */
 	static function setObjectResDataUsingLoc($Position, $itemData) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$objID = self::getObjectID($Position);
@@ -239,16 +263,28 @@ class UtilObject {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
-	
+
+	/**
+	 * @param $objectID
+	 * @param $itemData
+	 * @param bool $checkID
+	 * @return mixed
+	 * @throws Exception
+	 */
 	static function setObjectResDataUsingID($objectID, $itemData, $checkID = true) {
 		if($checkID) {
 			if(is_null(UniCoord::fromObjectID($objectID))) {
 				throw new Exception("Invalid ID - Object does not exist: $objectID");
 			}
 		}
-		return $GLOBALS['MONGO']->setItem("objectItem_".$objectID, $itemData);
+		return DBMongo::setItem("objectItem_".$objectID, $itemData);
 	}
-	
+
+	/**
+	 * @param $Position
+	 * @return DataItem|int
+	 * @throws Exception
+	 */
 	static function getObjectResDataUsingLoc($Position) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$objID = self::getObjectID($Position);
@@ -261,14 +297,24 @@ class UtilObject {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
-	
+
+	/**
+	 * @param $objectID
+	 * @return DataItem
+	 */
 	static function getObjectResDataUsingID($objectID) {
-		return DataItem::fromItemArray($GLOBALS['MONGO']->getItem("objectItem_".$objectID));
+		return DataItem::fromItemArray(DBMongo::getItem("objectItem_".$objectID));
 	}
 	
 	//
 	// Buildings
 	//
+	/**
+	 * @param $Position
+	 * @param $buildingData
+	 * @return int|mixed
+	 * @throws Exception
+	 */
 	static function setObjectBuildingDataUsingLoc($Position, $buildingData) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$objID = self::getObjectID($Position);
@@ -281,11 +327,21 @@ class UtilObject {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
-	
+
+	/**
+	 * @param $objectID
+	 * @param $buildingData
+	 * @return mixed
+	 */
 	static function setObjectBuildingDataUsingID($objectID, $buildingData) {
-		return $GLOBALS['MONGO']->setBuildings("objectBuildings_".$objectID, $buildingData);
+		return DBMongo::setBuildings("objectBuildings_".$objectID, $buildingData);
 	}
-	
+
+	/**
+	 * @param $Position
+	 * @return DataBuilding|int
+	 * @throws Exception
+	 */
 	static function getObjectBuildingDataUsingLoc($Position) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$objID = self::getObjectID($Position);
@@ -298,14 +354,24 @@ class UtilObject {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
-	
+
+	/**
+	 * @param $objectID
+	 * @return DataBuilding
+	 */
 	static function getObjectBuildingDataUsingID($objectID) {
-		return DataBuilding::fromBuildingArray($GLOBALS['MONGO']->getBuildings("objectBuildings_".$objectID));
+		return DataBuilding::fromBuildingArray(DBMongo::getBuildings("objectBuildings_".$objectID));
 	}
 	
 	//
 	// Object Data
 	//
+	/**
+	 * @param $Position
+	 * @param $objectData
+	 * @return int|mixed
+	 * @throws Exception
+	 */
 	static function setObjectDataUsingLoc($Position, $objectData) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$objID = self::getObjectID($Position);
@@ -318,11 +384,21 @@ class UtilObject {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
-	
+
+	/**
+	 * @param $objectID
+	 * @param $objectData
+	 * @return mixed
+	 */
 	static function setObjectDataUsingID($objectID, $objectData) {
-		return $GLOBALS['MONGO']->setObject("objectData_".$objectID, $objectData);
+		return DBMongo::setObject("objectData_".$objectID, $objectData);
 	}
-	
+
+	/**
+	 * @param $Position
+	 * @return int|mixed
+	 * @throws Exception
+	 */
 	static function getObjectDataUsingLoc($Position) {
 		if(!is_null($Position) && $Position instanceof UniCoord && $Position->isOK()) {
 			$objID = self::getObjectID($Position);
@@ -335,9 +411,13 @@ class UtilObject {
 			throw new Exception("Invalid Parameter - Needs to be UniCoord: $Position");
 		}
 	}
-	
+
+	/**
+	 * @param $objectID
+	 * @return mixed
+	 */
 	static function getObjectDataUsingID($objectID) {
-		return $GLOBALS['MONGO']->getObject("objectData_".$objectID);
+		return DBMongo::getObject("objectData_".$objectID);
 	}
 }
 ?>

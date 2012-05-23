@@ -4,13 +4,20 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class DataMod
+ */
 class DataMod {
 	private $modArray = array();
 	
 	//Easy access to mod parts to prevent excess re-calculation
 	public $objMods = array();
 	public $weightPenalty = array();
-	
+
+	/**
+	 * @param $modName
+	 * @return int
+	 */
 	public function getMod($modName) {
 		if(isset($this->modArray[$modName])){
 			return $this->modArray[$modName];
@@ -20,10 +27,16 @@ class DataMod {
 	}
 	
 	//Basic accessors
+	/**
+	 * @return array
+	 */
 	public function getModifierArray() {
 		return $this->modArray;
 	}
-	
+
+	/**
+	 * @param $array
+	 */
 	public function mergeModifierArray($array) {
 		if(!isset($array) || $array == null) { return; }
 		
@@ -33,6 +46,10 @@ class DataMod {
 	}
 	
 	//Constructors
+	/**
+	 * @param $objectEnv
+	 * @return DataMod
+	 */
 	public static function calculateObjectModifiers($objectEnv) {
 		$instance = new self();
 		

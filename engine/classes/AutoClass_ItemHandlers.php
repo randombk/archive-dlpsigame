@@ -4,7 +4,17 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class ItemHandlers
+ */
 class ItemHandlers {
+	/**
+	 * @param $itemID
+	 * @param $numUsed
+	 * @param $objectID
+	 * @param $playerEnv
+	 * @return bool|string
+	 */
 	static function itemhandlerUseResearchNotes($itemID, $numUsed, $objectID, $playerEnv) {
 		$baseID = UtilItem::getItemBaseID($itemID);
 		$techID = UtilItem::getItemSpecialID($itemID);

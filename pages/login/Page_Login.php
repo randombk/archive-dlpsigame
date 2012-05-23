@@ -17,7 +17,7 @@ class Page_Login extends AbstractPage {
 		$playername = HTTP::REQ('playername', '', true);
 		$password = HTTP::REQ('password', '', true);
 		
-		$loginData = $GLOBALS['RDBMS']->selectTop(tblPLAYERS, "playerName = :playerName", array(":playerName" => $playername), "playerID, playerPass, validationKey");
+		$loginData = DBMySQL::selectTop(tblPLAYERS, "playerName = :playerName", array(":playerName" => $playername), "playerID, playerPass, validationKey");
 		
 		if (isset($loginData)) {
 			$hashedPassword = UtilPlayer::cryptPassword($password);

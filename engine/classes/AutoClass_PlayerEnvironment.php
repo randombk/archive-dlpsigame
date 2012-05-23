@@ -4,6 +4,9 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class PlayerEnvironment
+ */
 class PlayerEnvironment {
 	public $playerID = -1;
 	public $playerName = "";
@@ -21,9 +24,14 @@ class PlayerEnvironment {
 	public $envPlayerData = null; //DataPlayer
 	
 	public $researchProduction = null;
-	
+
+	/**
+	 * @param $playerID
+	 * @return mixed
+	 * @throws Exception
+	 */
 	public static function fromPlayerID($playerID) {
-		$stmt = $GLOBALS['RDBMS']->prepare("
+		$stmt = DBMySQL::prepare("
 			SELECT 
 				playerID, 
 				playerName,
@@ -50,7 +58,10 @@ class PlayerEnvironment {
 			throw new Exception("Invalid playerID");
 		}
 	}
-	
+
+	/**
+	 *
+	 */
 	public function __construct() {
 		if($this->playerID < 0) {
 			throw new Exception("Invalid playerID - Object should be initiated using static constructor");
@@ -82,9 +93,13 @@ class PlayerEnvironment {
 			array_push($this->envStars[$starID]["objects"], $objectID);
 		}
 	}
-	
+
+	/**
+	 * @return bool
+	 * @throws Exception
+	 */
 	public function apply() {
-		$result = $GLOBALS['RDBMS']->update(
+		$result = DBMySQL::update(
 			tblPLAYERS, 
 			array(
 				"playerID" => $this->playerID,

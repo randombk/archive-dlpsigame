@@ -4,6 +4,9 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class ObjectEnvironment
+ */
 class ObjectEnvironment {
 	public $objectID = -1;
 	public $objectType = 0;
@@ -23,9 +26,15 @@ class ObjectEnvironment {
 	public $envObjectData = null;
 	
 	public $envPlayer = null; //PlayerEnvironment
-	
+
+	/**
+	 * @param $objectID
+	 * @param $envPlayer
+	 * @return mixed
+	 * @throws Exception
+	 */
 	public static function fromObjectID($objectID, $envPlayer) {
-		$stmt = $GLOBALS['RDBMS']->prepare("
+		$stmt = DBMySQL::prepare("
 			SELECT 
 				objectID, 
 				objectType,
@@ -55,7 +64,10 @@ class ObjectEnvironment {
 			throw new Exception("Invalid objectID");
 		}
 	}
-	
+
+	/**
+	 *
+	 */
 	public function __construct() {
 		if($this->buildingQueue < 0) {
 			throw new Exception("Invalid objectID - Object should be initiated using static constructor");
@@ -72,9 +84,13 @@ class ObjectEnvironment {
 		$this->envItems = UtilObject::getObjectResDataUsingID($this->objectID);
 		$this->envObjectData = UtilObject::getObjectDataUsingID($this->objectID);
 	}
-	
+
+	/**
+	 * @return bool
+	 * @throws Exception
+	 */
 	public function apply() {
-		$result = $GLOBALS['RDBMS']->update(
+		$result = DBMySQL::update(
 			tblUNI_OBJECTS, 
 			array(
 				"objectID" => $this->objectID,

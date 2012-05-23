@@ -3,7 +3,13 @@
  * (C) Copyright 2012 David J. W. Li
  * Project DLPSIGAME
  */
+/**
+ * Class AjaxRequest_ObjectInventory
+ */
 class AjaxRequest_ObjectInventory extends AjaxRequest {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 	}

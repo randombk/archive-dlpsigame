@@ -4,8 +4,17 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class MailWrapper
+ */
 class MailWrapper {
 
+	/**
+	 * @param $MailTarget
+	 * @param $MailTargetName
+	 * @param $MailSubject
+	 * @param $MailContent
+	 */
 	static function send($MailTarget, $MailTargetName, $MailSubject, $MailContent) {
 		$transport = self::getSwiftTransport();
 		$mailer = Swift_Mailer::newInstance($transport);
@@ -22,6 +31,11 @@ class MailWrapper {
 		$mailer->send($mail);
 	}
 
+	/**
+	 * @param $MailTargets
+	 * @param $MailSubject
+	 * @param null $MailContent
+	 */
 	static function multiSend($MailTargets, $MailSubject, $MailContent = NULL) {
 		$transport = self::getSwiftTransport();
 		$mailer = Swift_Mailer::newInstance($transport);
@@ -42,6 +56,9 @@ class MailWrapper {
 		}
 	}
 
+	/**
+	 * @return Swift_SmtpTransport
+	 */
 	static function getSwiftTransport() {
 		require_once(ROOT_PATH . 'engine/libs/swift/swift_required.php');
 		$transport = Swift_SmtpTransport::newInstance($GLOBALS['_MAIL_SMTP_HOST'], $GLOBALS['_MAIL_SMTP_PORT']);

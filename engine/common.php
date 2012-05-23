@@ -4,6 +4,10 @@
  * Project DLPSIGAME
  */
 
+/**
+ * @param $str
+ * @return string
+ */
 function strictString($str) {
 	$pattern = '/^([a-zA-Z0-9]+)$/';
 	preg_match($pattern, $str, $matches);
@@ -15,6 +19,9 @@ function strictString($str) {
 	}
 }
 
+/**
+ * @param $class_name
+ */
 function loadClass($class_name) {
    $classFile =  ROOT_PATH . 'engine/classes/AutoClass_' . $class_name . '.php';
 	if(file_exists($classFile)) {
@@ -36,7 +43,5 @@ define('TIMESTAMP', time());
 date_default_timezone_set($GLOBALS['_SERVER_TZ']);
 
 //Connect to databases
-$GLOBALS['RDBMS'] = new Database("mysql:host={$GLOBALS['_RDBMS']['host']};port={$GLOBALS['_RDBMS']['port']};dbname={$GLOBALS['_RDBMS']['databasename']}", $GLOBALS["_RDBMS"]["user"], $GLOBALS["_RDBMS"]["userpw"]);
-$GLOBALS['MONGO'] = new MongoHandler();
 $GLOBALS["GameCache"] = array();
 

@@ -5,9 +5,16 @@
  */
 
 //Cache class for Star Data
+/**
+ * Class CachedResource_STARS
+ */
 class CachedResource_STARS {
+	/**
+	 * @param bool $returnPos
+	 * @return array
+	 */
 	public static function loadGameResource($returnPos = false) {
-		$tableData = $GLOBALS['RDBMS']->select(tblUNI_STARS);
+		$tableData = DBMySQL::select(tblUNI_STARS);
 		
 		$STARS = array();
 		$STARPOS = array();

@@ -13,7 +13,7 @@ class Page_Verify extends AbstractPage {
 		$playerID = HTTP::REQ('i', 0);
 		$validationKey = HTTP::REQ('k', '');
 
-		$playerData = $GLOBALS['RDBMS']->selectTop(
+		$playerData = DBMySQL::selectTop(
 			tblPLAYERS, 
 			"playerID = :playerID AND validationKey = :key", 
 			array(":playerID" => $playerID, ":key" => $validationKey),

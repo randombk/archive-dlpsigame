@@ -4,6 +4,9 @@
  * Project DLPSIGAME
  */
 
+/**
+ * @param $exception
+ */
 function base_interfaceException($exception) {
 	if(!headers_sent()) {
 		HTTP::sendHeader('HTTP/1.1 503 Service Unavailable');
@@ -65,6 +68,13 @@ function base_interfaceException($exception) {
 	file_put_contents(ROOT_PATH . 'engine/error.log', $errorText, FILE_APPEND);
 }
 
+/**
+ * @param $errno
+ * @param $errstr
+ * @param $errfile
+ * @param $errline
+ * @throws ErrorException
+ */
 function base_interfaceError($errno, $errstr, $errfile, $errline) {
 	if (!($errno & error_reporting())) {
 		return;
@@ -72,6 +82,9 @@ function base_interfaceError($errno, $errstr, $errfile, $errline) {
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 
+/**
+ * @param $exception
+ */
 function base_ajaxException($exception) {
 	if(!headers_sent()) {
 		HTTP::sendHeader('HTTP/1.1 500 Service Unavailable');
@@ -108,6 +121,13 @@ function base_ajaxException($exception) {
 	file_put_contents(ROOT_PATH . 'engine/error.log', $errorText, FILE_APPEND);
 }
 
+/**
+ * @param $errno
+ * @param $errstr
+ * @param $errfile
+ * @param $errline
+ * @throws ErrorException
+ */
 function base_ajaxError($errno, $errstr, $errfile, $errline) {
 	if (!($errno & error_reporting())) {
 		return;

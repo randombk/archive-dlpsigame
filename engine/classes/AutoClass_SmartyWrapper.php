@@ -6,9 +6,15 @@
 
 require(ROOT_PATH . 'engine/libs/Smarty/Smarty.class.php');
 
+/**
+ * Class SmartyWrapper
+ */
 class SmartyWrapper extends Smarty {
 	protected $window = 'full';
 
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 		$this->smartySettings();
@@ -27,17 +33,26 @@ class SmartyWrapper extends Smarty {
 		//$this->loadFilter('output', 'trimwhitespace');
 	}
 
+	/**
+	 * @param $var
+	 * @param bool $nocache
+	 */
 	public function assign_vars($var, $nocache = true) {
 		parent::assign($var, NULL, $nocache);
 	}
 
+	/**
+	 * @param $file
+	 */
 	public function show($file) {
-		$tplDir = $this->getTemplateDir();
 		$this->compile_id = "en";
 
 		parent::display($file);
 	}
 
+	/**
+	 * @param null|string $file
+	 */
 	public function display($file) {
 		$this->compile_id = "en";
 		parent::display($file);

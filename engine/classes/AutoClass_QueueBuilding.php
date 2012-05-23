@@ -4,7 +4,18 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class QueueBuilding
+ */
 class QueueBuilding {
+	/**
+	 * @param $objectEnv
+	 * @param $buildingID
+	 * @param $buildingLevel
+	 * @param int $time
+	 * @param bool $forQueue
+	 * @return bool
+	 */
 	public static function hasPreReq($objectEnv, $buildingID, $buildingLevel, $time = TIMESTAMP, $forQueue = false) {
 		if($buildingID == "buildNationalArchives" && $objectEnv->envPlayer->envPlayerData->getValue("flagNationalArchivePlanet")) {
 			if(!$forQueue) 
@@ -68,7 +79,14 @@ class QueueBuilding {
 		
 		return true;
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $buildingID
+	 * @param $buildingLevel
+	 * @param int $time
+	 * @return bool
+	 */
 	public static function canBuild($objectEnv, $buildingID, $buildingLevel, $time = TIMESTAMP) {
 		if(!self::hasPreReq($objectEnv, $buildingID, $buildingLevel, $time)) {
 			return false;
@@ -87,8 +105,13 @@ class QueueBuilding {
 			return false;
 		}
 		return true;
-	} 
-	
+	}
+
+	/**
+	 * @param $objectEnv
+	 * @param $time
+	 * @return bool
+	 */
 	public static function processBuildingQueue($objectEnv, $time) {
 		if(isset($objectEnv->buildingQueue[0])) {
 			$action = array_shift($objectEnv->buildingQueue);
@@ -117,6 +140,11 @@ class QueueBuilding {
 		return self::moveAllUp($objectEnv, $time);
 	}
 
+	/**
+	 * @param $objectEnv
+	 * @param $time
+	 * @return bool
+	 */
 	private static function moveAllUp($objectEnv, $time) {
 		while(sizeof($objectEnv->buildingQueue)) {
 			if(isset($objectEnv->buildingQueue[0]["endTime"])) {
@@ -176,7 +204,14 @@ class QueueBuilding {
 		}
 		return false;
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $command
+	 * @param $buildingID
+	 * @param $buildingLevel
+	 * @return bool|string
+	 */
 	public static function appendToBuildingQueue($objectEnv, $command, $buildingID, $buildingLevel) {
 		array_push($objectEnv->buildingQueue, array(
 			"operation" => $command,
@@ -186,7 +221,12 @@ class QueueBuilding {
 		));
 		return self::moveAllUp($objectEnv, TIMESTAMP) ? false : "An error has occurred. Check your notifications for details";
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $queueItemID
+	 * @return bool
+	 */
 	public static function removeFromBuildingQueue($objectEnv, $queueItemID) {
 		for ($i=0; $i < sizeof($objectEnv->buildingQueue); $i++) { 
 			if($objectEnv->buildingQueue[$i]["id"] == $queueItemID) {
@@ -205,6 +245,7 @@ class QueueBuilding {
 				return false;
 			}
 		}
+		return false;
 	}
 }
 

@@ -3,7 +3,13 @@
  * (C) Copyright 2012 David J. W. Li
  * Project DLPSIGAME
  */
+/**
+ * Class AjaxRequest_BuildingHandler
+ */
 class AjaxRequest_BuildingHandler extends AjaxRequest {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 	}
@@ -176,7 +182,12 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			AjaxError::sendError("Invalid Parameters");
 		}
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param bool $getActual
+	 * @return array
+	 */
 	static function getBuildingList($objectEnv, $getActual = false) {
 		$buildings = array();
 		
@@ -199,6 +210,10 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 	}
 	
 	//Returns an array containing upgradable/buildable buildings
+	/**
+	 * @param $objectEnv
+	 * @return array
+	 */
 	static function getUpgradeList($objectEnv) {
 		$canBuild = array();
 		

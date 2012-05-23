@@ -3,7 +3,13 @@
  * (C) Copyright 2012 David J. W. Li
  * Project DLPSIGAME
  */
-	class AjaxRequest_MessageHandler extends AjaxRequest {
+/**
+ * Class AjaxRequest_MessageHandler
+ */
+class AjaxRequest_MessageHandler extends AjaxRequest {
+		/**
+		 *
+		 */
 		function __construct() {
 			parent::__construct();
 		}

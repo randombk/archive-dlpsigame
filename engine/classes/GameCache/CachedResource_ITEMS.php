@@ -5,7 +5,13 @@
  */
 
 //Cache class for Item Data
+/**
+ * Class CachedResource_ITEMS
+ */
 class CachedResource_ITEMS {
+	/**
+	 * @return mixed
+	 */
 	public static function loadGameResource() {
 		$string = file_get_contents(ROOT_PATH . 'engine/data/items.json');
 		$ITEMS = json_decode($string, TRUE);

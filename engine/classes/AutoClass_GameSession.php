@@ -5,13 +5,19 @@
  */
 
 //Written based on the example from http://stackoverflow.com/questions/1724587/how-to-store-php-sessions-in-apc-cache
+/**
+ * Class GameSession
+ */
 class GameSession {
 	protected $_sessionName;
 	protected $_ttl;
 	protected $_lockTimeout; // if empty, no session locking, otherwise seconds to lock timeout
 	
 	public static $instance = null;
-	
+
+	/**
+	 * @param array $params
+	 */
 	public function __construct($params = array()) {
 		ini_set('session.use_cookies', '1');
 		$this->_ttl = 60*60*12;
@@ -27,15 +33,27 @@ class GameSession {
 		);
 	}
 
+	/**
+	 * @param $savePath
+	 * @param $sessionName
+	 * @return bool
+	 */
 	public function open($savePath, $sessionName) {
 		$this->_sessionName = $sessionName;
 		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function close() {
 		return true;
 	}
 
+	/**
+	 * @param $id
+	 * @return mixed|string
+	 */
 	public function read($id) {
 		$baseKey = $this->_sessionName . '/' . $id;
 		$metaKey = $baseKey . '/META';
@@ -66,6 +84,11 @@ class GameSession {
 		return apc_fetch($baseKey);
 	}
 
+	/**
+	 * @param $id
+	 * @param $data
+	 * @return bool
+	 */
 	public function write($id, $data) {
 		$baseKey = $this->_sessionName . '/' . $id;
 		$meta = array(
@@ -86,6 +109,10 @@ class GameSession {
 		return $success;
 	}
 
+	/**
+	 * @param $id
+	 * @return bool
+	 */
 	public function destroy($id) {
 		apc_delete($this->_sessionName . '/' . $id);
 		apc_delete($this->_sessionName . '/' . $id . '/META');
@@ -93,12 +120,19 @@ class GameSession {
 		return true;
 	}
 
+	/**
+	 * @param $lifetime
+	 * @return bool
+	 */
 	public function gc($lifetime) {
 		//Trigger APC's internal ttl cleanup
 		apc_cache_info();
 		return true;
 	}
 
+	/**
+	 * @return GameSession|null
+	 */
 	private static function create() {
 		if(is_null(self::$instance)) {
 			session_name("gameSession");
@@ -107,13 +141,20 @@ class GameSession {
 		}
 		return self::$instance;
 	}
-	
+
+	/**
+	 * @param $playerID
+	 * @param $playerName
+	 */
 	public static function loginPlayer($playerID, $playerName) {
 		self::create();
 		$_SESSION['playerID'] = $playerID;
 		$_SESSION['playerName'] = $playerName;
 	}
-	
+
+	/**
+	 * @return bool
+	 */
 	public static function isLoggedIn() {
 		self::create();
 		if(!is_null(self::$instance) && isset($_SESSION['playerID'])) {
@@ -127,7 +168,11 @@ class GameSession {
 		@session_destroy();
 		self::$instance = null;
 	}
-	
+
+	/**
+	 * @param $IP
+	 * @return bool
+	 */
 	public function CompareIPs($IP) {
 		if (strpos($_SERVER['REMOTE_ADDR'], ':') !== false && strpos($IP, ':') !== false) {
 			$s_ip = $this->short_ipv6($IP, COMPARE_IP_BLOCKS);
@@ -141,6 +186,11 @@ class GameSession {
 	}
 
 	//From http://ftp.phpbb-fr.com/public/cdd/phpbb3/3.0.9/nav.html?_functions/index.html
+	/**
+	 * @param $ip
+	 * @param $length
+	 * @return mixed|string
+	 */
 	public function short_ipv6($ip, $length) {
 		if ($length < 1) {
 			return '';

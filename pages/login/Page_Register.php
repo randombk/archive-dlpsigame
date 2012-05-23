@@ -62,8 +62,8 @@ class Page_Register extends AbstractPage {
 			$errors[] = 'You have to accept the rules!';
 		}
 
-		$countUsername = $GLOBALS['RDBMS']->selectCell(tblPLAYERS, "playerName = :playerName", array(":playerName" => $playerName), "COUNT(*)");
-		$countMail = $GLOBALS['RDBMS']->selectCell(tblPLAYERS, "playerEmail = :playerEmail", array(":playerEmail" => $mailAddress), "COUNT(*)");
+		$countUsername = DBMySQL::selectCell(tblPLAYERS, "playerName = :playerName", array(":playerName" => $playerName), "COUNT(*)");
+		$countMail = DBMySQL::selectCell(tblPLAYERS, "playerEmail = :playerEmail", array(":playerEmail" => $mailAddress), "COUNT(*)");
 		
 		if ($countUsername != 0) {
 			$errors[] = 'The username is already taken!';

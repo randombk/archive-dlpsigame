@@ -4,7 +4,13 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class AjaxRequest_ObjectHandler
+ */
 class AjaxRequest_ObjectHandler extends AjaxRequest {
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct();
 	}

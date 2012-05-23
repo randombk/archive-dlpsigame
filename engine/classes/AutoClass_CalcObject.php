@@ -4,8 +4,17 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class CalcObject
+ */
 class CalcObject {
 	//Object Calculations
+	/**
+	 * @param $objectEnv
+	 * @param $timeDelta
+	 * @param null $mod
+	 * @return mixed
+	 */
 	public static function calcNewObjectRes($objectEnv, $timeDelta, $mod = null) {
 		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
 		
@@ -46,17 +55,32 @@ class CalcObject {
 		
 		return $endRes;
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param null $mod
+	 * @return int
+	 */
 	public static function getMaxEnergyStorage($objectEnv, $mod = null) {
 		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
 		return (int)max(0, (10 + $mod->getMod("modEnergyStorageCapacityIncrease")) * (1 + $mod->getMod("modEnergyStorageCapacityMultiplier")/100));
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param null $mod
+	 * @return int
+	 */
 	public static function getObjectStorage($objectEnv, $mod = null) {
 		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
 		return (int)max(1, (1000 * $objectEnv->envObjectData["planetSize"] + $mod->getMod("modStorageCapacityIncrease")) * (1 + $mod->getMod("modStorageCapacityMultiplier")/100));
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $mod
+	 * @return array
+	 */
 	public static function getObjectWeightPenalty($objectEnv, $mod) {
 		$modAmount = (int)min(0, -($objectEnv->envItems->getTotalWeight() - self::getObjectStorage($objectEnv, $mod)) / (self::getObjectStorage($objectEnv, $mod) / 1000));
 		return array(
@@ -66,6 +90,11 @@ class CalcObject {
 	}
 	
 	//Get list of research points
+	/**
+	 * @param $objectEnv
+	 * @param null $mod
+	 * @return array
+	 */
 	public static function getObjectResearchPoints($objectEnv, $mod = null) {
 		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
 		
@@ -86,7 +115,13 @@ class CalcObject {
 		
 		return $points;
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $researchID
+	 * @param null $mod
+	 * @return int
+	 */
 	public static function getObjectResearch($objectEnv, $researchID, $mod = null) {
 		if(!isset(GameCache::get("RESEARCH")[$researchID]["type"])) return 0;
 		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
@@ -95,7 +130,11 @@ class CalcObject {
 		$points = self::getObjectResearchPoints($objectEnv, $mod);
 		return $points["base"] + $points[$type];
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @return array
+	 */
 	public static function getObjectModifiers($objectEnv) {
 		$mods = array();
 		
@@ -148,17 +187,33 @@ class CalcObject {
 	}
 
 	//Building Calculations
+	/**
+	 * @param $buildingID
+	 * @return mixed
+	 */
 	public static function getBuildingType($buildingID) {
 		return GameCache::get("BUILDINGS")[$buildingID]["buildType"];
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $buildingID
+	 * @return int
+	 */
 	public static function getBuildingMaxLevel($objectEnv, $buildingID) {
 		if(isset(GameCache::get("BUILDINGS")[$buildingID]["buildMax"]))
 			return GameCache::get("BUILDINGS")[$buildingID]["buildMax"];
 		else 
 			return -1;
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $buildingID
+	 * @param $level
+	 * @param int $activity
+	 * @return null
+	 */
 	public static function getBuildingModifiers($objectEnv, $buildingID, $level, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["modifiers"])) return null;
 		$numEntries = sizeof(GameCache::get("BUILDINGS")[$buildingID]["modifiers"]);
@@ -175,7 +230,14 @@ class CalcObject {
 			return $mods;
 		}
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $buildingID
+	 * @param $level
+	 * @param null $mod
+	 * @return $this|DataItem
+	 */
 	public static function getBuildingUpgradeCost($objectEnv, $buildingID, $level, $mod = null) {
 		$maxBalLevel = sizeof(GameCache::get("BUILDINGS")[$buildingID]["resReq"]);
 		
@@ -192,7 +254,15 @@ class CalcObject {
 		
 		return $retObject;
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $buildingID
+	 * @param $level
+	 * @param null $mod
+	 * @return mixed
+	 * @throws Exception
+	 */
 	public static function getBuildTime($objectEnv, $buildingID, $level, $mod = null) {
 		$maxBalLevel = sizeof(GameCache::get("BUILDINGS")[$buildingID]["buildDifficulty"]);
 		
@@ -213,7 +283,15 @@ class CalcObject {
 		$time = ($retObject / max(0.00001, $speed)) - $mod->getMod("modConstructionTimeDecrease") - $mod->getMod("modBuildTimeDecrease");
 		return max(1, $time);
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $buildingID
+	 * @param $level
+	 * @param null $mod
+	 * @param int $activity
+	 * @return $this|DataItem
+	 */
 	public static function getBuildingProduction($objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["resProduction"])) 
 			return new DataItem();
@@ -239,7 +317,15 @@ class CalcObject {
 		
 		return $retObject->multiply($activity / 100);
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $buildingID
+	 * @param $level
+	 * @param null $mod
+	 * @param int $activity
+	 * @return $this|DataItem
+	 */
 	public static function getBuildingConsumption($objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["resConsumption"]))
 			return new DataItem();
@@ -265,7 +351,15 @@ class CalcObject {
 		
 		return $retObject->multiply($activity / 100);
 	}
-	
+
+	/**
+	 * @param $objectEnv
+	 * @param $buildingID
+	 * @param $level
+	 * @param null $mod
+	 * @param int $activity
+	 * @return array
+	 */
 	public static function getBuildingResearch($objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["researchPoints"])) 
 			return array();

@@ -21,7 +21,7 @@ if (!GameSession::isLoggedIn()) {
 }
 
 if (!isset($_SESSION['PLAYER'])) {
-	$s_LoadUser = $GLOBALS['RDBMS']->prepare("
+	$s_LoadUser = DBMySQL::prepare("
 		SELECT 
 			player.*,
 			banned.*
@@ -35,7 +35,8 @@ if (!isset($_SESSION['PLAYER'])) {
 }
 
 if (empty($_SESSION['PLAYER'])) {
-	exit(header('Location: index.php'));
+	header('Location: index.php');
+	exit();
 }
 
 if ($_SESSION['PLAYER']['banExpireTime'] > time()) {

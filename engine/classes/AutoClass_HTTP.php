@@ -4,7 +4,14 @@
  * Project DLPSIGAME
  */
 
+/**
+ * Class HTTP
+ */
 class HTTP {
+	/**
+	 * @param $URL
+	 * @param bool $external
+	 */
 	static public function redirectTo($URL, $external = false) {
 		if ($external) {
 			self::sendHeader('Location', $URL);
@@ -14,10 +21,20 @@ class HTTP {
 		exit;
 	}
 
+	/**
+	 * @param $name
+	 * @param null $value
+	 */
 	static public function sendHeader($name, $value = NULL) {
 		header($name . (!is_null($value) ? ': ' . $value : ''));
 	}
 
+	/**
+	 * @param $name
+	 * @param $default
+	 * @param bool $multibyte
+	 * @return array|float|int|mixed|string
+	 */
 	static public function REQ($name, $default, $multibyte = false) {
 		if (!isset($_REQUEST[$name])) {
 			return $default;

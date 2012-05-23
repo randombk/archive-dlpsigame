@@ -5,15 +5,22 @@
  */
 
 //Cache class for Research Data
+/**
+ * Class CachedResource_RESEARCH
+ */
 class CachedResource_RESEARCH {
+	/**
+	 * @param bool $returnPos
+	 * @return array|mixed
+	 */
 	public static function loadGameResource($returnPos = false) {
 		$string = file_get_contents(ROOT_PATH . 'engine/data/research.json');
 		$RESEARCH = json_decode($string, TRUE);
 		$RESEARCHPOS = array();
 		
-		foreach($RESEARCH as $researchID => $data) {
+		foreach($RESEARCH as $data) {
 			$RESEARCHPOS[$data["q"] . ":" . $data["r"]] = $data;
-			$GLOBALS["MONGO"]->setItemParams("research-notes_" . $data["techID"], 
+			DBMongo::setItemParams("research-notes_" . $data["techID"],
 				array (
 				    'cached' => true,
 				    'formatNameParams' => 
