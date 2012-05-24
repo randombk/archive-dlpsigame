@@ -30,6 +30,10 @@ class SmartyWrapper extends Smarty {
 		$this->setCompileDir(ROOT_PATH . 'cache/');
 		$this->setCacheDir(ROOT_PATH . 'cache/templates');
 		$this->setTemplateDir(ROOT_PATH . 'pages/');
+
+		//Custom delimiters
+		$this->left_delimiter = "{{";
+		$this->right_delimiter = "}}";
 		//$this->loadFilter('output', 'trimwhitespace');
 	}
 

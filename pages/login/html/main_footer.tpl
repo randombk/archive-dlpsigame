@@ -1,9 +1,9 @@
 <footer>
 	(C) Copyright 2012 David J. W. Li
 	<br>
-	UNDER DEVELOPMENT - VERSION {$VERSION}.{$BUILD}
+	UNDER DEVELOPMENT - VERSION {{$VERSION}}.{{$BUILD}}
 	<br>
-	BUILD {$BUILD} ({$BUILDTIME})
+	BUILD {{$BUILD}} ({{$BUILDTIME}})
 </footer>
 <script id="ga" type="text/javascript">
 	//GOOGLE ANALYTICS

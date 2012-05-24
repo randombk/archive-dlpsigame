@@ -1,11 +1,11 @@
-{block name="title" prepend}{"Info"}{/block}
-{block name="content"}
+{{block name="title" prepend}}{{"Info"}}{{/block}}
+{{block name="content"}}
 <table class="pageTable">
 	<tr>
 		<th>Info</th>
 	</tr>
 	<tr>
-		<td>{$mes}</td>
+		<td>{{$mes}}</td>
 	</tr>
 	<tr>
 		<td>
@@ -41,7 +41,7 @@
 		</div></td>
 	</tr>
 </table>
-{/block}
-{block name="winHandlers" append}
+{{/block}}
+{{block name="winHandlers" append}}
 
-{/block}
+{{/block}}

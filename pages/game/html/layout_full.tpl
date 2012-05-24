@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
 <html class="no-js">
 	<head>
-		<title>{block name="title"} - {$game_name}{/block}</title>
-		{include file="main_header.tpl" bodyclass="full"}
+		<title>{{block name="title"}} - {{$game_name}}{{/block}}</title>
+		{{include file="main_header.tpl" bodyclass="full"}}
 	</head>
 	<body id="mainBody" unselectable="on">
 		<div id="gameContainer">
@@ -23,16 +23,16 @@
 						data-windowTitle="Inventory"
 						data-windowWidth="800"
 						data-windowHeight="500"
-						data-windowHref="game.php?page=invWindow&objectID={$objectID}">
+						data-windowHref="game.php?page=invWindow&objectID={{$objectID}}">
 						<a>Inventory Management</a>
 					</li>
 
 					<img class="menuImage" src="http://placehold.it/200x30/fff&text=Object+Functions">
-					<li id="pageObjectOverview" class="menuItem buttonDiv" ><a href="game.php?page=objectoverview&objectID={$objectID}">{$objectTypeName} Overview</a></li>
-					<li id="pageBuildings" class="menuItem buttonDiv" ><a href="game.php?page=buildings&objectID={$objectID}">Buildings</a></li>
-					<li id="pageResearch" class="menuItem buttonDiv" ><a href="game.php?page=research&objectID={$objectID}">Research</a></li>
-					<li id="pageFactory" class="menuItem buttonDiv" ><a href="game.php?page=shipyard&mode=fleet&objectID={$objectID}">Orbital Factory</a></li>
-					<li id="pageFleet" class="menuItem buttonDiv" ><a href="game.php?page=fleetTable&objectID={$objectID}">Fleet Commands</a></li>
+					<li id="pageObjectOverview" class="menuItem buttonDiv" ><a href="game.php?page=objectoverview&objectID={{$objectID}}">{{$objectTypeName}} Overview</a></li>
+					<li id="pageBuildings" class="menuItem buttonDiv" ><a href="game.php?page=buildings&objectID={{$objectID}}">Buildings</a></li>
+					<li id="pageResearch" class="menuItem buttonDiv" ><a href="game.php?page=research&objectID={{$objectID}}">Research</a></li>
+					<li id="pageFactory" class="menuItem buttonDiv" ><a href="game.php?page=shipyard&mode=fleet&objectID={{$objectID}}">Orbital Factory</a></li>
+					<li id="pageFleet" class="menuItem buttonDiv" ><a href="game.php?page=fleetTable&objectID={{$objectID}}">Fleet Commands</a></li>
 
 					<img class="menuImage" src="http://placehold.it/200x30/fff&text=Game+Functions">
 					<li class="menuItem menuWindowItem buttonDiv"
@@ -87,11 +87,11 @@
 					<li id="pageSettings" class="menuItem buttonDiv" ><a href="game.php?page=settings">Setting</a></li>
 					<li class="menuItem buttonDiv" ><a href="game.php?page=logout">Logout</a></li>
 
-					{if $isAdmin}
+					{{if $isAdmin}}
 						<li class="menuItem buttonDiv" id="funcClearGameCache">
 							<a href="javascript:clearCache();">Clear Game Cache</a>
 						</li>
-					{/if}
+					{{/if}}
 				</ul>
 				<div class="br" style="background-color: transparent;"></div>
 				<div class="bBottom" style="bottom: -15px;">
@@ -106,10 +106,10 @@
 				</div>
 				<div class="topBanner">
 					<div class="playerBox">
-						<div class="playerName">{$playerName}</div>
+						<div class="playerName">{{$playerName}}</div>
 						<div class="dataHolder">
-							<div class="dataUnit"><b>Player ID:</b> {$playerID}</div>
-							<div class="dataUnit"><b>Planets:</b> {$numPlanets}</div>
+							<div class="dataUnit"><b>Player ID:</b> {{$playerID}}</div>
+							<div class="dataUnit"><b>Planets:</b> {{$numPlanets}}</div>
 							<div class="dataUnit-long"><b>Alliance:</b> (None)</div>
 							<div class="dataUnit"><b>Rank:</b> N/A</div>
 							<div class="dataUnit-long"><b>Last Login:</b> </div>
@@ -125,7 +125,7 @@
 					</div>
 				</div>
 				<div id="objectListToggle" class="objectSelector buttonDiv">
-					{$objectName} ({$objectCoord})
+					{{$objectName}} ({{$objectCoord}})
 				</div>
 				<div class="timeBanner"></div>
 			</div>
@@ -162,213 +162,207 @@
 				    <span class="button no">Cancel</span>
 				</div>
 				<div id="gamePageContainer">
-					{block name="content"}{/block}
+					{{block name="content"}}{{/block}}
 				</div>
 			</div>
-			{include file="main_footer.tpl" nocache}
+			{{include file="main_footer.tpl" nocache}}
 		</div>
 
-		{include file="main_scripts.tpl" bodyclass="full"}
+		{{include file="main_scripts.tpl" bodyclass="full"}}
 		<script type="text/javascript">
-			var objectID = {$objectID};
-			{if $isAdmin}
-				{literal}
-					function clearCache() {
-						$.post("ajaxRequest.php",
-							{"action" : "clearCache", "ajaxType": "DataLoader"},
-							function(data){
-								if(data.code < 0) {
-									showMessage(data.message, "red", 30000);
-								} else {
-									location.reload();
-								}
-							},
-							"json"
-						).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
-					}
-				{/literal}
-			{/if}
-			{literal}
-				function winMsgReceiver(channel, payload) {
-					if (channel == "winManager" && payload.objectType == "windowMessage") {
-						if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "main")) {
-							//console.log(payload);
-							switch (payload.msgType) {
-								case "msgCloseWin": {
-									$('li[id="' + payload.msgSender + '"]').css("background-color", "");
-									break;
-								}
-								case "msgWinOpen": {
-									$('li[id="' + payload.msgSender + '"]').css("background-color", "#05316D");
-									break;
-								}
-								case "msgNewWin": {
-									$('li[id="' + payload.msgSender + '"]').css("background-color", "#05316D");
-									break;
-								}
-							}
-						}
-					}
-				}
-
-				function dataUpdateReceiver(channel, payload) {
-					if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
-						if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "windows")) {
-							//console.log(payload);
-							switch (payload.msgType) {
-								case "msgUpdateNotifications": {
-									loadNotifications(payload.msgData.notificationData);
-									break;
-								}
-							}
-						}
-					}
-				}
-
-				(function($) {
-					//Handle window events
-					$.jStorage.subscribe("winManager", winMsgReceiver);
-					$.jStorage.subscribe("dataUpdater", dataUpdateReceiver);
-
-					//Load Notifications
-					loadNotificationData();
-
-					//Load menu
-					$("#gameMenu li.menuWindowItem").each(function() {
-						$(this).click(function() {
-							popupwindow($(this).attr("data-windowHref"), $(this).attr('id'), $(this).attr('data-windowWidth'), $(this).attr('data-windowHeight'));
-						});
-					});
-
-					$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
-
-					$.jStorage.publish("winManager", new Message("msgNewMain", null, ["all"], "main"));
-
-					$("#objectListToggle").on("click", function(event){
-						if($("#objectListContainer").hasClass("open")) {
-							hideObjectList();
-						} else {
-							showObjectList();
-						}
-						event.stopPropagation();
-					});
-
-					$(document).click(function(event) {
-					    if($(event.target).parents().index($('#objectListContainer')) == -1) {
-					        hideObjectList();
-					    }
-					});
-
-					$(window).unload(function() {
-						$.jStorage.publish("winManager", new Message("msgCloseMain", null, ["all"], "main"));
-					});
-				})(jQuery);
-
-				$(window).load(function() {
-					$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
-				});
-
-				function showObjectList() {
-					$("#objectListContainer").addClass('open');
-					$("#objectListContainer").show();
-
-					$("#objectList").text("Loading Data...");
+			var objectID = {{$objectID}};
+			{{if $isAdmin}}
+				function clearCache() {
 					$.post("ajaxRequest.php",
-						{"action" : "getObjectList", "ajaxType": "ObjectHandler"},
+						{"action" : "clearCache", "ajaxType": "DataLoader"},
 						function(data){
 							if(data.code < 0) {
-								$("#objectList").text("Error #" + (-data.code) + ": " + data.message);
+								showMessage(data.message, "red", 30000);
 							} else {
-								$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectList", {"objectList" : data}, ["all"], window.name));
-								var objectListItem = Handlebars.templates['objectListItem.tmpl'];
-								$("#objectList").text("");
-								for ( var i in data) {
-									if(i == "code")
-										continue;
-									$("#objectList").append(objectListItem({
-										"objectID" : i,
-										"objectName" : data[i].objectName,
-										"objectCoord" : data[i].objectCoords,
-										"usedStorage" : niceNumber(data[i].usedStorage),
-										"maxStorage" : niceNumber(data[i].objStorage),
-										"storageColor" : (data[i].usedStorage >= data[i].objStorage) ? "red" : ""
-									}));
-								}
-
-
-								$(".objectListItem").on("click", function() {
-									document.location = document.location.origin
-										+ document.location.pathname
-										{/literal}
-										+ "?page={$page}"
-										{literal}
-										+"&objectID=" + $(this).attr("data-objectID");
-								});
-
-								$(".scrollable").tinyscrollbar_update();
-								$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
+								location.reload();
 							}
 						},
 						"json"
 					).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
-
 				}
-
-				function hideObjectList() {
-					$("#objectListContainer").removeClass('open');
-					$("#objectListContainer").hide();
-				}
-
-				function loadNotificationData() {
-					$.post("ajaxRequest.php",
-						{"ajaxType": "MessageHandler", "action" : "getNotifications"},
-						function(data){
-							if(data.code < 0) {
-								$("#gameTopContainer .notifications").text("Error #" + (-data.code) + ": " + data.message);
-							} else {
-								$.jStorage.publish("dataUpdater", new Message("msgUpdateNotifications", {"notificationData" : data}, ["all"], window.name));
+			{{/if}}
+			function winMsgReceiver(channel, payload) {
+				if (channel == "winManager" && payload.objectType == "windowMessage") {
+					if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "main")) {
+						//console.log(payload);
+						switch (payload.msgType) {
+							case "msgCloseWin": {
+								$('li[id="' + payload.msgSender + '"]').css("background-color", "");
+								break;
 							}
-						},
-						"json"
-					).fail(function() { $(".msgHolder").text("An error occurred while getting data"); });
-				}
-
-				function loadNotifications(data) {
-					$("#gameTopContainer .notifications").html("");
-
-					var notifications = false;
-					for (var i in data) {
-						if(i == "code") {
-							continue;
+							case "msgWinOpen": {
+								$('li[id="' + payload.msgSender + '"]').css("background-color", "#05316D");
+								break;
+							}
+							case "msgNewWin": {
+								$('li[id="' + payload.msgSender + '"]').css("background-color", "#05316D");
+								break;
+							}
 						}
-						notifications = true;
-						var dateStr = formatTime(new Date(data[i].messageTime * 1000));
-
-						var color = "";
-						switch(data[i].messageText.msgType) {
-							case "ERROR": 	color = "red-over"; break;
-							case "NOTICE": 	color = "blue-over"; break;
-							case "WARNING": color = "yellow-over"; break;
-							case "REPORT": 	color = "blue-over"; break;
-							case "OK": 		color = "green-over"; break;
-							default:
-								color = "blue-over";
-						}
-
-						var itemDiv = $('<div></div>')
-						    .addClass("item")
-						    .addClass(color)
-						    .attr("onclick", "popupwindow('game.php?page=notificationWindow', 'winNotifications', 600, 400);")
-						    .text(dateStr + "   " + data[i].messageSubject)
-						;
-						$("#gameTopContainer .notifications").append(itemDiv);
-					}
-
-					if(!notifications) {
-						$("#gameTopContainer .notifications").html("No Notifications");
 					}
 				}
-			{/literal}
+			}
+
+			function dataUpdateReceiver(channel, payload) {
+				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
+					if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "windows")) {
+						//console.log(payload);
+						switch (payload.msgType) {
+							case "msgUpdateNotifications": {
+								loadNotifications(payload.msgData.notificationData);
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			(function($) {
+				//Handle window events
+				$.jStorage.subscribe("winManager", winMsgReceiver);
+				$.jStorage.subscribe("dataUpdater", dataUpdateReceiver);
+
+				//Load Notifications
+				loadNotificationData();
+
+				//Load menu
+				$("#gameMenu li.menuWindowItem").each(function() {
+					$(this).click(function() {
+						popupwindow($(this).attr("data-windowHref"), $(this).attr('id'), $(this).attr('data-windowWidth'), $(this).attr('data-windowHeight'));
+					});
+				});
+
+				$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
+
+				$.jStorage.publish("winManager", new Message("msgNewMain", null, ["all"], "main"));
+
+				$("#objectListToggle").on("click", function(event){
+					if($("#objectListContainer").hasClass("open")) {
+						hideObjectList();
+					} else {
+						showObjectList();
+					}
+					event.stopPropagation();
+				});
+
+				$(document).click(function(event) {
+				    if($(event.target).parents().index($('#objectListContainer')) == -1) {
+				        hideObjectList();
+				    }
+				});
+
+				$(window).unload(function() {
+					$.jStorage.publish("winManager", new Message("msgCloseMain", null, ["all"], "main"));
+				});
+			})(jQuery);
+
+			$(window).load(function() {
+				$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
+			});
+
+			function showObjectList() {
+				$("#objectListContainer").addClass('open');
+				$("#objectListContainer").show();
+
+				$("#objectList").text("Loading Data...");
+				$.post("ajaxRequest.php",
+					{"action" : "getObjectList", "ajaxType": "ObjectHandler"},
+					function(data){
+						if(data.code < 0) {
+							$("#objectList").text("Error #" + (-data.code) + ": " + data.message);
+						} else {
+							$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectList", {"objectList" : data}, ["all"], window.name));
+							var objectListItem = Handlebars.templates['objectListItem.tmpl'];
+							$("#objectList").text("");
+							for ( var i in data) {
+								if(i == "code")
+									continue;
+								$("#objectList").append(objectListItem({
+									"objectID" : i,
+									"objectName" : data[i].objectName,
+									"objectCoord" : data[i].objectCoords,
+									"usedStorage" : niceNumber(data[i].usedStorage),
+									"maxStorage" : niceNumber(data[i].objStorage),
+									"storageColor" : (data[i].usedStorage >= data[i].objStorage) ? "red" : ""
+								}));
+							}
+
+
+							$(".objectListItem").on("click", function() {
+								document.location = document.location.origin
+									+ document.location.pathname
+									+ "?page={{$page}}"
+									+"&objectID=" + $(this).attr("data-objectID");
+							});
+
+							$(".scrollable").tinyscrollbar_update();
+							$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
+						}
+					},
+					"json"
+				).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
+
+			}
+
+			function hideObjectList() {
+				$("#objectListContainer").removeClass('open');
+				$("#objectListContainer").hide();
+			}
+
+			function loadNotificationData() {
+				$.post("ajaxRequest.php",
+					{"ajaxType": "MessageHandler", "action" : "getNotifications"},
+					function(data){
+						if(data.code < 0) {
+							$("#gameTopContainer .notifications").text("Error #" + (-data.code) + ": " + data.message);
+						} else {
+							$.jStorage.publish("dataUpdater", new Message("msgUpdateNotifications", {"notificationData" : data}, ["all"], window.name));
+						}
+					},
+					"json"
+				).fail(function() { $(".msgHolder").text("An error occurred while getting data"); });
+			}
+
+			function loadNotifications(data) {
+				$("#gameTopContainer .notifications").html("");
+
+				var notifications = false;
+				for (var i in data) {
+					if(i == "code") {
+						continue;
+					}
+					notifications = true;
+					var dateStr = formatTime(new Date(data[i].messageTime * 1000));
+
+					var color = "";
+					switch(data[i].messageText.msgType) {
+						case "ERROR": 	color = "red-over"; break;
+						case "NOTICE": 	color = "blue-over"; break;
+						case "WARNING": color = "yellow-over"; break;
+						case "REPORT": 	color = "blue-over"; break;
+						case "OK": 		color = "green-over"; break;
+						default:
+							color = "blue-over";
+					}
+
+					var itemDiv = $('<div></div>')
+					    .addClass("item")
+					    .addClass(color)
+					    .attr("onclick", "popupwindow('game.php?page=notificationWindow', 'winNotifications', 600, 400);")
+					    .text(dateStr + "   " + data[i].messageSubject)
+					;
+					$("#gameTopContainer .notifications").append(itemDiv);
+				}
+
+				if(!notifications) {
+					$("#gameTopContainer .notifications").html("No Notifications");
+				}
+			}
 		</script>
 	</body>
 </html>

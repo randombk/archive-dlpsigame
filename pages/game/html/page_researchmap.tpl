@@ -1,14 +1,14 @@
-{block name="title" prepend}{"Research Map"}{/block}
+{{block name="title" prepend}}{{"Research Map"}}{{/block}}
 
-{block name="additionalIncluding" append}
-<script type="text/javascript" src="resources/js/vendor/jquery.overscroll.js?v={$VERSION}"></script>
-{/block}
+{{block name="additionalIncluding" append}}
+	<script type="text/javascript" src="resources/js/vendor/jquery.overscroll.js?v={{$VERSION}}"></script>
+{{/block}}
 
-{block name="additionalStylesheets" append}
-<link rel="stylesheet" href="resources/css/research.css?v={$VERSION}">
-{/block}
+{{block name="additionalStylesheets" append}}
+	<link rel="stylesheet" href="resources/css/research.css?v={{$VERSION}}">
+{{/block}}
 
-{block name="content"}
+{{block name="content"}}
 <div id="researchControlsToggle">
 	&lt; Hide Controls
 </div>
@@ -19,7 +19,7 @@
 				<mask id="active" maskUnits="userSpaceOnUse" x="-46" y="-40" width="92" height="80">
 					<polygon points="-46,0 -23,40 23,40 46,0 23,-40 -23,-40" fill="white"/>
 				</mask>
-			
+
 				<filter id="glowRed" filterUnits="userSpaceOnUse" x="-100" y="-86" width="200" height="192">
 					<feGaussianBlur in="SourceGraphic" stdDeviation="6.000000" result="blur"/>
 					<feColorMatrix result="bluralpha" type="matrix"
@@ -33,7 +33,7 @@
 						<feMergeNode  in="SourceGraphic"/>
 					</feMerge>
 				</filter>
-				
+
 				<filter id="glowOrange" filterUnits="userSpaceOnUse" x="-100" y="-86" width="200" height="192">
 					<feGaussianBlur in="SourceGraphic" stdDeviation="6.000000" result="blur"/>
 					<feColorMatrix result="bluralpha" type="matrix"
@@ -61,7 +61,7 @@
 						<feMergeNode  in="SourceGraphic"/>
 					</feMerge>
 				</filter>
-				
+
 				<filter id="glowCyan" filterUnits="userSpaceOnUse" x="-100" y="-86" width="200" height="192">
 					<feGaussianBlur in="SourceGraphic" stdDeviation="6.000000" result="blur"/>
 					<feColorMatrix result="bluralpha" type="matrix"
@@ -75,7 +75,7 @@
 						<feMergeNode  in="SourceGraphic"/>
 					</feMerge>
 				</filter>
-				
+
 				<filter id="glowNormal" filterUnits="userSpaceOnUse" x="-100" y="-86" width="200" height="192">
 					<feGaussianBlur in="SourceGraphic" stdDeviation="4.00" result="blur"/>
 					<feColorMatrix result="bluralpha" type="matrix"
@@ -113,7 +113,7 @@
 		</div>
 		<div id="researchInfoOverlayTitle" class="stdBorder abs" style="top: 10px; left: 135px; right: 20px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
 		<div id="researchInfoOverlayDesc" class="stdBorder abs" style="top: 35px; left: 135px; right: 10px; height: 75px;"></div>
-		
+
 		<div class="stdBorder abs" style="top: 120px; left: 10px; width: 280px; bottom: 10px;">
 			<svg
 				id="researchInfoOverlayPosition"
@@ -126,34 +126,34 @@
 				<polygon points="-40,0 -20,35 20,35 40,0 20,-35 -20,-35" fill="none" stroke-width="1" stroke="#D3D3D3"></polygon>
 				<text id="researchInfoOverlayPositionCenter1" x="0" y="-5" text-anchor="middle" style="fill: #D3D3D3;"></text>
 				<text id="researchInfoOverlayPositionCenter2" x="0" y="5" text-anchor="middle" style="fill: #D3D3D3;"></text>
-				
+
 				<line id="researchInfoOverlayPosition_1_0_Line" x1="0" y1="30" x2="0" y2="45" style="stroke:#D3D3D3; stroke-width:1;"/>
 				<foreignObject x="-100" y="52" width="200" height="30"><span xmlns="http://www.w3.org/1999/xhtml" id="researchInfoOverlayPosition_1_0"></span></foreignObject>
-				
+
 				<line id="researchInfoOverlayPosition_-1_0_Line" x1="0" y1="-30" x2="0" y2="-45" style="stroke:#D3D3D3; stroke-width:1;"/>
 				<foreignObject x="-100" y="-80" width="200" height="30"><span xmlns="http://www.w3.org/1999/xhtml" id="researchInfoOverlayPosition_-1_0"></span></foreignObject>
-				
+
 				<line id="researchInfoOverlayPosition_-1_1_Line" x1="25" y1="-15" x2="40" y2="-25" style="stroke:#D3D3D3; stroke-width:1;"/>
 				<foreignObject x="40" y="-40" width="100" height="30"><span xmlns="http://www.w3.org/1999/xhtml" id="researchInfoOverlayPosition_-1_1"></span></foreignObject>
-				
+
 				<line id="researchInfoOverlayPosition_0_1_Line" x1="25" y1="15" x2="40" y2="25" style="stroke:#D3D3D3; stroke-width:1;"/>
 				<foreignObject x="40" y="20" width="100" height="30"><span xmlns="http://www.w3.org/1999/xhtml" id="researchInfoOverlayPosition_0_1"></span></foreignObject>
-				
+
 				<line id="researchInfoOverlayPosition_0_-1_Line" x1="-25" y1="-15" x2="-40" y2="-25" style="stroke:#D3D3D3; stroke-width:1;"/>
 				<foreignObject x="-140" y="-40" width="100" height="30"><span xmlns="http://www.w3.org/1999/xhtml" id="researchInfoOverlayPosition_0_-1"></span></foreignObject>
-				
+
 				<line id="researchInfoOverlayPosition_1_-1_Line" x1="-25" y1="15" x2="-40" y2="25" style="stroke:#D3D3D3; stroke-width:1;"/>
 				<foreignObject x="-140" y="20" width="100" height="30"><span xmlns="http://www.w3.org/1999/xhtml" id="researchInfoOverlayPosition_1_-1"></span></foreignObject>
-			
+
 			</ svg>
 		</div>
-		
+
 		<div id="researchInfoOverlayEffectsControls" class="stdBorder abs" style="top: 120px; left: 300px; width: 19px; height: 80px;">
 			<div id="researchInfoOverlayEffectsControlsUp" class="stdBorder abs buttonDiv" style="text-align: center; padding-top: 5px; top: -1px; left: -1px; right: -1px; height: 25px;">&uarr;</div>
 			<div id="researchInfoOverlayEffectsControlsLevel" class="abs" style="text-align: center; padding-top: 10px; top: 22px; left: -1px; right: -1px; height: 25px;"></div>
 			<div id="researchInfoOverlayEffectsControlsDown" class="stdBorder abs buttonDiv" style="text-align: center; padding-top: 5px; bottom: -1px; left: -1px; right: -1px; height: 25px;">&darr;</div>
 		</div>
-		
+
 		<div id="researchInfoOverlayEffectsHolder" class="stdBorder abs scrollable" style="top: 120px; left: 320px; right: 10px; height: 80px; text-align: left; padding-left: 5px;">
 			<div class="scrollbar">
 			<div class="track">
@@ -169,27 +169,23 @@
 		<div id="" class="stdBorder abs" style="top: 208px; left: 300px; right: 10px; height: 80px;"></div>
 	</div>
 </div>
+{{/block}}
 
-{/block}
-
-{block name="winHandlers" append}
+{{block name="winHandlers" append}}
 <script>
-	var centerTech = "{$techID}";
-</script>
+	var centerTech = "{{$techID}}";
 
-{literal}
-<script>
 	//Override container size
 	$('#gamePageContainer').addClass("absFill").css("width", "100%").css("height", "100%");
-	
+
 	$("#gameMenu").ready(function() {
-		$("#gameMenu #pageResearchMap").addClass("active");		
+		$("#gameMenu #pageResearchMap").addClass("active");
 	});
-	
+
 	$("#researchSVG").ready(function() {
 		$("#researchHolder").overscroll();
 	});
-	
+
 	function toY(q, r) {
 		return (q + r/2) * 100;
 	}
@@ -197,17 +193,17 @@
 	function toX(r) {
 		return 86 * r;
 	}
-	
+
 	function showResearchInfoOverlay(researchData, techID) {
 		var tech = researchData[techID];
-		
+
 		$("#researchInfoOverlayImage").attr("src", "resources/images/research/" + tech.techImage);
 		$("#researchInfoOverlayTitle").text(tech.techName);
 		$("#researchInfoOverlayDesc").text(tech.techDesc);
 		$("#researchInfoOverlayEffects").html(tech.getResearchEffect(Math.max(tech.techLevel, 1)));
-		
+
 		$("#researchInfoOverlayEffectsControlsLevel").text(Math.max(tech.techLevel, 1)).attr("data-level", Math.max(tech.techLevel, 1)).attr("data-techID", tech.techID);
-		
+
 		$('#researchInfoOverlayEffectsControlsUp').unbind('click');
 		$('#researchInfoOverlayEffectsControlsUp').bind('click', function() {
 			var level = parseInt($("#researchInfoOverlayEffectsControlsLevel").attr("data-level"));
@@ -219,7 +215,7 @@
 				updateAllScrollbars();
 			}
 		});
-		
+
 		$('#researchInfoOverlayEffectsControlsDown').unbind('click');
 		$('#researchInfoOverlayEffectsControlsDown').bind('click', function() {
 			var level = parseInt($("#researchInfoOverlayEffectsControlsLevel").attr("data-level"));
@@ -231,7 +227,7 @@
 				updateAllScrollbars();
 			}
 		});
-		
+
 		if(tech.techLevel) {
 			$("#researchInfoOverlayPositionCenter1").text("Level");
 			$("#researchInfoOverlayPositionCenter2").text(tech.techLevel);
@@ -242,17 +238,17 @@
 			$("#researchInfoOverlayPositionCenter1").text("Not");
 			$("#researchInfoOverlayPositionCenter2").text("Researched");
 		}
-		
+
 		for(var i in tech.directions) {
 			var direction = tech.directions[i];
 			var directionString = direction[0] + "_" + direction[1];
-			
+
 			var id = tech.getOffsetID(direction);
 			if(id) {
 				var adjacent = researchData[id];
-				
+
 				$("#researchInfoOverlayPosition_" + directionString + "_Line").show();
-				
+
 				if(adjacent.techLevel) {
 					$("#researchInfoOverlayPosition_" + directionString).html(adjacent.techName + "<br>(Level " + adjacent.techLevel + ")");
 				} else if(adjacent.canResearch(researchData)) {
@@ -263,13 +259,13 @@
 			} else {
 				$("#researchInfoOverlayPosition_" + directionString + "_Line").hide();
 				$("#researchInfoOverlayPosition_" + directionString).text("");
-			}			
+			}
 		}
-		
+
 		loadModHover();
 		$("#researchOverlayHolder").show();
 		$("#blankOut").show();
-		
+
 		function hideInfoBox() {
 			$("#blankOut").hide();
 			$("#researchOverlayHolder").hide();
@@ -277,7 +273,7 @@
 		$("#researchInfoOverlayClose").on("click", hideInfoBox);
 		$("#blankOut").on("click", hideInfoBox);
 	}
-	
+
 	(function($) {
 		$(document).on('gameDataLoaded', function() {
 			$("#researchControlsToggle").on("click", function(){
@@ -300,7 +296,7 @@
 				}
 				$(".scrollable").tinyscrollbar_update();
 			});
-			
+
 			$.jStorage.subscribe("dataUpdater", function(channel, payload) {
 				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
 					if (inArray(payload.msgTarget, "all")) {
@@ -315,11 +311,11 @@
 					}
 				}
 			});
-			
+
 			loadResearchData();
 		});
 	})(jQuery);
-	
+
 	//Research Data
 	function loadResearchData() {
 		$.post("ajaxRequest.php",
@@ -336,20 +332,20 @@
 			showMessage("An error occurred while getting data", "red", 30000);
 		});
 	}
-	
+
 	function resetResearchMap() {
 		$("#researchTileHolder").empty();
 	}
-	
+
 	function loadResearchMap(researchData) {
 		resetResearchMap();
 		var svg = document.getElementById('researchTileHolder');
 		for( var techID in researchData ) {
 			var tech = researchData[techID];
-			
+
 			var hexColor = "#FF0000";
 			var glowColor = "#glowRed";
-			
+
 			if(tech.techPoints) {
 				hexColor = "#00FFFF";
 				glowColor = "#glowCyan";
@@ -360,14 +356,14 @@
 				hexColor = "#FF6600";
 				glowColor = "#glowOrange";
 			}
-			
+
 			var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
 			hex.setAttribute("points", "-50,0 -25,43 25,43 50,0 25,-43 -25,-43");
 			hex.setAttribute("fill" , "#031A3A");
 			hex.setAttribute("stroke-width", "5");
 			hex.setAttribute("stroke", hexColor);
 			hex.setAttribute("style", "filter:url(" + glowColor + ")");
-			
+
 			var image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
 			image.setAttributeNS("http://www.w3.org/1999/xlink","href", "resources/images/research/" + tech.techImage);
 			image.setAttribute("x", -46);
@@ -375,21 +371,21 @@
 			image.setAttribute("width" , "92");
 			image.setAttribute("height", "80");
 			image.setAttribute("mask"  , "url(#active)");
-			
+
 			var bgHex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
 			bgHex.setAttribute("class" , "text");
 			bgHex.setAttribute("points", "-46,0 -41,10 41,10 46,0 32,-25 -32,-25");
 			bgHex.setAttribute("fill" , "rgba(20,20,20,0.8)");
 			bgHex.setAttribute("style", "display: none; filter:url(#glowNormal)");
-			
+
 			var txtLine1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 			txtLine1.setAttribute("class" , "text");
 			txtLine1.setAttribute("x", "0");
 			txtLine1.setAttribute("y", "-15");
 			txtLine1.setAttribute("text-anchor", "middle");
 			txtLine1.setAttribute("style", "font-size: 8; fill: rgba(255,255,255,0.8); display: none;");
-			txtLine1.textContent = tech.techNameLine1;				
-			
+			txtLine1.textContent = tech.techNameLine1;
+
 			var txtLine2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 			txtLine2.setAttribute("class" , "text");
 			txtLine2.setAttribute("x", "0");
@@ -397,34 +393,34 @@
 			txtLine2.setAttribute("text-anchor", "middle");
 			txtLine2.setAttribute("style", "font-size: 8; fill: rgba(255,255,255,0.8); display: none;");
 			txtLine2.textContent = tech.techNameLine2;
-			
+
 			var txtLine3 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 			txtLine3.setAttribute("class" , "text");
 			txtLine3.setAttribute("x", "0");
 			txtLine3.setAttribute("y", "5");
 			txtLine3.setAttribute("text-anchor", "middle");
 			txtLine3.setAttribute("style", "font-size: 8; fill: rgba(255,255,255,0.8); display: none;");
-			txtLine3.textContent = tech.techNameLine3;				
-			
+			txtLine3.textContent = tech.techNameLine3;
+
 			var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 			group.setAttribute("transform", "translate(" + toX(tech.r) + "," + toY(tech.q, tech.r) + ")");
 			group.setAttribute("id", techID);
 			group.setAttribute("data-hoverGlow", glowColor);
-			
+
 			group.appendChild(hex);
 			group.appendChild(image);
 			group.appendChild(bgHex);
 			group.appendChild(txtLine1);
 			group.appendChild(txtLine2);
 			group.appendChild(txtLine3);
-			
+
 			if(tech.techLevel) {
 				var levelBar = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
 				levelBar.setAttribute("class" , "text");
 				levelBar.setAttribute("points", "-30,30 -23,40 23,40 30,30");
 				levelBar.setAttribute("fill" , "rgba(20,20,20,0.8)");
 				levelBar.setAttribute("style", "display: none; filter:url(#glowNormal)");
-				
+
 				var levelText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 				levelText.setAttribute("class" , "text");
 				levelText.setAttribute("x", "0");
@@ -436,7 +432,7 @@
 				group.appendChild(levelBar);
 				group.appendChild(levelText);
 			}
-			
+
 			svg.appendChild(group);
 			$(group).bind("mouseover", function () {
 				var hover = document.getElementById($(this).attr("id")).getAttribute("data-hoverGlow");
@@ -451,6 +447,4 @@
 		}
 	}
 </script>
-{/literal}
-
-{/block}
+{{/block}}

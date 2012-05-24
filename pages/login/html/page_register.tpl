@@ -1,5 +1,5 @@
-{block name="title" prepend}{"Register"}{/block}
-{block name="content"}
+{{block name="title" prepend}}{{"Register"}}{{/block}}
+{{block name="content"}}
 <h1>Register</h1>
 <div>
 	<form method="post" action="index.php?page=register" data-action="index.php?page=register">
@@ -49,11 +49,11 @@
 		</div>
 	</form>
 </div>
-{/block}
-{block name="script" append}
+{{/block}}
+{{block name="script" append}}
 <link rel="stylesheet" type="text/css" href="resources/css/register.css">
 <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 <script type="text/javascript">
-	var recaptchaPublicKey = "{$recaptchaPublicKey}";
+	var recaptchaPublicKey = "{{$recaptchaPublicKey}}";
 </script>
-{/block}
+{{/block}}

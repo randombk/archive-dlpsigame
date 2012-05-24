@@ -1,28 +1,28 @@
-{block name="title" prepend}{"Info"}{/block}
-{block name="additionalIncluding" append}
-	<link rel="stylesheet" href="resources/css/buildings.css?v={$VERSION}">
-	<script src="handlebars/buildings/buildingQueueItem.js?v={$VERSION}"></script>
-	<script src="handlebars/objInfoEconomyRow.js?v={$VERSION}"></script>
-	<script src="handlebars/objInfoModifierRow.js?v={$VERSION}"></script>
-	<script src="handlebars/objInfoResearchRow.js?v={$VERSION}"></script>
-{/block}
+{{block name="title" prepend}}{{"Info"}}{{/block}}
+{{block name="additionalIncluding" append}}
+	<link rel="stylesheet" href="resources/css/buildings.css?v={{$VERSION}}">
+	<script src="handlebars/buildings/buildingQueueItem.js?v={{$VERSION}}"></script>
+	<script src="handlebars/objInfoEconomyRow.js?v={{$VERSION}}"></script>
+	<script src="handlebars/objInfoModifierRow.js?v={{$VERSION}}"></script>
+	<script src="handlebars/objInfoResearchRow.js?v={{$VERSION}}"></script>
+{{/block}}
 
-{block name="content"}
+{{block name="content"}}
 
 <table class="pageTable">
 
 	<tr>
-		<th>{$objectTypeName} Overview - <span id="planetName"></span></th>
+		<th>{{$objectTypeName}} Overview - <span id="planetName"></span></th>
 	</tr>
 	<tr>
 		<td>
 			<table class="innerTable">
 				<tr>
 					<td rowspan="10" style="width: 40%;"><img style="float: right; padding-right: 20px;" src="http://placehold.it/150x150" /></td>
-					<td style="width: 60%; font-size: 18px;">{$objectName}</td>
+					<td style="width: 60%; font-size: 18px;">{{$objectName}}</td>
 				</tr>
 				<tr>
-					<td>{$objectTypeName} Location: <span id="planetLoc"></span></td>
+					<td>{{$objectTypeName}} Location: <span id="planetLoc"></span></td>
 				</tr>
 				<tr>
 					<td>Planet Owner: <span id="ownerName"></span> (<span id="ownerAlliance"></span>)</td>
@@ -132,247 +132,245 @@
 <br>
 <br>
 <br>
-{/block}
+{{/block}}
 
-{block name="winHandlers" append}
-	<script>var objectID = {$objectID};</script>
-	{literal}
-		<script>
-			$("#gameMenu").ready(function() {
-				$("#gameMenu #pageObjectOverview").addClass("active");
+{{block name="winHandlers" append}}
+	<script>
+		var objectID = {{$objectID}};
+		$("#gameMenu").ready(function() {
+			$("#gameMenu #pageObjectOverview").addClass("active");
+		});
+
+		//Load building data
+		(function($) {
+			$(document).on('gameDataLoaded', function() {
+				loadData();
 			});
 
-			//Load building data
-			(function($) {
-				$(document).on('gameDataLoaded', function() {
-					loadData();
-				});
-
-				$.jStorage.subscribe("dataUpdater", function(channel, payload) {
-					if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
-						if (inArray(payload.msgTarget, "all")) {
-							switch (payload.msgType) {
-								case "msgUpdateObjectInfo": {
-									if(payload.msgData.objectID == objectID) {
-										loadObjectInfoPage(payload.msgData.objectInfo);
-									}
-									break;
+			$.jStorage.subscribe("dataUpdater", function(channel, payload) {
+				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
+					if (inArray(payload.msgTarget, "all")) {
+						switch (payload.msgType) {
+							case "msgUpdateObjectInfo": {
+								if(payload.msgData.objectID == objectID) {
+									loadObjectInfoPage(payload.msgData.objectInfo);
 								}
+								break;
 							}
 						}
 					}
-				});
-			})(jQuery);
+				}
+			});
+		})(jQuery);
 
-			function loadData() {
-				$.post("ajaxRequest.php",
-					{"action" : "getObjectInfo", "ajaxType": "ObjectHandler", "objectID": objectID},
-					function(data){
-						if(data.code < 0) {
-							$("#constructionQueue").text("Fatal Error #" + (-data.code) + ": " + data.message);
-						} else {
-							$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectInfo", {"objectID" : objectID, "objectInfo" : data}, ["all"], window.name));
-						}
-					},
-				"json")
-				.fail(function() { $("#tabContainer").text("An error occurred while getting data"); })
-				.always(function() {  });
+		function loadData() {
+			$.post("ajaxRequest.php",
+				{"action" : "getObjectInfo", "ajaxType": "ObjectHandler", "objectID": objectID},
+				function(data){
+					if(data.code < 0) {
+						$("#constructionQueue").text("Fatal Error #" + (-data.code) + ": " + data.message);
+					} else {
+						$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectInfo", {"objectID" : objectID, "objectInfo" : data}, ["all"], window.name));
+					}
+				},
+			"json")
+			.fail(function() { $("#tabContainer").text("An error occurred while getting data"); })
+			.always(function() {  });
+		}
+
+		function loadObjectInfoPage(data) {
+			$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.items}, ["all"], window.name));
+			$(".gen").remove();
+			//Load object info
+
+			$("#planetName").text(data.objectName);
+			$("#planetLoc").text(data.objectCoords);
+			$("#planetType").text(data.objectData.planetType);
+			$("#planetSize").text(data.objectData.planetSize);
+			$("#planetTemp").text(data.objectData.planetTemp);
+			$("#planetHumidity").text(data.objectData.planetHumidity);
+			$("#numBuildings").text(data.numBuildings);
+			$("#storageUsed").text(niceNumber(data.usedStorage) + " / " + niceNumber(data.objStorage));
+			if(data.usedStorage >= data.objStorage) {
+				$("#storageUsed").addClass("red");
+			} else {
+				$("#storageUsed").removeClass("red");
 			}
 
-			function loadObjectInfoPage(data) {
-				$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.items}, ["all"], window.name));
-				$(".gen").remove();
-				//Load object info
+			//Load building queue
+			$("#constructionQueue").html("");
+			var buildingQueueTemplate = Handlebars.templates['buildingQueueItem.tmpl'];
 
-				$("#planetName").text(data.objectName);
-				$("#planetLoc").text(data.objectCoords);
-				$("#planetType").text(data.objectData.planetType);
-				$("#planetSize").text(data.objectData.planetSize);
-				$("#planetTemp").text(data.objectData.planetTemp);
-				$("#planetHumidity").text(data.objectData.planetHumidity);
-				$("#numBuildings").text(data.numBuildings);
-				$("#storageUsed").text(niceNumber(data.usedStorage) + " / " + niceNumber(data.objStorage));
-				if(data.usedStorage >= data.objStorage) {
-					$("#storageUsed").addClass("red");
-				} else {
-					$("#storageUsed").removeClass("red");
-				}
+			if(typeof data.buildQueue[0] !== 'undefined') {
+				var uid = data.buildQueue[0].id;
+				$("#constructionQueue").append(buildingQueueTemplate({
+					operation: data.buildQueue[0].operation,
+					buildName: dbBuildData[data.buildQueue[0].buildingID].buildName,
+					buildLevel: data.buildQueue[0].buildingLevel,
+					startTime: data.buildQueue[0].startTime,
+					endTime: data.buildQueue[0].endTime,
+					id: uid
+				}));
 
-				//Load building queue
-				$("#constructionQueue").html("");
-				var buildingQueueTemplate = Handlebars.templates['buildingQueueItem.tmpl'];
-
-				if(typeof data.buildQueue[0] !== 'undefined') {
-					var uid = data.buildQueue[0].id;
-					$("#constructionQueue").append(buildingQueueTemplate({
-						operation: data.buildQueue[0].operation,
-						buildName: dbBuildData[data.buildQueue[0].buildingID].buildName,
-						buildLevel: data.buildQueue[0].buildingLevel,
-						startTime: data.buildQueue[0].startTime,
-						endTime: data.buildQueue[0].endTime,
-						id: uid
-					}));
-
-					$("#" + uid).progressbar({
-		      			value: 0,
-		      			max: data.buildQueue[0].endTime - data.buildQueue[0].startTime,
-		      			change: function() {
-							$("#text-" + uid).text(
-								niceETA(
-									moment.duration($("#" + uid).progressbar("option", "max") - $("#" + uid).progressbar("value"), 'seconds')
-								) + " left"
-							);
-		        		},
-		      			complete: function() {
-		        			$("#text-" + uid).text( "Complete!" );
-		      			}
-		    		});
-
-					for(var i = 1; i < data.buildQueue.length; i++) {
-						$("#constructionQueue").append(
-							buildingQueueTemplate({
-								operation: data.buildQueue[i].operation,
-								buildName: dbBuildData[data.buildQueue[i].buildingID].buildName,
-								buildLevel: data.buildQueue[i].buildingLevel,
-								id: data.buildQueue[i].id
-							})
+				$("#" + uid).progressbar({
+	                value: 0,
+	                max: data.buildQueue[0].endTime - data.buildQueue[0].startTime,
+	                change: function() {
+						$("#text-" + uid).text(
+							niceETA(
+								moment.duration($("#" + uid).progressbar("option", "max") - $("#" + uid).progressbar("value"), 'seconds')
+							) + " left"
 						);
-					}
+	                },
+	                complete: function() {
+	                    $("#text-" + uid).text( "Complete!" );
+	                }
+	            });
 
-					//Load buttons
-					$(".buildingQueueCancel").on("click", function(){
-						var queueID = $(this).attr("data-id");
-						$.post(
-							"ajaxRequest.php",
-							{"action" : "cancelBuildingQueueItem", "ajaxType": "BuildingHandler", "objectID": objectID, "queueItemID": queueID},
-							function(data){
-								if(data.code < 0) {
-									loadNotificationData();
-								} else {
-									loadData();
-								}
-							},
-							"json"
-						).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
-					});
-				} else {
-					$("#constructionQueue").text("No construction in progress");
+				for(var i = 1; i < data.buildQueue.length; i++) {
+					$("#constructionQueue").append(
+						buildingQueueTemplate({
+							operation: data.buildQueue[i].operation,
+							buildName: dbBuildData[data.buildQueue[i].buildingID].buildName,
+							buildLevel: data.buildQueue[i].buildingLevel,
+							id: data.buildQueue[i].id
+						})
+					);
 				}
 
-				var econRowTemplate = Handlebars.templates['objInfoEconomyRow.tmpl'];
-				var modRowTemplate = Handlebars.templates['objInfoModifierRow.tmpl'];
-				var researchRowTemplate = Handlebars.templates['objInfoResearchRow.tmpl'];
-
-				var economyTotal = {};
-				var modifierTotal = {};
-				var researchTotal = {
-					"Weapons": 0,
-					"Defense": 0,
-					"Diplomatic": 0,
-					"Economic": 0,
-					"Fleet": 0
-				};
-
-				//Load planet modifiers
-				if(!isEmpty(data.objectModifiers)){
-					objAdd(modifierTotal, data.objectModifiers);
-					$('#tableModifiers tr:last').before(modRowTemplate({
-						itemName: "Planet Bonuses",
-						modifiers: data.objectModifiers
-					}));
-				}
-				//Load storage penalties
-				if(data.usedStorage >= data.objStorage) {
-					objAdd(modifierTotal, data.objectWeightPenalty);
-					$('#tableModifiers tr:last').before(modRowTemplate({
-						itemName: "Storage Overflow Penalty",
-						modifiers: data.objectWeightPenalty
-					}));
-				}
-
-				//Load buildings
-				for(var key in data.buildings) {
-					var obj = data.buildings[key];
-					if(!(isEmpty(obj.curResProduction) && isEmpty(obj.curResConsumption))) {
-						mergeItemData(economyTotal, obj.curResProduction, "+");
-						mergeItemData(economyTotal, obj.curResConsumption, "-");
-
-						$('#tableEconomy tr:last').before(econRowTemplate({
-							itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
-							production: obj.curResProduction,
-							consumption: obj.curResConsumption,
-							activity: obj.activity,
-							id: key
-						}));
-
-					}
-
-					if(obj.curModifiers) {
-						objAdd(modifierTotal, obj.curModifiers);
-
-						$('#tableModifiers tr:last').before(modRowTemplate({
-							itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
-							modifiers: obj.curModifiers,
-							activity: obj.activity,
-							id: key
-						}));
-					}
-
-					if(!isEmpty(obj.curResearch)) {
-						objAdd(researchTotal, obj.curResearch);
-
-						$('#tableResearch tr:last').before(researchRowTemplate({
-							itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
-							research: obj.curResearch,
-							activity: obj.activity,
-							id: key
-						}));
-					}
-
-					$(".activity_"+key).on("change", function() {
-						var value = $(this).val();
-						$(".activity_"+$(this).attr("data-id")).each(function() {
-					   		$(this).val(value);
-						});
-					});
-				}
-
-				//Load totals
-				for(var key in economyTotal) {
-					$("#econNetChange").append("<span class='itemLink gen' data-type='diff' data-item='" + key + "'  data-parameters='" + JSON.stringify(economyTotal[key]) +"'></span>");
-				}
-
-				for(var key in modifierTotal) {
-					$("#modifierTotal").append("<span class='modLink gen' data-modID='" + key + "' data-amount='" + modifierTotal[key] +"'></span>");
-				}
-
-				for(var key in researchTotal) {
-					$("#research" + key + "Total").text(researchTotal[key]);
-				};
-
-				loadHovers({items: data.items});
-			}
-
-			function updateBuildingActivity () {
-				var newData = {};
-
-				$(".activityInput").each(function() {
-					newData[$(this).attr("data-id")] = $(this).val();
+				//Load buttons
+				$(".buildingQueueCancel").on("click", function(){
+					var queueID = $(this).attr("data-id");
+					$.post(
+						"ajaxRequest.php",
+						{"action" : "cancelBuildingQueueItem", "ajaxType": "BuildingHandler", "objectID": objectID, "queueItemID": queueID},
+						function(data){
+							if(data.code < 0) {
+								loadNotificationData();
+							} else {
+								loadData();
+							}
+						},
+						"json"
+					).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 				});
-
-				$.post("ajaxRequest.php",
-					{"action" : "setAllBuildingActivity", "ajaxType": "BuildingHandler", "objectID": objectID, "activityData": JSON.stringify(newData)},
-					function(data){
-						if(data.code < 0) {
-							showMessage("Fatal Error #" + (-data.code) + ": " + data.message, "red", 30000);
-						}
-					},
-				"json")
-				.fail(function() { showMessage("An error occurred while updating activity data", "red", 30000);})
-				.always(function() {  });
-
-				loadData();
+			} else {
+				$("#constructionQueue").text("No construction in progress");
 			}
-		</script>
-	{/literal}
-{/block}
+
+			var econRowTemplate = Handlebars.templates['objInfoEconomyRow.tmpl'];
+			var modRowTemplate = Handlebars.templates['objInfoModifierRow.tmpl'];
+			var researchRowTemplate = Handlebars.templates['objInfoResearchRow.tmpl'];
+
+			var economyTotal = {};
+			var modifierTotal = {};
+			var researchTotal = {
+				"Weapons": 0,
+				"Defense": 0,
+				"Diplomatic": 0,
+				"Economic": 0,
+				"Fleet": 0
+			};
+
+			//Load planet modifiers
+			if(!isEmpty(data.objectModifiers)){
+				objAdd(modifierTotal, data.objectModifiers);
+				$('#tableModifiers tr:last').before(modRowTemplate({
+					itemName: "Planet Bonuses",
+					modifiers: data.objectModifiers
+				}));
+			}
+			//Load storage penalties
+			if(data.usedStorage >= data.objStorage) {
+				objAdd(modifierTotal, data.objectWeightPenalty);
+				$('#tableModifiers tr:last').before(modRowTemplate({
+					itemName: "Storage Overflow Penalty",
+					modifiers: data.objectWeightPenalty
+				}));
+			}
+
+			//Load buildings
+			for(var key in data.buildings) {
+				var obj = data.buildings[key];
+				if(!(isEmpty(obj.curResProduction) && isEmpty(obj.curResConsumption))) {
+					mergeItemData(economyTotal, obj.curResProduction, "+");
+					mergeItemData(economyTotal, obj.curResConsumption, "-");
+
+					$('#tableEconomy tr:last').before(econRowTemplate({
+						itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
+						production: obj.curResProduction,
+						consumption: obj.curResConsumption,
+						activity: obj.activity,
+						id: key
+					}));
+
+				}
+
+				if(obj.curModifiers) {
+					objAdd(modifierTotal, obj.curModifiers);
+
+					$('#tableModifiers tr:last').before(modRowTemplate({
+						itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
+						modifiers: obj.curModifiers,
+						activity: obj.activity,
+						id: key
+					}));
+				}
+
+				if(!isEmpty(obj.curResearch)) {
+					objAdd(researchTotal, obj.curResearch);
+
+					$('#tableResearch tr:last').before(researchRowTemplate({
+						itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
+						research: obj.curResearch,
+						activity: obj.activity,
+						id: key
+					}));
+				}
+
+				$(".activity_"+key).on("change", function() {
+					var value = $(this).val();
+					$(".activity_"+$(this).attr("data-id")).each(function() {
+				        $(this).val(value);
+					});
+				});
+			}
+
+			//Load totals
+			for(var key in economyTotal) {
+				$("#econNetChange").append("<span class='itemLink gen' data-type='diff' data-item='" + key + "'  data-parameters='" + JSON.stringify(economyTotal[key]) +"'></span>");
+			}
+
+			for(var key in modifierTotal) {
+				$("#modifierTotal").append("<span class='modLink gen' data-modID='" + key + "' data-amount='" + modifierTotal[key] +"'></span>");
+			}
+
+			for(var key in researchTotal) {
+				$("#research" + key + "Total").text(researchTotal[key]);
+			};
+
+			loadHovers({items: data.items});
+		}
+
+		function updateBuildingActivity () {
+			var newData = {};
+
+			$(".activityInput").each(function() {
+				newData[$(this).attr("data-id")] = $(this).val();
+			});
+
+			$.post("ajaxRequest.php",
+				{"action" : "setAllBuildingActivity", "ajaxType": "BuildingHandler", "objectID": objectID, "activityData": JSON.stringify(newData)},
+				function(data){
+					if(data.code < 0) {
+						showMessage("Fatal Error #" + (-data.code) + ": " + data.message, "red", 30000);
+					}
+				},
+			"json")
+			.fail(function() { showMessage("An error occurred while updating activity data", "red", 30000);})
+			.always(function() {  });
+
+			loadData();
+		}
+	</script>
+{{/block}}

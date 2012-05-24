@@ -4,8 +4,8 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <html class="no-js">
 	<head>
-		<title>{block name="title"}{/block}</title>
-		{include file="main_header.tpl"}
+		<title>{{block name="title"}}{{/block}}</title>
+		{{include file="main_header.tpl"}}
 	</head>
 	<body id="winBody" unselectable="on">
 		<div id="gameContainer">
@@ -21,10 +21,10 @@
 				<span class="button yes">Enter</span>
 			    <span class="button no">Cancel</span>
 			</div>
-			{block name="content"}{/block}
+			{{block name="content"}}{{/block}}
 		</div>
-		
-		{include file="main_scripts.tpl" bodyclass="full"}
+
+		{{include file="main_scripts.tpl" bodyclass="full"}}
 		<script type="text/javascript">
 			//Load window handlers
 			function msgWinReceiver(channel, payload) {
@@ -46,7 +46,7 @@
 					$.jStorage.subscribe("winManager", msgWinReceiver);
 					$.jStorage.publish("winManager", new Message("msgNewWin", null, ["all"], window.name));
 				});
-				
+
 				$(window).unload(function() {
 					$.jStorage.publish("winManager", new Message("msgCloseWin", null, ["all"], window.name));
 				});
