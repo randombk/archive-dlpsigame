@@ -11,7 +11,7 @@
 function strictString($str) {
 	$pattern = '/^([a-zA-Z0-9]+)$/';
 	preg_match($pattern, $str, $matches);
-	
+
 	if(isset($matches[1]) && $matches[1] === $str) {
 		return $str;
 	} else {

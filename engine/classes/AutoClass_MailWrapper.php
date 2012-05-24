@@ -61,12 +61,11 @@ class MailWrapper {
 	 * @return Swift_SmtpTransport
 	 */
 	static function getSwiftTransport() {
-		require_once(ROOT_PATH . 'engine/libs/swift/swift_required.php');
+		require_once(ROOT_PATH . 'engine/libs/swift/lib/swift_required.php');
 		$transport = Swift_SmtpTransport::newInstance($GLOBALS['_MAIL_SMTP_HOST'], $GLOBALS['_MAIL_SMTP_PORT']);
 		$transport->setEncryption($GLOBALS['_MAIL_SMTP_ENC']);
 		$transport->setPassword($GLOBALS['_MAIL_SMTP_PASS']);
 		$transport->setUsername($GLOBALS['_MAIL_SMTP_USER']);
 		return $transport;
 	}
-
 }
