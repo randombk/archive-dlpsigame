@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+
 "use strict";
 function parseItemData(data, params) {
 	for(var i in data) {
@@ -15,7 +20,7 @@ function Item(itemID, itemParams) {
 	this.itemBaseData = dbItemData[this.itemBaseID];
 	this.itemParams = itemParams;
 	this.quantity = itemParams.quantity || 0;
-	
+
 	//Load base data
 	this.itemType		= clone(this.itemBaseData.itemType);
 	this.itemVisibility	= clone(this.itemBaseData.itemVisibility);
@@ -24,7 +29,7 @@ function Item(itemID, itemParams) {
 	this.itemDesc		= clone(this.itemBaseData.itemDesc);
 	this.itemWeight		= clone(this.itemBaseData.itemWeight);
 	this.itemFlags		= clone(this.itemBaseData.itemFlags);
-	
+
 	this.runHandlers();
 }
 
@@ -79,20 +84,20 @@ Item.prototype.getHoverContent = function() {
 //Item Handlers
 Item.prototype.itemhandlerDisplayData = function() {
 	if(isset(this.itemParams.formatNameParams)) {
-		this.itemName = vsprintf(this.itemBaseData.itemName, this.itemParams.formatNameParams); 
+		this.itemName = vsprintf(this.itemBaseData.itemName, this.itemParams.formatNameParams);
 	}
-	
+
 	if(isset(this.itemParams.formatDescParams)) {
-		this.itemDesc = vsprintf(this.itemBaseData.itemDesc, this.itemParams.formatDescParams); 
+		this.itemDesc = vsprintf(this.itemBaseData.itemDesc, this.itemParams.formatDescParams);
 	}
-	
+
 	if(isset(this.itemParams.formatImageParams)) {
-		this.itemImage = vsprintf(this.itemBaseData.itemImage, this.itemParams.formatImageParams); 
+		this.itemImage = vsprintf(this.itemBaseData.itemImage, this.itemParams.formatImageParams);
 	}
-	
+
 	if(isset(this.itemParams.formatNewVisibility)) {
-		this.itemVisibility = this.itemParams.formatNewVisibility; 
+		this.itemVisibility = this.itemParams.formatNewVisibility;
 	}
-	
+
 	return this;
 };

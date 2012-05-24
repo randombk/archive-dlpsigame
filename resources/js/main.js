@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+
 "use strict";
 function getGUID() {
 	// http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
@@ -61,7 +66,7 @@ function doConfirm(msg, yesFn, noFn) {
 		confirmBox.hide();
 		blankOut.hide();
 	});
-	
+
 	confirmBox.show();
 	blankOut.show();
 }
@@ -75,16 +80,16 @@ function doInput(msg, func, type, defaultValue) {
 		inputBox.hide();
 		blankOut.hide();
 	});
-	
+
 	inputBox.find(".yes").click(function() {
 		func(inputBox.find(".inputField").val());
 	});
-	
+
 	blankOut.click(function() {
 		inputBox.hide();
 		blankOut.hide();
 	});
-	
+
 	inputBox.show();
 	blankOut.show();
 }
@@ -148,13 +153,13 @@ function showMessage(text, color, timeout) {
 		.attr("onClick", "$(this).parent().remove();")
 		.text("X")
 	);
-	
+
 	$("#messageBanner").append(message);
-	
+
 	if(timeout) {
 		window.setTimeout(function() {
 			message.remove();
-		}, timeout);	
+		}, timeout);
 	}
 }
 
@@ -208,4 +213,4 @@ Handlebars.registerHelper('ifnotempty', function(conditional, options) {
 	if(!isEmpty(conditional)) {
 		return options.fn(this);
 	}
-});			
+});

@@ -1,7 +1,12 @@
+/*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+
 "use strict";
 function clone(obj) {
 	if(typeof obj !== "object") return obj;
-	
+
 	var newObj = {};
 	jQuery.extend(newObj, obj);
 	return newObj;
@@ -40,12 +45,12 @@ function mergeItemData(obj1, obj2, operation) {
 			if(operation == "+") {
 				result[i].quantity += obj2[i].quantity;
 			} else {
-				result[i].quantity -= obj2[i].quantity;	
+				result[i].quantity -= obj2[i].quantity;
 			}
 		} else {
 			result[i] = clone(obj2[i]);
 			if(operation == "-") {
-				result[i].quantity = -result[i].quantity;	
+				result[i].quantity = -result[i].quantity;
 			}
 		}
 	}

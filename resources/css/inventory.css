@@ -1,4 +1,9 @@
 /*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+
+/*
  * Inventory management screen
  * */
 
@@ -185,7 +190,7 @@
 
 .invObject .invInfo .itemQuantity {
 	position: absolute;
-	
+
 	bottom: 0;
 	height: 14px;
 	left: 0;

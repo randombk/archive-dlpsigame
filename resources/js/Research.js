@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+
 "use strict";
 function parseResearchData(data) {
 	for(var i in dbResearchData) {
@@ -16,7 +21,7 @@ function Research(techID, techLevel, techPoints) {
 	this.techBaseData = dbResearchData[this.techID];
 	this.techLevel = techLevel || 0;
 	this.techPoints = techPoints || 0;
-	
+
 	//Load base data
 	this.q			= clone(this.techBaseData.q);
 	this.r			= clone(this.techBaseData.r);
@@ -56,9 +61,9 @@ Research.prototype.getNeighborIDs = function() {
 
 Research.prototype.canResearch = function(researchData) {
 	if(this.techLevel || this.techPoints) {
-		return true;	
+		return true;
 	}
-	
+
 	var neighborIDs = this.getNeighborIDs();
 	for(var i in neighborIDs) {
 		var id = neighborIDs[i];
@@ -66,8 +71,8 @@ Research.prototype.canResearch = function(researchData) {
 			return true;
 		}
 	}
-	
-	return false;	
+
+	return false;
 };
 
 Research.prototype.getResearchColor = function(researchData) {
@@ -87,7 +92,7 @@ Research.prototype.getResearchMods = function(level) {
 		level = this.techLevel;
 	}
 	var mods = {};
-	
+
 	for(var i in this.techMods) {
 		var modInfo = this.techMods[i];
 		if(level >= modInfo[0]) {
@@ -104,14 +109,14 @@ Research.prototype.getResearchEffect = function(level) {
 	var effectHTML = "";
 	for(var i = 1; i <= level; i++) {
 		if(isset(this.techEffects[i])) {
-			effectHTML += this.techEffects[i] + "<br>";	
+			effectHTML += this.techEffects[i] + "<br>";
 		}
 	}
-	
+
 	var researchMods = this.getResearchMods(level);
 	for(var i in researchMods) {
 		effectHTML += "<span class='modLink' data-modID='" + i + "' data-amount='" + researchMods[i] + "'></span>";
 	}
-	
+
 	return effectHTML;
 };

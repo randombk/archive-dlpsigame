@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+
 "use strict";
 function tickService(unix_timestamp) {
 	this.offset = 0;

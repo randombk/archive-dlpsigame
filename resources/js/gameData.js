@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+
 "use strict";
 var dbItemData = null;
 var dbBuildData = null;
