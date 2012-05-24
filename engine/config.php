@@ -4,7 +4,7 @@
  * Project DLPSIGAME
  */
 
-$GLOBALS['_GAME_VERSION'] 		= "0.2";
+$GLOBALS['_GAME_VERSION'] 		= "0.2.1";
 $GLOBALS['_GAME_NAME'] 			= "Project DLPSIGAME";
 $GLOBALS['_GAME_SPEED'] 		= 1;
 
