@@ -3,7 +3,7 @@
  * (C) Copyright 2012 David J. W. Li
  * Project DLPSIGAME
  */
- 
+
 define('MODE', 'INGAME');
 define('ROOT_PATH', str_replace('\\', '/', dirname(__FILE__)) . '/');
 
@@ -25,10 +25,10 @@ if (!isset($_SESSION['PLAYER'])) {
 		SELECT
 			player.*,
 			banned.*
-		FROM " . tblPLAYERS . " as player 
+		FROM " . tblPLAYERS . " as player
 			LEFT JOIN " . tblBANNED . " as banned ON banned.playerID = player.playerID
-		WHERE player.playerID = :playerID;");	
-	
+		WHERE player.playerID = :playerID;");
+
 	$s_LoadUser->bindValue(':playerID', $_SESSION['playerID'], PDO::PARAM_INT);
 	$s_LoadUser->execute();
     $_SESSION['PLAYER'] = $s_LoadUser->fetch(PDO::FETCH_ASSOC);
@@ -44,7 +44,7 @@ if ($_SESSION['PLAYER']['banExpireTime'] > time()) {
 }
 
 if(!isset($_SESSION['OBJECTS']))
-	$_SESSION['OBJECTS'] = UtilPlayer::getPlayerObjects();
+	UtilPlayer::getPlayerObjects();
 
 $page = HTTP::REQ('page', 'index');
 $mode = HTTP::REQ('mode', 'show');

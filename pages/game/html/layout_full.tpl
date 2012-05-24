@@ -17,23 +17,23 @@
 					<li id="pageFleetSummary" class="menuItem buttonDiv" ><a href="game.php?page=research">Fleet Summary</a></li>
 					<li id="pageMap" class="menuItem buttonDiv" ><a href="game.php?page=map&mode=uniMap">Universe Map</a></li>
 					<li id="pageResearchMap" class="menuItem buttonDiv" ><a href="game.php?page=researchmap">Research Map</a></li>
-					
+
 					<li class="menuItem menuWindowItem buttonDiv"
 						id="winInventory"
 						data-windowTitle="Inventory"
 						data-windowWidth="800"
 						data-windowHeight="500"
-						data-windowHref="game.php?page=invWindow&objectID={$currentObject}">
+						data-windowHref="game.php?page=invWindow&objectID={$objectID}">
 						<a>Inventory Management</a>
 					</li>
 
 					<img class="menuImage" src="http://placehold.it/200x30/fff&text=Object+Functions">
-					<li id="pageObjectOverview" class="menuItem buttonDiv" ><a href="game.php?page=objectoverview&objectID={$currentObject}">{$currentObjectTypeName} Overview</a></li>
-					<li id="pageBuildings" class="menuItem buttonDiv" ><a href="game.php?page=buildings&objectID={$currentObject}">Buildings</a></li>
-					<li id="pageResearch" class="menuItem buttonDiv" ><a href="game.php?page=research&objectID={$currentObject}">Research</a></li>
-					<li id="pageFactory" class="menuItem buttonDiv" ><a href="game.php?page=shipyard&mode=fleet&objectID={$currentObject}">Orbital Factory</a></li>
-					<li id="pageFleet" class="menuItem buttonDiv" ><a href="game.php?page=fleetTable&objectID={$currentObject}">Fleet Commands</a></li>
-					
+					<li id="pageObjectOverview" class="menuItem buttonDiv" ><a href="game.php?page=objectoverview&objectID={$objectID}">{$objectTypeName} Overview</a></li>
+					<li id="pageBuildings" class="menuItem buttonDiv" ><a href="game.php?page=buildings&objectID={$objectID}">Buildings</a></li>
+					<li id="pageResearch" class="menuItem buttonDiv" ><a href="game.php?page=research&objectID={$objectID}">Research</a></li>
+					<li id="pageFactory" class="menuItem buttonDiv" ><a href="game.php?page=shipyard&mode=fleet&objectID={$objectID}">Orbital Factory</a></li>
+					<li id="pageFleet" class="menuItem buttonDiv" ><a href="game.php?page=fleetTable&objectID={$objectID}">Fleet Commands</a></li>
+
 					<img class="menuImage" src="http://placehold.it/200x30/fff&text=Game+Functions">
 					<li class="menuItem menuWindowItem buttonDiv"
 						id="winNotifications"
@@ -43,7 +43,7 @@
 						data-windowHref="game.php?page=notificationWindow">
 						<a>Notifications</a>
 					</li>
-					
+
 					<li class="menuItem menuWindowItem buttonDiv"
 						id="winMessages"
 						data-windowTitle="Messages"
@@ -52,10 +52,10 @@
 						data-windowHref="game.php?page=messages">
 						<a>Messages</a>
 					</li>
-					
+
 					<li id="pageAlliance" class="menuItem buttonDiv" ><a href="game.php?page=alliance">Alliance</a></li>
 					<li id="pageFriends" class="menuItem buttonDiv" ><a href="game.php?page=buddyList">Friends</a></li>
-					
+
 					<li class="menuItem menuWindowItem buttonDiv"
 						id="winSearch"
 						data-windowTitle="Player Search"
@@ -64,7 +64,7 @@
 						data-windowHref="game.php?page=search">
 						<a>Player Search</a>
 					</li>
-					
+
 					<li class="menuItem menuWindowItem buttonDiv"
 						id="winSupport"
 						data-windowTitle="Support"
@@ -73,7 +73,7 @@
 						data-windowHref="game.php?page=support">
 						<a>Support</a>
 					</li>
-					
+
 					<li class="menuItem menuWindowItem buttonDiv"
 						id="winNotices"
 						data-windowTitle="Notices"
@@ -82,11 +82,11 @@
 						data-windowHref="notices">
 						<a>Notices</a>
 					</li>
-					
+
 					<li id="pageRules" class="menuItem buttonDiv" ><a href="index.php?page=rules" target="rules">Rules</a></li>
 					<li id="pageSettings" class="menuItem buttonDiv" ><a href="game.php?page=settings">Setting</a></li>
 					<li class="menuItem buttonDiv" ><a href="game.php?page=logout">Logout</a></li>
-					
+
 					{if $isAdmin}
 						<li class="menuItem buttonDiv" id="funcClearGameCache">
 							<a href="javascript:clearCache();">Clear Game Cache</a>
@@ -99,7 +99,7 @@
 					<div class="cbr" style="background-color: transparent;"></div>
 				</div>
 			</div>
-			
+
 			<div id="gameTopContainer">
 				<div class="playerImage">
 					<img src="http://placehold.it/100x100&text=player+image">
@@ -125,11 +125,11 @@
 					</div>
 				</div>
 				<div id="objectListToggle" class="objectSelector buttonDiv">
-					{$currentObjectName} ({$currentObjectCoord})
+					{$objectName} ({$objectCoord})
 				</div>
 				<div class="timeBanner"></div>
 			</div>
-			
+
 			<div id="objectListContainer" style="display: none;">
 				<div class="objectListSearch"></div>
 				<div class="objectListHolder scrollable">
@@ -146,7 +146,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="gameMainContainer">
 				<div id="blankOut"></div>
 				<div id="messageBanner"></div>
@@ -167,14 +167,14 @@
 			</div>
 			{include file="main_footer.tpl" nocache}
 		</div>
-		
+
 		{include file="main_scripts.tpl" bodyclass="full"}
 		<script type="text/javascript">
-			var objectID = {$currentObject}; 
+			var objectID = {$objectID};
 			{if $isAdmin}
 				{literal}
 					function clearCache() {
-						$.post("ajaxRequest.php", 
+						$.post("ajaxRequest.php",
 							{"action" : "clearCache", "ajaxType": "DataLoader"},
 							function(data){
 								if(data.code < 0) {
@@ -210,7 +210,7 @@
 						}
 					}
 				}
-				
+
 				function dataUpdateReceiver(channel, payload) {
 					if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
 						if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "windows")) {
@@ -224,26 +224,26 @@
 						}
 					}
 				}
-				
+
 				(function($) {
 					//Handle window events
 					$.jStorage.subscribe("winManager", winMsgReceiver);
 					$.jStorage.subscribe("dataUpdater", dataUpdateReceiver);
-					
+
 					//Load Notifications
 					loadNotificationData();
-					
+
 					//Load menu
 					$("#gameMenu li.menuWindowItem").each(function() {
 						$(this).click(function() {
 							popupwindow($(this).attr("data-windowHref"), $(this).attr('id'), $(this).attr('data-windowWidth'), $(this).attr('data-windowHeight'));
 						});
 					});
-					
+
 					$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
-					
+
 					$.jStorage.publish("winManager", new Message("msgNewMain", null, ["all"], "main"));
-				
+
 					$("#objectListToggle").on("click", function(event){
 						if($("#objectListContainer").hasClass("open")) {
 							hideObjectList();
@@ -252,28 +252,28 @@
 						}
 						event.stopPropagation();
 					});
-					
-					$(document).click(function(event) { 
+
+					$(document).click(function(event) {
 					    if($(event.target).parents().index($('#objectListContainer')) == -1) {
 					        hideObjectList();
-					    }        
+					    }
 					});
-					
+
 					$(window).unload(function() {
 						$.jStorage.publish("winManager", new Message("msgCloseMain", null, ["all"], "main"));
 					});
 				})(jQuery);
-				
+
 				$(window).load(function() {
 					$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
 				});
-				
+
 				function showObjectList() {
 					$("#objectListContainer").addClass('open');
 					$("#objectListContainer").show();
-					
+
 					$("#objectList").text("Loading Data...");
-					$.post("ajaxRequest.php", 
+					$.post("ajaxRequest.php",
 						{"action" : "getObjectList", "ajaxType": "ObjectHandler"},
 						function(data){
 							if(data.code < 0) {
@@ -294,33 +294,33 @@
 										"storageColor" : (data[i].usedStorage >= data[i].objStorage) ? "red" : ""
 									}));
 								}
-								
-								
+
+
 								$(".objectListItem").on("click", function() {
 									document.location = document.location.origin
-										+ document.location.pathname 
+										+ document.location.pathname
 										{/literal}
 										+ "?page={$page}"
 										{literal}
 										+"&objectID=" + $(this).attr("data-objectID");
 								});
-								
+
 								$(".scrollable").tinyscrollbar_update();
 								$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
 							}
 						},
 						"json"
 					).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
-					
+
 				}
-				
+
 				function hideObjectList() {
 					$("#objectListContainer").removeClass('open');
 					$("#objectListContainer").hide();
 				}
-				
+
 				function loadNotificationData() {
-					$.post("ajaxRequest.php", 
+					$.post("ajaxRequest.php",
 						{"ajaxType": "MessageHandler", "action" : "getNotifications"},
 						function(data){
 							if(data.code < 0) {
@@ -328,14 +328,14 @@
 							} else {
 								$.jStorage.publish("dataUpdater", new Message("msgUpdateNotifications", {"notificationData" : data}, ["all"], window.name));
 							}
-						}, 
+						},
 						"json"
 					).fail(function() { $(".msgHolder").text("An error occurred while getting data"); });
 				}
-				
+
 				function loadNotifications(data) {
 					$("#gameTopContainer .notifications").html("");
-					
+
 					var notifications = false;
 					for (var i in data) {
 						if(i == "code") {
@@ -343,7 +343,7 @@
 						}
 						notifications = true;
 						var dateStr = formatTime(new Date(data[i].messageTime * 1000));
-						
+
 						var color = "";
 						switch(data[i].messageText.msgType) {
 							case "ERROR": 	color = "red-over"; break;
@@ -354,7 +354,7 @@
 							default:
 								color = "blue-over";
 						}
-						
+
 						var itemDiv = $('<div></div>')
 						    .addClass("item")
 						    .addClass(color)
@@ -363,9 +363,9 @@
 						;
 						$("#gameTopContainer .notifications").append(itemDiv);
 					}
-					
+
 					if(!notifications) {
-						$("#gameTopContainer .notifications").html("No Notifications");	
+						$("#gameTopContainer .notifications").html("No Notifications");
 					}
 				}
 			{/literal}

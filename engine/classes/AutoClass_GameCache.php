@@ -21,22 +21,23 @@ class GameCache {
 				return $GLOBALS["GameCache"][$varName];
 			} else {
 				return self::load($varName);
-			}	
+			}
 		}
 	}
 
 	/**
 	 * @param string $varName
+	 * @param string $loader
 	 * @return mixed
 	 * @throws Exception
 	 */
-	private static function load($varName) {
+	private static function load($varName, $loader = "loadGameResource") {
 		try {
 			$varClass = 'CachedResource_' . ucwords($varName);
 			$classSrc = ROOT_PATH . 'engine/classes/GameCache/'.$varClass.'.php';
 			require_once($classSrc);
 
-			$GLOBALS["GameCache"][$varName] = $varClass::loadGameResource();
+			$GLOBALS["GameCache"][$varName] = $varClass::$loader();
 			apc_store('CachedResource', TIMESTAMP);
 			return $GLOBALS["GameCache"][$varName];
 		} catch (Exception $e) {
@@ -58,7 +59,7 @@ class GameCache {
 	public static function getCacheTime() {
 		return apc_fetch('CachedResource');
 	}
-	
+
 	//If null, delete all
 	/**
 	 * @param null|mixed $toDelete
@@ -68,6 +69,6 @@ class GameCache {
 		if(is_null($toDelete)) {
 			$toDelete = new APCIterator('user', '/^CachedResource/', APC_ITER_VALUE);
 		}
-		return apc_delete($toDelete); 
+		return apc_delete($toDelete);
 	}
 }

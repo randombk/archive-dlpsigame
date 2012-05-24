@@ -40,25 +40,46 @@ abstract class GameAbstractPage {
 		$this->window = $window;
 	}
 
-	protected function getNavData() {		
+	/**
+	 * @return UniCoord
+	 */
+	protected function getPlayerCurrentObject() {
 		if(!isset($_SESSION['CurrentPlanet'])) {
 			$key = array_rand($_SESSION['OBJECTS']);
 			$_SESSION['CurrentPlanet'] = $_SESSION['OBJECTS'][$key];
 		}
 
-		/* @var $curPlanet UniCoord */
-		$curPlanet = $_SESSION['CurrentPlanet'];
+		return $_SESSION['CurrentPlanet'];
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function updatePlayerCurrentObject() {
+		$objectID = HTTP::REQ("objectID", 0);
+
+		if($objectID == 0 || !isset($_SESSION['OBJECTS'][$objectID])) {
+			GameErrorPage::printError("Invalid object");
+		} else {
+			$_SESSION['CurrentPlanet'] = $_SESSION['OBJECTS'][$objectID];
+			return $objectID;
+		}
+		return 0;
+	}
+
+	protected function getNavData() {
+		$curPlanet = $this->getPlayerCurrentObject();
 
 		$this->templateObj->assign_vars(array(
-			 'currentObject'		=> $curPlanet->getObjectID(),
-			 'currentObjectGalaxy'	=> $curPlanet->getGalaxy(),
-			 'currentObjectSector'	=> $curPlanet->getSector(),
-			 'currentObjectStar'	=> $curPlanet->getStar(),
-			 'currentObjectObject'	=> $curPlanet->getObject(),
-			 'currentObjectName'	=> $curPlanet->getName(),
-			 'currentObjectImage'	=> $curPlanet->getImageID(),
-			 'currentObjectTypeName'=> $curPlanet->getTypeName(),
-			 'currentObjectCoord'	=> $curPlanet->getCoordString()
+			'objectID'		=> $curPlanet->getObjectID(),
+			'objectGalaxy'	=> $curPlanet->getGalaxy(),
+			'objectSector'	=> $curPlanet->getSector(),
+			'objectStar'	=> $curPlanet->getStar(),
+			'objectIndex'	=> $curPlanet->getObject(),
+			'objectName'	=> $curPlanet->getName(),
+			'objectImage'	=> $curPlanet->getImageID(),
+			'objectTypeName'=> $curPlanet->getTypeName(),
+			'objectCoord'	=> $curPlanet->getCoordString()
 		));
 	}
 

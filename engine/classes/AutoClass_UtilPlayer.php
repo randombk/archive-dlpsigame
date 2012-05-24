@@ -51,23 +51,23 @@ class UtilPlayer {
 			    "joinDate" => TIMESTAMP,
 			    "joinIP" => $_SERVER['REMOTE_ADDR']
 			),
-			true	
+			true
 		);
-		
+
 		if(!isset($playerID) || $playerID === null) {
 			//ERROR
 			return "An Unknown error occurred!";
 		}
-		
+
 		$verifyURL = HTTP_PATH . "index.php?page=verify&i=" . $playerID . "&k=" . $validationKey;
 		$MailContent = "Hello $playerName: \n Activation message for {$GLOBALS['_GAME_NAME']}: \nTODO: ---message--- \n $verifyURL";
-		
+
 		try {
 			MailWrapper::send($mailAddress, $playerName, sprintf('Activation of registration on the game: %s', $GLOBALS['_GAME_NAME']), $MailContent);
 		} catch (Exception $e) {
 			return sprintf("Error: %s", $e->getMessage());
 		}
-		
+
 		return true;
 	}
 
@@ -77,30 +77,30 @@ class UtilPlayer {
 	 * @return array
 	 */
 	static function activatePlayer($playerID, $playerData) {
-		
+
 		//TODO: Error handling
 		//Give player a new planet
 		$newPlanetID = UtilObject::createPlanet(UtilObject::getFreeObjectCoord(1, 1, "Colony"), $playerID);
-		
+
 		//Give player some resources
 		$item = new DataItem();
 		$item->setItem("iron", 5000);
 		$item->setItem("kryptonite", 5000);
-		
+
 		UtilObject::setObjectResDataUsingID($newPlanetID, $item->getItemArray(), false);
-		
+
 		self::setPlayerResearchData(array(), $playerID);
-		
+
 		//PENDING: referrals
 		//PENDING: external authentication
 		DBMySQL::update(tblPLAYERS, array("validationKey" => "", "last_update" => TIMESTAMP), "playerID = :playerID", array(":playerID" => $playerID));
-		
+
 		$subject = 'Welcome';
 		$message = 'TODO: Welcome Message';
-		
+
 		Message::sendMessage($playerID, 1, "System", 1, $subject, $message, time());
 		Message::sendNotification($playerID, "Welcome", "Welcome to " . $GLOBALS['_GAME_NAME'], "OK", "", "game.php", TIMESTAMP);
-		
+
 		return array(
 			 'playerID' => $playerID,
 			 'playerName' => $playerData['playerName'],
@@ -118,7 +118,7 @@ class UtilPlayer {
 			array(":playerID", $playerID),
 			"allianceID"
 		);
-		
+
 		if (!empty($ownedAlliance)) {
 			//TODO: Handle alliance ownership after player deletion
 		}
@@ -134,18 +134,23 @@ class UtilPlayer {
 		if(is_null($playerID)) {
 			$playerID = $_SESSION['playerID'];
 		}
-		
+
 		$objects = DBMySQL::select(
 			tblUNI_OBJECTS,
 			"ownerID = :playerID",
 			array(":playerID" => $playerID),
 			"objectID, objectName, objectType, objectIndex, starID, objectImageID"
 		);
-		
+
 		$return = array();
 		foreach($objects as $object) {
 			$return[$object['objectID']] = UniCoord::fromData($object);
 		}
+
+		if($playerID == $_SESSION['playerID']) {
+			$_SESSION['OBJECTS'] = $return;
+		}
+
 		return $return;
 	}
 
@@ -158,7 +163,7 @@ class UtilPlayer {
 		if(is_null($playerID)) {
 			$playerID = $_SESSION['playerID'];
 		}
-		
+
 		return DBMongo::setResearch("playerResearch_".$playerID, $researchData);
 	}
 
@@ -170,7 +175,7 @@ class UtilPlayer {
 		if(is_null($playerID)) {
 			$playerID = $_SESSION['playerID'];
 		}
-		
+
 		$data = DataResearch::fromResearchArray(DBMongo::getResearch("playerResearch_".$playerID));
 		return $data;
 	}
@@ -196,7 +201,7 @@ class UtilPlayer {
 		if(is_null($playerID)) {
 			$playerID = $_SESSION['playerID'];
 		}
-		
+
 		$data = DataPlayer::fromDataArray(DBMongo::getPlayer("playerData_".$playerID));
 		return $data;
 	}
