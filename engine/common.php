@@ -34,6 +34,7 @@ spl_autoload_register('loadClass');
 
 require(ROOT_PATH . 'engine/constants.php');
 require(ROOT_PATH . 'engine/config.php');
+require(ROOT_PATH . 'engine/buildversion.php');
 require(ROOT_PATH . 'engine/dbtables.php');
 
 ignore_user_abort(true);

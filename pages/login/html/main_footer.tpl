@@ -1,9 +1,9 @@
 <footer>
 	(C) Copyright 2012 David J. W. Li
 	<br>
-	UNDER DEVELOPMENT - VERSION {$VERSION}
+	UNDER DEVELOPMENT - VERSION {$VERSION}.{$BUILD}
 	<br>
-	BUILD {$BUILDID}
+	BUILD {$BUILD} ({$BUILDTIME})
 </footer>
 <script id="ga" type="text/javascript">
 	//GOOGLE ANALYTICS
@@ -18,5 +18,5 @@
 		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(ga, s);
-	})(); 
+	})();
 </script>

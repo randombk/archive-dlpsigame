@@ -1,0 +1,10 @@
+<?
+/*
+ * (C) Copyright 2012 David J. W. Li
+ * Project DLPSIGAME
+ */
+
+
+//AUTO-GENERATED FILE - DO NOT EDIT
+$GLOBALS['_GAME_BUILD']=230;
+$GLOBALS['_GAME_BUILD_TIME']=1377632870;

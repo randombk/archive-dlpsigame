@@ -43,39 +43,39 @@
 			$("#gameMenu").ready(function() {
 				$("#gameMenu #pageBuildings").addClass("active");
 			});
-			
+
 			//Load tabs
 			$("#tabContainer").ready(function() {
 				var active, content, links = $(this).find('#tabs span');
-				
+
 				active = $(links[0]).addClass('active');
 				content = $("#tabContainer #" + active.attr('data-tab'));
-		
+
 				links.not(active).each(function() {
 					$("#tabContent #" + $(this).attr('data-tab')).hide();
 				});
-	
+
 				links.each(function(index) {
 					$(this).click(function(e) {
 						e.preventDefault();
 						active.removeClass('active');
 						content.hide();
-				
+
 						active = $(this).addClass('active');
 						content = $("#tabContent #" + $(this).attr('data-tab')).show();
 					});
 				});
 			});
-			
+
 			//Load building data
 			(function($) {
-				$(document).on('gameDataLoaded', function() {					
+				$(document).on('gameDataLoaded', function() {
 					loadData();
 				});
-			})(jQuery); 
-			
+			})(jQuery);
+
 			function loadData() {
-				$.post("ajaxRequest.php", 
+				$.post("ajaxRequest.php",
 					{"action" : "getBuildings", "ajaxType": "BuildingHandler", "objectID": objectID},
 					function(data){
 						if(data.code < 0) {
@@ -83,11 +83,11 @@
 						} else {
 							$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.items}, ["all"], window.name));
 							parseItemData(data.items);
-											
+
 							//Load building queue
 							$("#buildingQueue").html("");
 							var templateBuildingQueue = Handlebars.templates['buildingQueueItem.tmpl'];
-							
+
 							if(typeof data.buildQueue[0] !== 'undefined') {
 								var uid = data.buildQueue[0].id;
 								$("#buildingQueue").append(templateBuildingQueue({
@@ -98,7 +98,7 @@
 									endTime: data.buildQueue[0].endTime,
 									id: uid
 								}));
-								
+
 								$("#" + uid).progressbar({
 					      			value: 1,
 					      			max: data.buildQueue[0].endTime - data.buildQueue[0].startTime,
@@ -113,7 +113,7 @@
 					        			$("#text-" + uid).text( "Complete!" );
 					      			}
 					    		});
-							
+
 								for(var i = 1; i < data.buildQueue.length; i++) {
 									$("#buildingQueue").append(
 										templateBuildingQueue({
@@ -124,12 +124,12 @@
 										})
 									);
 								}
-								
+
 								//Load buttons
 								$(".buildingQueueCancel").on("click", function(){
 									var queueID = $(this).attr("data-id");
 									$.post(
-										"ajaxRequest.php", 
+										"ajaxRequest.php",
 										{"action" : "cancelBuildingQueueItem", "ajaxType": "BuildingHandler", "objectID": objectID, "queueItemID": queueID},
 										function(data){
 											loadNotificationData();
@@ -141,10 +141,10 @@
 									).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 								});
 							}
-							
+
 							//Load data
 							var buildPageInfo = {};
-							
+
 							//Load popssible buildings first
 							for(var key in data.canBuild) {
 								var obj = data.canBuild[key];
@@ -152,24 +152,24 @@
 							   		buildPageInfo[key] = dbBuildData[key];
 							   		buildPageInfo[key].curLevel = 0;
 								}
-								
+
 								buildPageInfo[key].nextLevel = obj.nextLevel;
 								buildPageInfo[key].nextDestroyLevel = obj.nextLevel - 1;
 								buildPageInfo[key].nextResReq = obj.nextResReq;
-								
+
 								buildPageInfo[key].nextResConsumption = obj.nextResConsumption;
 								if(!isEmpty(buildPageInfo[key].nextResConsumption))
 									buildPageInfo[key].showConsumption = true;
-								
+
 								buildPageInfo[key].nextResProduction = obj.nextResProduction;
 								if(!isEmpty(buildPageInfo[key].nextResProduction))
 									buildPageInfo[key].showProduction = true;
-								
+
 								if(buildPageInfo[key].showProduction && buildPageInfo[key].showConsumption) {
 									buildPageInfo[key].showNetChange = true;
 									buildPageInfo[key].nextResChange = mergeItemDataClone(buildPageInfo[key].nextResProduction, buildPageInfo[key].nextResConsumption, "-");
 								}
-								
+
 								/*
 								buildPageInfo[key].nextResearch = getBuildingBaseResearch(key, obj.nextLevel);
 								if(buildPageInfo[key].nextResearch) {
@@ -185,37 +185,37 @@
 										buildPageInfo[key].showFleetResearch = true;
 								}
 								*/
-								
+
 								buildPageInfo[key].nextModifiers = obj.nextModifiers;
 								if(buildPageInfo[key].nextModifiers)
 									buildPageInfo[key].showModifiers = true;
-								
+
 								buildPageInfo[key].upgradeTime = niceETA(moment.duration(obj.upgradeTime, 'seconds'));
 							}
-	
+
 							for(var key in data.buildings) {
 								var obj = data.buildings[key];
 								if(!(key in buildPageInfo)) {
 							   		buildPageInfo[key] = dbBuildData[key];
 								}
-								
+
 								buildPageInfo[key].curLevel = obj.level;
 							   	if(!buildPageInfo[key].nextDestroyLevel && obj.level)
 							   		buildPageInfo[key].nextDestroyLevel = obj.level;
-								
+
 								buildPageInfo[key].curResConsumption = obj.curResConsumption;
 								if(!isEmpty(buildPageInfo[key].curResConsumption))
 									buildPageInfo[key].showConsumption = true;
-							
+
 								buildPageInfo[key].curResProduction = obj.curResProduction;
 							   	if(!isEmpty(buildPageInfo[key].curResProduction))
 									buildPageInfo[key].showProduction = true;
-							    
+
 							    if(buildPageInfo[key].showProduction && buildPageInfo[key].showConsumption) {
 									buildPageInfo[key].showNetChange = true;
 									buildPageInfo[key].curResChange = mergeItemDataClone(buildPageInfo[key].curResProduction, buildPageInfo[key].curResConsumption, "-");
 								}
-								
+
 							    /*
 							    buildPageInfo[key].curResearch = getBuildingBaseResearch(key, obj.nextLevel);
 								if(buildPageInfo[key].curResearch) {
@@ -231,12 +231,12 @@
 										buildPageInfo[key].showFleetResearch = true;
 								}
 								*/
-							    
+
 							    buildPageInfo[key].curModifiers = obj.curModifiers;
 								if(buildPageInfo[key].curModifiers)
 									buildPageInfo[key].showModifiers = true;
 							}
-							
+
 							//Load interface
 							$('#resource').html("");
 							$('#rnd').html("");
@@ -248,17 +248,17 @@
 								var html = $(templateBuildingBox(building));
 								$("#" + building.buildType).append(html);
 							}
-							
+
 							//Load buttons
 							$(".buildingUpgrade").on("click", function(){
 								var buildingID = $(this).attr("data-buildingID");
 								var buildingLevel = $(this).attr("data-buildingLevel");
-								
+
 								if(!isset(buildingLevel)) {
 									return;
 								}
-								
-								$.post("ajaxRequest.php", 
+
+								$.post("ajaxRequest.php",
 									{"action" : "buildBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
 									function(data){
 										loadNotificationData();
@@ -271,12 +271,12 @@
 									.fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); })
 									.always(function() {  });
 							});
-							
+
 							$(".buildingDestroy").on("click", function(){
 								var buildingID = $(this).attr("data-buildingID");
 								var buildingLevel = $(this).attr("data-buildingLevel");
 								doConfirm("Are you sure you want to destroy this building?", function() {
-									$.post("ajaxRequest.php", 
+									$.post("ajaxRequest.php",
 										{"action" : "destroyBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
 										function(data){
 											loadNotificationData();
@@ -290,12 +290,12 @@
 										.always(function() {  });
 								}, function(){});
 							});
-							
+
 							$(".buildingRecycle").on("click", function(){
 								var buildingID = $(this).attr("data-buildingID");
 								var buildingLevel = $(this).attr("data-buildingLevel");
 								doConfirm("Are you sure you want to recycle this building?", function() {
-									$.post("ajaxRequest.php", 
+									$.post("ajaxRequest.php",
 										{"action" : "recycleBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
 										function(data){
 											loadNotificationData();
@@ -309,7 +309,7 @@
 										.always(function() {  });
 								}, function(){});
 							});
-							
+
 							//Load info links
 							var templateBuildingInfo = Handlebars.templates['buildingInfo.tmpl'];
 							$(".buildingInfo").each(function() {
@@ -327,10 +327,10 @@
 									}
 								);
 							});
-							
+
 							loadHovers({items: data.items});
 						}
-					}, 
+					},
 					"json"
 				)
 				.fail(function() { $("#tabContainer").text("An error occurred while getting data"); })

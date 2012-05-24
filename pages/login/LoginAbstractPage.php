@@ -70,7 +70,8 @@ abstract class LoginAbstractPage {
 			'recaptchaPublicKey' => $GLOBALS['_RECAPTCHA_PUBKEY'],
 			'gameName' => $GLOBALS['_GAME_NAME'],
 			'VERSION' => $GLOBALS['_GAME_VERSION'],
-			'BUILDID' => date(DATE_ATOM)
+			'BUILD' => $GLOBALS['_GAME_BUILD'],
+			'BUILDTIME' => date(DATE_ATOM, $GLOBALS['_GAME_BUILD_TIME'])
 		));
 	}
 
