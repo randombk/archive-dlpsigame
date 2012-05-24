@@ -9,7 +9,7 @@
  */
 class HTTP {
 	/**
-	 * @param $URL
+	 * @param string $URL
 	 * @param bool $external
 	 */
 	static public function redirectTo($URL, $external = false) {
@@ -22,7 +22,7 @@ class HTTP {
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @param null $value
 	 */
 	static public function sendHeader($name, $value = NULL) {
@@ -30,10 +30,10 @@ class HTTP {
 	}
 
 	/**
-	 * @param $name
-	 * @param $default
+	 * @param string $name
+	 * @param mixed $default
 	 * @param bool $multibyte
-	 * @return array|float|int|mixed|string
+	 * @return mixed
 	 */
 	static public function REQ($name, $default, $multibyte = false) {
 		if (!isset($_REQUEST[$name])) {

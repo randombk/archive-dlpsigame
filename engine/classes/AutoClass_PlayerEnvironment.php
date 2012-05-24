@@ -22,6 +22,9 @@ class PlayerEnvironment {
 	 */
 	public $objects = array();
 
+	/**
+	 * @var array
+	 */
 	public $envStars = array();
 
 	/**
@@ -38,11 +41,14 @@ class PlayerEnvironment {
 	 * @var DataPlayer
 	 */
 	public $envPlayerData = null;
-	
+
+	/**
+	 * @var array
+	 */
 	public $researchProduction = null;
 
 	/**
-	 * @param $playerID
+	 * @param int $playerID
 	 * @return PlayerEnvironment
 	 * @throws Exception
 	 */

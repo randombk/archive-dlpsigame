@@ -5,7 +5,7 @@
  */
 
 /**
- * @param $str
+ * @param string $str
  * @return string
  */
 function strictString($str) {
@@ -20,7 +20,7 @@ function strictString($str) {
 }
 
 /**
- * @param $class_name
+ * @param string $class_name
  */
 function loadClass($class_name) {
    $classFile =  ROOT_PATH . 'engine/classes/AutoClass_' . $class_name . '.php';

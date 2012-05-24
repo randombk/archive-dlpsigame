@@ -14,7 +14,7 @@ abstract class AjaxRequest {
 	function __construct() {	}
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 * @param int $code
 	 */
 	protected function sendJSON($data, $code = 0) {
@@ -32,7 +32,7 @@ abstract class AjaxRequest {
 	}
 
 	/**
-	 * @param $str
+	 * @param string $str
 	 */
 	protected function sendJSONStr($str) {
 		echo $str;

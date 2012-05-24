@@ -10,7 +10,7 @@ class DataBuilding {
 	private $buildingArray = array();
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return int
 	 */
 	public function getValue($key) {
@@ -22,7 +22,7 @@ class DataBuilding {
 	}
 
 	/**
-	 * @param $buildingName
+	 * @param string $buildingName
 	 * @return int
 	 */
 	public function getBuildingLevel($buildingName) {
@@ -34,7 +34,7 @@ class DataBuilding {
 	}
 
 	/**
-	 * @param $buildingName
+	 * @param string $buildingName
 	 * @return int
 	 */
 	public function getBuildingActivity($buildingName) {
@@ -46,8 +46,8 @@ class DataBuilding {
 	}
 
 	/**
-	 * @param $buildingName
-	 * @param $buildingLevel
+	 * @param string $buildingName
+	 * @param int $buildingLevel
 	 */
 	public function setBuildingLevel($buildingName, $buildingLevel) {
 		if($buildingLevel == 0){
@@ -62,8 +62,8 @@ class DataBuilding {
 	}
 
 	/**
-	 * @param $buildingName
-	 * @param $activity
+	 * @param string $buildingName
+	 * @param int $activity
 	 */
 	public function setBuildingActivity($buildingName, $activity) {
 		if(isset($this->buildingArray[$buildingName])){
@@ -97,7 +97,7 @@ class DataBuilding {
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 */
 	public function setBuildingArray($data) {
 		if($data != null) {
@@ -108,7 +108,7 @@ class DataBuilding {
 	}
 
 	/**
-	 * @param $buildingString
+	 * @param string $buildingString
 	 */
 	public function setBuildingString($buildingString) {
 		$this->buildingArray = json_decode($buildingString, true);
@@ -116,7 +116,7 @@ class DataBuilding {
 	
 	//Constructors
 	/**
-	 * @param $data
+	 * @param array $data
 	 * @return DataBuilding
 	 */
 	public static function fromBuildingArray($data) {
@@ -126,7 +126,7 @@ class DataBuilding {
 	}
 
 	/**
-	 * @param $buildingString
+	 * @param string $buildingString
 	 * @return DataBuilding
 	 */
 	public static function fromBuildingString($buildingString) {

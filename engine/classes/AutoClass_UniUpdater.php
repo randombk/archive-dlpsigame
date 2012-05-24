@@ -10,9 +10,9 @@
 class UniUpdater
 {
 	/**
-	 * @param $playerID
+	 * @param int $playerID
 	 * @param int $updateTo
-	 * @return PlayerEnvironment|null
+	 * @return PlayerEnvironment
 	 * @throws Exception
 	 */
 	public static function updatePlayer($playerID, $updateTo = TIMESTAMP)
@@ -44,8 +44,8 @@ class UniUpdater
 	}
 
 	/**
-	 * @param $playerEnv
-	 * @param $time
+	 * @param PlayerEnvironment $playerEnv
+	 * @param int $time
 	 */
 	public static function updatePlayerItems($playerEnv, $time)
 	{
@@ -76,7 +76,7 @@ class UniUpdater
 	}
 
 	/**
-	 * @param $env
+	 * @param PlayerEnvironment $env
 	 * @return array
 	 */
 	public static function getNextUpdatePoint($env)

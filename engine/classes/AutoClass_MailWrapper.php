@@ -10,10 +10,10 @@
 class MailWrapper {
 
 	/**
-	 * @param $MailTarget
-	 * @param $MailTargetName
-	 * @param $MailSubject
-	 * @param $MailContent
+	 * @param string $MailTarget
+	 * @param string $MailTargetName
+	 * @param string $MailSubject
+	 * @param string $MailContent
 	 */
 	static function send($MailTarget, $MailTargetName, $MailSubject, $MailContent) {
 		$transport = self::getSwiftTransport();
@@ -32,9 +32,9 @@ class MailWrapper {
 	}
 
 	/**
-	 * @param $MailTargets
-	 * @param $MailSubject
-	 * @param null $MailContent
+	 * @param string $MailTargets
+	 * @param string $MailSubject
+	 * @param string $MailContent
 	 */
 	static function multiSend($MailTargets, $MailSubject, $MailContent = NULL) {
 		$transport = self::getSwiftTransport();

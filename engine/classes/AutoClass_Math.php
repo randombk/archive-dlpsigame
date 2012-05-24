@@ -9,8 +9,8 @@
  */
 class Math {
 	/**
-	 * @param $min
-	 * @param $max
+	 * @param float $min
+	 * @param float $max
 	 * @return mixed
 	 */
 	static function mt_randf($min, $max) {
@@ -18,8 +18,8 @@ class Math {
 	}
 
 	/**
-	 * @param $rolls
-	 * @param $die
+	 * @param int $rolls
+	 * @param int $die
 	 * @return int
 	 */
 	static function nDn($rolls, $die) {
@@ -31,9 +31,9 @@ class Math {
 	}
 
 	/**
-	 * @param $rolls
-	 * @param $die
-	 * @return int
+	 * @param int $rolls
+	 * @param float $die
+	 * @return float
 	 */
 	static function nDnf($rolls, $die) {
 		$total = 0;

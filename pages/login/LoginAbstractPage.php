@@ -59,7 +59,7 @@ abstract class LoginAbstractPage {
 	}
 
 	/**
-	 * @param $window
+	 * @param string $window
 	 */
 	protected function setPageType($window) {
 		$this->window = $window;
@@ -75,7 +75,7 @@ abstract class LoginAbstractPage {
 	}
 
 	/**
-	 * @param $message
+	 * @param string $message
 	 */
 	protected function showMessage($message) {
 		$this->assign(array(
@@ -85,14 +85,14 @@ abstract class LoginAbstractPage {
 	}
 
 	/**
-	 * @param $array
+	 * @param array $array
 	 */
 	protected function assign($array) {
 		$this->templateObj->assign_vars($array);
 	}
 
 	/**
-	 * @param $file
+	 * @param string $file
 	 */
 	protected function render($file) {
 		$this->getPageVars();

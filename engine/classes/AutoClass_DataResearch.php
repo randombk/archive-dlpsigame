@@ -10,7 +10,7 @@ class DataResearch {
 	private $researchArray = array();
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return int
 	 */
 	public function getValue($key) {
@@ -22,7 +22,7 @@ class DataResearch {
 	}
 
 	/**
-	 * @param $researchID
+	 * @param string $researchID
 	 * @return int
 	 */
 	public function getResearchLevel($researchID) {
@@ -34,7 +34,7 @@ class DataResearch {
 	}
 
 	/**
-	 * @param $researchID
+	 * @param string $researchID
 	 * @return int
 	 */
 	public function getResearchPoints($researchID) {
@@ -46,8 +46,8 @@ class DataResearch {
 	}
 
 	/**
-	 * @param $researchID
-	 * @param $researchLevel
+	 * @param string $researchID
+	 * @param int $researchLevel
 	 */
 	public function setResearchLevel($researchID, $researchLevel) {
 		if($researchLevel == 0){
@@ -58,8 +58,8 @@ class DataResearch {
 	}
 
 	/**
-	 * @param $researchID
-	 * @param $researchPoints
+	 * @param string $researchID
+	 * @param int $researchPoints
 	 */
 	public function setResearchPoints($researchID, $researchPoints) {
 		if(isset($this->researchArray[$researchID])) {
@@ -87,7 +87,7 @@ class DataResearch {
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 */
 	public function setResearchArray($data) {
 		if($data != null) {
@@ -98,7 +98,7 @@ class DataResearch {
 	}
 
 	/**
-	 * @param $researchString
+	 * @param string $researchString
 	 */
 	public function setResearchString($researchString) {
 		$this->researchArray = json_decode($researchString, true);
@@ -106,17 +106,18 @@ class DataResearch {
 	
 	//Constructors
 	/**
-	 * @param $data
+	 * @param array $data
 	 * @return DataResearch
 	 */
 	public static function fromResearchArray($data) {
 		$instance = new self();
 		$instance->setResearchArray($data);
+
 		return $instance;
 	}
 
 	/**
-	 * @param $researchString
+	 * @param string $researchString
 	 * @return DataResearch
 	 */
 	public static function fromResearchString($researchString) {

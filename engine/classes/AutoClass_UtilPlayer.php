@@ -9,7 +9,7 @@
  */
 class UtilPlayer {
 	/**
-	 * @param $password
+	 * @param string $password
 	 * @return string
 	 */
 	static function cryptPassword($password) {
@@ -18,7 +18,7 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return int
 	 */
 	static function isPlayerNameValid($name) {
@@ -26,7 +26,7 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param $address
+	 * @param string $address
 	 * @return bool
 	 */
 	static function isPlayerEmailValid($address) {
@@ -34,9 +34,9 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param $playerName
-	 * @param $password
-	 * @param $mailAddress
+	 * @param string $playerName
+	 * @param string $password
+	 * @param string $mailAddress
 	 * @return bool|string
 	 */
 	static function createPlayer($playerName, $password, $mailAddress) {
@@ -72,8 +72,8 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param $playerID
-	 * @param $playerData
+	 * @param int $playerID
+	 * @param array $playerData
 	 * @return array
 	 */
 	static function activatePlayer($playerID, $playerData) {
@@ -108,7 +108,7 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param $playerID
+	 * @param int $playerID
 	 * @return mixed
 	 */
 	static function deletePlayer($playerID) {
@@ -127,7 +127,7 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param null $playerID
+	 * @param int|null $playerID
 	 * @return UniCoord[]
 	 */
 	static function getPlayerObjects($playerID = null) {
@@ -150,8 +150,8 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param $researchData
-	 * @param null $playerID
+	 * @param array $researchData
+	 * @param int|null $playerID
 	 * @return mixed
 	 */
 	static function setPlayerResearchData($researchData, $playerID = null) {
@@ -163,7 +163,7 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param null $playerID
+	 * @param int|null $playerID
 	 * @return DataResearch
 	 */
 	static function getPlayerResearchData($playerID = null) {
@@ -176,8 +176,8 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param $playerData
-	 * @param null $playerID
+	 * @param array $playerData
+	 * @param int|null $playerID
 	 * @return mixed
 	 */
 	static function setPlayerData($playerData, $playerID = null) {
@@ -189,7 +189,7 @@ class UtilPlayer {
 	}
 
 	/**
-	 * @param null $playerID
+	 * @param int|null $playerID
 	 * @return DataPlayer
 	 */
 	static function getPlayerData($playerID = null) {

@@ -10,7 +10,7 @@ class DataPlayer {
 	private $dataArray = array();
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return bool
 	 */
 	public function getValue($key) {
@@ -22,8 +22,8 @@ class DataPlayer {
 	}
 
 	/**
-	 * @param $key
-	 * @param $data
+	 * @param string $key
+	 * @param mixed $data
 	 */
 	public function setValue($key, $data) {
 		if($data === false){
@@ -48,7 +48,7 @@ class DataPlayer {
 	}
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 */
 	public function setDataArray($data) {
 		if($data != null) {
@@ -59,7 +59,7 @@ class DataPlayer {
 	}
 
 	/**
-	 * @param $dataString
+	 * @param string $dataString
 	 */
 	public function setDataString($dataString) {
 		$this->dataArray = json_decode($dataString, true);
@@ -67,7 +67,7 @@ class DataPlayer {
 	
 	//Constructors
 	/**
-	 * @param $data
+	 * @param array $data
 	 * @return DataPlayer
 	 */
 	public static function fromDataArray($data) {
@@ -77,7 +77,7 @@ class DataPlayer {
 	}
 
 	/**
-	 * @param $dataString
+	 * @param string $dataString
 	 * @return DataPlayer
 	 */
 	public static function fromDataString($dataString) {

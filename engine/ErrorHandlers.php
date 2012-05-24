@@ -69,10 +69,10 @@ function base_interfaceException($exception) {
 }
 
 /**
- * @param $errno
- * @param $errstr
- * @param $errfile
- * @param $errline
+ * @param int $errno
+ * @param string $errstr
+ * @param string $errfile
+ * @param int $errline
  * @throws ErrorException
  */
 function base_interfaceError($errno, $errstr, $errfile, $errline) {
@@ -122,10 +122,10 @@ function base_ajaxException($exception) {
 }
 
 /**
- * @param $errno
- * @param $errstr
- * @param $errfile
- * @param $errline
+ * @param int $errno
+ * @param string $errstr
+ * @param string $errfile
+ * @param int $errline
  * @throws ErrorException
  */
 function base_ajaxError($errno, $errstr, $errfile, $errline) {

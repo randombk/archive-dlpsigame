@@ -184,7 +184,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 	}
 
 	/**
-	 * @param $objectEnv
+	 * @param ObjectEnvironment $objectEnv
 	 * @param bool $getActual
 	 * @return array
 	 */
@@ -210,7 +210,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 	
 	//Returns an array containing upgradable/buildable buildings
 	/**
-	 * @param $objectEnv
+	 * @param ObjectEnvironment $objectEnv
 	 * @return array
 	 */
 	static function getUpgradeList($objectEnv) {

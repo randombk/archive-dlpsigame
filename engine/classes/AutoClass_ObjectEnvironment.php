@@ -40,7 +40,7 @@ class ObjectEnvironment {
 	public $envObjectCoord = null;
 
 	/**
-	 *
+	 *  @var array
 	 */
 	public $envObjectData = null;
 
@@ -50,12 +50,12 @@ class ObjectEnvironment {
 	public $envPlayer = null;
 
 	/**
-	 * @param $objectID
-	 * @param $envPlayer
+	 * @param int $objectID
+	 * @param PlayerEnvironment $envPlayer
 	 * @return ObjectEnvironment
 	 * @throws Exception
 	 */
-	public static function fromObjectID($objectID, $envPlayer) {
+	public static function fromObjectID($objectID, $envPlayer = null) {
 		$stmt = DBMySQL::prepare("
 			SELECT 
 				objectID, 
@@ -139,6 +139,5 @@ class ObjectEnvironment {
 		UtilObject::setObjectResDataUsingID($this->objectID, $this->envItems->getItemArray());
 		UtilObject::setObjectBuildingDataUsingID($this->objectID, $this->envBuildings->getBuildingArray());
 		UtilObject::setObjectDataUsingID($this->objectID, $this->envObjectData);
-			
 	}
 }

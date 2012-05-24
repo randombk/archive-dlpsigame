@@ -10,7 +10,7 @@ class DataItem {
 	private $itemArray = array();
 
 	/**
-	 * @param $itemName
+	 * @param string $itemName
 	 * @return int
 	 */
 	public function getItem($itemName) {
@@ -22,8 +22,8 @@ class DataItem {
 	}
 
 	/**
-	 * @param $itemName
-	 * @param $itemAmount
+	 * @param string $itemName
+	 * @param int $itemAmount
 	 */
 	public function setItem($itemName, $itemAmount) {
 		if($itemAmount == 0){
@@ -59,7 +59,7 @@ class DataItem {
 	}
 
 	/**
-	 * @param $item
+	 * @param array $item
 	 */
 	public function setItemArray($item) {
 		if($item != null) {
@@ -70,7 +70,7 @@ class DataItem {
 	}
 
 	/**
-	 * @param $itemString
+	 * @param string $itemString
 	 */
 	public function setItemString($itemString) {
 		$this->itemArray = json_decode($itemString, true);
@@ -78,7 +78,7 @@ class DataItem {
 	
 	//Constructors
 	/**
-	 * @param $item
+	 * @param string $item
 	 * @return DataItem
 	 */
 	public static function fromItemArray($item) {
@@ -88,7 +88,7 @@ class DataItem {
 	}
 
 	/**
-	 * @param $itemString
+	 * @param string $itemString
 	 * @return DataItem
 	 */
 	public static function fromItemString($itemString) {
@@ -99,16 +99,16 @@ class DataItem {
 	
 	//Math Operators
 	/**
-	 * @param $itemName
-	 * @param $itemAmount
+	 * @param string $itemName
+	 * @param int $itemAmount
 	 */
 	public function addItem($itemName, $itemAmount) {
 		$this->setItem($itemName, $this->getItem($itemName) + $itemAmount);
 	}
 
 	/**
-	 * @param $item2
-	 * @return $this
+	 * @param DataItem $item2
+	 * @return DataItem
 	 */
 	public function sum($item2) {
 		if(is_object($item2))
@@ -121,8 +121,8 @@ class DataItem {
 	}
 
 	/**
-	 * @param $item2
-	 * @return $this
+	 * @param DataItem $item2
+	 * @return DataItem
 	 */
 	public function sub($item2) {
 		if(is_object($item2))
@@ -135,8 +135,8 @@ class DataItem {
 	}
 
 	/**
-	 * @param $factor
-	 * @return $this
+	 * @param float $factor
+	 * @return DataItem
 	 */
 	public function multiply($factor) {
 		foreach ($this->itemArray as $key => $value) {
@@ -146,9 +146,9 @@ class DataItem {
 	}
 
 	/**
-	 * @param $item1
-	 * @param $item2
-	 * @return DataItem|object
+	 * @param DataItem $item1
+	 * @param DataItem $item2
+	 * @return DataItem
 	 */
 	public static function sumRes($item1, $item2) {
 		if(is_object($item1))
@@ -166,9 +166,9 @@ class DataItem {
 	}
 
 	/**
-	 * @param $item1
-	 * @param $item2
-	 * @return DataItem|object
+	 * @param DataItem
+	 * @param DataItem
+	 * @return DataItem
 	 */
 	public static function diffRes($item1, $item2) {
 		if(is_object($item1))
@@ -186,8 +186,8 @@ class DataItem {
 	}
 
 	/**
-	 * @param $greater
-	 * @param $lesser
+	 * @param DataItem $greater
+	 * @param DataItem $lesser
 	 * @return bool
 	 */
 	public static function isContained($greater, $lesser) {
@@ -205,7 +205,7 @@ class DataItem {
 	}
 
 	/**
-	 * @param $lesser
+	 * @param DataItem $lesser
 	 * @return bool
 	 */
 	public function contains($lesser) {

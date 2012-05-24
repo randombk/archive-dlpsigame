@@ -11,7 +11,7 @@
 class CachedResource_RESEARCH {
 	/**
 	 * @param bool $returnPos
-	 * @return array|mixed
+	 * @return array
 	 */
 	public static function loadGameResource($returnPos = false) {
 		$string = file_get_contents(ROOT_PATH . 'engine/data/research.json');

@@ -27,8 +27,8 @@ class UniCoord {
 	
 	//Objects only
 	/**
-	 * @param $id
-	 * @return null|UniCoord
+	 * @param int $id
+	 * @return UniCoord
 	 */
 	public static function fromObjectID($id) {
 		$instance = new self();
@@ -40,8 +40,8 @@ class UniCoord {
 	
 	//Objects only
 	/**
-	 * @param $id
-	 * @return null|UniCoord
+	 * @param int $id
+	 * @return UniCoord
 	 */
 	public static function fromStarID($id) {
 		$instance = new self();
@@ -52,10 +52,10 @@ class UniCoord {
 	}
 
 	/**
-	 * @param $Galaxy
-	 * @param $Sector
-	 * @param $Star
-	 * @param $Object
+	 * @param int $Galaxy
+	 * @param int $Sector
+	 * @param int $Star
+	 * @param int $Object
 	 * @param int $Type
 	 * @param string $Name
 	 * @param int $ImageID
@@ -74,7 +74,7 @@ class UniCoord {
 	}
 
 	/**
-	 * @param $objectData
+	 * @param array $objectData
 	 * @return UniCoord
 	 */
 	public static function fromData($objectData) {
@@ -95,7 +95,7 @@ class UniCoord {
 	//if isStar is true, select implicit star object
 	//else select the object		
 	/**
-	 * @param $id
+	 * @param int $id
 	 * @param bool $isStar
 	 */
 	public function getObjectData($id, $isStar = false) {

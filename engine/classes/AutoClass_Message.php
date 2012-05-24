@@ -17,13 +17,13 @@ class Message
 	 * 
 	 * */
 	/**
-	 * @param $toID
-	 * @param $fromID
-	 * @param $senderName
-	 * @param $messageType
-	 * @param $subject
-	 * @param $text
-	 * @param $time
+	 * @param int $toID
+	 * @param int $fromID
+	 * @param string $senderName
+	 * @param int $messageType
+	 * @param string $subject
+	 * @param string $text
+	 * @param int $time
 	 * @return mixed
 	 */
 	static function sendMessage($toID, $fromID, $senderName, $messageType, $subject, $text, $time)
@@ -44,8 +44,8 @@ class Message
 	}
 
 	/**
-	 * @param $playerID
-	 * @param $messageType
+	 * @param int $playerID
+	 * @param int $messageType
 	 * @param int $shift
 	 * @param int $count
 	 * @return mixed
@@ -67,8 +67,8 @@ class Message
 	}
 
 	/**
-	 * @param $messageID
-	 * @param null $messageOwner
+	 * @param int $messageID
+	 * @param int $messageOwner
 	 * @return mixed
 	 */
 	static function getMessageText($messageID, $messageOwner = null)
@@ -96,8 +96,8 @@ class Message
 	}
 
 	/**
-	 * @param $messageID
-	 * @param null $messageOwner
+	 * @param int $messageID
+	 * @param int $messageOwner
 	 * @return mixed
 	 */
 	static function deleteMessage($messageID, $messageOwner = null)
@@ -121,13 +121,13 @@ class Message
 	}
 
 	/**
-	 * @param $toID
-	 * @param $oneLiner
-	 * @param $text
-	 * @param $type
-	 * @param $image
-	 * @param $action
-	 * @param $time
+	 * @param int $toID
+	 * @param string $oneLiner
+	 * @param int $text
+	 * @param int $type
+	 * @param string $image
+	 * @param string $action
+	 * @param int $time
 	 * @return mixed
 	 */
 	static function sendNotification($toID, $oneLiner, $text, $type, $image, $action, $time)
@@ -153,7 +153,7 @@ class Message
 	}
 
 	/**
-	 * @param $playerID
+	 * @param int $playerID
 	 * @param int $shift
 	 * @param int $count
 	 * @return mixed
@@ -179,7 +179,7 @@ class Message
 	}
 
 	/**
-	 * @param $playerID
+	 * @param int $playerID
 	 * @return mixed
 	 */
 	static function clearNotifications($playerID)

@@ -15,7 +15,7 @@ class DataMod {
 	public $weightPenalty = array();
 
 	/**
-	 * @param $modName
+	 * @param string $modName
 	 * @return int
 	 */
 	public function getMod($modName) {
@@ -34,7 +34,7 @@ class DataMod {
 	}
 
 	/**
-	 * @param $array
+	 * @param array $array
 	 */
 	public function mergeModifierArray($array) {
 		if(!isset($array) || $array == null) { return; }
@@ -46,7 +46,7 @@ class DataMod {
 	
 	//Constructors
 	/**
-	 * @param $objectEnv
+	 * @param ObjectEnvironment $objectEnv
 	 * @return DataMod
 	 */
 	public static function calculateObjectModifiers($objectEnv) {

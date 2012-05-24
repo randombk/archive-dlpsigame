@@ -16,7 +16,7 @@ class AjaxError extends AjaxRequest {
 	}
 
 	/**
-	 * @param $Message
+	 * @param string $Message
 	 * @param $code
 	 */
 	static function sendError($Message, $code = -1) {

@@ -12,7 +12,7 @@ class RDBMSWrapper extends PDO
 	public $error = "";
 
 	/**
-	 * @param $dsn
+	 * @param string $dsn
 	 * @param string $user
 	 * @param string $passwd
 	 */
@@ -38,7 +38,7 @@ class DBMySQL
 	public static $bind;
 
 	/**
-	 * @return null|RDBMSWrapper
+	 * @return RDBMSWrapper
 	 */
 	public static function getInstance()
 	{
@@ -49,8 +49,8 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $req
-	 * @param $array
+	 * @param PDOStatement $req
+	 * @param array $array
 	 * @param bool $typeArray
 	 */
 	public static function bindArrayValue($req, $array, $typeArray = false)
@@ -74,7 +74,7 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $statement
+	 * @param string $statement
 	 * @param array $driver_options
 	 * @return PDOStatement
 	 */
@@ -84,7 +84,7 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $statement
+	 * @param string $statement
 	 * @return int
 	 */
 	public static function exec($statement)
@@ -93,8 +93,8 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $table
-	 * @param $where
+	 * @param string $table
+	 * @param string $where
 	 * @param string $bind
 	 * @return array|bool|int
 	 */
@@ -105,7 +105,7 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $bind
+	 * @param array|string $bind
 	 * @return array
 	 */
 	public static function cleanup($bind)
@@ -120,8 +120,8 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $table
-	 * @param $info
+	 * @param string $table
+	 * @param array $info
 	 * @param bool $needID
 	 * @return array|bool|int|null|string
 	 */
@@ -143,7 +143,7 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $table
+	 * @param string $table
 	 * @param string $where
 	 * @param string $bind
 	 * @param string $fields
@@ -162,12 +162,12 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $table
+	 * @param string $table
 	 * @param string $where
 	 * @param string $bind
 	 * @param string $fields
 	 * @param string $opt
-	 * @return null
+	 * @return mixed
 	 */
 	public static function selectCell($table, $where = "", $bind = "", $fields = "*", $opt = "")
 	{
@@ -182,12 +182,12 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $table
+	 * @param string $table
 	 * @param string $where
 	 * @param string $bind
 	 * @param string $fields
 	 * @param string $opt
-	 * @return null
+	 * @return mixed
 	 */
 	public static function selectTop($table, $where = "", $bind = "", $fields = "*", $opt = "")
 	{
@@ -196,9 +196,9 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $table
-	 * @param $info
-	 * @param $where
+	 * @param string $table
+	 * @param array $info
+	 * @param string $where
 	 * @param string $bind
 	 * @return array|bool|int
 	 */
@@ -223,7 +223,7 @@ class DBMySQL
 	}
 
 	/**
-	 * @param $sql
+	 * @param string $sql
 	 * @param string $bind
 	 * @param bool $assoc
 	 * @return array|bool|int

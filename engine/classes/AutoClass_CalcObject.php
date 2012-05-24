@@ -10,10 +10,10 @@
 class CalcObject {
 	//Object Calculations
 	/**
-	 * @param $objectEnv ObjectEnvironment
-	 * @param $timeDelta
-	 * @param null $mod
-	 * @return mixed
+	 * @param ObjectEnvironment $objectEnv
+	 * @param int $timeDelta
+	 * @param DataMod|null $mod
+	 * @return DataItem
 	 */
 	public static function calcNewObjectRes($objectEnv, $timeDelta, $mod = null) {
 		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
@@ -58,8 +58,8 @@ class CalcObject {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param null $mod
+	 * @param ObjectEnvironment $objectEnv
+	 * @param DataMod|null $mod
 	 * @return int
 	 */
 	public static function getMaxEnergyStorage($objectEnv, $mod = null) {
@@ -68,8 +68,8 @@ class CalcObject {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param null $mod
+	 * @param ObjectEnvironment $objectEnv
+	 * @param DataMod|null $mod
 	 * @return int
 	 */
 	public static function getObjectStorage($objectEnv, $mod = null) {
@@ -78,9 +78,9 @@ class CalcObject {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $mod
-	 * @return array
+	 * @param ObjectEnvironment $objectEnv
+	 * @param DataMod $mod
+	 * @return array Modifier Array
 	 */
 	public static function getObjectWeightPenalty($objectEnv, $mod) {
 		$modAmount = (int)min(0, -($objectEnv->envItems->getTotalWeight() - self::getObjectStorage($objectEnv, $mod)) / (self::getObjectStorage($objectEnv, $mod) / 1000));
@@ -91,8 +91,8 @@ class CalcObject {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @return array
+	 * @param ObjectEnvironment $objectEnv
+	 * @return array Modifier Array
 	 */
 	public static function getObjectModifiers($objectEnv) {
 		$mods = array();
@@ -147,16 +147,16 @@ class CalcObject {
 
 	//Building Calculations
 	/**
-	 * @param $buildingID
-	 * @return mixed
+	 * @param string $buildingID
+	 * @return array Associative array of building definitions
 	 */
 	public static function getBuildingType($buildingID) {
 		return GameCache::get("BUILDINGS")[$buildingID]["buildType"];
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $buildingID
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $buildingID
 	 * @return int
 	 */
 	public static function getBuildingMaxLevel($objectEnv, $buildingID) {
@@ -167,11 +167,11 @@ class CalcObject {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $buildingID
-	 * @param $level
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $buildingID
+	 * @param int $level
 	 * @param int $activity
-	 * @return null
+	 * @return array Modifier Array
 	 */
 	public static function getBuildingModifiers($objectEnv, $buildingID, $level, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["modifiers"])) return null;
@@ -191,10 +191,10 @@ class CalcObject {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $buildingID
-	 * @param $level
-	 * @param null $mod
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $buildingID
+	 * @param int $level
+	 * @param array $mod
 	 * @return $this|DataItem
 	 */
 	public static function getBuildingUpgradeCost($objectEnv, $buildingID, $level, $mod = null) {
@@ -215,11 +215,11 @@ class CalcObject {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $buildingID
-	 * @param $level
-	 * @param null $mod
-	 * @return mixed
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $buildingID
+	 * @param int $level
+	 * @param array $mod
+	 * @return int
 	 * @throws Exception
 	 */
 	public static function getBuildTime($objectEnv, $buildingID, $level, $mod = null) {
@@ -244,10 +244,10 @@ class CalcObject {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $buildingID
-	 * @param $level
-	 * @param null $mod
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $buildingID
+	 * @param int $level
+	 * @param array $mod
 	 * @param int $activity
 	 * @return $this|DataItem
 	 */
@@ -278,10 +278,10 @@ class CalcObject {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $buildingID
-	 * @param $level
-	 * @param null $mod
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $buildingID
+	 * @param int $level
+	 * @param array $mod
 	 * @param int $activity
 	 * @return $this|DataItem
 	 */

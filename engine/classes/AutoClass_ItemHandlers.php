@@ -9,10 +9,10 @@
  */
 class ItemHandlers {
 	/**
-	 * @param $itemID
-	 * @param $numUsed
-	 * @param $objectID
-	 * @param $playerEnv PlayerEnvironment
+	 * @param string $itemID
+	 * @param int $numUsed
+	 * @param int $objectID
+	 * @param PlayerEnvironment $playerEnv
 	 * @return bool|string
 	 */
 	static function itemhandlerUseResearchNotes($itemID, $numUsed, $objectID, $playerEnv) {

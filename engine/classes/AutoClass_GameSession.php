@@ -143,8 +143,8 @@ class GameSession {
 	}
 
 	/**
-	 * @param $playerID
-	 * @param $playerName
+	 * @param int $playerID
+	 * @param string $playerName
 	 */
 	public static function loginPlayer($playerID, $playerName) {
 		self::create();

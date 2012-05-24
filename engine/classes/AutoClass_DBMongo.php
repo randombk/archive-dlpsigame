@@ -28,7 +28,7 @@ class DBMongo
 	}
 
 	/**
-	 * @return DBMongo|null
+	 * @return DBMongo
 	 */
 	public static function getInstance()
 	{
@@ -39,8 +39,8 @@ class DBMongo
 	}
 
 	/**
-	 * @param $collection MongoCollection
-	 * @param $uniqueID
+	 * @param MongoCollection $collection
+	 * @param string $uniqueID
 	 * @return array
 	 * @throws Exception
 	 */
@@ -60,10 +60,10 @@ class DBMongo
 	}
 
 	/**
-	 * @param $collection MongoCollection
-	 * @param $uniqueID
-	 * @param $content
-	 * @return mixed
+	 * @param MongoCollection $collection
+	 * @param string $uniqueID
+	 * @param array $content
+	 * @return bool
 	 * @throws Exception
 	 */
 	protected static function update($collection, $uniqueID, $content)
@@ -92,7 +92,7 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
+	 * @param string $uniqueID
 	 * @return array
 	 * @throws Exception
 	 */
@@ -106,9 +106,9 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
-	 * @param $itemData
-	 * @return mixed
+	 * @param string $uniqueID
+	 * @param array $itemData
+	 * @return bool
 	 * @throws Exception
 	 */
 	public static function setItem($uniqueID, $itemData)
@@ -133,7 +133,7 @@ class DBMongo
 	}
 
 	/**
-	 * @param $itemID
+	 * @param string $itemID
 	 * @return array
 	 * @throws Exception
 	 */
@@ -147,9 +147,9 @@ class DBMongo
 	}
 
 	/**
-	 * @param $itemID
-	 * @param $itemParamData
-	 * @return mixed
+	 * @param string $itemID
+	 * @param array $itemParamData
+	 * @return bool
 	 * @throws Exception
 	 */
 	public static function setItemParams($itemID, $itemParamData)
@@ -195,7 +195,7 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
+	 * @param string $uniqueID
 	 * @return array
 	 */
 	public static function getBuildings($uniqueID)
@@ -204,9 +204,9 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
-	 * @param $buildingData
-	 * @return mixed
+	 * @param string $uniqueID
+	 * @param array $buildingData
+	 * @return bool
 	 */
 	public static function setBuildings($uniqueID, $buildingData)
 	{
@@ -226,7 +226,7 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
+	 * @param string $uniqueID
 	 * @return array
 	 */
 	public static function getObject($uniqueID)
@@ -235,8 +235,8 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
-	 * @param $objectData
+	 * @param string $uniqueID
+	 * @param array $objectData
 	 * @return mixed
 	 */
 	public static function setObject($uniqueID, $objectData)
@@ -257,7 +257,7 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
+	 * @param string $uniqueID
 	 * @return array
 	 */
 	public static function getPlayer($uniqueID)
@@ -266,8 +266,8 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
-	 * @param $playerData
+	 * @param string $uniqueID
+	 * @param array $playerData
 	 * @return mixed
 	 */
 	public static function setPlayer($uniqueID, $playerData)
@@ -288,7 +288,7 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
+	 * @param string $uniqueID
 	 * @return array
 	 */
 	public static function getResearch($uniqueID)
@@ -297,8 +297,8 @@ class DBMongo
 	}
 
 	/**
-	 * @param $uniqueID
-	 * @param $researchData
+	 * @param string $uniqueID
+	 * @param array $researchData
 	 * @return mixed
 	 */
 	public static function setResearch($uniqueID, $researchData)

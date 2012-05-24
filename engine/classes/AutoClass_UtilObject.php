@@ -10,7 +10,7 @@
 class UtilObject {
 
 	/**
-	 * @param $Position
+	 * @param UniCoord $Position
 	 * @return int
 	 * @throws Exception
 	 */
@@ -29,7 +29,7 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $Position
+	 * @param UniCoord $Position
 	 * @return int
 	 * @throws Exception
 	 */
@@ -61,10 +61,10 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $starID
+	 * @param int $starID
 	 * @param int $type
 	 * @param string $name
-	 * @return int|UniCoord
+	 * @return UniCoord
 	 * @throws Exception
 	 */
 	static function getFreeObjectCoord($starID, $type = 1, $name = "Colony") {
@@ -92,7 +92,7 @@ class UtilObject {
 	
 	//Return starID if OK
 	/**
-	 * @param $Position
+	 * @param UniCoord $Position
 	 * @return bool|int
 	 * @throws Exception
 	 */
@@ -114,10 +114,10 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $temp
-	 * @param $humidity
-	 * @param $size
-	 * @param $randSeed
+	 * @param float $temp
+	 * @param float $humidity
+	 * @param float $size
+	 * @param int $randSeed
 	 * @return string
 	 */
 	static function generatePlanetType(&$temp, &$humidity, &$size, &$randSeed) {
@@ -163,8 +163,8 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $Object UniCoord
-	 * @param $PlanetOwnerID
+	 * @param UniCoord $Object
+	 * @param int $PlanetOwnerID
 	 * @return bool
 	 * @throws Exception
 	 */
@@ -224,7 +224,7 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $objectID
+	 * @param int $objectID
 	 * @return mixed
 	 */
 	static function deleteObject($objectID) {
@@ -242,8 +242,8 @@ class UtilObject {
 	// Items
 	//
 	/**
-	 * @param $Position
-	 * @param $itemData
+	 * @param UniCoord $Position
+	 * @param array $itemData
 	 * @return int|mixed
 	 * @throws Exception
 	 */
@@ -261,8 +261,8 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $objectID
-	 * @param $itemData
+	 * @param int $objectID
+	 * @param array $itemData
 	 * @param bool $checkID
 	 * @return mixed
 	 * @throws Exception
@@ -277,8 +277,8 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $Position
-	 * @return DataItem|int
+	 * @param UniCoord $Position
+	 * @return DataItem
 	 * @throws Exception
 	 */
 	static function getObjectResDataUsingLoc($Position) {
@@ -295,7 +295,7 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $objectID
+	 * @param int $objectID
 	 * @return DataItem
 	 */
 	static function getObjectResDataUsingID($objectID) {
@@ -306,9 +306,9 @@ class UtilObject {
 	// Buildings
 	//
 	/**
-	 * @param $Position
-	 * @param $buildingData
-	 * @return int|mixed
+	 * @param UniCoord $Position
+	 * @param array $buildingData
+	 * @return int
 	 * @throws Exception
 	 */
 	static function setObjectBuildingDataUsingLoc($Position, $buildingData) {
@@ -325,8 +325,8 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $objectID
-	 * @param $buildingData
+	 * @param int $objectID
+	 * @param array $buildingData
 	 * @return mixed
 	 */
 	static function setObjectBuildingDataUsingID($objectID, $buildingData) {
@@ -334,8 +334,8 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $Position
-	 * @return DataBuilding|int
+	 * @param UniCoord $Position
+	 * @return DataBuilding
 	 * @throws Exception
 	 */
 	static function getObjectBuildingDataUsingLoc($Position) {
@@ -352,7 +352,7 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $objectID
+	 * @param int $objectID
 	 * @return DataBuilding
 	 */
 	static function getObjectBuildingDataUsingID($objectID) {
@@ -363,8 +363,8 @@ class UtilObject {
 	// Object Data
 	//
 	/**
-	 * @param $Position
-	 * @param $objectData
+	 * @param UniCoord $Position
+	 * @param array $objectData
 	 * @return int|mixed
 	 * @throws Exception
 	 */
@@ -382,8 +382,8 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $objectID
-	 * @param $objectData
+	 * @param int $objectID
+	 * @param array $objectData
 	 * @return mixed
 	 */
 	static function setObjectDataUsingID($objectID, $objectData) {
@@ -391,7 +391,7 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $Position
+	 * @param UniCoord $Position
 	 * @return int|mixed
 	 * @throws Exception
 	 */
@@ -409,7 +409,7 @@ class UtilObject {
 	}
 
 	/**
-	 * @param $objectID
+	 * @param int $objectID
 	 * @return mixed
 	 */
 	static function getObjectDataUsingID($objectID) {

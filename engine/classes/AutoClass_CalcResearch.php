@@ -18,8 +18,8 @@ class CalcResearch {
 	);
 
 	/**
-	 * @param $q
-	 * @param $r
+	 * @param int $q
+	 * @param int $r
 	 * @return string
 	 */
 	public static function getResearchPosString($q, $r) {
@@ -27,9 +27,9 @@ class CalcResearch {
 	}
 
 	/**
-	 * @param $q
-	 * @param $r
-	 * @return null
+	 * @param int $q
+	 * @param int $r
+	 * @return null|array
 	 */
 	public static function getResearchAtPosition($q, $r) {
 		$positionID = self::getResearchPosString($q, $r);
@@ -41,9 +41,9 @@ class CalcResearch {
 	}
 
 	/**
-	 * @param $techID
-	 * @param $offset
-	 * @return null
+	 * @param string $techID
+	 * @param array $offset
+	 * @return null|array
 	 */
 	public static function getOffsetID($techID, $offset) {
 		if(isset(GameCache::get("RESEARCH")[$techID]) && isset($offset[0]) && isset($offset[1])) {
@@ -57,8 +57,8 @@ class CalcResearch {
 	}
 
 	/**
-	 * @param $techID
-	 * @return array
+	 * @param string $techID
+	 * @return string[]
 	 */
 	public static function getNeighborIDs($techID) {
 		$ids = array();
@@ -72,8 +72,8 @@ class CalcResearch {
 	}
 
 	/**
-	 * @param $techID
-	 * @param $playerEnv
+	 * @param string $techID
+	 * @param PlayerEnvironment $playerEnv
 	 * @return bool
 	 */
 	public static function canResearch($techID, $playerEnv) {
@@ -92,8 +92,10 @@ class CalcResearch {
 	}
 
 	/**
-	 * @param $techID
-	 * @param $playerEnv
+	 * IN DEVELOPMENT
+	 *
+	 * @param string $techID
+	 * @param PlayerEnvironment $playerEnv
 	 * @return null
 	 */
 	public static function getReqResearchPoints($techID, $playerEnv) {

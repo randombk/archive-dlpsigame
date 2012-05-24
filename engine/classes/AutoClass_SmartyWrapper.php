@@ -34,7 +34,7 @@ class SmartyWrapper extends Smarty {
 	}
 
 	/**
-	 * @param $var
+	 * @param array $var
 	 * @param bool $nocache
 	 */
 	public function assign_vars($var, $nocache = true) {
@@ -42,16 +42,15 @@ class SmartyWrapper extends Smarty {
 	}
 
 	/**
-	 * @param $file
+	 * @param string $file
 	 */
 	public function show($file) {
 		$this->compile_id = "en";
-
 		parent::display($file);
 	}
 
 	/**
-	 * @param null|string $file
+	 * @param string $file
 	 */
 	public function display($file) {
 		$this->compile_id = "en";

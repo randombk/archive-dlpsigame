@@ -9,7 +9,7 @@
  */
 class GameCache {
 	/**
-	 * @param $varName
+	 * @param string $varName
 	 * @return mixed
 	 */
 	public static function get($varName){
@@ -26,7 +26,7 @@ class GameCache {
 	}
 
 	/**
-	 * @param $varName
+	 * @param string $varName
 	 * @return mixed
 	 * @throws Exception
 	 */
@@ -45,7 +45,7 @@ class GameCache {
 	}
 
 	/**
-	 * @param $varName
+	 * @param string $varName
 	 * @return mixed
 	 */
 	public static function reload($varName) {
@@ -61,7 +61,7 @@ class GameCache {
 	
 	//If null, delete all
 	/**
-	 * @param null $toDelete
+	 * @param null|mixed $toDelete
 	 * @return bool|string[]
 	 */
 	public static function flush($toDelete = null){

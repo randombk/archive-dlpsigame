@@ -10,7 +10,7 @@
  */
 class CachedResource_BUILDINGS {
 	/**
-	 * @return mixed
+	 * @return array
 	 */
 	public static function loadGameResource() {
 		$string = file_get_contents(ROOT_PATH . 'engine/data/buildings.json');

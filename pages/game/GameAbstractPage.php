@@ -34,7 +34,7 @@ abstract class GameAbstractPage {
 	}
 
 	/**
-	 * @param $window
+	 * @param string $window
 	 */
 	protected function setPageType($window) {
 		$this->window = $window;
@@ -82,7 +82,7 @@ abstract class GameAbstractPage {
 	}
 
 	/**
-	 * @param $Message
+	 * @param string $Message
 	 */
 	protected function showMessage($Message) {
 		$this->templateObj->assign_vars(array(
@@ -93,7 +93,7 @@ abstract class GameAbstractPage {
 	}
 
 	/**
-	 * @param $file
+	 * @param string $file
 	 */
 	protected function display($file) {
 		$this->getPageVars();

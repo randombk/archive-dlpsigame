@@ -9,7 +9,7 @@
  */
 class UtilItem {
 	/**
-	 * @param $itemID
+	 * @param string $itemID
 	 * @return array
 	 */
 	static function splitItemID($itemID) {
@@ -17,7 +17,7 @@ class UtilItem {
 	}
 
 	/**
-	 * @param $itemID
+	 * @param string $itemID
 	 * @return string
 	 */
 	static function getItemBaseID($itemID) {
@@ -26,7 +26,7 @@ class UtilItem {
 	}
 
 	/**
-	 * @param $itemID
+	 * @param string $itemID
 	 * @return string
 	 */
 	static function getItemSpecialID($itemID) {
@@ -35,7 +35,7 @@ class UtilItem {
 	}
 
 	/**
-	 * @param $itemID
+	 * @param string $itemID
 	 * @return null
 	 */
 	static function getItemBaseData($itemID) {
@@ -48,7 +48,7 @@ class UtilItem {
 	}
 
 	/**
-	 * @param $itemID
+	 * @param string $itemID
 	 * @return array
 	 */
 	static function getItemParamData($itemID) {
@@ -61,7 +61,7 @@ class UtilItem {
 	}
 
 	/**
-	 * @param $dataItem DataItem
+	 * @param DataItem $dataItem
 	 * @return array
 	 */
 	static function buildItemDataArray($dataItem) {

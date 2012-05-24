@@ -10,7 +10,7 @@
  */
 class CachedResource_ITEMS {
 	/**
-	 * @return mixed
+	 * @return array
 	 */
 	public static function loadGameResource() {
 		$string = file_get_contents(ROOT_PATH . 'engine/data/items.json');

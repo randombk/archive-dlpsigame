@@ -17,7 +17,7 @@ class LoginErrorPage extends LoginAbstractPage {
 	}
 
 	/**
-	 * @param $Message
+	 * @param string $Message
 	 */
 	static function printError($Message) {
 		$pageObj = new self;

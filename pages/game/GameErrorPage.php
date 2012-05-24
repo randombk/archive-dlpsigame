@@ -17,7 +17,7 @@ class GameErrorPage extends GameAbstractPage {
 	}
 
 	/**
-	 * @param $Message
+	 * @param string $Message
 	 */
 	static function printError($Message) {
 		$pageObj = new self;

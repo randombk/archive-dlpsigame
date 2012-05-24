@@ -9,9 +9,9 @@
  */
 class QueueBuilding {
 	/**
-	 * @param $objectEnv
-	 * @param $buildingID
-	 * @param $buildingLevel
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $buildingID
+	 * @param int $buildingLevel
 	 * @param int $time
 	 * @param bool $forQueue
 	 * @return bool
@@ -81,9 +81,9 @@ class QueueBuilding {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $buildingID
-	 * @param $buildingLevel
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $buildingID
+	 * @param int $buildingLevel
 	 * @param int $time
 	 * @return bool
 	 */
@@ -108,8 +108,8 @@ class QueueBuilding {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $time
+	 * @param ObjectEnvironment $objectEnv
+	 * @param int $time
 	 * @return bool
 	 */
 	public static function processBuildingQueue($objectEnv, $time) {
@@ -141,8 +141,8 @@ class QueueBuilding {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $time
+	 * @param ObjectEnvironment $objectEnv
+	 * @param int $time
 	 * @return bool
 	 */
 	private static function moveAllUp($objectEnv, $time) {
@@ -206,10 +206,10 @@ class QueueBuilding {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $command
-	 * @param $buildingID
-	 * @param $buildingLevel
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $command
+	 * @param string $buildingID
+	 * @param int $buildingLevel
 	 * @return bool|string
 	 */
 	public static function appendToBuildingQueue($objectEnv, $command, $buildingID, $buildingLevel) {
@@ -223,8 +223,8 @@ class QueueBuilding {
 	}
 
 	/**
-	 * @param $objectEnv
-	 * @param $queueItemID
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $queueItemID
 	 * @return bool
 	 */
 	public static function removeFromBuildingQueue($objectEnv, $queueItemID) {
