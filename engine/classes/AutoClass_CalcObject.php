@@ -194,7 +194,7 @@ class CalcObject {
 	 * @param ObjectEnvironment $objectEnv
 	 * @param string $buildingID
 	 * @param int $level
-	 * @param array $mod
+	 * @param DataMod $mod
 	 * @return $this|DataItem
 	 */
 	public static function getBuildingUpgradeCost($objectEnv, $buildingID, $level, $mod = null) {
@@ -218,7 +218,7 @@ class CalcObject {
 	 * @param ObjectEnvironment $objectEnv
 	 * @param string $buildingID
 	 * @param int $level
-	 * @param array $mod
+	 * @param DataMod $mod
 	 * @return int
 	 * @throws Exception
 	 */
@@ -247,7 +247,7 @@ class CalcObject {
 	 * @param ObjectEnvironment $objectEnv
 	 * @param string $buildingID
 	 * @param int $level
-	 * @param array $mod
+	 * @param DataMod $mod
 	 * @param int $activity
 	 * @return $this|DataItem
 	 */
@@ -281,7 +281,7 @@ class CalcObject {
 	 * @param ObjectEnvironment $objectEnv
 	 * @param string $buildingID
 	 * @param int $level
-	 * @param array $mod
+	 * @param DataMod $mod
 	 * @param int $activity
 	 * @return $this|DataItem
 	 */

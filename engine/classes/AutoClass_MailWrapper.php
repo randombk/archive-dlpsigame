@@ -32,7 +32,7 @@ class MailWrapper {
 	}
 
 	/**
-	 * @param string $MailTargets
+	 * @param string[] $MailTargets
 	 * @param string $MailSubject
 	 * @param string $MailContent
 	 */
