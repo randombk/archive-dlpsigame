@@ -8,7 +8,6 @@
 {{/block}}
 
 {{block name="content"}}
-
 <table class="pageTable">
 
 	<tr>
@@ -154,8 +153,10 @@
 							case "msgUpdateObjectInfo": {
 								if(payload.msgData.objectID == objectID) {
 									loadObjectInfoPage(payload.msgData.objectInfo);
+									break;
 								}
-								break;
+								default:
+									break;
 							}
 						}
 					}

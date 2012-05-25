@@ -1,4 +1,4 @@
-import sys, os, time
+import time
 
 copyrightText = "/*\n * (C) Copyright 2012 David J. W. Li\n * Project DLPSIGAME\n */"
 fileName = "buildversion.php"

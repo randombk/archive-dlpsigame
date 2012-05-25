@@ -266,8 +266,7 @@
 			});
 
 			function showObjectList() {
-				$("#objectListContainer").addClass('open');
-				$("#objectListContainer").show();
+				$("#objectListContainer").addClass('open').show();
 
 				$("#objectList").text("Loading Data...");
 				$.post("ajaxRequest.php",
@@ -310,8 +309,7 @@
 			}
 
 			function hideObjectList() {
-				$("#objectListContainer").removeClass('open');
-				$("#objectListContainer").hide();
+				$("#objectListContainer").removeClass('open').hide();
 			}
 
 			function loadNotificationData() {
