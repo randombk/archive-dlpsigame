@@ -87,7 +87,7 @@ class UtilPlayer {
 		$item->setItem("iron", 5000);
 		$item->setItem("kryptonite", 5000);
 
-		UtilObject::setObjectResDataUsingID($newPlanetID, $item->getItemArray(), false);
+		UtilObject::setObjectResDataUsingID($newPlanetID, $item->getDataArray(), false);
 
 		self::setPlayerResearchData(array(), $playerID);
 

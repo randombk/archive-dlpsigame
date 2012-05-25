@@ -57,8 +57,8 @@ class ObjectEnvironment {
 	 */
 	public static function fromObjectID($objectID, $envPlayer = null) {
 		$stmt = DBMySQL::prepare("
-			SELECT 
-				objectID, 
+			SELECT
+				objectID,
 				objectType,
 				objectName,
 				objectIndex,
@@ -72,7 +72,7 @@ class ObjectEnvironment {
 			WHERE objectID = :objectID
 			FOR UPDATE;
 		");
-		
+
 		$stmt->bindValue(':objectID', $objectID, PDO::PARAM_INT);
 		if($stmt->execute()) {
 			$obj = $stmt->fetchObject('ObjectEnvironment');
@@ -94,13 +94,13 @@ class ObjectEnvironment {
 		if($this->buildingQueue < 0) {
 			throw new Exception("Invalid objectID - Object should be initiated using static constructor");
 		}
-		
+
 		$this->getMongoData();
-		
+
 		$star = GameCache::get('STARS')[$this->starID];
 		$this->envObjectCoord = UniCoord::fromCoord($star['galaxyID'], $star['sectorID'], $star['starIndex'], $this->objectIndex, $this->objectType, $this->objectName, $this->objectImageID);
 	}
-	
+
 	private function getMongoData() {
 		$this->envBuildings = UtilObject::getObjectBuildingDataUsingID($this->objectID);
 		$this->envItems = UtilObject::getObjectResDataUsingID($this->objectID);
@@ -113,7 +113,7 @@ class ObjectEnvironment {
 	 */
 	public function apply() {
 		$result = DBMySQL::update(
-			tblUNI_OBJECTS, 
+			tblUNI_OBJECTS,
 			array(
 				"objectID" => $this->objectID,
 				"objectType" => $this->objectType,
@@ -126,7 +126,7 @@ class ObjectEnvironment {
 			"objectID = :objectID",
 			array(":objectID" => $this->objectID)
 		);
-		
+
 		if($result !== false) {
 			$this->applyObjectMongo();
 			return true;
@@ -134,10 +134,10 @@ class ObjectEnvironment {
 			throw new Exception("Unknown PDO Error ");
 		}
 	}
-	
+
 	public function applyObjectMongo() {
-		UtilObject::setObjectResDataUsingID($this->objectID, $this->envItems->getItemArray());
-		UtilObject::setObjectBuildingDataUsingID($this->objectID, $this->envBuildings->getBuildingArray());
+		UtilObject::setObjectResDataUsingID($this->objectID, $this->envItems->getDataArray());
+		UtilObject::setObjectBuildingDataUsingID($this->objectID, $this->envBuildings->getDataArray());
 		UtilObject::setObjectDataUsingID($this->objectID, $this->envObjectData);
 	}
 }

@@ -66,7 +66,7 @@ class UtilItem {
 	 */
 	static function buildItemDataArray($dataItem) {
 		$dataArray = array();
-		$inv = $dataItem->getItemArray();
+		$inv = $dataItem->getDataArray();
 		foreach ($inv as $itemID => $quantity) {
 			$dataArray[$itemID] = self::getItemParamData($itemID);
 			$dataArray[$itemID]["quantity"] = $quantity;

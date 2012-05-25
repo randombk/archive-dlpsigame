@@ -6,19 +6,26 @@
 /**
  * Class DataResearch
  */
-class DataResearch {
-	private $researchArray = array();
+class DataResearch extends Data {
 
 	/**
-	 * @param string $key
-	 * @return int
+	 * @param array $data
+	 * @return DataResearch
 	 */
-	public function getValue($key) {
-		if(isset($this->researchArray[$key])){
-			return $this->researchArray[$key];
-		} else {
-			return 0;
-		}
+	public static function fromResearchArray($data) {
+		$instance = new self();
+		$instance->setDataArray($data);
+		return $instance;
+	}
+
+	/**
+	 * @param string $researchString
+	 * @return DataResearch
+	 */
+	public static function fromResearchString($researchString) {
+		$instance = new self();
+		$instance->setDataString($researchString);
+		return $instance;
 	}
 
 	/**
@@ -26,8 +33,8 @@ class DataResearch {
 	 * @return int
 	 */
 	public function getResearchLevel($researchID) {
-		if(isset($this->researchArray[$researchID][0])){
-			return $this->researchArray[$researchID][0];
+		if(isset($this->dataArray[$researchID][0])){
+			return $this->dataArray[$researchID][0];
 		} else {
 			return 0;
 		}
@@ -38,8 +45,8 @@ class DataResearch {
 	 * @return int
 	 */
 	public function getResearchPoints($researchID) {
-		if(isset($this->researchArray[$researchID][1])){
-			return $this->researchArray[$researchID][1];
+		if(isset($this->dataArray[$researchID][1])){
+			return $this->dataArray[$researchID][1];
 		} else {
 			return 0;
 		}
@@ -51,9 +58,9 @@ class DataResearch {
 	 */
 	public function setResearchLevel($researchID, $researchLevel) {
 		if($researchLevel == 0){
-			unset($this->researchArray[$researchID]);
+			unset($this->dataArray[$researchID]);
 		} else {
-			$this->researchArray[$researchID] = array($researchLevel, 0);
+			$this->dataArray[$researchID] = array($researchLevel, 0);
 		}
 	}
 
@@ -62,74 +69,20 @@ class DataResearch {
 	 * @param int $researchPoints
 	 */
 	public function setResearchPoints($researchID, $researchPoints) {
-		if(isset($this->researchArray[$researchID])) {
-			if($this->researchArray[$researchID][0] == 0 && $researchPoints == 0) {
-				unset($this->researchArray[$researchID]);
+		if(isset($this->dataArray[$researchID])) {
+			if($this->dataArray[$researchID][0] == 0 && $researchPoints == 0) {
+				unset($this->dataArray[$researchID]);
 			}
-			$this->researchArray[$researchID][1] = $researchPoints;
+			$this->dataArray[$researchID][1] = $researchPoints;
 		} else {
-			$this->researchArray[$researchID] = array(0, $researchPoints);
-		}
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getResearchArray() {
-		return $this->researchArray;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getResearchString() {
-		return json_encode($this->researchArray);
-	}
-
-	/**
-	 * @param array $data
-	 */
-	public function setResearchArray($data) {
-		if($data != null) {
-			$this->researchArray = $data;	
-		} else {
-			$this->researchArray = array();
+			$this->dataArray[$researchID] = array(0, $researchPoints);
 		}
 	}
 
-	/**
-	 * @param string $researchString
-	 */
-	public function setResearchString($researchString) {
-		$this->researchArray = json_decode($researchString, true);
-	}
-	
-	//Constructors
-	/**
-	 * @param array $data
-	 * @return DataResearch
-	 */
-	public static function fromResearchArray($data) {
-		$instance = new self();
-		$instance->setResearchArray($data);
-
-		return $instance;
-	}
-
-	/**
-	 * @param string $researchString
-	 * @return DataResearch
-	 */
-	public static function fromResearchString($researchString) {
-		$instance = new self();
-		$instance->setResearchString($researchString);
-		return $instance;
-	}
-	
 	//Special actions
 	public function resetUnsavedPoints() {
-		foreach ($this->researchArray as $research => $data) {
-			$this->researchArray[$research][1] = 0;
+		foreach ($this->dataArray as $research => $data) {
+			$this->dataArray[$research][1] = 0;
 		}
 	}
 }

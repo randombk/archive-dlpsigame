@@ -20,7 +20,7 @@ if file:
     lastTime = int((timeLine.split('=')[1]).split(';')[0])
     file.close()
 
-if (lastTime + 10) < time.time():
+if (lastTime + 60) < time.time():
     if nextVersion > 0:
         file = open(fileName,'w')
         if file:

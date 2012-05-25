@@ -54,8 +54,8 @@ class PlayerEnvironment {
 	 */
 	public static function fromPlayerID($playerID) {
 		$stmt = DBMySQL::prepare("
-			SELECT 
-				playerID, 
+			SELECT
+				playerID,
 				playerName,
 				joinDate,
 				numWins,
@@ -67,7 +67,7 @@ class PlayerEnvironment {
 			WHERE playerID = :playerID
 			FOR UPDATE;
 		");
-		
+
 		$stmt->bindValue(':playerID', $playerID, PDO::PARAM_INT);
 		if($stmt->execute()) {
 			$obj = $stmt->fetchObject('PlayerEnvironment');
@@ -88,20 +88,20 @@ class PlayerEnvironment {
 		if($this->playerID < 0) {
 			throw new Exception("Invalid playerID - Object should be initiated using static constructor");
 		}
-		
+
 		$this->getResearchData();
 		$this->getPlayerData();
 		$this->getObjects();
 	}
-	
+
 	private function getResearchData() {
 		$this->envResearch = UtilPlayer::getPlayerResearchData($this->playerID);
 	}
-	
+
 	private function getPlayerData() {
 		$this->envPlayerData = UtilPlayer::getPlayerData($this->playerID);
 	}
-	
+
 	private function getObjects() {
 		$this->objects = UtilPlayer::getPlayerObjects($this->playerID);
 		foreach ($this->objects as $object) {
@@ -122,7 +122,7 @@ class PlayerEnvironment {
 	 */
 	public function apply() {
 		$result = DBMySQL::update(
-			tblPLAYERS, 
+			tblPLAYERS,
 			array(
 				"playerID" => $this->playerID,
 				"playerName" => $this->playerName,
@@ -136,23 +136,23 @@ class PlayerEnvironment {
 			"playerID = :playerID",
 			array(":playerID" => $this->playerID)
 		);
-		
+
 		if($result !== false) {
 			foreach($this->envObjects as $envObject) {
 				if(!$envObject->apply()) {
 					throw new Exception("Unknown PDO Error");
-				} 
+				}
 			}
-			
+
 			$this->applyPlayerMongo();
 			return true;
 		} else {
 			throw new Exception("Unknown PDO Error ");
 		}
 	}
-	
+
 	public function applyPlayerMongo() {
-		UtilPlayer::setPlayerResearchData($this->envResearch->getResearchArray(), $this->playerID);
+		UtilPlayer::setPlayerResearchData($this->envResearch->getDataArray(), $this->playerID);
 		UtilPlayer::setPlayerData($this->envPlayerData->getDataArray(), $this->playerID);
 	}
 }

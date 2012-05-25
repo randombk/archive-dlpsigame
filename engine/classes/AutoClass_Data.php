@@ -11,8 +11,28 @@ class Data {
 	protected $dataArray = array();
 
 	/**
+	 * @param array $data
+	 * @return DataPlayer
+	 */
+	public static function fromDataArray($data) {
+		$instance = new self();
+		$instance->setDataArray($data);
+		return $instance;
+	}
+
+	/**
+	 * @param string $dataString
+	 * @return DataPlayer
+	 */
+	public static function fromDataString($dataString) {
+		$instance = new self();
+		$instance->setDataString($dataString);
+		return $instance;
+	}
+
+	/**
 	 * @param string $key
-	 * @return int
+	 * @return mixed
 	 */
 	public function getValue($key) {
 		if(isset($this->dataArray[$key])){
@@ -25,10 +45,10 @@ class Data {
 	/**
 	 * @param string $key
 	 * @param mixed $data
-	 * @return int
+	 * @return mixed
 	 */
 	public function setValue($key, $data) {
-		if(!isset($data)){
+		if(empty($data)){
 			unset($this->dataArray[$key]);
 		} else {
 			$this->dataArray[$key] = $data;
@@ -65,25 +85,5 @@ class Data {
 	 */
 	public function setDataString($dataString) {
 		$this->dataArray = json_decode($dataString, true);
-	}
-
-	/**
-	 * @param array $data
-	 * @return Data
-	 */
-	public static function fromDataArray($data) {
-		$instance = new self();
-		$instance->setDataArray($data);
-		return $instance;
-	}
-
-	/**
-	 * @param string $dataString
-	 * @return Data
-	 */
-	public static function fromBuildingString($dataString) {
-		$instance = new self();
-		$instance->setDataString($dataString);
-		return $instance;
 	}
 }

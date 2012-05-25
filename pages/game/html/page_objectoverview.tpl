@@ -150,14 +150,13 @@
 				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
 					if (inArray(payload.msgTarget, "all")) {
 						switch (payload.msgType) {
-							case "msgUpdateObjectInfo": {
+							case "msgUpdateObjectInfo":
 								if(payload.msgData.objectID == objectID) {
 									loadObjectInfoPage(payload.msgData.objectInfo);
-									break;
 								}
-								default:
-									break;
-							}
+								break;
+							default:
+								break;
 						}
 					}
 				}

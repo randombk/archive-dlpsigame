@@ -6,84 +6,14 @@
 /**
  * Class DataItem
  */
-class DataItem {
-	private $itemArray = array();
-
-	/**
-	 * @param string $itemName
-	 * @return int
-	 */
-	public function getItem($itemName) {
-		if(isset($this->itemArray[$itemName])){
-			return $this->itemArray[$itemName];
-		} else {
-			return 0;
-		}
-	}
-
-	/**
-	 * @param string $itemName
-	 * @param int $itemAmount
-	 */
-	public function setItem($itemName, $itemAmount) {
-		if($itemAmount == 0){
-			unset($this->itemArray[$itemName]);
-		} else {
-			$this->itemArray[$itemName] = $itemAmount;
-		}
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getTotalWeight() {
-		$weight = 0;
-		foreach ($this->itemArray as $itemID => $number) {
-			$weight += GameCache::get("ITEMS")[UtilItem::getItemBaseID($itemID)]["itemWeight"] * $number;
-		}
-		return $weight;
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getItemArray() {
-		return $this->itemArray;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getItemString() {
-		return json_encode($this->itemArray);
-	}
-
-	/**
-	 * @param array $item
-	 */
-	public function setItemArray($item) {
-		if($item != null) {
-			$this->itemArray = $item;	
-		} else {
-			$this->itemArray = array();
-		}
-	}
-
-	/**
-	 * @param string $itemString
-	 */
-	public function setItemString($itemString) {
-		$this->itemArray = json_decode($itemString, true);
-	}
-	
-	//Constructors
+class DataItem extends Data {
 	/**
 	 * @param string $item
 	 * @return DataItem
 	 */
 	public static function fromItemArray($item) {
 		$instance = new self();
-		$instance->setItemArray($item);
+		$instance->setDataArray($item);
 		return $instance;
 	}
 
@@ -93,10 +23,46 @@ class DataItem {
 	 */
 	public static function fromItemString($itemString) {
 		$instance = new self();
-		$instance->setItemString($itemString);
+		$instance->setDataString($itemString);
 		return $instance;
 	}
-	
+
+	/**
+	 * @param string $itemName
+	 * @return int
+	 */
+	public function getItem($itemName) {
+		if(isset($this->dataArray[$itemName])){
+			return $this->dataArray[$itemName];
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * @param string $itemName
+	 * @param int $itemAmount
+	 * @return int
+	 */
+	public function setItem($itemName, $itemAmount) {
+		if($itemAmount == 0){
+			unset($this->dataArray[$itemName]);
+		} else {
+			$this->dataArray[$itemName] = $itemAmount;
+		}
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalWeight() {
+		$weight = 0;
+		foreach ($this->dataArray as $itemID => $number) {
+			$weight += GameCache::get("ITEMS")[UtilItem::getItemBaseID($itemID)]["itemWeight"] * $number;
+		}
+		return $weight;
+	}
+
 	//Math Operators
 	/**
 	 * @param string $itemName
@@ -112,8 +78,8 @@ class DataItem {
 	 */
 	public function sum($item2) {
 		if(is_object($item2))
-			$item2 = $item2->getItemArray();	
-		
+			$item2 = $item2->getDataArray();
+
 		foreach ($item2 as $key => $value) {
 			$this->addItem($key, $value);
 		}
@@ -126,8 +92,8 @@ class DataItem {
 	 */
 	public function sub($item2) {
 		if(is_object($item2))
-			$item2 = $item2->getItemArray();	
-		
+			$item2 = $item2->getDataArray();
+
 		foreach ($item2 as $key => $value) {
 			$this->addItem($key, -$value);
 		}
@@ -139,7 +105,7 @@ class DataItem {
 	 * @return DataItem
 	 */
 	public function multiply($factor) {
-		foreach ($this->itemArray as $key => $value) {
+		foreach ($this->dataArray as $key => $value) {
 			$this->setItem($key, $value * $factor);
 		}
 		return $this;
@@ -153,12 +119,12 @@ class DataItem {
 	public static function sumRes($item1, $item2) {
 		if(is_object($item1))
 			$instance = clone $item1;
-		else 
+		else
 			$instance = self::fromItemArray($item1);
-		
+
 		if(is_object($item2))
-			$item2 = $item2->getItemArray();	
-		
+			$item2 = $item2->getDataArray();
+
 		foreach ($item2 as $key => $value) {
 			$instance->addItem($key, $value);
 		}
@@ -173,12 +139,12 @@ class DataItem {
 	public static function diffRes($item1, $item2) {
 		if(is_object($item1))
 			$instance = clone $item1;
-		else 
+		else
 			$instance = self::fromItemArray($item1);
-			
+
 		if(is_object($item2))
-			$item2 = $item2->getItemArray();	
-			
+			$item2 = $item2->getDataArray();
+
 		foreach ($item2 as $key => $value) {
 			$instance->addItem($key, -$value);
 		}
@@ -192,10 +158,10 @@ class DataItem {
 	 */
 	public static function isContained($greater, $lesser) {
 		if(is_object($greater))
-			$greater = $greater->getItemArray();	
+			$greater = $greater->getDataArray();
 		if(is_object($lesser))
-			$lesser = $lesser->getItemArray();	
-		
+			$lesser = $lesser->getDataArray();
+
 		foreach ($lesser as $key => $value) {
 			if($greater[$key] < $value) {
 				return false;
@@ -210,8 +176,8 @@ class DataItem {
 	 */
 	public function contains($lesser) {
 		if(is_object($lesser))
-			$lesser = $lesser->getItemArray();	
-		
+			$lesser = $lesser->getDataArray();
+
 		foreach ($lesser as $key => $value) {
 			if($this->getItem($key) < $value) {
 				return false;
