@@ -111,6 +111,15 @@
 									}
 									break;
 								}
+								case "msgUpdateItems": {
+									parseItemData(payload.msgData.itemData);
+									loadItemHover(payload.msgData.itemData);
+									break;
+								}
+								case "msgUpdateBuildings": {
+									loadBuidingHover(payload.msgData.buildingData);
+									break;
+								}
 							}
 						}
 					}
@@ -128,6 +137,7 @@
 					if(data.code < 0) {
 						showMessage("Error #" + (-data.code) + ": " + data.message, "red", 30000);
 					} else {
+						handleAjax(data);
 						$.jStorage.publish("dataUpdater", new Message("msgUpdateResearchInfo", {"researchData" : data, "objectID": data.objectID}, ["all"], window.name));
 					}
 				},
@@ -209,7 +219,7 @@
 				}
 			});
 			loadResearchNoteInfo(researchData, techID);
-			loadHovers({});
+			loadHovers({items: lastAjaxResponse.objectItems});
 		}
 
 		function loadResearchNoteInfo(researchData, techID) {

@@ -39,11 +39,10 @@ class AjaxRequest_ResearchHandler extends AjaxRequest {
 					//"researchQueue" => $playerEnv->researchQueue,
 					//"researchProduction" => $playerEnv->researchProduction
 				);
-				$this->sendJSON($data);
+				$this->sendJSONWithObjectData($data, $playerEnv->envObjects[$objectID]);
 			}
 		} else {
 			AjaxError::sendError("Invalid Parameters");
 		}
-
 	}
 }

@@ -170,6 +170,7 @@
 					if(data.code < 0) {
 						$("#constructionQueue").text("Fatal Error #" + (-data.code) + ": " + data.message);
 					} else {
+						handleAjax(data);
 						$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectInfo", {"objectID" : objectID, "objectInfo" : data}, ["all"], window.name));
 					}
 				},
@@ -246,6 +247,7 @@
 							if(data.code < 0) {
 								loadNotificationData();
 							} else {
+								handleAjax(data);
 								loadData();
 							}
 						},

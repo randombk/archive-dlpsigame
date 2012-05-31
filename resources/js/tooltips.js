@@ -147,7 +147,7 @@ function loadModHover() {
 	});
 }
 
-function loadBuidingHover() {
+function loadBuidingHover(data) {
 	$(".buildingLink").each(function() {
 		var level = $(this).attr("data-buildLevel");
 		var buildID = $(this).attr("data-buildID");

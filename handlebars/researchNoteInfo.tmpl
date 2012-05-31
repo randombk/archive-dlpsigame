@@ -22,22 +22,25 @@
 <br>
 {{/ifdef}}
 
-<span class="textLink" data-hover="Hourly resource consumption for creating this research note. Research will be cancelled if resources are missing.">
-						Research Hourly Cost:
-					</span>
-<div style="margin-left: 10px;">
-	<span class="itemLink" data-item="metal" data-parameters="100"></span>
-	<span class="itemLink" data-item="metal" data-parameters="100"></span>
-	<span class="itemLink" data-item="metal" data-parameters="100"></span>
-	<span class="itemLink" data-item="metal" data-parameters="100"></span>
-</div>
-<br>
-<span class="textLink" data-hover="Passive modifiers that will be active while the research is progressing.">
-						Research Passive:
-					</span>
-<div style="margin-left: 10px;">
-	<span class="itemLink" data-item="metal" data-parameters="100"></span>
-	<span class="itemLink" data-item="metal" data-parameters="100"></span>
-	<span class="itemLink" data-item="metal" data-parameters="100"></span>
-	<span class="itemLink" data-item="metal" data-parameters="100"></span>
-</div>
+{{#ifdef researchNoteConsumption}}
+	<span class="textLink" data-hover="Hourly resource consumption for creating this research note. Research will be cancelled if resources are missing.">
+		Research Hourly Cost:
+	</span>
+	<div style="margin-left: 10px;">
+		{{#key_value_object researchNoteConsumption}}
+			<span class="itemLink" data-item="{{key}}" data-parameters="{{value}}">{{key}} -- {{value}}</span>
+		{{/key_value_object}}
+	</div>
+	<br>
+{{/ifdef}}
+
+{{#ifdef researchNotePassive}}
+	<span class="textLink" data-hover="Passive modifiers that will be active while the research is progressing.">
+		Research Passive:
+	</span>
+	<div style="margin-left: 10px;">
+		{{#key_value_object researchNotePassive}}
+			<span class='modLink' data-modID='{{key}}' data-amount='{{value}}'>{{key}} -- {{value}}</span>
+		{{/key_value_object}}
+	</div>
+{{/ifdef}}
