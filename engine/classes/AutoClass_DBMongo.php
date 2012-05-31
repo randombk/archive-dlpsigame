@@ -81,7 +81,7 @@ class DBMongo
 
 	/*
 	 * Items
-	 * 
+	 *
 	 * */
 	/**
 	 * @return MongoCollection
@@ -122,7 +122,7 @@ class DBMongo
 
 	/*
 	 * Item Parameters
-	 * 
+	 *
 	 * */
 	/**
 	 * @return MongoCollection
@@ -182,9 +182,30 @@ class DBMongo
 		}
 	}
 
+	/**
+	 * @return array
+	 * @throws Exception
+	 */
+	public static function getPublicCachableItemParams()
+	{
+		try {
+			$paramData = array();
+			$cursor = self::collItemParams()->find(array('cached' => true, 'public' => true));
+
+			foreach ($cursor as $doc) {
+				$id = $doc["_id"];
+				unset($doc["_id"]);
+				$paramData[$id] = $doc;
+			}
+			return $paramData;
+		} catch (Exception $e) {
+			throw new Exception("Unknown error");
+		}
+	}
+
 	/*
 	 * Buildings
-	 * 
+	 *
 	 * */
 	/**
 	 * @return MongoCollection
@@ -215,7 +236,7 @@ class DBMongo
 
 	/*
 	 * Object Data
-	 * 
+	 *
 	 * */
 	/**
 	 * @return MongoCollection
@@ -246,7 +267,7 @@ class DBMongo
 
 	/*
 	 * Player Data
-	 * 
+	 *
 	 * */
 	/**
 	 * @return MongoCollection
@@ -277,7 +298,7 @@ class DBMongo
 
 	/*
 	 * Research Data
-	 * 
+	 *
 	 * */
 	/**
 	 * @return MongoCollection

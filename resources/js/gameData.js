@@ -5,6 +5,7 @@
 
 "use strict";
 var dbItemData = null;
+var dbItemParamsData = null;
 var dbBuildData = null;
 var dbModData = null;
 var dbResearchData = null;
@@ -16,12 +17,13 @@ function loadGameDataFailure(code) {
 
 function loadCachedData() {
 	dbItemData = JSON.parse(localStorage.getItem("dbItemData"));
+	dbItemParamsData = JSON.parse(localStorage.getItem("dbItemParamsData"));
 	dbBuildData = JSON.parse(localStorage.getItem("dbBuildData"));
 	dbModData = JSON.parse(localStorage.getItem("dbModData"));
 	dbResearchData = JSON.parse(localStorage.getItem("dbResearchData"));
 	dbResearchPosData = JSON.parse(localStorage.getItem("dbResearchPosData"));
 
-	if (dbItemData !== null && dbBuildData !== null && dbModData !== null && dbResearchData !== null && dbResearchPosData !== null) {
+	if (dbItemParamsData !== null && dbItemData !== null && dbBuildData !== null && dbModData !== null && dbResearchData !== null && dbResearchPosData !== null) {
 		$(document).trigger('gameDataLoaded');
 	} else {
 		loadGameDataFailure(5);
@@ -40,6 +42,7 @@ function loadGameData(cacheTime) {
 				loadGameDataFailure(-data.code);
 			} else {
 				localStorage.setItem("dbItemData", JSON.stringify(data.dataITEMS));
+				localStorage.setItem("dbItemParamsData", JSON.stringify(data.dataITEMPARAMSPUBLIC));
 				localStorage.setItem("dbBuildData", JSON.stringify(data.dataBUILDINGS));
 				localStorage.setItem("dbModData", JSON.stringify(data.dataMODIFIERS));
 				localStorage.setItem("dbResearchData", JSON.stringify(data.dataRESEARCH));

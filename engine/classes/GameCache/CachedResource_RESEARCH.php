@@ -17,27 +17,28 @@ class CachedResource_RESEARCH {
 		$string = file_get_contents(ROOT_PATH . 'engine/data/research.json');
 		$RESEARCH = json_decode($string, TRUE);
 		$RESEARCHPOS = array();
-		
+
 		foreach($RESEARCH as $data) {
 			$RESEARCHPOS[$data["q"] . ":" . $data["r"]] = $data;
 			DBMongo::setItemParams("research-notes_" . $data["techID"],
 				array (
 				    'cached' => true,
-				    'formatNameParams' => 
+					'public' => true,
+					'formatNameParams' =>
 					    array (
 					      0 => $data["techName"],
 					    ),
-				    'formatDescParams' => 
+				    'formatDescParams' =>
 					    array (
 					      0 => $data["techName"],
 					    ),
   				)
 			);
 		}
-		
+
 		apc_store('CachedResource/RESEARCH', $RESEARCH);
 		apc_store('CachedResource/RESEARCHPOS', $RESEARCHPOS);
-		
+
 		if(!$returnPos) {
 			return $RESEARCH;
 		} else {
