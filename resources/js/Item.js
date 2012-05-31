@@ -6,6 +6,10 @@
 "use strict";
 function parseItemData(data, params) {
 	for(var i in data) {
+		if(data[i] instanceof Item) {
+			//Data array has already been processed
+			return;
+		}
 		params = clone(data[i]);
 		data[i] = new Item(i, params);
 	}
@@ -18,9 +22,12 @@ function Item(itemID, itemParams) {
 	this.itemBaseID = this.itemIDArray[0];
 	this.itemSpecialID = this.itemIDArray[1] || "";
 	this.itemBaseData = dbItemData[this.itemBaseID];
-	this.itemParams = itemParams;
+	this.itemParams = isObject(itemParams) ? itemParams : dbItemParamsData[itemID];
 	this.quantity = itemParams.quantity || 0;
 
+	if(typeof itemParams === "number") {
+		this.quantity = itemParams;
+	}
 	//Load base data
 	this.itemType		= clone(this.itemBaseData.itemType);
 	this.itemVisibility	= clone(this.itemBaseData.itemVisibility);

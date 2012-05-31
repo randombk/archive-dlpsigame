@@ -32,6 +32,10 @@ function isEmpty(obj) {
 	return jQuery.isEmptyObject(obj);
 }
 
+function isObject(obj) {
+	return obj instanceof Object;
+}
+
 function runOnceCondition(params, condition, func) {
     if(condition(params)) {
         func(params);
