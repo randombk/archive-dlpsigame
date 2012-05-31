@@ -23,23 +23,21 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
+				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+				$objectEnv = $playerEnv->envObjects[$objectID];
 				$objectMods = DataMod::calculateObjectModifiers($objectEnv);
 				$data = array(
 					"buildings" => AjaxRequest_BuildingHandler::getBuildingList($objectEnv, true),
 					"objectModifiers" => $objectMods->objMods,
 					"objectWeightPenalty" => $objectMods->weightPenalty,
-					"items" => UtilItem::buildItemDataArray($objectEnv->envItems),
 					"usedStorage" => $objectEnv->envItems->getTotalWeight(),
 					"objStorage" => CalcObject::getObjectStorage($objectEnv, $objectMods),
 					"objEnergyStorage" => CalcObject::getMaxEnergyStorage($objectEnv, $objectMods),
 					"numBuildings" => $objectEnv->envBuildings->getNumBuildings(),
 					"buildQueue" => $objectEnv->buildingQueue,
-					"objectData" => $objectEnv->envObjectData,
-					"objectName" => $objectEnv->objectName,
-					"objectCoords" => $objectEnv->envObjectCoord->getCoordString()
+					"objectData" => $objectEnv->envObjectData
 				);
-				$this->sendJSON($data);
+				$this->sendJSONWithObjectData($data, $objectEnv);
 			}
 		} else {
 			AjaxError::sendError("Invalid Parameters");

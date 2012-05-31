@@ -24,6 +24,23 @@ abstract class AjaxRequest {
 	}
 
 	/**
+	 * @param array $data
+	 * @param ObjectEnvironment $objectEnv
+	 * @param int $code
+	 */
+	protected function sendJSONWithObjectData($data, $objectEnv, $code = 0) {
+		if($code != 0) $data['code'] = $code;
+
+		$data["objectBuildings"] = $objectEnv->envBuildings->getDataArray();
+		$data["objectItems"] = UtilItem::buildItemDataArray($objectEnv->envItems);
+		$data["objectData"] = $objectEnv->envObjectData;
+		$data["notifications"] = Message::getNotifications($_SESSION['playerID'], 0, 50);
+
+		echo json_encode($data);
+		exit;
+	}
+
+	/**
 	 * @param int $code
 	 */
 	protected function sendCode($code = 0) {

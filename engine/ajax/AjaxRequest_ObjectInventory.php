@@ -22,13 +22,13 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 				AjaxError::sendError("Access Denied");
 			} else {
 				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
-				$this->sendJSON(UtilItem::buildItemDataArray($objectEnv->envItems));
+				$this->sendJSONWithObjectData(array(), $objectEnv);
 			}
 		} else {
 			AjaxError::sendError("Invalid Parameters");
 		}
 	}
-	
+
 	function discardItem() {
 		$objectID = HTTP::REQ("objectID", 0);
 		$itemArray = HTTP::REQ("itemArray", "json");
@@ -40,7 +40,7 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 				try {
 					$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
 					foreach($itemArray as $itemID => $number) {
-						$baseData = UtilItem::getItemBaseData($itemID);	
+						$baseData = UtilItem::getItemBaseData($itemID);
 						if($baseData) {
 							if(!isset($baseData["itemFlags"]["NoDestroy"])) {
 								$haveQuantity = $objectEnv->envItems->getItem($itemID);
@@ -59,7 +59,7 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 						}
 					}
 					$objectEnv->apply();
-					$this->sendCode(0);	
+					$this->sendCode(0);
 				} catch (Exception $e) {
 					AjaxError::sendError("Invalid Parameters");
 				}
@@ -78,28 +78,28 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$baseData = UtilItem::getItemBaseData($itemID);	
+				$baseData = UtilItem::getItemBaseData($itemID);
 				if($baseData) {
 					if(isset($baseData["itemFlags"]["Usable"])) {
 						$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
 						$objectEnv = $playerEnv->envObjects[$objectID];
-						
+
 						$haveQuantity = $objectEnv->envItems->getItem($itemID);
 						if($haveQuantity < floor($itemAmount)) {
 							AjaxError::sendError("You don't have the item you were trying to use");
 						} else {
 							try {
 								$handlerHame = $baseData["itemFlags"]["Usable"]["itemhandlerUse"];
-								
+
 								$result = ItemHandlers::$handlerHame($itemID, $itemAmount, $objectID, $playerEnv);
 								if($result === true) {
-									$this->sendCode(0);	
+									$this->sendCode(0);
 								} else {
 									AjaxError::sendError($result);
-								}	
+								}
 							} catch (Exception $e) {
 								AjaxError::sendError("Unknown Error");
-							}	
+							}
 						}
 					} else {
 						AjaxError::sendError("This item is not usable!");

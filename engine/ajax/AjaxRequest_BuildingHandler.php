@@ -14,6 +14,23 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 		parent::__construct();
 	}
 
+	/**
+	 * @param ObjectEnvironment $objectEnv
+	 * @param int $code
+	 */
+	private function sendBuildingInfo($objectEnv, $code = 0, $message = null) {
+		$data = array(
+			"buildings" => self::getBuildingList($objectEnv),
+			"canBuild" => self::getUpgradeList($objectEnv),
+			//"items" => UtilItem::buildItemDataArray($objectEnv->envItems),
+			"buildQueue" => $objectEnv->buildingQueue
+		);
+		if($message) {
+			$data["message"] = $message;
+		}
+		$this->sendJSONWithObjectData($data, $objectEnv, $code);
+	}
+
 	function getBuildings() {
 		$objectID = HTTP::REQ("objectID", 0);
 		if ($objectID > 0) {
@@ -22,13 +39,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 				AjaxError::sendError("Access Denied");
 			} else {
 				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
-				$data = array(
-					"buildings" => self::getBuildingList($objectEnv),
-					"canBuild" => self::getUpgradeList($objectEnv),
-					"items" => UtilItem::buildItemDataArray($objectEnv->envItems),
-					"buildQueue" => $objectEnv->buildingQueue
-				);
-				$this->sendJSON($data);
+				$this->sendBuildingInfo($objectEnv);
 			}
 		} else {
 			AjaxError::sendError("Invalid Parameters");
@@ -51,9 +62,9 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 						$objectEnv->envPlayer->applyPlayerMongo();
 					}
 					$objectEnv->apply();
-					$this->sendCode(0);
+					$this->sendBuildingInfo($objectEnv);
 				} else {
-					AjaxError::sendError($result);
+					$this->sendBuildingInfo($objectEnv, -1, $result);
 				}
 			}
 		} else {
@@ -75,7 +86,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 					$objectEnv->envBuildings->setBuildingActivity($buildingID, max(0, min(100, (int)$activity)));
 					$objectEnv->apply();
 				}
-				$this->sendCode(0);
+				$this->sendBuildingInfo($objectEnv);
 			}
 		} else {
 			AjaxError::sendError("Invalid Parameters");
@@ -102,7 +113,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 							}
 						}
 						$objectEnv->apply();
-						$this->sendCode(0);
+						$this->sendBuildingInfo($objectEnv);
 					} catch (Exception $e) {
 						AjaxError::sendError("Invalid Parameters");
 					}
@@ -128,9 +139,9 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 				$result = QueueBuilding::appendToBuildingQueue($objectEnv, "Destroy", $buildingID, $buildingLevel);
 				if(!$result) {
 					$objectEnv->apply();
-					$this->sendCode(0);
+					$this->sendBuildingInfo($objectEnv);
 				} else {
-					AjaxError::sendError($result);
+					$this->sendBuildingInfo($objectEnv, -1, $result);
 				}
 			}
 		} else {
@@ -151,9 +162,9 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 				$result = QueueBuilding::appendToBuildingQueue($objectEnv, "Recycle", $buildingID, $buildingLevel);
 				if(!$result) {
 					$objectEnv->apply();
-					$this->sendCode(0);
+					$this->sendBuildingInfo($objectEnv);
 				} else {
-					AjaxError::sendError($result);
+					$this->sendBuildingInfo($objectEnv, -1, $result);
 				}
 			}
 		} else {
@@ -173,9 +184,9 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 				$result = QueueBuilding::removeFromBuildingQueue($objectEnv, $queueItemID);
 				if(!$result) {
 					$objectEnv->apply();
-					$this->sendCode(0);
+					$this->sendBuildingInfo($objectEnv);
 				} else {
-					AjaxError::sendError($result);
+					$this->sendBuildingInfo($objectEnv, -1, $result);
 				}
 			}
 		} else {

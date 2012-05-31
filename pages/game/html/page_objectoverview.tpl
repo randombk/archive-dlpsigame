@@ -11,7 +11,7 @@
 <table class="pageTable">
 
 	<tr>
-		<th>{{$objectTypeName}} Overview - <span id="planetName"></span></th>
+		<th>{{$objectTypeName}} Overview - {{$objectName}}</th>
 	</tr>
 	<tr>
 		<td>
@@ -21,7 +21,7 @@
 					<td style="width: 60%; font-size: 18px;">{{$objectName}}</td>
 				</tr>
 				<tr>
-					<td>{{$objectTypeName}} Location: <span id="planetLoc"></span></td>
+					<td>{{$objectTypeName}} Location: {{$objectCoord}}</td>
 				</tr>
 				<tr>
 					<td>Planet Owner: <span id="ownerName"></span> (<span id="ownerAlliance"></span>)</td>
@@ -183,8 +183,6 @@
 			$(".gen").remove();
 			//Load object info
 
-			$("#planetName").text(data.objectName);
-			$("#planetLoc").text(data.objectCoords);
 			$("#planetType").text(data.objectData.planetType);
 			$("#planetSize").text(data.objectData.planetSize);
 			$("#planetTemp").text(data.objectData.planetTemp);

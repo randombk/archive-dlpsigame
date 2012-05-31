@@ -171,6 +171,7 @@
 		{{include file="main_scripts.tpl" bodyclass="full"}}
 		<script type="text/javascript">
 			var objectID = {{$objectID}};
+			var lastAjaxResponse = {};
 			{{if $isAdmin}}
 				function clearCache() {
 					$.post("ajaxRequest.php",
@@ -186,6 +187,7 @@
 					).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
 				}
 			{{/if}}
+
 			function winMsgReceiver(channel, payload) {
 				if (channel == "winManager" && payload.objectType == "windowMessage") {
 					if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "main")) {
@@ -228,7 +230,7 @@
 				$.jStorage.subscribe("dataUpdater", dataUpdateReceiver);
 
 				//Load Notifications
-				loadNotificationData();
+				//loadNotificationData();
 
 				//Load menu
 				$("#gameMenu li.menuWindowItem").each(function() {
@@ -264,6 +266,22 @@
 			$(window).load(function() {
 				$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
 			});
+
+			function handleAjax(data) {
+				lastAjaxResponse = data;
+				if(isset(data.objectItems)) {
+					$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.objectItems}, ["all"], window.name));
+					parseItemData(data.objectItems);
+				}
+
+				if(isset(data.objectBuildings)) {
+					$.jStorage.publish("dataUpdater", new Message("msgUpdateBuildings", {"objectID" : objectID, "buildingData" : data.objectBuildings}, ["all"], window.name));
+				}
+
+				if(isset(data.notifications)) {
+					$.jStorage.publish("dataUpdater", new Message("msgUpdateNotifications", {"notificationData" : data.notifications}, ["all"], window.name));
+				}
+			}
 
 			function showObjectList() {
 				$("#objectListContainer").addClass('open').show();

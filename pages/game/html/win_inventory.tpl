@@ -128,10 +128,10 @@
 							switch (payload.msgType) {
 								case "msgUpdateObjectInfo": {
 									if(payload.msgData.objectID == objectID && jQuery.isEmptyObject(selectedItems)) {
-										parseItemData(payload.msgData.objectInfo.items);
+										parseItemData(payload.msgData.objectInfo.objectItems);
 
 										loadInfoPage(payload.msgData.objectInfo);
-										loadInventoryPage(payload.msgData.objectInfo.items);
+										loadInventoryPage(payload.msgData.objectInfo.objectItems);
 
 										$("[data-active=true]").attr("data-active", "");
 										$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
@@ -228,8 +228,8 @@
 				$("#storageUsed").removeClass("red");
 			}
 
-			$("#energyCapacity").text(niceNumber(isset(data.items.energy) ? data.items.energy.quantity : 0) + " / " + niceNumber(data.objEnergyStorage));
-			if(data.items.energy >= data.objEnergyStorage) {
+			$("#energyCapacity").text(niceNumber(isset(data.objectItems.energy) ? data.objectItems.energy.quantity : 0) + " / " + niceNumber(data.objEnergyStorage));
+			if(data.objectItems.energy >= data.objEnergyStorage) {
 				$("#energyCapacity").addClass("red");
 			} else {
 				$("#energyCapacity").removeClass("red");
