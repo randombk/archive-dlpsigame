@@ -108,7 +108,7 @@ function program15(depth0,data) {
 function program17(depth0,data) {
   
   var buffer = "", stack1, stack2, options;
-  buffer += "\r\n					<tr>\r\n						<td class=\"itemDescHolder\" style=\"color: #BB0000;\" colspan=\"3\">\r\n							";
+  buffer += "\r\n					<tr>\r\n						<td class=\"itemDescHolder\" style=\"color: #bb0000;\" colspan=\"3\">\r\n							";
   options = {hash:{},inverse:self.noop,fn:self.program(18, program18, data),data:data};
   stack2 = ((stack1 = helpers.ifdef || depth0.ifdef),stack1 ? stack1.call(depth0, ((stack1 = depth0.itemFlags),stack1 == null || stack1 === false ? stack1 : stack1.NoTrade), options) : helperMissing.call(depth0, "ifdef", ((stack1 = depth0.itemFlags),stack1 == null || stack1 === false ? stack1 : stack1.NoTrade), options));
   if(stack2 || stack2 === 0) { buffer += stack2; }

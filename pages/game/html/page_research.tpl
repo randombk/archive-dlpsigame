@@ -1,7 +1,11 @@
 {{block name="title" prepend}}{{"Research"}}{{/block}}
-{{block name="additionalIncluding" append}}
+{{block name="additionalStylesheets" append}}
 	<link rel="stylesheet" href="resources/css/research.css?v={{$VERSION}}">
+{{/block}}
+
+{{block name="additionalIncluding" append}}
 	<script src="handlebars/researchListItem.js?v={{$VERSION}}"></script>
+	<script src="handlebars/researchNoteInfo.js?v={{$VERSION}}"></script>
 {{/block}}
 
 {{block name="content"}}
@@ -30,16 +34,17 @@
 			<img id="researchInfoImage" width="115" height="100">
 		</div>
 		<div id="researchInfoTitle" class="stdBorder abs" style="top: 10px; left: 135px; right: 160px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
-		<div id="researchInfoLink" class="stdBorder abs buttonDiv" style="top: 10px; right: 10px; width: 149px; height: 15px; text-align: center;">View in Research Map >></div>
+		<div id="researchInfoLink" class="stdBorder abs buttonDiv" style="top: 10px; right: 10px; width: 149px; height: 15px; text-align: center;">View in Research Map &gt;&gt;</div>
 		<div id="researchInfoDesc" 	class="stdBorder abs" style="top: 35px; left: 135px; right: 10px; height: 75px;"></div>
 
-		<div id="researchInfoControls" class="stdBorder abs" style="top: 120px; left: 10px; width: 220px; height: 100px;"></div>
-		<div id="researchInfoEffectsControls" class="stdBorder abs" style="top: 120px; left: 240px; width: 19px; height: 100px;">
-			<div id="researchInfoEffectsControlsUp" class="stdBorder abs buttonDiv" style="text-align: center; padding-top: 10px; top: -1px; left: -1px; right: -1px; height: 25px;">&uarr;</div>
-			<div id="researchInfoEffectsControlsLevel" class="abs" style="text-align: center; padding-top: 10px; top: 32px; left: -1px; right: -1px; height: 25px;"></div>
-			<div id="researchInfoEffectsControlsDown" class="stdBorder abs buttonDiv" style="text-align: center; padding-top: 10px; bottom: -1px; left: -1px; right: -1px; height: 25px;">&darr;</div>
+		<div id="researchInfoControls" class="stdBorder abs" style="top: 120px; left: 10px; width: 270px; height: 120px;"></div>
+
+		<div id="researchInfoEffectsControls" class="stdBorder abs" style="top: 250px; left: 10px; width: 270px; height: 20px;">
+			<div id="researchInfoEffectsControlsLeft" class="stdBorder abs buttonDiv" style="text-align: center; left: -1px; top: -1px; width: 20px; height: 100%;">&lt;</div>
+			<div id="researchInfoEffectsControlsLevel" class="abs" style="text-align: center; left: 20px; right: 20px; height: 100%;"></div>
+			<div id="researchInfoEffectsControlsRight" class="stdBorder abs buttonDiv" style="text-align: center; right: -1px; top: -1px; width: 20px; height: 100%; ">&gt;</div>
 		</div>
-		<div id="researchInfoEffectsHolder" class="stdBorder abs scrollable" style="top: 120px; left: 260px; right: 10px; height: 100px; text-align: left; padding-left: 5px;">
+		<div id="researchInfoEffectsHolder" class="stdBorder abs scrollable" style="top: 271px; left: 10px; width: 265px; bottom: 10px; text-align: left; padding-left: 5px;">
 			<div class="scrollbar">
 			<div class="track">
 					<div class="thumb green-over">
@@ -52,9 +57,18 @@
 			</div>
 		</div>
 
-		<div class="stdBorder abs" style="top: 230px; left: 10px; right: 10px; bottom: 10px;">
-
-		</div>
+		<div class="stdBorder abs scrollable" style="top: 120px; left: 290px; right: 10px; bottom: 10px;">
+			<div class="scrollbar">
+				<div class="track">
+					<div class="thumb green-over">
+						<div class="end"></div>
+					</div>
+				</div>
+			</div>
+			<div class="viewport">
+				<div id="researchNoteRequirements" class="overview"></div>
+			</div>
+        </div>
 	</div>
 </div>
 {{/block}}
@@ -173,8 +187,7 @@
 
 			$("#researchInfoEffectsControlsLevel").text(Math.max(tech.techLevel, 1)).attr("data-level", Math.max(tech.techLevel, 1)).attr("data-techID", tech.techID);
 
-			$('#researchInfoEffectsControlsUp').unbind('click');
-			$('#researchInfoEffectsControlsUp').bind('click', function() {
+			$('#researchInfoEffectsControlsRight').unbind('click').bind('click', function() {
 				var level = parseInt($("#researchInfoEffectsControlsLevel").attr("data-level"));
 				if(level < tech.techLevel + 10) {
 					var newLevel = level + 1;
@@ -185,8 +198,7 @@
 				}
 			});
 
-			$('#researchInfoEffectsControlsDown').unbind('click');
-			$('#researchInfoEffectsControlsDown').bind('click', function() {
+			$('#researchInfoEffectsControlsLeft').unbind('click').bind('click', function() {
 				var level = parseInt($("#researchInfoEffectsControlsLevel").attr("data-level"));
 				if(level > 1) {
 					var newLevel = level - 1;
@@ -196,8 +208,14 @@
 					updateAllScrollbars();
 				}
 			});
+			loadResearchNoteInfo(researchData, techID);
+			loadHovers({});
+		}
 
-			loadModHover();
+		function loadResearchNoteInfo(researchData, techID) {
+			var tech = researchData[techID];
+			var researchNoteInfo = Handlebars.templates['researchNoteInfo.tmpl'];
+			$("#researchNoteRequirements").html(researchNoteInfo(tech));
 		}
 	</script>
 {{/block}}

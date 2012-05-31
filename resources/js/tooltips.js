@@ -141,7 +141,52 @@ function loadModHover() {
 			show : {
 				delay : 300,
 				effect : "show"
-			}
+			},
+			hide : false
+		});
+	});
+}
+
+function loadBuidingHover() {
+	$(".buildingLink").each(function() {
+		var level = $(this).attr("data-buildLevel");
+		var buildID = $(this).attr("data-buildID");
+		if (level) {
+			$(this).text("Level " + level + " " + dbBuildData[buildID].buildName);
+		} else {
+			$(this).text(dbBuildData[buildID].buildName);
+		}
+
+		/*
+		$(this).tooltip({
+			items : "span.buildingLink",
+			tooltipClass : "tooltip-main tooltip-mod",
+			track : true,
+			content : function() {
+				return dbModData[modID].modDesc;
+			},
+			show : {
+				delay : 300,
+				effect : "show"
+			},
+			hide : false
+		});
+		*/
+	});
+}
+
+function loadTextHover() {
+	$(".textLink").each(function() {
+		$(this).tooltip({
+			items : "span.textLink",
+			tooltipClass : "tooltip-main tooltip-link",
+			track : true,
+			content : $(this).attr("data-hover"),
+			show : {
+				delay : 300,
+				effect : "show"
+			},
+			hide : false
 		});
 	});
 }
@@ -149,4 +194,6 @@ function loadModHover() {
 function loadHovers(data) {
 	loadItemHover(data.items);
 	loadModHover();
+	loadTextHover();
+	loadBuidingHover();
 }

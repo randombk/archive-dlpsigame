@@ -10,7 +10,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.objectID) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.objectID; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\">\r\n	<table style=\"width: 100%\" class=\"scaffold\">\r\n		<tr>\r\n			<td rowspan=\"5\" style=\"width: 60px;\">\r\n				<img src=\"http://placehold.it/60x60&text=";
+    + "\">\r\n	<table style=\"width: 100%;\" class=\"scaffold\">\r\n		<tr>\r\n			<td rowspan=\"5\" style=\"width: 60px;\">\r\n				<img src=\"http://placehold.it/60x60&text=";
   if (stack1 = helpers.objectID) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.objectID; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

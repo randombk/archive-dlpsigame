@@ -34,6 +34,10 @@ function Research(techID, techLevel, techPoints) {
 	this.techEffects	= clone(this.techBaseData.techEffects);
 	this.techMods		= clone(this.techBaseData.techMods);
 	this.researchCost	= clone(this.techBaseData.researchCost);
+	this.researchNoteBuildingReq    = clone(this.techBaseData.researchNoteBuildingReq);
+	this.researchNotePassive	    = clone(this.techBaseData.researchNotePassive);
+	this.researchNoteCost	        = clone(this.techBaseData.researchNoteCost);
+	this.researchNoteConsumption	= clone(this.techBaseData.researchNoteConsumption);
 }
 
 Research.prototype.directions = [ [1, 0], [0, 1], [-1, 1], [-1, 0], [0, -1], [1, -1] ];
@@ -120,3 +124,5 @@ Research.prototype.getResearchEffect = function(level) {
 
 	return effectHTML;
 };
+
+

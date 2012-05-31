@@ -14,7 +14,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.techID) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.techID; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\">\r\n	<table style=\"width: 100%\" class=\"scaffold\">\r\n		<tr>\r\n			<td rowspan=\"5\" style=\"width: 61px;\">\r\n				<img width=\"60\" height=\"52\" src=\"resources/images/research/";
+    + "\">\r\n	<table style=\"width: 100%;\" class=\"scaffold\">\r\n		<tr>\r\n			<td rowspan=\"5\" style=\"width: 61px;\">\r\n				<img width=\"60\" height=\"52\" src=\"resources/images/research/";
   if (stack1 = helpers.techImage) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.techImage; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
