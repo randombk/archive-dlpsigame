@@ -8,7 +8,7 @@ function parseItemData(data, params) {
 	for(var i in data) {
 		if(data[i] instanceof Item) {
 			//Data array has already been processed
-			return;
+			continue;
 		}
 		params = clone(data[i]);
 		data[i] = new Item(i, params);

@@ -72,6 +72,31 @@
 	//Load building data
 	(function($) {
 		$(document).on('gameDataLoaded', function() {
+			$.jStorage.subscribe("dataUpdater", function(channel, payload) {
+				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
+					if (inArray(payload.msgTarget, "all")) {
+						switch (payload.msgType) {
+							case "msgUpdateItems":
+								if(payload.msgData.objectID == objectID) {
+									parseItemData(payload.msgData.itemData);
+									lastAjaxResponse.objectItems = payload.msgData.itemData;
+									loadItemHover(lastAjaxResponse);
+								}
+								break;
+
+							case "msgUpdateBuildings":
+								if(payload.msgData.objectID == objectID) {
+									parseBuildingData(payload.msgData.buildingData);
+									lastAjaxResponse.objectBuildings = payload.msgData.buildingData;
+									loadBuildingData(lastAjaxResponse);
+									loadBuidingHover(lastAjaxResponse);
+								}
+								break;
+						}
+					}
+				}
+			});
+
 			getBuildingData();
 		});
 	})(jQuery);
@@ -281,12 +306,12 @@
 							return templateBuildingInfo(context);
 						},
 						open: function( event, ui ) {
-							loadHovers({items: lastAjaxResponse.objectItems});
+							loadHovers(lastAjaxResponse);
 						}
 					}
 			);
 		});
-		loadHovers({items: lastAjaxResponse.objectItems});
+		loadHovers(lastAjaxResponse);
 	}
 
 	function getBuildingData() {
@@ -297,7 +322,6 @@
 					$("#tabContainer").text("Fatal Error #" + (-data.code) + ": " + data.message);
 				} else {
 					handleAjax(data);
-					loadBuildingData(data);
 				}
 			},
 			"json"

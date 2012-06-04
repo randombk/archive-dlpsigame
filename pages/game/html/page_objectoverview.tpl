@@ -150,13 +150,33 @@
 				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
 					if (inArray(payload.msgTarget, "all")) {
 						switch (payload.msgType) {
+							case "msgUpdateResearchInfo":
+								parseResearchData(payload.msgData.researchData.research);
+								lastAjaxResponse.researchData = payload.msgData.researchData.research;
+								break;
+
+							case "msgUpdateItems":
+								if(payload.msgData.objectID == objectID) {
+									parseItemData(payload.msgData.itemData);
+									lastAjaxResponse.objectItems = payload.msgData.itemData;
+									loadItemHover(lastAjaxResponse);
+								}
+								break;
+
+							case "msgUpdateBuildings":
+								if(payload.msgData.objectID == objectID) {
+									parseBuildingData(payload.msgData.buildingData);
+									lastAjaxResponse.objectBuildings = payload.msgData.buildingData;
+									loadBuidingHover(lastAjaxResponse);
+								}
+								break;
+
 							case "msgUpdateObjectInfo":
 								if(payload.msgData.objectID == objectID) {
 									loadObjectInfoPage(payload.msgData.objectInfo);
 								}
 								break;
-							default:
-								break;
+
 						}
 					}
 				}
@@ -349,7 +369,7 @@
 				$("#research" + key + "Total").text(researchTotal[key]);
 			};
 
-			loadHovers({items: data.items});
+			loadHovers(data);
 		}
 
 		function updateBuildingActivity () {

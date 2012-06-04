@@ -32,6 +32,7 @@
 
 <!-- Load handlers -->
 <script src="resources/js/Item.js?v={{$VERSION}}"></script>
+<script src="resources/js/Building.js?v={{$VERSION}}"></script>
 <script src="resources/js/Research.js?v={{$VERSION}}"></script>
 
 {{block name="additionalIncluding"}}{{/block}}
@@ -68,6 +69,7 @@
 		$(window).on("resize", function() {
 			updateAllScrollbars();
 		});
+		window.name = getGUID();
 	})(jQuery);
 
 	function updateAllScrollbars() {
@@ -75,11 +77,6 @@
 			$(this).tinyscrollbar_update();
 		});
 	}
-
-	//Register all item links
-	$(document).on('gameDataLoaded', function() {
-		loadItemHover();
-	});
 </script>
 
 <script>

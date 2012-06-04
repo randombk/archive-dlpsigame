@@ -271,7 +271,6 @@
 				lastAjaxResponse = data;
 				if(isset(data.objectItems)) {
 					$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.objectItems}, ["all"], window.name));
-					parseItemData(data.objectItems);
 				}
 
 				if(isset(data.objectBuildings)) {

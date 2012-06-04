@@ -46,7 +46,8 @@ function staticTT(element, options) {
 	});
 }
 
-function loadItemHover(items) {
+function loadItemHover(data) {
+	var items = data.objectItems;
 	$(".itemLink").each(function() {
 		var parameters = $(this).attr("data-parameters");
 		var itemID = $(this).attr("data-item");
@@ -89,9 +90,7 @@ function loadItemHover(items) {
 					return item.getHoverContent();
 				},
 				open : function(event, ui) {
-					loadHovers({
-						items : items
-					});
+					loadHovers(data);
 				},
 				show : {
 					delay : 300,
@@ -102,7 +101,7 @@ function loadItemHover(items) {
 	});
 }
 
-function loadModHover() {
+function loadModHover(data) {
 	$(".modLink").each(function() {
 		var amount = $(this).attr("data-amount");
 		var modID = $(this).attr("data-modID");
@@ -148,11 +147,20 @@ function loadModHover() {
 }
 
 function loadBuidingHover(data) {
+	var buildings = data.objectBuildings;
 	$(".buildingLink").each(function() {
 		var level = $(this).attr("data-buildLevel");
 		var buildID = $(this).attr("data-buildID");
+		var linkType = $(this).attr("data-linkType");
 		if (level) {
 			$(this).text("Level " + level + " " + dbBuildData[buildID].buildName);
+			if(linkType == "req") {
+				if(isset(buildings[buildID]) && buildings[buildID].level >= level) {
+					$(this).addClass("green");
+				} else {
+					$(this).addClass("red");
+				}
+			}
 		} else {
 			$(this).text(dbBuildData[buildID].buildName);
 		}
@@ -175,7 +183,7 @@ function loadBuidingHover(data) {
 	});
 }
 
-function loadTextHover() {
+function loadTextHover(data) {
 	$(".textLink").each(function() {
 		$(this).tooltip({
 			items : "span.textLink",
@@ -192,8 +200,8 @@ function loadTextHover() {
 }
 
 function loadHovers(data) {
-	loadItemHover(data.items);
-	loadModHover();
-	loadTextHover();
-	loadBuidingHover();
+	loadItemHover(data);
+	loadModHover(data);
+	loadTextHover(data);
+	loadBuidingHover(data);
 }

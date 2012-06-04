@@ -13,7 +13,7 @@ class UniCoord {
 	protected $objStar		= 0;
 	protected $objObject 	= 0;
 
-	/* 
+	/*
 	 * Object Types:
 	 *		1 -> Habitable Planet
 	 */
@@ -22,9 +22,9 @@ class UniCoord {
 	protected $objID		= 0;
 	protected $objStarID	= 0;
 	protected $objImageID	= 0;
-	
+
 	protected $OK			= true;
-	
+
 	//Objects only
 	/**
 	 * @param int $id
@@ -37,7 +37,7 @@ class UniCoord {
 			return null;
 		return $instance;
 	}
-	
+
 	//Objects only
 	/**
 	 * @param int $id
@@ -91,9 +91,9 @@ class UniCoord {
 		$instance->objStarID	= $objectData['starID'];
 		return $instance;
 	}
-	
+
 	//if isStar is true, select implicit star object
-	//else select the object		
+	//else select the object
 	/**
 	 * @param int $id
 	 * @param bool $isStar
@@ -117,7 +117,7 @@ class UniCoord {
 				array(":objectID" => $id),
 				"objectIndex, objectType, objectName, objectImageID, starID"
 			);
-			
+
 			if(isset($objectData)){
 				$star = GameCache::get('STARS')[$objectData['starID']];
 				$this->objGalaxy	= $star['galaxyID'];
@@ -191,7 +191,7 @@ class UniCoord {
 			case 1:
 				return "Planet";
 			default:
-				return "Object";						
+				return "Object";
 		}
 	}
 
