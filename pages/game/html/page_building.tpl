@@ -79,17 +79,29 @@
 							case "msgUpdateItems":
 								if(payload.msgData.objectID == objectID) {
 									parseItemData(payload.msgData.itemData);
-									lastAjaxResponse.objectItems = payload.msgData.itemData;
-									loadItemHover(lastAjaxResponse);
+									latestGameData.objectItems = payload.msgData.itemData;
+									loadItemHover(latestGameData);
 								}
 								break;
 
 							case "msgUpdateBuildings":
 								if(payload.msgData.objectID == objectID) {
 									parseBuildingData(payload.msgData.buildingData);
-									lastAjaxResponse.objectBuildings = payload.msgData.buildingData;
-									loadBuildingData(lastAjaxResponse);
-									loadBuidingHover(lastAjaxResponse);
+									latestGameData.objectBuildings = payload.msgData.buildingData;
+									loadBuidingHover(latestGameData);
+								}
+								break;
+
+							case "msgUpdateBuildingQueue":
+								if(payload.msgData.objectID == objectID) {
+									loadBuidingQueue(payload.msgData.buildQueue);
+								}
+								break;
+
+							case "msgUpdateBuildingUpgrades":
+								if(payload.msgData.objectID == objectID) {
+									parseBuildingData(latestGameData.objectBuildings);
+									loadBuildingData(latestGameData.objectBuildings, payload.msgData.canBuild);
 								}
 								break;
 						}
@@ -101,29 +113,53 @@
 		});
 	})(jQuery);
 
-	function loadBuildingData(data) {
+	function handlebuildingAjax(data) {
+		if(data.code < 0) {
+			showMessage("Error " + (-data.code) + ": " + data.message, "red", 30000);
+		}
+		handleAjax(data);
+		if(isset(data.buildQueue)) {
+			$.jStorage.publish("dataUpdater", new Message("msgUpdateBuildingQueue", {"objectID" : objectID, "buildQueue" : data.buildQueue}, ["all"], window.name));
+		}
+
+		if(isset(data.canBuild)) {
+			$.jStorage.publish("dataUpdater", new Message("msgUpdateBuildingUpgrades", {"objectID" : objectID, "canBuild" : data.canBuild}, ["all"], window.name));
+		}
+	}
+
+	function getBuildingData() {
+		$.post(
+			"ajaxRequest.php",
+			{"action" : "getBuildings", "ajaxType": "BuildingHandler", "objectID": objectID},
+			handlebuildingAjax,
+			"json"
+		).fail(function() { $("#tabContainer").text("An error occurred while getting data"); });
+	}
+
+	function loadBuidingQueue(buildQueue) {
 		//Load building queue
-		$("#buildingQueue").html("");
+		var buildQueueHolder = $("#buildingQueue").html("");
 		var templateBuildingQueue = Handlebars.templates['buildingQueueItem.tmpl'];
-		if(typeof data.buildQueue[0] !== 'undefined') {
-			var uid = data.buildQueue[0].id;
-			$("#buildingQueue").append(templateBuildingQueue({
-				operation: data.buildQueue[0].operation,
-				buildName: dbBuildData[data.buildQueue[0].buildingID].buildName,
-				buildLevel: data.buildQueue[0].buildingLevel,
-				startTime: data.buildQueue[0].startTime,
-				endTime: data.buildQueue[0].endTime,
+		if(typeof buildQueue[0] !== 'undefined') {
+			var uid = buildQueue[0].id;
+			buildQueueHolder.append(templateBuildingQueue({
+				operation: buildQueue[0].operation,
+				buildName: dbBuildData[buildQueue[0].buildingID].buildName,
+				buildLevel: buildQueue[0].buildingLevel,
+				startTime: buildQueue[0].startTime,
+				endTime: buildQueue[0].endTime,
+				callback: "getBuildingData();",
 				id: uid
 			}));
 
 			$("#" + uid).progressbar({
 				value: 1,
-				max: data.buildQueue[0].endTime - data.buildQueue[0].startTime,
+				max: buildQueue[0].endTime - buildQueue[0].startTime,
 				change: function() {
 					$("#text-" + uid).text(
-							niceETA(
-									moment.duration($("#" + uid).progressbar("option", "max") - $("#" + uid).progressbar("value"), 'seconds')
-							) + " left"
+						niceETA(
+							moment.duration($("#" + uid).progressbar("option", "max") - $("#" + uid).progressbar("value"), 'seconds')
+						) + " left"
 					);
 				},
 				complete: function() {
@@ -131,13 +167,13 @@
 				}
 			});
 
-			for(var i = 1; i < data.buildQueue.length; i++) {
+			for(var i = 1; i < buildQueue.length; i++) {
 				$("#buildingQueue").append(
 						templateBuildingQueue({
-							operation: data.buildQueue[i].operation,
-							buildName: dbBuildData[data.buildQueue[i].buildingID].buildName,
-							buildLevel: data.buildQueue[i].buildingLevel,
-							id: data.buildQueue[i].id
+							operation: buildQueue[i].operation,
+							buildName: dbBuildData[buildQueue[i].buildingID].buildName,
+							buildLevel: buildQueue[i].buildingLevel,
+							id: buildQueue[i].id
 						})
 				);
 			}
@@ -146,78 +182,76 @@
 			$(".buildingQueueCancel").on("click", function(){
 				var queueID = $(this).attr("data-id");
 				$.post(
-						"ajaxRequest.php",
-						{"action" : "cancelBuildingQueueItem", "ajaxType": "BuildingHandler", "objectID": objectID, "queueItemID": queueID},
-						function(data){
-							loadNotificationData();
-							if(data.code >= 0) {
-								loadData();
-							}
-						},
-						"json"
+					"ajaxRequest.php",
+					{"action" : "cancelBuildingQueueItem", "ajaxType": "BuildingHandler", "objectID": objectID, "queueItemID": queueID},
+					handlebuildingAjax,
+					"json"
 				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 			});
 		}
+	}
 
+	function loadBuildingData(objectBuildings, canBuild) {
 		//Load data
 		var buildPageInfo = {};
 
-		//Load popssible buildings first
-		for(var key in data.canBuild) {
-			var obj = data.canBuild[key];
+		//Load possible buildings first
+		for(var key in canBuild) {
+			var data = canBuild[key];
+			var nextBuilding = isset(objectBuildings[key]) ? objectBuildings[key] : new Building(key, 0);
 			if(!(key in buildPageInfo)) {
-				buildPageInfo[key] = dbBuildData[key];
+				buildPageInfo[key] = clone(nextBuilding);
 				buildPageInfo[key].curLevel = 0;
 			}
 
-			buildPageInfo[key].nextLevel = obj.nextLevel;
-			buildPageInfo[key].nextDestroyLevel = obj.nextLevel - 1;
-			buildPageInfo[key].nextResReq = obj.nextResReq;
+			buildPageInfo[key].nextLevel = data.nextLevel;
+			buildPageInfo[key].nextDestroyLevel = data.nextLevel - 1;
+			buildPageInfo[key].nextResReq = data.nextResReq;
 
-			buildPageInfo[key].nextResConsumption = obj.nextResConsumption;
+			buildPageInfo[key].nextResConsumption = nextBuilding.getBaseBuildingConsumption(data.nextLevel);
 			if(!isEmpty(buildPageInfo[key].nextResConsumption))
 				buildPageInfo[key].showConsumption = true;
 
-			buildPageInfo[key].nextResProduction = obj.nextResProduction;
+			buildPageInfo[key].nextResProduction = nextBuilding.getBaseBuildingProduction(data.nextLevel);
 			if(!isEmpty(buildPageInfo[key].nextResProduction))
 				buildPageInfo[key].showProduction = true;
 
 			if(buildPageInfo[key].showProduction && buildPageInfo[key].showConsumption) {
 				buildPageInfo[key].showNetChange = true;
-				buildPageInfo[key].nextResChange = mergeItemDataClone(buildPageInfo[key].nextResProduction, buildPageInfo[key].nextResConsumption, "-");
+				buildPageInfo[key].nextResChange = mergeSub(buildPageInfo[key].nextResProduction, buildPageInfo[key].nextResConsumption);
 			}
 
-			buildPageInfo[key].nextModifiers = obj.nextModifiers;
+			buildPageInfo[key].nextModifiers = nextBuilding.getBaseBuildingMods(data.nextLevel);
 			if(buildPageInfo[key].nextModifiers)
 				buildPageInfo[key].showModifiers = true;
 
-			buildPageInfo[key].upgradeTime = niceETA(moment.duration(obj.upgradeTime, 'seconds'));
+			buildPageInfo[key].upgradeTime = niceETA(moment.duration(data.upgradeTime, 'seconds'));
 		}
 
-		for(var key in data.buildings) {
-			var obj = data.buildings[key];
+		for(var key in objectBuildings) {
+			var curBuilding = objectBuildings[key];
 			if(!(key in buildPageInfo)) {
-				buildPageInfo[key] = dbBuildData[key];
+				buildPageInfo[key] = clone(curBuilding);
 			}
 
-			buildPageInfo[key].curLevel = obj.level;
-			if(!buildPageInfo[key].nextDestroyLevel && obj.level)
-				buildPageInfo[key].nextDestroyLevel = obj.level;
+			buildPageInfo[key].curLevel = curBuilding.level;
+			if(!buildPageInfo[key].nextDestroyLevel && curBuilding.level)
+				buildPageInfo[key].nextDestroyLevel = curBuilding.level;
 
-			buildPageInfo[key].curResConsumption = obj.curResConsumption;
+			buildPageInfo[key].curResConsumption = curBuilding.getBaseBuildingConsumption();
 			if(!isEmpty(buildPageInfo[key].curResConsumption))
 				buildPageInfo[key].showConsumption = true;
 
-			buildPageInfo[key].curResProduction = obj.curResProduction;
+			buildPageInfo[key].curResProduction = curBuilding.getBaseBuildingProduction();
 			if(!isEmpty(buildPageInfo[key].curResProduction))
 				buildPageInfo[key].showProduction = true;
 
 			if(buildPageInfo[key].showProduction && buildPageInfo[key].showConsumption) {
 				buildPageInfo[key].showNetChange = true;
-				buildPageInfo[key].curResChange = mergeItemDataClone(buildPageInfo[key].curResProduction, buildPageInfo[key].curResConsumption, "-");
+				buildPageInfo[key].curResChange = mergeSub(buildPageInfo[key].curResProduction, buildPageInfo[key].curResConsumption);
 			}
 
-			buildPageInfo[key].curModifiers = obj.curModifiers;
+			buildPageInfo[key].curModifiers = curBuilding.getBaseBuildingMods();
 			if(buildPageInfo[key].curModifiers)
 				buildPageInfo[key].showModifiers = true;
 		}
@@ -243,36 +277,24 @@
 				return;
 			}
 
-			$.post("ajaxRequest.php",
-					{"action" : "buildBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
-					function(data){
-						if(data.code < 0) {
-							showMessage(data.message, "red", 30000);
-						}
-
-						handleAjax(data);
-						loadBuildingData(data);
-					}, "json")
-					.fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); })
-					.always(function() {  });
+			$.post(
+				"ajaxRequest.php",
+				{"action" : "buildBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
+				handlebuildingAjax,
+				"json"
+			).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 		});
 
 		$(".buildingDestroy").on("click", function(){
 			var buildingID = $(this).attr("data-buildingID");
 			var buildingLevel = $(this).attr("data-buildingLevel");
 			doConfirm("Are you sure you want to destroy this building?", function() {
-				$.post("ajaxRequest.php",
-						{"action" : "destroyBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
-						function(data){
-							if(data.code < 0) {
-								showMessage(data.message, "red", 30000);
-							}
-
-							handleAjax(data);
-							loadBuildingData(data);
-						}, "json")
-						.fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); })
-						.always(function() {  });
+				$.post(
+					"ajaxRequest.php",
+					{"action" : "destroyBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
+					handlebuildingAjax,
+					"json"
+				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 			}, function(){});
 		});
 
@@ -280,17 +302,13 @@
 			var buildingID = $(this).attr("data-buildingID");
 			var buildingLevel = $(this).attr("data-buildingLevel");
 			doConfirm("Are you sure you want to recycle this building?", function() {
-				$.post("ajaxRequest.php",
-						{"action" : "recycleBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
-						function(data){
-							if(data.code < 0) {
-								showMessage(data.message, "red", 30000);
-							}
-							handleAjax(data);
-							loadBuildingData(data);
-						}, "json")
-						.fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); })
-						.always(function() {  });
+				$.post(
+					"ajaxRequest.php",
+					{"action" : "recycleBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
+					handlebuildingAjax,
+					"json")
+					.fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); }
+				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 			}, function(){});
 		});
 
@@ -298,36 +316,20 @@
 		var templateBuildingInfo = Handlebars.templates['buildingInfo.tmpl'];
 		$(".buildingInfo").each(function() {
 			staticTT(
-					$(this),
-					{
-						show: { delay: 300, effect: "show" },
-						content : function() {
-							var context = buildPageInfo[$(this).attr("data-buildingID")];
-							return templateBuildingInfo(context);
-						},
-						open: function( event, ui ) {
-							loadHovers(lastAjaxResponse);
-						}
+				$(this),
+				{
+					show: { delay: 300, effect: "show" },
+					content : function() {
+						var context = buildPageInfo[$(this).attr("data-buildingID")];
+						return templateBuildingInfo(context);
+					},
+					open: function( event, ui ) {
+						loadHovers(latestGameData);
 					}
+				}
 			);
 		});
-		loadHovers(lastAjaxResponse);
-	}
-
-	function getBuildingData() {
-		$.post("ajaxRequest.php",
-			{"action" : "getBuildings", "ajaxType": "BuildingHandler", "objectID": objectID},
-			function(data){
-				if(data.code < 0) {
-					$("#tabContainer").text("Fatal Error #" + (-data.code) + ": " + data.message);
-				} else {
-					handleAjax(data);
-				}
-			},
-			"json"
-		)
-		.fail(function() { $("#tabContainer").text("An error occurred while getting data"); })
-		.always(function() {  });
+		loadHovers(latestGameData);
 	}
 </script>
 {{/block}}

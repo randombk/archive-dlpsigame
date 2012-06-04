@@ -143,7 +143,7 @@
 		//Load building data
 		(function($) {
 			$(document).on('gameDataLoaded', function() {
-				loadData();
+				getOverviewData();
 			});
 
 			$.jStorage.subscribe("dataUpdater", function(channel, payload) {
@@ -152,22 +152,22 @@
 						switch (payload.msgType) {
 							case "msgUpdateResearchInfo":
 								parseResearchData(payload.msgData.researchData.research);
-								lastAjaxResponse.researchData = payload.msgData.researchData.research;
+								latestGameData.researchData = payload.msgData.researchData.research;
 								break;
 
 							case "msgUpdateItems":
 								if(payload.msgData.objectID == objectID) {
 									parseItemData(payload.msgData.itemData);
-									lastAjaxResponse.objectItems = payload.msgData.itemData;
-									loadItemHover(lastAjaxResponse);
+									latestGameData.objectItems = payload.msgData.itemData;
+									loadItemHover(latestGameData);
 								}
 								break;
 
 							case "msgUpdateBuildings":
 								if(payload.msgData.objectID == objectID) {
 									parseBuildingData(payload.msgData.buildingData);
-									lastAjaxResponse.objectBuildings = payload.msgData.buildingData;
-									loadBuidingHover(lastAjaxResponse);
+									latestGameData.objectBuildings = payload.msgData.buildingData;
+									loadBuidingHover(latestGameData);
 								}
 								break;
 
@@ -176,14 +176,13 @@
 									loadObjectInfoPage(payload.msgData.objectInfo);
 								}
 								break;
-
 						}
 					}
 				}
 			});
 		})(jQuery);
 
-		function loadData() {
+		function getOverviewData() {
 			$.post("ajaxRequest.php",
 				{"action" : "getObjectInfo", "ajaxType": "ObjectHandler", "objectID": objectID},
 				function(data){
@@ -200,7 +199,6 @@
 		}
 
 		function loadObjectInfoPage(data) {
-			$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.items}, ["all"], window.name));
 			$(".gen").remove();
 			//Load object info
 
@@ -228,6 +226,7 @@
 					buildLevel: data.buildQueue[0].buildingLevel,
 					startTime: data.buildQueue[0].startTime,
 					endTime: data.buildQueue[0].endTime,
+					callback: "getOverviewData();",
 					id: uid
 				}));
 
@@ -267,8 +266,7 @@
 							if(data.code < 0) {
 								loadNotificationData();
 							} else {
-								handleAjax(data);
-								loadData();
+								getOverviewData();
 							}
 						},
 						"json"
@@ -384,13 +382,15 @@
 				function(data){
 					if(data.code < 0) {
 						showMessage("Fatal Error #" + (-data.code) + ": " + data.message, "red", 30000);
+					} else {
+						handleAjax(data);
 					}
 				},
 			"json")
 			.fail(function() { showMessage("An error occurred while updating activity data", "red", 30000);})
 			.always(function() {  });
 
-			loadData();
+			getOverviewData();
 		}
 	</script>
 {{/block}}

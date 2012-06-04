@@ -301,23 +301,39 @@
 				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
 					if (inArray(payload.msgTarget, "all")) {
 						switch (payload.msgType) {
-							case "msgUpdateResearchInfo": {
+							case "msgUpdateResearchInfo":
 								parseResearchData(payload.msgData.researchData.research);
+								latestGameData.researchData = payload.msgData.researchData.research;
 								loadResearchMap(payload.msgData.researchData.research);
 								$("#researchHolder").overscrollTo("#" + centerTech);
 								break;
-							}
+
+							case "msgUpdateItems":
+								if(payload.msgData.objectID == objectID) {
+									parseItemData(payload.msgData.itemData);
+									latestGameData.objectItems = payload.msgData.itemData;
+									loadItemHover(latestGameData);
+								}
+								break;
+
+							case "msgUpdateBuildings":
+								if(payload.msgData.objectID == objectID) {
+									parseBuildingData(payload.msgData.buildingData);
+									latestGameData.objectBuildings = payload.msgData.buildingData;
+									loadBuidingHover(latestGameData);
+								}
+								break;
 						}
 					}
 				}
 			});
 
-			loadResearchData();
+			getResearchData();
 		});
 	})(jQuery);
 
 	//Research Data
-	function loadResearchData() {
+	function getResearchData() {
 		$.post("ajaxRequest.php",
 			{"action" : "getResearch", "ajaxType": "ResearchHandler"},
 			function(data){

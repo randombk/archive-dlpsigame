@@ -17,10 +17,11 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 	/**
 	 * @param ObjectEnvironment $objectEnv
 	 * @param int $code
+	 * @param null $message
 	 */
 	private function sendBuildingInfo($objectEnv, $code = 0, $message = null) {
 		$data = array(
-			"buildings" => self::getBuildingList($objectEnv),
+			//"buildings" => self::getBuildingList($objectEnv),
 			"canBuild" => self::getUpgradeList($objectEnv),
 			//"items" => UtilItem::buildItemDataArray($objectEnv->envItems),
 			"buildQueue" => $objectEnv->buildingQueue
@@ -228,7 +229,6 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 		$canBuild = array();
 
 		$mod = DataMod::calculateObjectModifiers($objectEnv);
-		$resMod = new DataMod();
 
 		foreach (GameCache::get("BUILDINGS") as $id => $data) {
 			$nextLevel = $objectEnv->envBuildings->getBuildingLevel($id) + 1;
@@ -246,9 +246,9 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			$canBuild[$id]["nextLevel"] = $nextLevel;
 			$canBuild[$id]["upgradeTime"] = CalcObject::getBuildTime($objectEnv, $id, $nextLevel, $mod);
 			$canBuild[$id]["nextResReq"] = UtilItem::buildItemDataArray(CalcObject::getBuildingUpgradeCost($objectEnv, $id, $nextLevel, $mod));
-			$canBuild[$id]["nextResConsumption"] = UtilItem::buildItemDataArray(CalcObject::getBuildingConsumption($objectEnv, $id, $nextLevel, $resMod));
-			$canBuild[$id]["nextResProduction"] = UtilItem::buildItemDataArray(CalcObject::getBuildingProduction($objectEnv, $id, $nextLevel, $resMod));
-			$canBuild[$id]["nextModifiers"] = CalcObject::getBuildingModifiers($objectEnv, $id, $nextLevel);
+			//$canBuild[$id]["nextResConsumption"] = UtilItem::buildItemDataArray(CalcObject::getBuildingConsumption($objectEnv, $id, $nextLevel, $resMod));
+			//$canBuild[$id]["nextResProduction"] = UtilItem::buildItemDataArray(CalcObject::getBuildingProduction($objectEnv, $id, $nextLevel, $resMod));
+			//$canBuild[$id]["nextModifiers"] = CalcObject::getBuildingModifiers($objectEnv, $id, $nextLevel);
 		}
 		return $canBuild;
 	}

@@ -250,7 +250,7 @@
 				var item = data[itemID];
 				if(item.itemVisibility > 0 && item.quantity > 0) {
 					var html = $(template({
-						quantity: niceNumber(item.quantity),
+						quantity: niceNumber(Math.floor(item.quantity)),
 						itemName: item.itemName,
 						itemImage: item.itemImage
 					}));
@@ -280,7 +280,7 @@
 								);
 								selectedItems[element.attr("data-itemID")] = number;
 								updateControls(data);
-							}, "text", Math.round($(this).attr("data-itemQuantity")));
+							}, "text", Math.floor($(this).attr("data-itemQuantity")));
 						}
 						updateControls(data);
 					});

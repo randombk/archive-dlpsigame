@@ -106,23 +106,23 @@
 							switch (payload.msgType) {
 								case "msgUpdateResearchInfo":
 									parseResearchData(payload.msgData.researchData.research);
-									lastAjaxResponse.researchData = payload.msgData.researchData.research;
+									latestGameData.researchData = payload.msgData.researchData.research;
 									loadResearchList(payload.msgData.researchData.research);
 									break;
 
 								case "msgUpdateItems":
 									if(payload.msgData.objectID == objectID) {
 										parseItemData(payload.msgData.itemData);
-										lastAjaxResponse.objectItems = payload.msgData.itemData;
-										loadItemHover(lastAjaxResponse);
+										latestGameData.objectItems = payload.msgData.itemData;
+										loadItemHover(latestGameData);
 									}
 									break;
 
 								case "msgUpdateBuildings":
 									if(payload.msgData.objectID == objectID) {
 										parseBuildingData(payload.msgData.buildingData);
-										lastAjaxResponse.objectBuildings = payload.msgData.buildingData;
-										loadBuidingHover(lastAjaxResponse);
+										latestGameData.objectBuildings = payload.msgData.buildingData;
+										loadBuidingHover(latestGameData);
 									}
 									break;
 							}
@@ -130,12 +130,12 @@
 					}
 				});
 
-				loadObjectResearchData(objectID);
+				getObjectResearchData(objectID);
 				//resetInfoPage();
 			});
 		})(jQuery);
 
-		function loadObjectResearchData(objectID) {
+		function getObjectResearchData(objectID) {
 			$.post("ajaxRequest.php",
 				{"action" : "getObjectResearch", "ajaxType": "ResearchHandler", "objectID": objectID},
 				function(data){
@@ -224,7 +224,7 @@
 				}
 			});
 			loadResearchNoteInfo(researchData, techID);
-			loadHovers(lastAjaxResponse);
+			loadHovers(latestGameData);
 		}
 
 		function loadResearchNoteInfo(researchData, techID) {

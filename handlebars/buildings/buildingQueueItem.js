@@ -32,7 +32,11 @@ function program5(depth0,data) {
   if (stack1 = helpers.endTime) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.endTime; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' data-callback='loadNotificationData(); loadData();'>\r\n			<span id=\"text-";
+    + "' data-callback='";
+  if (stack1 = helpers.callback) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.callback; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'>\r\n			<span id=\"text-";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -40,7 +44,7 @@ function program5(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div class='buildingQueueItem'> \r\n	";
+  buffer += "<div class='buildingQueueItem'>\r\n	";
   stack1 = helpers['if'].call(depth0, depth0.endTime, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += " ";
@@ -62,7 +66,7 @@ function program5(depth0,data) {
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\">\r\n		Cancel\r\n	</div>\r\n</div>";
+    + "\">\r\n		Cancel\r\n	</div>\r\n</div>\r\n";
   return buffer;
   });
 })();

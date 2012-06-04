@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
 <html class="no-js">
 	<head>
 		<title>{{block name="title"}} - {{$game_name}}{{/block}}</title>
@@ -171,7 +168,7 @@
 		{{include file="main_scripts.tpl" bodyclass="full"}}
 		<script type="text/javascript">
 			var objectID = {{$objectID}};
-			var lastAjaxResponse = {};
+			var latestGameData = {};
 			{{if $isAdmin}}
 				function clearCache() {
 					$.post("ajaxRequest.php",
@@ -268,7 +265,7 @@
 			});
 
 			function handleAjax(data) {
-				lastAjaxResponse = data;
+				latestGameData = data;
 				if(isset(data.objectItems)) {
 					$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.objectItems}, ["all"], window.name));
 				}

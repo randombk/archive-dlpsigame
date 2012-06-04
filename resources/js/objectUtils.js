@@ -42,14 +42,14 @@ function mergeItemData(obj1, obj2, operation) {
 	var result = obj1;
 	for(var i in obj2) {
 		if(isset(result[i])) {
-			if(operation == "+") {
+			if(operation === "+") {
 				result[i].quantity += obj2[i].quantity;
 			} else {
 				result[i].quantity -= obj2[i].quantity;
 			}
 		} else {
 			result[i] = clone(obj2[i]);
-			if(operation == "-") {
+			if(operation === "-") {
 				result[i].quantity = -result[i].quantity;
 			}
 		}
