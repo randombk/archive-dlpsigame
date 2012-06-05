@@ -103,33 +103,6 @@
 			</table>
 		</td>
 	</tr>
-	<!--tr>
-		<td>
-			<table class="innerBorderedTable" id="tableResearch">
-				<tr>
-					<th colspan="7" style="text-align: center; font-size: 12px;">Research Output</th>
-				</tr>
-				<tr style="font-weight: bold;">
-					<td style="width: 25%;"></td>
-					<td>Weapons Research</td>
-					<td>Defense Research</td>
-					<td>Diplomatic Research</td>
-					<td>Economic Research</td>
-					<td>Fleet Research</td>
-					<td style="width: 5%; min-width: 70px;">Activity</td>
-				</tr>
-				<tr style="font-weight: bold;">
-					<td>Total Research Output</td>
-					<td id="researchWeaponsTotal" style="text-align: center;"></td>
-					<td id="researchDefenseTotal" style="text-align: center;"></td>
-					<td id="researchDiplomaticTotal" style="text-align: center;"></td>
-					<td id="researchEconomicTotal" style="text-align: center;"></td>
-					<td id="researchFleetTotal" style="text-align: center;"></td>
-					<td style="vertical-align: top;" ><div class="green-over buttonDiv"onclick="updateBuildingActivity();">Update All</div></td>
-				</tr>
-			</table>
-		</td>
-	</tr-->
 </table>
 <br>
 <br>
@@ -207,7 +180,7 @@
 										if(!isEffectivelyEmpty(payload.msgData.objectWeightPenalty)){
 											$(".genWeightPenalty").remove();
 											$('#tableModifiers tr:last').before(modRowTemplate({
-												itemName: "Overweight Penalty",
+												itemName: "Storage Overflow Penalty",
 												modifiers: payload.msgData.objectWeightPenalty,
 												class: "genWeightPenalty"
 											}));
@@ -410,26 +383,6 @@
 			}
 			lastBuildingData = buildingData;
 			loadObjectTotals();
-		}
-
-		function loadObjectInfoPage(data) {
-			$(".gen").remove();
-
-			//Load planet modifiers
-			if(!isEmpty(data.objectModifiers)){
-				$('#tableModifiers tr:last').before(modRowTemplate({
-					itemName: "Planet Bonuses",
-					modifiers: data.objectModifiers
-				}));
-			}
-
-			//Load storage penalties
-			if(data.usedStorage >= data.objStorage) {
-				$('#tableModifiers tr:last').before(modRowTemplate({
-					itemName: "Storage Overflow Penalty",
-					modifiers: data.objectWeightPenalty
-				}));
-			}
 		}
 
 		function updateBuildingActivity () {
