@@ -81,80 +81,80 @@
 			$("#gameMenu #pageResearch").addClass("active");
 		});
 
-		(function($) {
-			$(document).on('gameDataLoaded', function() {
-				$("#toggleMaxMain").on("click", function(){
-					if($(this).hasClass("maxMain")) {
-						$(this).removeClass('maxMain');
-						$(this).css("left", 251);
-						$("#researchLeftPanel").show();
-						$("#researchMainPanel").css("left", 251);
-						$(this).text("<");
-					} else {
-						$(this).addClass('maxMain');
-						$(this).css("left", 0);
-						$("#researchLeftPanel").hide();
-						$("#researchMainPanel").css("left", 0);
-						$(this).text(">");
-					}
-					updateAllScrollbars();
-				});
+		$(document).on('gameDataLoaded', function() {
+			$("#toggleMaxMain").on("click", function(){
+				if($(this).hasClass("maxMain")) {
+					$(this).removeClass('maxMain');
+					$(this).css("left", 251);
+					$("#researchLeftPanel").show();
+					$("#researchMainPanel").css("left", 251);
+					$(this).text("<");
+				} else {
+					$(this).addClass('maxMain');
+					$(this).css("left", 0);
+					$("#researchLeftPanel").hide();
+					$("#researchMainPanel").css("left", 0);
+					$(this).text(">");
+				}
+				updateAllScrollbars();
+			});
 
-				$.jStorage.subscribe("dataUpdater", function(channel, payload) {
-					if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
-						if (inArray(payload.msgTarget, "all")) {
-							switch (payload.msgType) {
-								case "msgUpdateResearchInfo":
-									parseResearchData(payload.msgData.researchData.research);
-									latestGameData.researchData = payload.msgData.researchData.research;
-									loadResearchList(payload.msgData.researchData.research);
-									break;
+			$.jStorage.subscribe("dataUpdater", function(channel, payload) {
+				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
+					if (inArray(payload.msgTarget, "all")) {
+						switch (payload.msgType) {
+							case "msgUpdateResearchInfo":
+								parseResearchData(payload.msgData.researchData);
+								latestGameData.researchData = payload.msgData.researchData;
+								loadResearchList(payload.msgData.researchData);
+								break;
 
-								case "msgUpdateItems":
-									if(payload.msgData.objectID == objectID) {
-										parseItemData(payload.msgData.itemData);
-										latestGameData.objectItems = payload.msgData.itemData;
-										loadItemHover(latestGameData);
-									}
-									break;
+							case "msgUpdateItems":
+								if(payload.msgData.objectID == objectID) {
+									parseItemData(payload.msgData.itemData);
+									latestGameData.objectItems = payload.msgData.itemData;
+									loadItemHover(latestGameData);
+								}
+								break;
 
-								case "msgUpdateBuildings":
-									if(payload.msgData.objectID == objectID) {
-										parseBuildingData(payload.msgData.buildingData);
-										latestGameData.objectBuildings = payload.msgData.buildingData;
-										loadBuidingHover(latestGameData);
-									}
-									break;
-							}
+							case "msgUpdateBuildings":
+								if(payload.msgData.objectID == objectID) {
+									parseBuildingData(payload.msgData.buildingData);
+									latestGameData.objectBuildings = payload.msgData.buildingData;
+									loadBuidingHover(latestGameData);
+								}
+								break;
 						}
 					}
-				});
-
-				getObjectResearchData(objectID);
-				//resetInfoPage();
+				}
 			});
-		})(jQuery);
+
+			getObjectResearchData(objectID);
+		});
+
+		function handleResearchAjax(data) {
+			if(data.code < 0) {
+				showMessage("Error " + (-data.code) + ": " + data.message, "red", 30000);
+			}
+			handleAjax(data);
+
+			if(isset(data.researchData)) {
+				$.jStorage.publish("dataUpdater", new Message("msgUpdateResearchInfo", {"researchData" : data.researchData}, ["all"], window.name));
+			}
+		}
 
 		function getObjectResearchData(objectID) {
 			$.post("ajaxRequest.php",
 				{"action" : "getObjectResearch", "ajaxType": "ResearchHandler", "objectID": objectID},
-				function(data){
-					if(data.code < 0) {
-						showMessage("Error #" + (-data.code) + ": " + data.message, "red", 30000);
-					} else {
-						handleAjax(data);
-						$.jStorage.publish("dataUpdater", new Message("msgUpdateResearchInfo", {"researchData" : data, "objectID": data.objectID}, ["all"], window.name));
-					}
-				},
+				handleResearchAjax,
 				"json"
-			).fail(function() {
-				showMessage("An error occurred while getting data", "red", 30000);
-			});
+			).fail(function() {showMessage("An error occurred while getting data", "red", 30000);});
 		}
 
 		function loadResearchList(researchData) {
 			var researchListItem = Handlebars.templates['researchListItem.tmpl'];
-			$("#researchList").text("");
+
+			var researchList = $("#researchList").text("");
 			var researchesAvaliable = false;
 			for ( var i in researchData ) {
 				var data = researchData[i];
@@ -163,7 +163,7 @@
 						researchesAvaliable = data.techID;
 					}
 
-					$("#researchList").append(researchListItem({
+					researchList.append(researchListItem({
 						"techID" : data.techID,
 						"techName" : data.techName,
 						"techImage" : data.techImage,
@@ -180,7 +180,7 @@
 				});
 				loadResearchInfo(researchData, researchesAvaliable);
 			} else {
-				$("#researchList").text("No Researches Avaliable!");
+				researchList.text("No Researches Avaliable!");
 				$("#researchInfoHolder").text("No Researches Avaliable!");
 			}
 		}
