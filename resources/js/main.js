@@ -32,6 +32,15 @@ function isEmpty(obj) {
 	return jQuery.isEmptyObject(obj);
 }
 
+function isEffectivelyEmpty(obj) {
+	for (var i in obj) {
+		if(obj[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+
 function isObject(obj) {
 	return obj instanceof Object;
 }

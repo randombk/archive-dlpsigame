@@ -265,7 +265,10 @@
 			});
 
 			function handleAjax(data) {
-				latestGameData = data;
+				for(var i in data) {
+					latestGameData[i] = data[i];
+				}
+
 				if(isset(data.objectItems)) {
 					$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.objectItems}, ["all"], window.name));
 				}

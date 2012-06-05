@@ -16,7 +16,6 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 	}
 
 	function getObjectInfo() {
-		require_once(ROOT_PATH . 'engine/ajax/AjaxRequest_BuildingHandler.php');
 		$objectID = HTTP::REQ("objectID", 0);
 		if ($objectID > 0) {
 			//Check player permissions
@@ -27,7 +26,7 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 				$objectEnv = $playerEnv->envObjects[$objectID];
 				$objectMods = DataMod::calculateObjectModifiers($objectEnv);
 				$data = array(
-					"buildings" => AjaxRequest_BuildingHandler::getBuildingList($objectEnv, true),
+					"buildingData" => UtilObject::getBuildingList($objectEnv, true),
 					"objectModifiers" => $objectMods->objMods,
 					"objectWeightPenalty" => $objectMods->weightPenalty,
 					"usedStorage" => $objectEnv->envItems->getTotalWeight(),

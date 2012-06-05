@@ -70,50 +70,48 @@
 	});
 
 	//Load building data
-	(function($) {
-		$(document).on('gameDataLoaded', function() {
-			$.jStorage.subscribe("dataUpdater", function(channel, payload) {
-				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
-					if (inArray(payload.msgTarget, "all")) {
-						switch (payload.msgType) {
-							case "msgUpdateItems":
-								if(payload.msgData.objectID == objectID) {
-									parseItemData(payload.msgData.itemData);
-									latestGameData.objectItems = payload.msgData.itemData;
-									loadItemHover(latestGameData);
-								}
-								break;
+	$(document).on('gameDataLoaded', function() {
+		$.jStorage.subscribe("dataUpdater", function(channel, payload) {
+			if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
+				if (inArray(payload.msgTarget, "all")) {
+					switch (payload.msgType) {
+						case "msgUpdateItems":
+							if(payload.msgData.objectID == objectID) {
+								parseItemData(payload.msgData.itemData);
+								latestGameData.objectItems = payload.msgData.itemData;
+								loadItemHover(latestGameData);
+							}
+							break;
 
-							case "msgUpdateBuildings":
-								if(payload.msgData.objectID == objectID) {
-									parseBuildingData(payload.msgData.buildingData);
-									latestGameData.objectBuildings = payload.msgData.buildingData;
-									loadBuidingHover(latestGameData);
-								}
-								break;
+						case "msgUpdateBuildings":
+							if(payload.msgData.objectID == objectID) {
+								parseBuildingData(payload.msgData.buildingData);
+								latestGameData.objectBuildings = payload.msgData.buildingData;
+								loadBuidingHover(latestGameData);
+							}
+							break;
 
-							case "msgUpdateBuildingQueue":
-								if(payload.msgData.objectID == objectID) {
-									loadBuidingQueue(payload.msgData.buildQueue);
-								}
-								break;
+						case "msgUpdateBuildingQueue":
+							if(payload.msgData.objectID == objectID) {
+								loadBuidingQueue(payload.msgData.buildQueue);
+							}
+							break;
 
-							case "msgUpdateBuildingUpgrades":
-								if(payload.msgData.objectID == objectID) {
-									parseBuildingData(latestGameData.objectBuildings);
-									loadBuildingData(latestGameData.objectBuildings, payload.msgData.canBuild);
-								}
-								break;
-						}
+						case "msgUpdateBuildingUpgrades":
+							if(payload.msgData.objectID == objectID) {
+								parseBuildingData(latestGameData.objectBuildings);
+								loadBuildingData(latestGameData.objectBuildings, payload.msgData.canBuild);
+							}
+							break;
 					}
 				}
-			});
-
-			getBuildingData();
+			}
 		});
-	})(jQuery);
 
-	function handlebuildingAjax(data) {
+		getBuildingData();
+	});
+
+	function handleBuildingAjax(data) {
 		if(data.code < 0) {
 			showMessage("Error " + (-data.code) + ": " + data.message, "red", 30000);
 		}
@@ -131,7 +129,7 @@
 		$.post(
 			"ajaxRequest.php",
 			{"action" : "getBuildings", "ajaxType": "BuildingHandler", "objectID": objectID},
-			handlebuildingAjax,
+			handleBuildingAjax,
 			"json"
 		).fail(function() { $("#tabContainer").text("An error occurred while getting data"); });
 	}
@@ -184,7 +182,7 @@
 				$.post(
 					"ajaxRequest.php",
 					{"action" : "cancelBuildingQueueItem", "ajaxType": "BuildingHandler", "objectID": objectID, "queueItemID": queueID},
-					handlebuildingAjax,
+					handleBuildingAjax,
 					"json"
 				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 			});
@@ -280,7 +278,7 @@
 			$.post(
 				"ajaxRequest.php",
 				{"action" : "buildBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
-				handlebuildingAjax,
+				handleBuildingAjax,
 				"json"
 			).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 		});
@@ -292,7 +290,7 @@
 				$.post(
 					"ajaxRequest.php",
 					{"action" : "destroyBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
-					handlebuildingAjax,
+					handleBuildingAjax,
 					"json"
 				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 			}, function(){});
@@ -305,7 +303,7 @@
 				$.post(
 					"ajaxRequest.php",
 					{"action" : "recycleBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
-					handlebuildingAjax,
+					handleBuildingAjax,
 					"json")
 					.fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); }
 				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });

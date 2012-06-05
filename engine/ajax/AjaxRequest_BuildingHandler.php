@@ -22,8 +22,8 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 	private function sendBuildingInfo($objectEnv, $code = 0, $message = null) {
 		$data = array(
 			//"buildings" => self::getBuildingList($objectEnv),
-			"canBuild" => self::getUpgradeList($objectEnv),
 			//"items" => UtilItem::buildItemDataArray($objectEnv->envItems),
+			"canBuild" => UtilObject::getUpgradeList($objectEnv),
 			"buildQueue" => $objectEnv->buildingQueue
 		);
 		if($message) {
@@ -193,63 +193,5 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 		} else {
 			AjaxError::sendError("Invalid Parameters");
 		}
-	}
-
-	/**
-	 * @param ObjectEnvironment $objectEnv
-	 * @param bool $getActual
-	 * @return array
-	 */
-	static function getBuildingList($objectEnv, $getActual = false) {
-		$buildings = array();
-
-		if($getActual) {
-			$mod = DataMod::calculateObjectModifiers($objectEnv);
-		} else {
-			$mod = new DataMod();
-		}
-
-		foreach ($objectEnv->envBuildings->getDataArray() as $id => $data) {
-			$buildings[$id]["level"] = $data[0];
-			$buildings[$id]["activity"] = $getActual ? $data[1] : 100;
-
-			$buildings[$id]["curModifiers"] = CalcObject::getBuildingModifiers($objectEnv, $id, $data[0], $getActual ? $data[1]: 100);
-			$buildings[$id]["curResConsumption"] = UtilItem::buildItemDataArray(CalcObject::getBuildingConsumption($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
-			$buildings[$id]["curResProduction"] = UtilItem::buildItemDataArray(CalcObject::getBuildingProduction($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
-		}
-		return $buildings;
-	}
-
-	//Returns an array containing upgradable/buildable buildings
-	/**
-	 * @param ObjectEnvironment $objectEnv
-	 * @return array
-	 */
-	static function getUpgradeList($objectEnv) {
-		$canBuild = array();
-
-		$mod = DataMod::calculateObjectModifiers($objectEnv);
-
-		foreach (GameCache::get("BUILDINGS") as $id => $data) {
-			$nextLevel = $objectEnv->envBuildings->getBuildingLevel($id) + 1;
-			foreach ($objectEnv->buildingQueue as $item) {
-				if($item["buildingID"] == $id) {
-					if($item["operation"] == "Build")
-						$nextLevel = $item["buildingLevel"] + 1;
-					else
-						$nextLevel = $item["buildingLevel"];
-				}
-			}
-
-			if(!QueueBuilding::hasPreReq($objectEnv, $id, $nextLevel, TIMESTAMP, true)) continue;
-
-			$canBuild[$id]["nextLevel"] = $nextLevel;
-			$canBuild[$id]["upgradeTime"] = CalcObject::getBuildTime($objectEnv, $id, $nextLevel, $mod);
-			$canBuild[$id]["nextResReq"] = UtilItem::buildItemDataArray(CalcObject::getBuildingUpgradeCost($objectEnv, $id, $nextLevel, $mod));
-			//$canBuild[$id]["nextResConsumption"] = UtilItem::buildItemDataArray(CalcObject::getBuildingConsumption($objectEnv, $id, $nextLevel, $resMod));
-			//$canBuild[$id]["nextResProduction"] = UtilItem::buildItemDataArray(CalcObject::getBuildingProduction($objectEnv, $id, $nextLevel, $resMod));
-			//$canBuild[$id]["nextModifiers"] = CalcObject::getBuildingModifiers($objectEnv, $id, $nextLevel);
-		}
-		return $canBuild;
 	}
 }
