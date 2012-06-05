@@ -18,9 +18,7 @@ class AjaxRequest_ResearchHandler extends AjaxRequest {
 	function getResearch() {
 		$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
 		$data = array(
-			"research" => $playerEnv->envResearch->getDataArray()//,
-			//"researchQueue" => $playerEnv->researchQueue,
-			//"researchProduction" => $playerEnv->researchProduction
+			"researchData" => $playerEnv->envResearch->getDataArray()
 		);
 		$this->sendJSON($data);
 	}
@@ -35,7 +33,7 @@ class AjaxRequest_ResearchHandler extends AjaxRequest {
 				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
 				$data = array(
 					"objectID" => $objectID,
-					"research" => $playerEnv->envResearch->getDataArray()//,
+					"researchData" => $playerEnv->envResearch->getDataArray()//,
 					//"researchQueue" => $playerEnv->researchQueue,
 					//"researchProduction" => $playerEnv->researchProduction
 				);

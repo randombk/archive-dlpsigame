@@ -194,6 +194,81 @@
 		return 86 * r;
 	}
 
+	$(document).on('gameDataLoaded', function() {
+		$("#researchControlsToggle").on("click", function(){
+			if($(this).hasClass("maxMain")) {
+				$(this).removeClass('maxMain');
+				$(this).css("left", 251);
+				$(this).css("top", 101);
+				$("#researchInfoHolder").show();
+				$("#researchObjectListHolder").show();
+				$("#researchActivityListHolder").show();
+				$(this).text("< Hide Controls");
+			} else {
+				$(this).addClass('maxMain');
+				$(this).css("top", 0);
+				$(this).css("left", 0);
+				$("#researchInfoHolder").hide();
+				$("#researchObjectListHolder").hide();
+				$("#researchActivityListHolder").hide();
+				$(this).text("Show Controls >");
+			}
+			$(".scrollable").tinyscrollbar_update();
+		});
+
+		$.jStorage.subscribe("dataUpdater", function(channel, payload) {
+			if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
+				if (inArray(payload.msgTarget, "all")) {
+					switch (payload.msgType) {
+						case "msgUpdateResearchInfo":
+							parseResearchData(payload.msgData.researchData);
+							latestGameData.researchData = payload.msgData.researchData;
+							loadResearchMap(payload.msgData.researchData);
+							$("#researchHolder").overscrollTo("#" + centerTech);
+							break;
+
+						case "msgUpdateItems":
+							if(payload.msgData.objectID == objectID) {
+								parseItemData(payload.msgData.itemData);
+								latestGameData.objectItems = payload.msgData.itemData;
+								loadItemHover(latestGameData);
+							}
+							break;
+
+						case "msgUpdateBuildings":
+							if(payload.msgData.objectID == objectID) {
+								parseBuildingData(payload.msgData.buildingData);
+								latestGameData.objectBuildings = payload.msgData.buildingData;
+								loadBuidingHover(latestGameData);
+							}
+							break;
+					}
+				}
+			}
+		});
+
+		getResearchData();
+	});
+
+	function handleResearchAjax(data) {
+		if(data.code < 0) {
+			showMessage("Error " + (-data.code) + ": " + data.message, "red", 30000);
+		}
+		handleAjax(data);
+
+		if(isset(data.researchData)) {
+			$.jStorage.publish("dataUpdater", new Message("msgUpdateResearchInfo", {"researchData" : data.researchData}, ["all"], window.name));
+		}
+	}
+
+	function getResearchData() {
+		$.post("ajaxRequest.php",
+			{"action" : "getResearch", "ajaxType": "ResearchHandler"},
+			handleResearchAjax,
+			"json"
+		).fail(function() {showMessage("An error occurred while getting data", "red", 30000);});
+	}
+
 	function showResearchInfoOverlay(researchData, techID) {
 		var tech = researchData[techID];
 
@@ -204,8 +279,7 @@
 
 		$("#researchInfoOverlayEffectsControlsLevel").text(Math.max(tech.techLevel, 1)).attr("data-level", Math.max(tech.techLevel, 1)).attr("data-techID", tech.techID);
 
-		$('#researchInfoOverlayEffectsControlsUp').unbind('click');
-		$('#researchInfoOverlayEffectsControlsUp').bind('click', function() {
+		$('#researchInfoOverlayEffectsControlsUp').unbind('click').bind('click', function() {
 			var level = parseInt($("#researchInfoOverlayEffectsControlsLevel").attr("data-level"));
 			if(level < tech.techLevel + 10) {
 				var newLevel = level + 1;
@@ -216,8 +290,7 @@
 			}
 		});
 
-		$('#researchInfoOverlayEffectsControlsDown').unbind('click');
-		$('#researchInfoOverlayEffectsControlsDown').bind('click', function() {
+		$('#researchInfoOverlayEffectsControlsDown').unbind('click').bind('click', function() {
 			var level = parseInt($("#researchInfoOverlayEffectsControlsLevel").attr("data-level"));
 			if(level > 1) {
 				var newLevel = level - 1;
@@ -263,90 +336,16 @@
 		}
 
 		loadModHover();
-		$("#researchOverlayHolder").show();
-		$("#blankOut").show();
 
 		function hideInfoBox() {
 			$("#blankOut").hide();
 			$("#researchOverlayHolder").hide();
 		}
+
+		$("#researchOverlayHolder").show();
+		$("#blankOut").show().on("click", hideInfoBox);
+
 		$("#researchInfoOverlayClose").on("click", hideInfoBox);
-		$("#blankOut").on("click", hideInfoBox);
-	}
-
-	(function($) {
-		$(document).on('gameDataLoaded', function() {
-			$("#researchControlsToggle").on("click", function(){
-				if($(this).hasClass("maxMain")) {
-					$(this).removeClass('maxMain');
-					$(this).css("left", 251);
-					$(this).css("top", 101);
-					$("#researchInfoHolder").show();
-					$("#researchObjectListHolder").show();
-					$("#researchActivityListHolder").show();
-					$(this).text("< Hide Controls");
-				} else {
-					$(this).addClass('maxMain');
-					$(this).css("top", 0);
-					$(this).css("left", 0);
-					$("#researchInfoHolder").hide();
-					$("#researchObjectListHolder").hide();
-					$("#researchActivityListHolder").hide();
-					$(this).text("Show Controls >");
-				}
-				$(".scrollable").tinyscrollbar_update();
-			});
-
-			$.jStorage.subscribe("dataUpdater", function(channel, payload) {
-				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
-					if (inArray(payload.msgTarget, "all")) {
-						switch (payload.msgType) {
-							case "msgUpdateResearchInfo":
-								parseResearchData(payload.msgData.researchData.research);
-								latestGameData.researchData = payload.msgData.researchData.research;
-								loadResearchMap(payload.msgData.researchData.research);
-								$("#researchHolder").overscrollTo("#" + centerTech);
-								break;
-
-							case "msgUpdateItems":
-								if(payload.msgData.objectID == objectID) {
-									parseItemData(payload.msgData.itemData);
-									latestGameData.objectItems = payload.msgData.itemData;
-									loadItemHover(latestGameData);
-								}
-								break;
-
-							case "msgUpdateBuildings":
-								if(payload.msgData.objectID == objectID) {
-									parseBuildingData(payload.msgData.buildingData);
-									latestGameData.objectBuildings = payload.msgData.buildingData;
-									loadBuidingHover(latestGameData);
-								}
-								break;
-						}
-					}
-				}
-			});
-
-			getResearchData();
-		});
-	})(jQuery);
-
-	//Research Data
-	function getResearchData() {
-		$.post("ajaxRequest.php",
-			{"action" : "getResearch", "ajaxType": "ResearchHandler"},
-			function(data){
-				if(data.code < 0) {
-					showMessage("Error #" + (-data.code) + ": " + data.message, "red", 30000);
-				} else {
-					$.jStorage.publish("dataUpdater", new Message("msgUpdateResearchInfo", {"researchData" : data}, ["all"], window.name));
-				}
-			},
-			"json"
-		).fail(function() {
-			showMessage("An error occurred while getting data", "red", 30000);
-		});
 	}
 
 	function resetResearchMap() {

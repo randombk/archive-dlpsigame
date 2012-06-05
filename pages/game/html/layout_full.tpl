@@ -168,7 +168,6 @@
 		{{include file="main_scripts.tpl" bodyclass="full"}}
 		<script type="text/javascript">
 			var objectID = {{$objectID}};
-			var latestGameData = {};
 			{{if $isAdmin}}
 				function clearCache() {
 					$.post("ajaxRequest.php",
@@ -264,23 +263,6 @@
 				$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
 			});
 
-			function handleAjax(data) {
-				for(var i in data) {
-					latestGameData[i] = data[i];
-				}
-
-				if(isset(data.objectItems)) {
-					$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : data.objectItems}, ["all"], window.name));
-				}
-
-				if(isset(data.objectBuildings)) {
-					$.jStorage.publish("dataUpdater", new Message("msgUpdateBuildings", {"objectID" : objectID, "buildingData" : data.objectBuildings}, ["all"], window.name));
-				}
-
-				if(isset(data.notifications)) {
-					$.jStorage.publish("dataUpdater", new Message("msgUpdateNotifications", {"notificationData" : data.notifications}, ["all"], window.name));
-				}
-			}
 
 			function showObjectList() {
 				$("#objectListContainer").addClass('open').show();

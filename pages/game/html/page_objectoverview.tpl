@@ -1,5 +1,5 @@
 {{block name="title" prepend}}{{"Info"}}{{/block}}
-{{block name="additionalStylesheete" append}}
+{{block name="additionalStylesheets" append}}
 	<link rel="stylesheet" href="resources/css/buildings.css?v={{$VERSION}}">
 {{/block}}
 {{block name="additionalIncluding" append}}
@@ -129,8 +129,8 @@
 					if (inArray(payload.msgTarget, "all")) {
 						switch (payload.msgType) {
 							case "msgUpdateResearchInfo":
-								parseResearchData(payload.msgData.researchData.research);
-								latestGameData.researchData = payload.msgData.researchData.research;
+								parseResearchData(payload.msgData.researchData);
+								latestGameData.researchData = payload.msgData.researchData;
 								break;
 
 							case "msgUpdateItems":

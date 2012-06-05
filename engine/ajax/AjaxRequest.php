@@ -31,6 +31,7 @@ abstract class AjaxRequest {
 	protected function sendJSONWithObjectData($data, $objectEnv, $code = 0) {
 		if($code != 0) $data['code'] = $code;
 
+		$data["objectID"] = $objectEnv->objectID;
 		$data["objectBuildings"] = $objectEnv->envBuildings->getDataArray();
 		$data["objectItems"] = UtilItem::buildItemDataArray($objectEnv->envItems);
 		$data["objectData"] = $objectEnv->envObjectData;

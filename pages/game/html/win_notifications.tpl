@@ -13,7 +13,7 @@
 <div class="notificationHolder" style="background: rgba(3,3,3,0.4);">
 	<div id="scrollHolder" class="scrollable absFill">
 		<div class="scrollbar">
-			<div class="thumb"></div>
+			<div class="thumb green-over"></div>
 		</div>
 		<div class="viewport">
 			<div class="overview absFill" style="position: absolute;">
@@ -26,7 +26,7 @@
 </div>
 
 <div class="msgControls">
-	<div class="msgControl" onclick="loadData()">
+	<div class="msgControl" onclick="getNotificationData()">
 		Reload Data
 	</div>
 
@@ -37,11 +37,10 @@
 {{/block}}
 {{block name="winHandlers" append}}
 	<script type="text/javascript">
-		(function($) {
-			function dataUpdateReceiver(channel, payload) {
+		$(document).on('gameDataLoaded', function() {
+			$.jStorage.subscribe("dataUpdater", function(channel, payload) {
 				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
 					if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "windows")) {
-						console.log(payload);
 						switch (payload.msgType) {
 							case "msgUpdateNotifications": {
 								loadNotifications(payload.msgData.notificationData);
@@ -50,24 +49,36 @@
 						}
 					}
 				}
+			});
+		});
+
+		$(document).ready(function() {
+			$("#scrollHolder").tinyscrollbar();
+			getNotificationData();
+		});
+
+		$(window).resize(function() {
+			$(".scrollable").tinyscrollbar_update();
+		});
+
+		function handleNotificationAjax(data) {
+			if(data.code < 0) {
+				showMessage("Error " + (-data.code) + ": " + data.message, "red", 30000);
 			}
+			handleAjax(data);
+		}
 
-			$(window).load(function() {
-				$.jStorage.subscribe("dataUpdater", dataUpdateReceiver);
-			});
-
-			$(document).ready(function() {
-				$("#scrollHolder").tinyscrollbar();
-				loadNotificationData();
-				$(window).resize(function() {
-					$(".scrollable").tinyscrollbar_update();
-				});
-			});
-		})(jQuery);
+		function getNotificationData() {
+			$.post("ajaxRequest.php",
+				{"ajaxType": "MessageHandler", "action" : "getNotifications"},
+				handleNotificationAjax,
+				"json"
+			).fail(function() { $(".msgHolder").text("An error occurred while getting data"); });
+		}
 
 		function loadNotifications(data) {
 			$(".msgHolder").html("");
-			var notifications = false;
+			var notifications;
 			var notificationTemplate = Handlebars.templates['notificationBox.tmpl'];
 			for (var i in data) {
 				if(i == "code") {
@@ -104,28 +115,12 @@
 			$(".scrollable").tinyscrollbar_update();
 		}
 
-		function loadNotificationData() {
-			$.post("ajaxRequest.php",
-				{"ajaxType": "MessageHandler", "action" : "getNotifications"},
-				function(data){
-					if(data.code < 0) {
-						$(".msgHolder").text("Error #" + (-data.code) + ": " + data.message);
-					} else {
-						$.jStorage.publish("dataUpdater", new Message("msgUpdateNotifications", {"notificationData" : data}, ["all"], window.name));
-					}
-				},
-				"json"
-			).fail(function() { $(".msgHolder").text("An error occurred while getting data"); });
-		}
-
 		function clearNotifications() {
-			$.post("ajaxRequest.php", {"ajaxType": "MessageHandler", "action" : "clearNotifications"}, function(data){}, "json");
-			loadNotificationData();
+			$.post("ajaxRequest.php", {"ajaxType": "MessageHandler", "action" : "clearNotifications"}, handleNotificationAjax, "json");
 		}
 
 		function removeNotification(messageID) {
-			$.post("ajaxRequest.php", {"ajaxType": "MessageHandler", "action" : "deleteMessage", "messageID" : messageID}, function(data){}, "json");
-			loadNotificationData();
+			$.post("ajaxRequest.php", {"ajaxType": "MessageHandler", "action" : "deleteMessage", "messageID" : messageID}, handleNotificationAjax, "json");
 		}
 	</script>
 {{/block}}

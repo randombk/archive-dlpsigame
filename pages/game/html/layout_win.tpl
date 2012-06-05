@@ -30,7 +30,6 @@
 			function msgWinReceiver(channel, payload) {
 				if (channel == "winManager" && payload.objectType == "windowMessage") {
 					if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "windows")) {
-						//console.log(payload);
 						switch (payload.msgType) {
 							case "msgNewMain": {
 								$.jStorage.publish("winManager", new Message("msgWinOpen", null, ["main"], window.name));
