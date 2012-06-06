@@ -211,10 +211,13 @@
 					if (inArray(payload.msgTarget, "all") || inArray(payload.msgTarget, "windows")) {
 						//console.log(payload);
 						switch (payload.msgType) {
-							case "msgUpdateNotifications": {
+							case "msgUpdateNotifications":
 								loadNotifications(payload.msgData.notificationData);
 								break;
-							}
+
+							case "msgUpdateObjectList":
+								loadObjectList(payload.msgData.objectList);
+								break;
 						}
 					}
 				}
@@ -263,48 +266,40 @@
 				$("#gameMainContainer").css("min-height", $("#gameMenu").height() - 100);
 			});
 
-
 			function showObjectList() {
 				$("#objectListContainer").addClass('open').show();
 
 				$("#objectList").text("Loading Data...");
 				$.post("ajaxRequest.php",
 					{"action" : "getObjectList", "ajaxType": "ObjectHandler"},
-					function(data){
-						if(data.code < 0) {
-							$("#objectList").text("Error #" + (-data.code) + ": " + data.message);
-						} else {
-							$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectList", {"objectList" : data}, ["all"], window.name));
-							var objectListItem = Handlebars.templates['objectListItem.tmpl'];
-							$("#objectList").text("");
-							for ( var i in data) {
-								if(i == "code")
-									continue;
-								$("#objectList").append(objectListItem({
-									"objectID" : i,
-									"objectName" : data[i].objectName,
-									"objectCoord" : data[i].objectCoords,
-									"usedStorage" : niceNumber(data[i].usedStorage),
-									"maxStorage" : niceNumber(data[i].objStorage),
-									"storageColor" : (data[i].usedStorage >= data[i].objStorage) ? "red" : ""
-								}));
-							}
-
-
-							$(".objectListItem").on("click", function() {
-								document.location = document.location.origin
-									+ document.location.pathname
-									+ "?page={{$page}}"
-									+"&objectID=" + $(this).attr("data-objectID");
-							});
-
-							$(".scrollable").tinyscrollbar_update();
-							$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
-						}
-					},
+					handleAjax,
 					"json"
 				).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
 
+			}
+
+			function loadObjectList(objectList){
+				var objectListItem = Handlebars.templates['objectListItem.tmpl'];
+				$("#objectList").text("");
+				for ( var i in objectList) {
+					if(i == "code")
+						continue;
+					$("#objectList").append(objectListItem({
+						"objectID" : i,
+						"objectName" : objectList[i].objectName,
+						"objectCoord" : objectList[i].objectCoords,
+						"usedStorage" : niceNumber(objectList[i].usedStorage),
+						"maxStorage" : niceNumber(objectList[i].objStorage),
+						"storageColor" : (objectList[i].usedStorage >= objectList[i].objStorage) ? "red" : ""
+					}));
+				}
+
+				$(".objectListItem").on("click", function() {
+					document.location = document.location.origin + document.location.pathname + "?page={{$page}}" +"&objectID=" + $(this).attr("data-objectID");
+				});
+
+				$(".scrollable").tinyscrollbar_update();
+				$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
 			}
 
 			function hideObjectList() {

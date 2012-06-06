@@ -167,10 +167,9 @@
 								}
 								break;
 
-							case "msgUpdateObjectList": {
+							case "msgUpdateObjectList":
 								loadObjectList(payload.msgData.objectList);
 								break;
-							}
 						}
 					}
 				}
@@ -186,10 +185,6 @@
 			}
 
 			handleAjax(data);
-
-			if(isset(data.objectList)) {
-				$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectList", {"objectList" : data.objectList}, ["all"], window.name));
-			}
 
 			$.jStorage.publish("dataUpdater", new Message(
 				"msgUpdateObjectData",
@@ -220,15 +215,6 @@
 			);
 		}
 
-		function getObjectListData() {
-			$("#objectList").text("Loading Data...");
-			$.post("ajaxRequest.php",
-				{"action" : "getObjectList", "ajaxType": "ObjectHandler"},
-				handleInventoryAjax,
-				"json"
-			).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
-		}
-
 		function loadObjectList(data) {
 			var objectListItem = Handlebars.templates['objectListItem.tmpl'];
 			$("#objectList").text("");
@@ -246,12 +232,18 @@
 			$(".objectListItem").on("click", function() {
 				getObjectData($(this).attr("data-objectID"));
 			});
+			$(".objectListItem").attr("data-active", "");
+			$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
 		}
 
 		function getObjectData(id) {
 			if(id <= 0) return;
 			clearSelections();
+
 			objectID = id;
+			$(".objectListItem").attr("data-active", "");
+			$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
+
 			$(".invHolder").text("Loading Data...");
 			$.post("ajaxRequest.php",
 				{"action" : "getObjectInventoryInfo", "ajaxType": "ObjectInventory", "objectID": objectID},

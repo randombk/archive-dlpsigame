@@ -96,6 +96,19 @@
 		if(isset(data.notifications)) {
 			$.jStorage.publish("dataUpdater", new Message("msgUpdateNotifications", {"notificationData" : data.notifications}, ["all"], window.name));
 		}
+
+		if(isset(data.objectList)) {
+			$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectList", {"objectList" : data.objectList}, ["all"], window.name));
+		}
+	}
+
+	function getObjectListData() {
+		$("#objectList").text("Loading Data...");
+		$.post("ajaxRequest.php",
+			{"action" : "getObjectList", "ajaxType": "ObjectHandler"},
+			handleAjax,
+			"json"
+		).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
 	}
 
 </script>
