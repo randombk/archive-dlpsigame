@@ -1,18 +1,15 @@
 <tr class="{{class}}">
 	<td>{{itemName}}</td>
 	<td>
-		{{#if production}}
-			{{#key_value_object production}}
-				<span class="itemLink" data-type="diff" data-item="{{key}}" data-parameters="{{value}}"></span>
-			{{/key_value_object}}
-		{{/if}}
+		{{#key_value_object production}}
+			<span class="itemLink" data-type="diff" data-item="{{key}}" data-parameters="{{value}}"></span>
+		{{/key_value_object}}
+
 	</td>
 	<td>
-		{{#if consumption}}
-			{{#key_value_object consumption}}
-				<span class="itemLink" data-type="diff" data-item="{{key}}" data-quantitysign="-" data-parameters="{{value}}"></span>
-			{{/key_value_object}}
-		{{/if}}
+		{{#key_value_object consumption}}
+			<span class="itemLink" data-type="diff" data-item="{{key}}" data-quantitysign="-" data-parameters="{{value}}"></span>
+		{{/key_value_object}}
 	</td>
 	<td>
 		{{#ifdef activity}}

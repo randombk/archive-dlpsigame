@@ -327,10 +327,8 @@
 
 			for(var key in lastBuildingData) {
 				var obj = lastBuildingData[key];
-				if(!(isEmpty(obj.curResProduction) && isEmpty(obj.curResConsumption))) {
-					mergeItemData(economyTotal, obj.curResProduction, "+");
-					mergeItemData(economyTotal, obj.curResConsumption, "-");
-				}
+				mergeItemData(economyTotal, obj.curResProduction, "+");
+				mergeItemData(economyTotal, obj.curResConsumption, "-");
 
 				if(obj.curModifiers) {
 					objAdd(modifierTotal, obj.curModifiers);
@@ -353,7 +351,8 @@
 			$(".genBuilding").remove();
 			for(var key in buildingData) {
 				var obj = buildingData[key];
-				if(!(isEmpty(obj.curResProduction) && isEmpty(obj.curResConsumption))) {
+				var building = new Building(key, [obj.level, obj.activity]);
+				if(!(isEmpty(building.getBaseBuildingConsumption()) && isEmpty(building.getBaseBuildingProduction()))) {
 					$('#tableEconomy tr:last').before(econRowTemplate({
 						itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
 						production: obj.curResProduction,
