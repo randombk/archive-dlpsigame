@@ -9,7 +9,7 @@
         "modDesc" : "Fixed decrease of the construction time for all buildings, ships, etc.",
         "modType" : "buff"
     },
-    
+
     "modBuildSpeedMultiplier": {
         "modName" : "Build Speed Percentage Multiplier",
         "modDesc" : "Percentage increase in the building speed of all buildings",
@@ -25,7 +25,7 @@
         "modDesc" : "Percentage increase in the cost of all building upgrades",
         "modType" : "debuff"
     },
-    
+
     "modResourceProductionMultiplier": {
         "modName" : "Resource Production Percentage Multiplier",
         "modDesc" : "Percentage increase in the quantity of resources extracted per hour",
@@ -46,7 +46,7 @@
         "modDesc" : "Percentage increase in the quantity of energy consumed per hour",
         "modType" : "debuff"
     },
-    
+
     "modStorageCapacityIncrease": {
         "modName" : "Storage Capacity Increase",
         "modDesc" : "Fixed increase in storage capacity",

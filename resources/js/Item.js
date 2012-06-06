@@ -62,13 +62,13 @@ Item.prototype.getHoverContent = function() {
 		context.quantity = -context.quantity;
 	if(context.quantity > 0) {
 		context = {
-			quantity: niceNumber(context.quantity),
+			quantity: niceNumber(Math.floor(context.quantity)),
 			itemName: this.itemName,
 			itemDesc: this.itemDesc,
 			itemType: this.itemType,
 			itemFlags: this.itemFlags,
-			itemWeight: niceNumber(this.itemWeight),
-			itemTotalWeight: niceNumber(context.quantity * this.itemWeight),
+			itemWeight: niceNumber(Math.floor(this.itemWeight)),
+			itemTotalWeight: niceNumber(Math.floor(context.quantity * this.itemWeight)),
 			itemValue: "NYI",
 			itemTotalValue: "NYI",
 			itemImage: this.itemImage
@@ -80,7 +80,7 @@ Item.prototype.getHoverContent = function() {
 			itemDesc: this.itemDesc,
 			itemType: this.itemType,
 			itemFlags: this.itemFlags,
-			itemWeight: niceNumber(this.itemWeight),
+			itemWeight: niceNumber(Math.floor(this.itemWeight)),
 			itemValue:  "NYI",
 			itemImage:  this.itemImage
 		};

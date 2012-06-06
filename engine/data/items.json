@@ -47,7 +47,10 @@
         "itemName": "Energy",
         "itemDesc": "Energy is required to run all sorts of buildings and operations",
         "itemWeight": 0,
-        "itemFlags": {}
+        "itemFlags": {
+	        "NoTransfer": {},
+			"NoTrade": {}
+        }
     },
    "research-notes": {
 		"itemID": "research-notes",
@@ -60,7 +63,7 @@
         "itemFlags": {
         	"Usable": {
         		"itemhandlerUse": "itemhandlerUseResearchNotes"
-        	}, 
+        	},
         	"MultiItem": {},
         	"Cached": {},
         	"NoDestroy": {}

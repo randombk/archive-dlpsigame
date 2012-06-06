@@ -31,6 +31,7 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 					"objectWeightPenalty" => $objectMods->weightPenalty,
 					"usedStorage" => $objectEnv->envItems->getTotalWeight(),
 					"objStorage" => CalcObject::getObjectStorage($objectEnv, $objectMods),
+					"objUsedEnergyStorage" => $objectEnv->envItems->getItem("energy"),
 					"objEnergyStorage" => CalcObject::getMaxEnergyStorage($objectEnv, $objectMods),
 					"numBuildings" => $objectEnv->envBuildings->getNumBuildings(),
 					"buildQueue" => $objectEnv->buildingQueue,
@@ -55,6 +56,8 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 				"objectCoords" => $objectEnv->envObjectCoord->getCoordString()
 			);
 		}
-		$this->sendJSON($data);
+		$this->sendJSON(array(
+			"objectList" => $data
+		));
 	}
 }

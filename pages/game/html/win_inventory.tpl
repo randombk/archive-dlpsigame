@@ -1,9 +1,9 @@
 {{block name="title" prepend}}Inventory{{/block}}
-{{block name="additionalIncluding" append}}
-	<script src="handlebars/invObject.js?v={{$VERSION}}"></script>
-{{/block}}
 {{block name="additionalStylesheets" append}}
 	<link rel="stylesheet" href="resources/css/inventory.css?v={{$VERSION}}">
+{{/block}}
+{{block name="additionalIncluding" append}}
+	<script src="handlebars/invObject.js?v={{$VERSION}}"></script>
 {{/block}}
 
 {{block name="content"}}
@@ -77,7 +77,7 @@
 	</div>
 	<div class="invControls">
 		<div class="invControlHolder">
-			<div class="invControl" id="reloadData" 	onclick="loadObjectListData(); loadObjectData(objectID);">Reload Data</div>
+			<div class="invControl" id="reloadData" 	onclick="getObjectListData(); getObjectData(objectID);">Reload Data</div>
 			<div class="invControl" id="clearSelection" onclick="return clearSelections();">Clear Selection</div>
 			<div class="invControl" id="sortName"		onclick="return sortName();">Sort Name</div>
 			<div class="invControl" id="sortType"		onclick="return sortType();">Sort Type</div>
@@ -103,68 +103,128 @@
 		var selectedItems = {};
 		var curSortBy = "";
 
-		(function($) {
-			$(document).on('gameDataLoaded', function() {
-				$("#toggleMaxMain").on("click", function(){
-					if($(this).hasClass("maxMain")) {
-						$(this).removeClass('maxMain');
-						$(this).css("left", 250);
-						$(".invLeftPanel").show();
-						$(".invMainPanel").css("left", 251);
-						$(this).text("<");
-					} else {
-						$(this).addClass('maxMain');
-						$(this).css("left", 0);
-						$(".invLeftPanel").hide();
-						$(".invMainPanel").css("left", 0);
-						$(this).text(">");
-					}
-					$(".scrollable").tinyscrollbar_update();
-				});
+		$(document).on('gameDataLoaded', function() {
+			$("#toggleMaxMain").on("click", function(){
+				if($(this).hasClass("maxMain")) {
+					$(this).removeClass('maxMain');
+					$(this).css("left", 250);
+					$(".invLeftPanel").show();
+					$(".invMainPanel").css("left", 251);
+					$(this).text("<");
+				} else {
+					$(this).addClass('maxMain');
+					$(this).css("left", 0);
+					$(".invLeftPanel").hide();
+					$(".invMainPanel").css("left", 0);
+					$(this).text(">");
+				}
+				$(".scrollable").tinyscrollbar_update();
+			});
 
-				$.jStorage.subscribe("dataUpdater", function(channel, payload) {
-					if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
-						if (inArray(payload.msgTarget, "all")) {
-							switch (payload.msgType) {
-								case "msgUpdateObjectInfo": {
-									if(payload.msgData.objectID == objectID && jQuery.isEmptyObject(selectedItems)) {
-										parseItemData(payload.msgData.objectInfo.objectItems);
+			$.jStorage.subscribe("dataUpdater", function(channel, payload) {
+				if (channel == "dataUpdater" && payload.objectType == "windowMessage") {
+					if (inArray(payload.msgTarget, "all")) {
+						switch (payload.msgType) {
+							case "msgUpdateItems":
+								if(payload.msgData.objectID == objectID && jQuery.isEmptyObject(selectedItems)) {
+									parseItemData(payload.msgData.itemData);
+									latestGameData.objectItems = payload.msgData.itemData;
+									loadInventoryPage(payload.msgData.itemData);
+									loadItemHover(latestGameData);
+								}
+								break;
 
-										loadInfoPage(payload.msgData.objectInfo);
-										loadInventoryPage(payload.msgData.objectInfo.objectItems);
+							case "msgUpdateObjectData":
+								if(payload.msgData.objectID == objectID && jQuery.isEmptyObject(selectedItems)) {
+									resetInfoPage();
+									$("#planetName").text(payload.msgData.objectName);
+									$("#planetLoc").text(payload.msgData.objectCoords);
+									$("#planetType").text(payload.msgData.objectData.planetType);
+									$("#planetSize").text(payload.msgData.objectData.planetSize);
+									$("#planetTemp").text(payload.msgData.objectData.planetTemp);
+									$("#planetHumidity").text(payload.msgData.objectData.planetHumidity);
+									$("#numBuildings").text(payload.msgData.numBuildings);
 
-										$("[data-active=true]").attr("data-active", "");
-										$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
-										$.jStorage.publish("dataUpdater", new Message("msgUpdateItems", {"objectID" : objectID, "itemData" : payload.msgData.objectInfo.items}, ["all"], window.name));
+									$("#storageUsed").text(niceNumber(payload.msgData.usedStorage) + " / " + niceNumber(payload.msgData.objStorage));
+									if(payload.msgData.usedStorage >= payload.msgData.objStorage) {
+										$("#storageUsed").addClass("red");
+									} else {
+										$("#storageUsed").removeClass("red");
 									}
-									break;
+
+									$("#invTopInfoHolder").show();
 								}
-								case "msgUpdateObjectList": {
-									loadObjectList(payload.msgData.objectList);
-									break;
+								break;
+
+							case "msgUpdateObjectInventoryData":
+								if(payload.msgData.objectID == objectID && jQuery.isEmptyObject(selectedItems)) {
+									$("#energyCapacity").text(niceNumber(isset(payload.msgData.objUsedEnergyStorage) ? payload.msgData.objUsedEnergyStorage : 0) + " / " + niceNumber(payload.msgData.objEnergyStorage));
+									if(payload.msgData.objUsedEnergyStorage >= payload.msgData.objEnergyStorage) {
+										$("#energyCapacity").addClass("red");
+									} else {
+										$("#energyCapacity").removeClass("red");
+									}
 								}
+								break;
+
+							case "msgUpdateObjectList": {
+								loadObjectList(payload.msgData.objectList);
+								break;
 							}
 						}
 					}
-				});
-
-				loadObjectListData();
-				resetInfoPage();
+				}
 			});
-		})(jQuery);
 
-		//Object List
-		function loadObjectListData() {
+			getObjectListData();
+			resetInfoPage();
+		});
+
+		function handleInventoryAjax(data) {
+			if(data.code < 0) {
+				showMessage("Error " + (-data.code) + ": " + data.message, "red", 30000);
+			}
+
+			handleAjax(data);
+
+			if(isset(data.objectList)) {
+				$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectList", {"objectList" : data.objectList}, ["all"], window.name));
+			}
+
+			$.jStorage.publish("dataUpdater", new Message(
+				"msgUpdateObjectData",
+				{
+					"objectID" : data.objectID,
+					"objectName" : data.objectName,
+					"objectCoords" : data.objectCoords,
+					"objectModifiers" : data.objectModifiers,
+					"objectWeightPenalty" : data.objectWeightPenalty,
+					"usedStorage" : data.usedStorage,
+					"objStorage" : data.objStorage,
+					"numBuildings" : data.numBuildings,
+					"objectData" : data.objectData
+				},
+				["all"],
+				window.name)
+			);
+
+			$.jStorage.publish("dataUpdater", new Message(
+				"msgUpdateObjectInventoryData",
+				{
+					"objectID" : data.objectID,
+					"objUsedEnergyStorage" : data.objUsedEnergyStorage,
+					"objEnergyStorage" : data.objEnergyStorage
+				},
+				["all"],
+				window.name)
+			);
+		}
+
+		function getObjectListData() {
 			$("#objectList").text("Loading Data...");
 			$.post("ajaxRequest.php",
 				{"action" : "getObjectList", "ajaxType": "ObjectHandler"},
-				function(data){
-					if(data.code < 0) {
-						$("#objectList").text("Error #" + (-data.code) + ": " + data.message);
-					} else {
-						$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectList", {"objectList" : data}, ["all"], window.name));
-					}
-				},
+				handleInventoryAjax,
 				"json"
 			).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
 		}
@@ -184,58 +244,24 @@
 			}
 
 			$(".objectListItem").on("click", function() {
-				loadObjectData($(this).attr("data-objectID"));
+				getObjectData($(this).attr("data-objectID"));
 			});
 		}
 
-		//Object information
-		function loadObjectData(id) {
+		function getObjectData(id) {
 			if(id <= 0) return;
 			clearSelections();
 			objectID = id;
 			$(".invHolder").text("Loading Data...");
 			$.post("ajaxRequest.php",
-				{"action" : "getObjectInfo", "ajaxType": "ObjectHandler", "objectID": objectID},
-				function(data){
-					if(data.code < 0) {
-						$(".invHolder").text("Error #" + (-data.code) + ": " + data.message);
-					} else {
-						$.jStorage.publish("dataUpdater", new Message("msgUpdateObjectInfo", {"objectID" : objectID, "objectInfo" : data}, ["all"], window.name));
-					}
-				},
+				{"action" : "getObjectInventoryInfo", "ajaxType": "ObjectInventory", "objectID": objectID},
+				handleInventoryAjax,
 				"json"
 			).fail(function() { $(".invHolder").text("An error occurred while getting data"); });
 		}
 
 		function resetInfoPage() {
 			$("#invTopInfoHolder").hide();
-		}
-
-		function loadInfoPage(data) {
-			resetInfoPage();
-			$("#planetName").text(data.objectName);
-			$("#planetLoc").text(data.objectCoords);
-			$("#planetType").text(data.objectData.planetType);
-			$("#planetSize").text(data.objectData.planetSize);
-			$("#planetTemp").text(data.objectData.planetTemp);
-			$("#planetHumidity").text(data.objectData.planetHumidity);
-			$("#numBuildings").text(data.numBuildings);
-
-			$("#storageUsed").text(niceNumber(data.usedStorage) + " / " + niceNumber(data.objStorage));
-			if(data.usedStorage >= data.objStorage) {
-				$("#storageUsed").addClass("red");
-			} else {
-				$("#storageUsed").removeClass("red");
-			}
-
-			$("#energyCapacity").text(niceNumber(isset(data.objectItems.energy) ? data.objectItems.energy.quantity : 0) + " / " + niceNumber(data.objEnergyStorage));
-			if(data.objectItems.energy >= data.objEnergyStorage) {
-				$("#energyCapacity").addClass("red");
-			} else {
-				$("#energyCapacity").removeClass("red");
-			}
-
-			$("#invTopInfoHolder").show();
 		}
 
 		function resetInventoryPage() {
@@ -248,7 +274,7 @@
 			var template = Handlebars.templates['invObject.tmpl'];
 			for(var itemID in data) {
 				var item = data[itemID];
-				if(item.itemVisibility > 0 && item.quantity > 0) {
+				if(item.itemVisibility > 0 && Math.floor(item.quantity) > 0) {
 					var html = $(template({
 						quantity: niceNumber(Math.floor(item.quantity)),
 						itemName: item.itemName,
@@ -364,13 +390,7 @@
 			doConfirm("Are you sure you want to permanently discard the selected items?", function() {
 				$.post("ajaxRequest.php",
 					{"action" : "discardItem", "ajaxType": "ObjectInventory", "objectID": objectID, "itemArray": JSON.stringify(selectedItems)},
-					function(data){
-						if(data.code < 0) {
-							showMessage(data.message, "red", 30000);
-						} else {
-							loadObjectData(objectID);
-						}
-					},
+					handleInventoryAjax,
 					"json"
 				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 				clearSelections();
@@ -383,13 +403,7 @@
 			var numItem = selectedItems[itemID];
 			$.post("ajaxRequest.php",
 				{"action" : "useItem", "ajaxType": "ObjectInventory", "objectID": objectID, "itemID": itemID, "itemAmount": numItem},
-				function(data){
-					if(data.code < 0) {
-						showMessage(data.message, "red", 30000);
-					} else {
-						loadObjectData(objectID);
-					}
-				},
+				handleInventoryAjax,
 				"json"
 			).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 			clearSelections();
@@ -495,7 +509,7 @@
 		<script type="text/javascript">
 			(function($) {
 				$(document).on('gameDataLoaded', function() {
-					loadObjectData({{$objectID}});
+					getObjectData({{$objectID}});
 				});
 			})(jQuery);
 		</script>

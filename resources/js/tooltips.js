@@ -58,26 +58,26 @@ function loadItemHover(data) {
 			$(this).text(niceNumber(item.quantity) + " " + item.itemName);
 			if ($(this).attr("data-type") == "diff") {
 				if (negative && item.quantity > 0) {
-					$(this).addClass("red");
+					setColor($(this), "red");
 				} else {
 					if (item.quantity > 0) {
-						$(this).addClass("green");
+						setColor($(this), "green");
 					} else {
-						$(this).addClass("red");
+						setColor($(this), "red");
 					}
 				}
 			} else {
 				if (isset(items)) {
 					if (isset(items[itemID]) && items[itemID].quantity >= item.quantity) {
-						$(this).addClass("green");
+						setColor($(this), "green");
 					} else {
-						$(this).addClass("red");
+						setColor($(this), "red");
 					}
 				}
 			}
 		} else {
 			$(this).text(item.itemName);
-			$(this).addClass("green");
+			setColor($(this), "green");
 		}
 
 		if ($(this).hasClass("tt-init")) {
@@ -109,24 +109,24 @@ function loadModHover(data) {
 			if (amount > 0) {
 				$(this).text("+" + niceFloat(amount) + " " + dbModData[modID].modName);
 				if (dbModData[modID].modType != "buff") {
-					$(this).addClass("red");
+					setColor($(this), "red");
 				} else {
-					$(this).addClass("green");
+					setColor($(this), "green");
 				}
 			} else {
 				$(this).text(niceFloat(amount) + " " + dbModData[modID].modName);
 				if (dbModData[modID].modType != "buff") {
-					$(this).addClass("green");
+					setColor($(this), "green");
 				} else {
-					$(this).addClass("red");
+					setColor($(this), "red");
 				}
 			}
 		} else {
 			$(this).text(niceNumber(amount) + " " + dbModData[modID].modName);
 			if (dbModData[modID].modType != "buff") {
-				$(this).addClass("red");
+				setColor($(this), "red");
 			} else {
-				$(this).addClass("green");
+				setColor($(this), "green");
 			}
 		}
 
@@ -156,9 +156,9 @@ function loadBuidingHover(data) {
 			$(this).text("Level " + level + " " + dbBuildData[buildID].buildName);
 			if(linkType == "req") {
 				if(isset(buildings[buildID]) && buildings[buildID].level >= level) {
-					$(this).addClass("green");
+					setColor($(this), "green");
 				} else {
-					$(this).addClass("red");
+					setColor($(this), "red");
 				}
 			}
 		} else {

@@ -32,6 +32,8 @@ abstract class AjaxRequest {
 		if($code != 0) $data['code'] = $code;
 
 		$data["objectID"] = $objectEnv->objectID;
+		$data["objectName"] = $objectEnv->objectName;
+		$data["objectCoords"] = $objectEnv->envObjectCoord->getCoordString();
 		$data["objectBuildings"] = $objectEnv->envBuildings->getDataArray();
 		$data["objectItems"] = UtilItem::buildItemDataArray($objectEnv->envItems);
 		$data["objectData"] = $objectEnv->envObjectData;

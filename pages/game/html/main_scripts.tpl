@@ -19,7 +19,7 @@
 <!-- http://www.vinylfox.com/lib/latest/examples/grid/array-grid-datadrop.html -->
 <script src="resources/js/main.js?v={{$VERSION}}"></script>
 <script src="resources/js/tickService.js?v={{$VERSION}}"></script>
-<script src="resources/js/crossWindow.js?v={{$VERSION}}"></script>
+<script src="resources/js/Message.js?v={{$VERSION}}"></script>
 <script src="resources/js/gameData.js?v={{$VERSION}}"></script>
 <script src="resources/js/objectUtils.js?v={{$VERSION}}"></script>
 

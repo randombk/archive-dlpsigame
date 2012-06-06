@@ -176,6 +176,11 @@ function showMessage(text, color, timeout) {
 	}
 }
 
+function setColor(domItem, color) {
+	domItem.removeClass("red green cyan orange yellow blue");
+	domItem.addClass(color);
+}
+
 //Register Ajax Error handler
 $( document ).ajaxError(function(event, jqxhr, settings, exception) {
   	console.log(event);
