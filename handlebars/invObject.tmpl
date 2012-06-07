@@ -6,6 +6,8 @@
 				{{itemName}}
 			</p>
 		</div>
-		<div class="itemQuantity">{{quantity}}</div>
+		{{#ifdef quantity}}
+			<div class="itemQuantity">{{quantity}}</div>
+		{{/ifdef}}
 	</div>
 </div>

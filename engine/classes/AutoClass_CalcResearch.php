@@ -78,17 +78,17 @@ class CalcResearch {
 	 */
 	public static function canResearch($techID, $playerEnv) {
 		if($playerEnv->envResearch->getResearchLevel($techID) || $playerEnv->envResearch->getResearchPoints($techID)) {
-			return true;	
+			return true;
 		}
-		
+
 		$neighborIDs = self::getNeighborIDs($techID);
 		foreach($neighborIDs as $id) {
 			if($playerEnv->envResearch->getResearchLevel($id)) {
 				return true;
 			}
 		}
-		
-		return false;	
+
+		return false;
 	}
 
 	/**
@@ -101,10 +101,23 @@ class CalcResearch {
 	public static function getReqResearchPoints($techID, $playerEnv) {
 		if(self::canResearch($techID, $playerEnv)) {
 			//$baseCost = GameCache::get("RESEARCH")[$techID][""]
-			
-			
+			return 200;
+
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * @param PlayerEnvironment $playerEnv
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $techID
+	 * @param int $level
+	 * @param DataMod $mod
+	 * @return int
+	 * @throws Exception
+	 */
+	public static function getResearchTime($playerEnv, $objectEnv, $techID, $level, $mod = null) {
+		return max(1, 200);
 	}
 }

@@ -23,7 +23,7 @@ function Item(itemID, itemParams) {
 	this.itemSpecialID = this.itemIDArray[1] || "";
 	this.itemBaseData = dbItemData[this.itemBaseID];
 	this.itemParams = isObject(itemParams) ? itemParams : dbItemParamsData[itemID];
-	this.quantity = itemParams.quantity || 0;
+	this.quantity = (isset(this.itemParams) && isset(this.itemParams.quantity)) ? this.itemParams.quantity : 0;
 
 	if(typeof itemParams === "number") {
 		this.quantity = itemParams;

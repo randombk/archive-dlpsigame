@@ -95,7 +95,7 @@ abstract class GameAbstractPage {
 			 'isAdmin'		=> (int)$_SESSION['PLAYER']['isAdmin'],
 			 'numPlanets'	=> count($_SESSION['OBJECTS']),
 			 'game_name'	=> $GLOBALS['_GAME_NAME'],
-			 'VERSION'		=> $GLOBALS['_GAME_VERSION'],
+			 'VERSION'		=> $GLOBALS['_GAME_VERSION'].".".$GLOBALS['_GAME_BUILD'],
 			 'timestamp'	=> TIMESTAMP,
 			 'cacheTime'	=> GameCache::getCacheTime(),
 			 'page'			=> HTTP::REQ('page', '')
