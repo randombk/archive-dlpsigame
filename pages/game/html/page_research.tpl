@@ -49,7 +49,7 @@
 				<div class="abs" style="padding-left: 3px; top: 60px; left: -1px; right: -1px; height: 15px; text-align: left;">Research Time: <span id="researchInfoControlInfoTime"></span></div>
 
 				<input id="researchInfoControlNumber" class="abs" style="bottom: 15px; left: 0px; right: 0px; height: 15px; text-align: center;" type="number" value="100" min="0">
-				<div id="researchInfoControlAddToQueue" class="abs buttonDiv stdBorder green-over" style="bottom: -1px; left: -1px; right: -1px; height: 15px; text-align: center;">Add to Research Queue</div>
+				<div id="researchInfoControlAddToQueue" class="abs buttonDiv stdBorder green-over" style="bottom: -1px; left: -1px; right: -1px; height: 15px; text-align: center;">Start Research</div>
 			</div>
 		</div>
 

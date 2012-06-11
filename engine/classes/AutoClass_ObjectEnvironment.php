@@ -18,6 +18,7 @@ class ObjectEnvironment {
 	public $last_update = PHP_INT_MAX;
 	public $objectDesc = "";
 	public $buildingQueue = array();
+	public $researchQueue = array();
 
 	/**
 	 * @var DataBuilding
@@ -67,7 +68,8 @@ class ObjectEnvironment {
 				starID,
 				last_update,
 				objectDesc,
-				buildingQueue
+				buildingQueue,
+				researchQueue
 			FROM " . tblUNI_OBJECTS . "
 			WHERE objectID = :objectID
 			FOR UPDATE;
@@ -79,6 +81,10 @@ class ObjectEnvironment {
 			$obj->buildingQueue = json_decode($obj->buildingQueue, true);
 			if(!isset($obj->buildingQueue)) {
 				$obj->buildingQueue = array();
+			}
+			$obj->researchQueue = json_decode($obj->researchQueue, true);
+			if(!isset($obj->researchQueue)) {
+				$obj->researchQueue = array();
 			}
 			$obj->envPlayer = $envPlayer;
 			return $obj;
@@ -121,7 +127,8 @@ class ObjectEnvironment {
 				"ownerID" => $this->ownerID,
 				"last_update" => $this->last_update,
 				"objectDesc" => $this->objectDesc,
-				"buildingQueue" => json_encode($this->buildingQueue)
+				"buildingQueue" => json_encode($this->buildingQueue),
+				"researchQueue" => json_encode($this->researchQueue)
 			),
 			"objectID = :objectID",
 			array(":objectID" => $this->objectID)

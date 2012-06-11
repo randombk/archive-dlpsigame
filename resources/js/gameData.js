@@ -31,7 +31,7 @@ function loadCachedData() {
 }
 
 function loadGameData(cacheTime) {
-	if (localStorage.getItem("cacheTime") === cacheTime) {
+	if (parseInt(localStorage.getItem("cacheTime"), 10) === cacheTime) {
 		loadCachedData();
 	} else {
 		$.post("ajaxRequest.php", {

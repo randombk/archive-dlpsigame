@@ -29,6 +29,8 @@ class UniUpdater
 					self::updatePlayerItems($playerEnv, $updateTime);
 					if ($nextUpdate[1] == "building" && $updateTime == $nextUpdate[0]) {
 						QueueBuilding::processBuildingQueue($playerEnv->envObjects[$nextUpdate[2]], $updateTime);
+					} else if ($nextUpdate[1] == "research" && $updateTime == $nextUpdate[0]) {
+						QueueResearch::processResearchQueue($playerEnv, $playerEnv->envObjects[$nextUpdate[2]], $updateTime);
 					}
 				} else {
 					$playerEnv->apply();
@@ -86,12 +88,13 @@ class UniUpdater
 		$updateObject = -1;
 
 		//Check research queue
-		if (isset($env->researchQueue[0], $env->researchProduction[$env->researchQueue[0]["type"]])) {
-			$requiredPoints = $env->researchQueue[0]["points"] - $env->envResearch->getResearchPoints($env->researchQueue[0]["research"]);
-			$nextResearchUpdateTime = min($env->researchQueue[0]["last_update"] + ceil($requiredPoints / $env->researchProduction[$env->researchQueue[0]["type"]]));
-			if ($nextUpdateTime > $nextResearchUpdateTime) {
-				$nextUpdateTime = $nextResearchUpdateTime;
-				$updateType = "research";
+		foreach ($env->envObjects as $envObject) {
+			if (!empty($envObject->researchQueue)) {
+				if ($nextUpdateTime > $envObject->researchQueue["endTime"]) {
+					$nextUpdateTime = $envObject->researchQueue["endTime"];
+					$updateType = "research";
+					$updateObject = $envObject->objectID;
+				}
 			}
 		}
 

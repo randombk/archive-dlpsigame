@@ -43,11 +43,6 @@ class PlayerEnvironment {
 	public $envPlayerData = null;
 
 	/**
-	 * @var array
-	 */
-	public $researchProduction = null;
-
-	/**
 	 * @param int $playerID
 	 * @return PlayerEnvironment
 	 * @throws Exception
@@ -61,7 +56,6 @@ class PlayerEnvironment {
 				numWins,
 				numLoss,
 				numDraw,
-				researchQueue,
 				last_update
 			FROM " . tblPLAYERS . "
 			WHERE playerID = :playerID
@@ -71,10 +65,6 @@ class PlayerEnvironment {
 		$stmt->bindValue(':playerID', $playerID, PDO::PARAM_INT);
 		if($stmt->execute()) {
 			$obj = $stmt->fetchObject('PlayerEnvironment');
-			$obj->researchQueue = json_decode($obj->researchQueue, true);
-			if(!isset($obj->researchQueue)) {
-				$obj->researchQueue = array();
-			}
 			return $obj;
 		} else {
 			throw new Exception("Invalid playerID");
@@ -130,7 +120,6 @@ class PlayerEnvironment {
 				"numWins" => $this->numWins,
 				"numLoss" => $this->numLoss,
 				"numDraw" => $this->numDraw,
-				"researchQueue" => json_encode($this->researchQueue),
 				"last_update" => $this->last_update
 			),
 			"playerID = :playerID",
