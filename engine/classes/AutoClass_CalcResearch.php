@@ -134,6 +134,6 @@ class CalcResearch {
 	 * @throws Exception
 	 */
 	public static function getResearchTime($playerEnv, $objectEnv, $techID, $mod = null) {
-		return max(1, 200);
+		return max(1, 60);
 	}
 }

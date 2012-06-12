@@ -30,7 +30,19 @@
 	</div>
 </div>
 <div id="researchMainPanel">
-	<div id="researchQueueHolder"></div>
+	<div id="researchQueueHolder" class="abs stdBorder" style="top: 0; left: 0; right: 0; height: 30px; background: rgba(2,26,58,0.8);">
+		<div style='position: relative;	width: 100%; text-align: center; margin-left: -1px;	border: 1px solid #D3D3D3; margin-top: -1px;'>
+			Current Research: <span id="researchQueueItemQuantity"></span> notes of <span id="researchQueueItem"></span>
+			<div id="researchQueueCancel" class="buttonDiv red-over abs" style="top: 0; height: 14px; left: 0; width: 60px;">
+				Cancel
+			</div>
+
+			<span id="researchQueueProgressBar" class='mousePointer progressbar countdown' data-progressbar='yes'>
+				<span id="text-researchQueueProgressBar" class="ui-progressbar-centerText"></span>
+			</span>
+
+		</div>
+	</div>
 	<div id="researchInfoHolder">
 		<div class="stdBorder abs" style="top: 10px; left: 10px; width: 115px; height: 100px; ">
 			<img id="researchInfoImage" width="115" height="100">
@@ -135,16 +147,6 @@
 							</td>
 						</tr>
 					</table>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					sssss
 				</div>
 			</div>
 		</div>
@@ -205,6 +207,13 @@
 									loadBuidingHover(latestGameData);
 								}
 								break;
+
+							case "msgUpdateResearchQueue":
+								if(payload.msgData.objectID == objectID) {
+									latestGameData.researchQueue = payload.msgData.researchQueue;
+									loadResearchQueue(payload.msgData.researchQueue);
+								}
+								break;
 						}
 					}
 				}
@@ -222,6 +231,10 @@
 			if(isset(data.researchData)) {
 				$.jStorage.publish("dataUpdater", new Message("msgUpdateResearchInfo", {"researchData" : data.researchData}, ["all"], window.name));
 			}
+
+			if(isset(data.researchQueue)) {
+				$.jStorage.publish("dataUpdater", new Message("msgUpdateResearchQueue", {"objectID": objectID, "researchQueue" : data.researchQueue}, ["all"], window.name));
+			}
 		}
 
 		function getObjectResearchData(objectID) {
@@ -230,6 +243,52 @@
 				handleResearchAjax,
 				"json"
 			).fail(function() {showMessage("An error occurred while getting data", "red", 30000);});
+		}
+
+		function loadResearchQueue(researchQueue) {
+			var researchQueueHolder = $("#researchQueueHolder");
+			var researchQueueProgressbar = $("#researchQueueProgressBar");
+			var researchInfoHolder = $("#researchInfoHolder");
+			if(!isEmpty(researchQueue)) {
+				researchQueueHolder.show();
+				researchQueueProgressbar.addClass("countdown");
+				researchInfoHolder.css("top", 31);
+
+				var researchQueueCountdownText = $("#text-researchQueueProgressBar");
+				$("#researchQueueCancel").unbind("click").bind("click", function(){
+					$.post(
+						"ajaxRequest.php",
+						{"action" : "cancelResearchQueueItem", "ajaxType": "ResearchHandler", "objectID": objectID, "queueItemID": researchQueue.id},
+						handleResearchAjax,
+						"json"
+					).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
+				});
+
+				$("#researchQueueItemQuantity").text(researchQueue.numQueued);
+				$("#researchQueueItem").text(latestGameData.researchData[researchQueue.techID].techName);
+				$("#researchQueueProgressBar")
+					.attr("data-beginning", researchQueue.startTime)
+					.attr("data-end", researchQueue.endTime)
+					.attr("data-callback", "getResearchData();")
+					.progressbar({
+						value: 1,
+						max: researchQueue.endTime - researchQueue.startTime,
+						change: function() {
+							researchQueueCountdownText.text(
+								niceETA(
+									moment.duration($(this).progressbar("option", "max") - $(this).progressbar("value"), 'seconds')
+								) + " left"
+							);
+						},
+						complete: function() {
+							$("#text-researchQueueProgressBar").text( "Complete!" );
+						}
+					});
+			} else {
+				researchQueueHolder.hide();
+				researchQueueProgressbar.removeClass("countdown");
+				researchInfoHolder.css("top", 0);
+			}
 		}
 
 		function loadResearchList(researchData) {
@@ -357,20 +416,12 @@
 			$("#researchInfoControlNumber").val(Math.max(notesRequired - research.techPoints - currentInv, 0));
 
 			$("#researchInfoControlShowAddOverlay").unbind('click').bind('click', function() {
-				/*	$.post(
-						"ajaxRequest.php",
-						{"action" : "startResearch", "ajaxType": "ResearchHandler", "objectID": objectID, "techID": techID, "numberNotes": $("#researchInfoControlNumber").val()},
-						handleResearchAjax,
-						"json"
-					).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
-				*/
 				showResearchAddOverlay(researchData, techID);
 			});
 		}
 
 		function loadResearchNoteInfo(researchData, techID) {
 			var tech = researchData[techID];
-			console.log(tech);
 			var researchNoteInfo = Handlebars.templates['researchNoteInfo.tmpl'];
 			$("#researchNoteRequirements").html(researchNoteInfo(tech));
 		}
@@ -391,6 +442,16 @@
 				$("#blankOut").hide();
 				$("#researchAddOverlayHolder").hide();
 			}
+
+			$("#researchInfoControlAddToQueue").unbind('click').bind('click', function() {
+				$.post(
+					"ajaxRequest.php",
+					{"action" : "startResearch", "ajaxType": "ResearchHandler", "objectID": objectID, "techID": techID, "numberNotes": $("#researchInfoControlNumber").val()},
+					handleResearchAjax,
+					"json"
+				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
+				hideInfoBox();
+			});
 
 			$("#researchAddOverlayHolder").show();
 			$("#blankOut").show().on("click", hideInfoBox);

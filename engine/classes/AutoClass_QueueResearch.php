@@ -135,11 +135,11 @@ class QueueResearch {
 	 */
 	public static function cancelResearchQueue($playerEnv, $objectEnv, $queueItemID) {
 		if(isset($objectEnv->researchQueue["id"]) && $objectEnv->researchQueue["id"] == $queueItemID) {
-			$objectEnv->researchQueue = array();
 			$objectEnv->envItems->sum(CalcResearch::getResearchNoteCost($playerEnv, $objectEnv, $objectEnv->researchQueue["techID"])->multiply($objectEnv->researchQueue["numQueued"] * 0.5));
-			return true;
+			$objectEnv->researchQueue = array();
+			return false;
 		}
-		return false;
+		return "Item not in queue";
 	}
 
 	/**
