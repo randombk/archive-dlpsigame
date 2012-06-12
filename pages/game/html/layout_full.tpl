@@ -298,7 +298,7 @@
 					document.location = document.location.origin + document.location.pathname + "?page={{$page}}" +"&objectID=" + $(this).attr("data-objectID");
 				});
 
-				$(".scrollable").tinyscrollbar_update();
+				updateAllScrollbars()
 				$(".objectListItem[data-objectID=" + objectID + "]").attr("data-active", "true");
 			}
 

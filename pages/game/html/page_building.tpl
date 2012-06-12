@@ -305,8 +305,7 @@
 					{"action" : "recycleBuilding", "ajaxType": "BuildingHandler", "objectID": objectID, "buildingID": buildingID, "buildingLevel": buildingLevel},
 					handleBuildingAjax,
 					"json")
-					.fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); }
-				).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
+					.fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 			}, function(){});
 		});
 

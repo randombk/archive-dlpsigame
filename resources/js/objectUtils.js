@@ -30,6 +30,13 @@ function objSub(target, obj) {
 	return target;
 }
 
+function multiplyEach(obj, factor) {
+	for(var i in obj) {
+		obj[i] *= factor;
+	}
+	return obj;
+}
+
 function mergeAdd(obj1, obj2) {
 	return objAdd(clone(obj1), obj2);
 }

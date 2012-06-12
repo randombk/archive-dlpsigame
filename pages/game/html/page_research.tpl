@@ -35,21 +35,21 @@
 		<div class="stdBorder abs" style="top: 10px; left: 10px; width: 115px; height: 100px; ">
 			<img id="researchInfoImage" width="115" height="100">
 		</div>
-		<div id="researchInfoTitle" class="stdBorder abs" style="top: 10px; left: 135px; right: 160px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
-		<div id="researchInfoLink" class="stdBorder abs buttonDiv" style="top: 10px; right: 10px; width: 149px; height: 15px; text-align: center;">View in Research Map &gt;&gt;</div>
+		<div id="researchInfoTitle" class="stdBorder abs" style="top: 10px; left: 136px; right: 10px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
 		<div id="researchInfoDesc" 	class="stdBorder abs" style="top: 35px; left: 135px; right: 10px; height: 75px;"></div>
 
 		<div id="researchInfoControlsHolder" class="stdBorder abs" style="top: 120px; left: 10px; width: 270px; height: 122px;">
-			<div id="researchInfoNoteHolder" class="abs mousePointer" style="top: -2px; left: -2px; width: 90px; height: 120px;"></div>
-			<div id="researchInfoControls" class="abs stdBorder" style="top: -1px; left: 91px; right: -1px; bottom: -1px;">
+			<div id="researchInfoNoteHolder" class="abs mousePointer" style="top: -2px; left: -2px; width: 91px; height: 120px;"></div>
+			<div id="researchInfoControls" class="abs stdBorder" style="top: -1px; left: 92px; right: -1px; bottom: -1px;">
 				<div class="abs" style="padding-left: 3px; top: 0px; left: -1px; right: -1px; height: 15px; text-align: left;">Total Required: <span id="researchInfoControlInfoTotal"></span></div>
 				<div class="abs" style="padding-left: 3px; top: 15px; left: -1px; right: -1px; height: 15px; text-align: left;">Current Progress: <span id="researchInfoControlInfoProgress"></span></div>
 				<div class="abs" style="padding-left: 3px; top: 30px; left: -1px; right: -1px; height: 15px; text-align: left;">Notes Required: <span id="researchInfoControlInfoRequired"></span></div>
 				<div class="abs" style="padding-left: 3px; top: 45px; left: -1px; right: -1px; height: 15px; text-align: left;">Inventory: <span id="researchInfoControlInfoInventory"></span></div>
 				<div class="abs" style="padding-left: 3px; top: 60px; left: -1px; right: -1px; height: 15px; text-align: left;">Research Time: <span id="researchInfoControlInfoTime"></span></div>
 
-				<input id="researchInfoControlNumber" class="abs" style="bottom: 15px; left: 0px; right: 0px; height: 15px; text-align: center;" type="number" value="100" min="0">
-				<div id="researchInfoControlAddToQueue" class="abs buttonDiv stdBorder green-over" style="bottom: -1px; left: -1px; right: -1px; height: 15px; text-align: center;">Start Research</div>
+				<div id="researchInfoControlShowAddOverlay" class="abs buttonDiv stdBorder green-over" style="bottom: 15px; left: -1px; right: -1px; height: 20px; text-align: center;">Start Research</div>
+				<div id="researchInfoLink" class="stdBorder abs buttonDiv" style="bottom: -1px; left: -1px; right: -1px; height: 15px; text-align: center;">View in Research Map &gt;&gt;</div>
+
 			</div>
 		</div>
 
@@ -85,11 +85,78 @@
         </div>
 	</div>
 </div>
+<div id="researchAddOverlayHolder" class="absFill" style="text-align: center; vertical-align: middle; display: none;">
+	<div id="researchAddOverlay" style="z-index: 901; position: relative; top: 20%; margin: auto; width: 450px; height: 275px; background: rgba(3,26,58,0.9); border: 1px #D3D3D3 solid;">
+		<div id="researchAddOverlayClose" class="stdBorder abs buttonDiv red-over" style="top: 10px; right: 10px; width: 10px; height: 15px;">X</div>
+		<div class="stdBorder abs" style="top: 10px; left: 10px; width: 115px; height: 100px;">
+			<img id="researchAddOverlayImage" width="115" height="100"/>
+		</div>
+		<div id="researchAddOverlayTitle" class="stdBorder abs" style="top: 10px; left: 135px; right: 20px; height: 15px; background-color: #1E3E5D; text-align: center;"></div>
+		<div id="researchAddOverlayDesc" class="stdBorder abs" style="top: 35px; left: 135px; right: 10px; height: 75px;"></div>
+		<div id="researchAddInfoController" class="stdBorder abs" style="top: 120px; left: 10px; width: 92px; bottom: 10px;">
+			<div id="researchAddInfoNoteHolder" class="abs mousePointer" style="top: -2px; left: -2px; width: 90px; height: 120px;"></div>
+			<input id="researchInfoControlNumber" class="abs" style="bottom: 0px; left: 0px; right: 0px; height: 15px; text-align: center;" type="number" value="100" min="0">
+		</div>
+		<div id="researchAddInfoDetails" class="abs stdBorder scrollable" style="bottom: 31px; left: 110px; right: 10px; top: 120px; text-align: center;">
+			<div class="scrollbar">
+				<div class="track">
+					<div class="thumb green-over">
+						<div class="end"></div>
+					</div>
+				</div>
+			</div>
+			<div class="viewport">
+				<div class="overview">
+					Required Time: <span id="researchRequiredTime"></span><br>
+					Estimated Completion Time: <span id="researchCompletionTime"></span>
+					<table class="scaffold" style="text-align: left;">
+						<tr>
+							<td style="padding-bottom: 5px;">
+								Start Cost:
+							</td>
+							<td style="padding-bottom: 5px;">
+								<span id="researchStartCost"></span>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding-bottom: 5px;">
+								Ongoing Cost:
+							</td>
+							<td style="padding-bottom: 5px;">
+								<span id="researchConsumptionCost"></span>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding-bottom: 5px;">
+								Total Cost:
+							</td>
+							<td style="padding-bottom: 5px;">
+								<span id="researchTotalCost"></span>
+							</td>
+						</tr>
+					</table>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					sssss
+				</div>
+			</div>
+		</div>
+		<div id="researchInfoControlAddToQueue" class="abs buttonDiv stdBorder green-over" style="bottom: 10px; left: 110px; right: 10px; height: 20px; text-align: center;">Loading</div>
+	</div>
+</div>
 {{/block}}
 
 {{block name="winHandlers" append}}
 	<script>
 		var objectID = {{$objectID}};
+		var lastSelection = null;
 		$('#gamePageContainer').css("height", "100%");
 		$("#gameMenu").ready(function() {
 			$("#gameMenu #pageResearch").addClass("active");
@@ -192,7 +259,10 @@
 				$(".researchListItem").on("click", function() {
 					loadResearchInfo(researchData, $(this).attr("data-techID"));
 				});
-				loadResearchInfo(researchData, researchesAvaliable);
+				if(!lastSelection) {
+					lastSelection = researchesAvaliable;
+				}
+				loadResearchInfo(researchData, lastSelection);
 			} else {
 				researchList.text("No Researches Avaliable!");
 				$("#researchInfoHolder").text("No Researches Avaliable!");
@@ -200,6 +270,7 @@
 		}
 
 		function loadResearchInfo(researchData, techID) {
+			lastSelection = techID;
 			$("[data-active=true]").attr("data-active", "");
 			$(".researchListItem[data-techID=" + techID + "]").attr("data-active", "true");
 
@@ -255,24 +326,25 @@
 			}));
 
 			html.addClass("type_" + item.itemType.replace(" ", "_"));
-			$("#researchInfoNoteHolder").html(html);
-			$(".invObject").each(function() {
-				if($(this).hasClass("tt-init")) {
-					$(this).tooltip("option", "content", function() {
-						return item.getHoverContent();
-					});
-				} else {
-					staticTT(
-						$(this),
-						{
-							content : function() {
-								return item.getHoverContent();
-							},
-							show: { delay: 600, effect: "show" }
-						}
-					);
-				}
-			});
+			$("#researchInfoNoteHolder").html(
+				html.each(function() {
+					if($(this).hasClass("tt-init")) {
+						$(this).tooltip("option", "content", function() {
+							return item.getHoverContent();
+						});
+					} else {
+						staticTT(
+							$(this),
+							{
+								content : function() {
+									return item.getHoverContent();
+								},
+								show: { delay: 600, effect: "show" }
+							}
+						);
+					}
+				})
+			);
 
 			var notesRequired = research.getTotalNotesRequired();
 			$("#researchInfoControlInfoTotal").text(notesRequired);
@@ -283,13 +355,111 @@
 			$("#researchInfoControlInfoInventory").text(currentInv);
 			$("#researchInfoControlInfoTime").text(niceETA(moment.duration(research.getResearchTime(latestGameData), 'seconds')));
 			$("#researchInfoControlNumber").val(Math.max(notesRequired - research.techPoints - currentInv, 0));
-			//$("#researchInfoControlAddToQueue").text();
+
+			$("#researchInfoControlShowAddOverlay").unbind('click').bind('click', function() {
+				/*	$.post(
+						"ajaxRequest.php",
+						{"action" : "startResearch", "ajaxType": "ResearchHandler", "objectID": objectID, "techID": techID, "numberNotes": $("#researchInfoControlNumber").val()},
+						handleResearchAjax,
+						"json"
+					).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
+				*/
+				showResearchAddOverlay(researchData, techID);
+			});
 		}
 
 		function loadResearchNoteInfo(researchData, techID) {
 			var tech = researchData[techID];
+			console.log(tech);
 			var researchNoteInfo = Handlebars.templates['researchNoteInfo.tmpl'];
 			$("#researchNoteRequirements").html(researchNoteInfo(tech));
 		}
+
+		function showResearchAddOverlay(researchData, techID) {
+			var tech = researchData[techID];
+
+			$("#researchAddOverlayImage").attr("src", "resources/images/research/" + tech.techImage);
+			$("#researchAddOverlayTitle").text(tech.techName);
+			$("#researchAddOverlayDesc").text(tech.techDesc);
+
+			$("#researchInfoControlNumber").on("change", function() {
+				var value = $(this).val();
+				updateResearchOverlayQuantity(researchData, techID, value);
+			});
+
+			function hideInfoBox() {
+				$("#blankOut").hide();
+				$("#researchAddOverlayHolder").hide();
+			}
+
+			$("#researchAddOverlayHolder").show();
+			$("#blankOut").show().on("click", hideInfoBox);
+
+			updateResearchOverlayQuantity(researchData, techID, $("#researchInfoControlNumber").val());
+			$("#researchAddOverlayClose").on("click", hideInfoBox);
+		}
+
+		function updateResearchOverlayQuantity(researchData, techID, quantity) {
+			var tech = researchData[techID];
+			var item = new Item("research-notes_" + techID);
+			item.quantity = quantity;
+
+			var template = Handlebars.templates['invObject.tmpl'];
+			var html = $(template({
+				quantity: item.quantity,
+				itemName: item.itemName,
+				itemImage: item.itemImage
+			}));
+
+			html.addClass("type_" + item.itemType.replace(" ", "_"));
+			$("#researchAddInfoNoteHolder").html(
+				html.each(function() {
+					if($(this).hasClass("tt-init")) {
+						$(this).tooltip("option", "content", function() {
+							return item.getHoverContent();
+						});
+					} else {
+						staticTT(
+							$(this),
+							{
+								content : function() {
+									return item.getHoverContent();
+								},
+								show: { delay: 600, effect: "show" }
+							}
+						);
+					}
+				})
+			);
+
+			$("#researchInfoControlAddToQueue").text("Create " + quantity + " research Notes");
+			$("#researchRequiredTime").text(niceETA(moment.duration(tech.getResearchTime(latestGameData) * quantity, 'seconds')));
+			$("#researchCompletionTime").text(formatDateTime(moment().add(moment.duration(tech.getResearchTime(latestGameData) * quantity, 'seconds'))));
+
+			var startCostHolder = $("#researchStartCost").text("");
+			var startCost = multiplyEach(clone(tech.researchNoteCost), quantity);
+			for ( var i in startCost ) {
+				var res = startCost[i];
+				startCostHolder.append($('<span class="itemLink" data-item="' + i + '" data-parameters="' + res + '"></span>'));
+			}
+
+			var ongoingCostHolder = $("#researchConsumptionCost").text("");
+			var ongoingCost = multiplyEach(clone(tech.researchNoteConsumption), tech.getResearchTime(latestGameData) * quantity / 3600);
+			for ( var i in ongoingCost ) {
+				var res = ongoingCost[i];
+				ongoingCostHolder.append($('<span class="itemLink" data-item="' + i + '" data-parameters="' + res + '"></span>'));
+			}
+
+			var totalCostHolder = $("#researchTotalCost").text("");
+			var totalCost = objAdd(clone(startCost), ongoingCost);
+			for ( var i in totalCost ) {
+				var res = totalCost[i];
+				totalCostHolder.append($('<span class="itemLink" data-item="' + i + '" data-parameters="' + res + '"></span>'));
+			}
+
+			loadItemHover(latestGameData);
+			updateAllScrollbars();
+		}
+
 	</script>
 {{/block}}

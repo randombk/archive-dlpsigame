@@ -58,7 +58,7 @@
 		});
 
 		$(window).resize(function() {
-			$(".scrollable").tinyscrollbar_update();
+			updateAllScrollbars()
 		});
 
 		function handleNotificationAjax(data) {
@@ -112,7 +112,7 @@
 				$(".msgHolder").html("No Notifications");
 			}
 
-			$(".scrollable").tinyscrollbar_update();
+			updateAllScrollbars()
 		}
 
 		function clearNotifications() {

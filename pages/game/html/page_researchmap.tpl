@@ -213,7 +213,7 @@
 				$("#researchActivityListHolder").hide();
 				$(this).text("Show Controls >");
 			}
-			$(".scrollable").tinyscrollbar_update();
+			updateAllScrollbars()
 		});
 
 		$.jStorage.subscribe("dataUpdater", function(channel, payload) {

@@ -118,7 +118,7 @@
 					$(".invMainPanel").css("left", 0);
 					$(this).text(">");
 				}
-				$(".scrollable").tinyscrollbar_update();
+				updateAllScrollbars()
 			});
 
 			$.jStorage.subscribe("dataUpdater", function(channel, payload) {

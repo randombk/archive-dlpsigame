@@ -54,14 +54,14 @@ class AjaxRequest_ResearchHandler extends AjaxRequest {
 		$objectID = HTTP::REQ("objectID", 0);
 		$techID = HTTP::REQ("techID", "none");
 		$numberNotes = HTTP::REQ("numberNotes", 0);
-		if ($objectID > 0 && isset(GameCache::get("RESEARCH")[$techID])) {
+		if ($objectID > 0 && isset(GameCache::get("RESEARCH")[$techID]) && $numberNotes > 0) {
 			//Check player permissions
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
 				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
 				$objectEnv = $playerEnv->envObjects[$objectID];
-				$result = QueueResearch::setResearchQueue($playerEnv, $objectEnv, techID, $numberNotes);
+				$result = QueueResearch::setResearchQueue($playerEnv, $objectEnv, $techID, $numberNotes);
 				if(!$result) {
 					$objectEnv->apply();
 					$this->sendObjectResearchData(array(), $playerEnv, $objectID);

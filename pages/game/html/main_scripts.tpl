@@ -59,8 +59,7 @@
 
 	//Load scrollbars on page
 	(function($) {
-
-		$('.scrollable').each(function() {
+	$('.scrollable').each(function() {
 			$(this).tinyscrollbar();
 		});
 

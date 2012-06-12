@@ -248,7 +248,7 @@ table.innerBorderedTable th {
 /*
  Mouse
  * */
-.mousePointer {
+stdBorder abs.mousePointer {
 	cursor: pointer;
 }
 
