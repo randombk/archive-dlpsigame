@@ -130,5 +130,5 @@ Research.prototype.getTotalNotesRequired = function(){
 };
 
 Research.prototype.getResearchTime = function(objectData){
-	return 60;
+	return 10;
 };

@@ -77,6 +77,14 @@ class QueueResearch {
 	}
 
 	/**
+	 * @param ObjectEnvironment $objectEnv
+	 * @return null | string
+	 */
+	public static function getCurrentResearch($objectEnv) {
+		return isset($objectEnv->researchQueue["techID"]) ? $objectEnv->researchQueue["techID"] : null;
+	}
+
+	/**
 	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @param int $time
@@ -89,9 +97,10 @@ class QueueResearch {
 			$numNotesCreated = min(floor($timeDelta / $objectEnv->researchQueue["researchTime"]), $objectEnv->researchQueue["numQueued"]);
 			$objectEnv->researchQueue["startTime"] += $numNotesCreated * $objectEnv->researchQueue["researchTime"];
 			$objectEnv->researchQueue["numQueued"] -= $numNotesCreated;
+			$objectEnv->envItems->addItem("research-notes_".$objectEnv->researchQueue["techID"], $numNotesCreated);
 
 			if($objectEnv->researchQueue["numQueued"] < 1) {
-				self::abortResearchQueue($objectEnv, $objectEnv->researchQueue["id"]);
+				self::abortResearchQueue($objectEnv);
 			}
 		}
 		return true;
@@ -144,10 +153,9 @@ class QueueResearch {
 
 	/**
 	 * @param ObjectEnvironment $objectEnv
-	 * @param string $queueItemID
 	 * @return bool
 	 */
-	public static function abortResearchQueue($objectEnv, $queueItemID) {
+	public static function abortResearchQueue($objectEnv) {
 		$objectEnv->researchQueue = array();
 		return true;
 	}

@@ -5,6 +5,30 @@
  */
 
 /**
+ * Class UpdatePointException
+ */
+class UpdatePointException extends Exception {
+	private $errorPoint = 0;
+
+	public function __construct($errorPoint, $code = 0, Exception $previous = null) {
+		$this->errorPoint = $errorPoint;
+		parent::__construct("Recalculate from ".$errorPoint, $code, $previous);
+	}
+
+	public function __toString() {
+		return __CLASS__ . ": [{$this->code}]: {$this->errorPoint}\n";
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getErrorPoint()
+	{
+		return $this->errorPoint;
+	}
+}
+
+/**
  * Class UniUpdater
  */
 class UniUpdater
@@ -27,11 +51,15 @@ class UniUpdater
 					$updateTime = min($nextUpdate[0], $updateTo);
 
 					self::updatePlayerItems($playerEnv, $updateTime);
+					self::updatePlayerResearch($playerEnv, $updateTime);
+
 					if ($nextUpdate[1] == "building" && $updateTime == $nextUpdate[0]) {
 						QueueBuilding::processBuildingQueue($playerEnv->envObjects[$nextUpdate[2]], $updateTime);
 					} else if ($nextUpdate[1] == "research" && $updateTime == $nextUpdate[0]) {
 						QueueResearch::processResearchQueue($playerEnv, $playerEnv->envObjects[$nextUpdate[2]], $updateTime);
 					}
+
+					$playerEnv->last_update = $updateTime;
 				} else {
 					$playerEnv->apply();
 					DBMySQL::exec("COMMIT;");
@@ -51,10 +79,10 @@ class UniUpdater
 	 */
 	public static function updatePlayerItems($playerEnv, $time)
 	{
-		$updatedTo = $playerEnv->last_update;
+		//$updatedTo = $playerEnv->last_update;
 
 		// 3600 * 24 * 7
-		if ($time - $updatedTo > 604800) {
+		/*if ($time - $updatedTo > 604800) {
 			Message::sendNotification(
 				$playerEnv->playerID,
 				"Resource production halted on " . $playerEnv->playerName . "",
@@ -66,15 +94,25 @@ class UniUpdater
 			);
 			$updatedTo = $time - 604800;
 		}
-
-		while ($updatedTo < $time) {
-			$updateInterval = min(3600, $time - $updatedTo);
+		*/
+		//while ($updatedTo < $time) {
+		//	$updateInterval = min(3600, $time - $updatedTo);
 			foreach ($playerEnv->envObjects as $objectEnv) {
-				$objectEnv->envItems = CalcObject::calcNewObjectRes($objectEnv, $updateInterval);
+				CalcObject::updateObject($playerEnv, $objectEnv, $playerEnv->last_update, $time);
 			}
-			$updatedTo += $updateInterval;
+		//	$updatedTo += $updateInterval;
+		//}
+	}
+
+	/**
+	 * @param $playerEnv
+	 * @param $time
+	 */
+	public static function updatePlayerResearch($playerEnv, $time)
+	{
+		foreach ($playerEnv->envObjects as $objectEnv) {
+			QueueResearch::processResearchQueue($playerEnv, $objectEnv, $time);
 		}
-		$playerEnv->last_update = $updatedTo;
 	}
 
 	/**

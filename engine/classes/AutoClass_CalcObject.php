@@ -10,51 +10,126 @@
 class CalcObject {
 	//Object Calculations
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
-	 * @param int $timeDelta
-	 * @param DataMod|null $mod
+	 * @param int $curUpdatePoint
+	 * @param int $updateTo
+	 * @internal param int $timeDelta
 	 * @return DataItem
 	 */
-	public static function calcNewObjectRes($objectEnv, $timeDelta, $mod = null) {
-		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
+	public static function updateObject($playerEnv, $objectEnv, $curUpdatePoint, $updateTo) {
+		$nextUpdate = $updateTo;
+		$buildingFilter = array();
 
-		$endRes = $objectEnv->envItems;
+		while ($curUpdatePoint < $updateTo) {
+			$mod = DataMod::calculateObjectModifiers($objectEnv);
+			$timeDelta = $nextUpdate - $curUpdatePoint;
 
-		/* @var $buildProduction DataItem[] */
-		$buildProduction = array();
+			$hourlyDelta = new DataItem();
 
-		//Add total production as if everything is fine
-		foreach ($objectEnv->envBuildings->getDataArray() as $building => $data) {
-			$buildProduction[$building] = self::getBuildingProduction($objectEnv, $building, $data[0], $mod, $data[1])->multiply($timeDelta / (3600));
-			$endRes->sum($buildProduction[$building]);
-		}
+			//Get total production and consumption
+			/* @var $buildProduction DataItem[] */
+			$buildProduction = array();
 
-		//Then deduct resources
-		foreach ($objectEnv->envBuildings->getDataArray() as $building => $data) {
-			$resCost = self::getBuildingConsumption($objectEnv, $building, $data[0], $mod, $data[1])->multiply($timeDelta / (3600));
+			/* @var $buildConsumption DataItem[] */
+			$buildConsumption = array();
 
-			//Find limiting factor
-			$factor = 1;
+			foreach ($objectEnv->envBuildings->getDataArray() as $building => $data) {
+				//Ignore filtered buildings
+				if(isset($buildingFilter[$building])) {
+					break;
+				}
 
-			//Find missing resources
-			foreach ($resCost->getDataArray() as $resource => $amount) {
-				$factor = max(0, min($factor, $endRes->getItem($resource) / $amount));
+				$buildProduction[$building] = self::getBuildingProduction($objectEnv, $building, $data[0], $mod, $data[1]);
+				$hourlyDelta->sum($buildProduction[$building]);
+
+				$buildConsumption[$building] = self::getBuildingConsumption($objectEnv, $building, $data[0], $mod, $data[1]);
+				$hourlyDelta->sub($buildConsumption[$building]);
 			}
 
-			$endRes->sub($resCost->multiply($factor));
-
-			if($factor < 1) {
-				$endRes->sub($buildProduction[$building]->multiply(1 - $factor));
+			//Get research consumption
+			$currentResearch = QueueResearch::getCurrentResearch($objectEnv);
+			if($currentResearch) {
+				$researchConsumption = CalcResearch::getResearchNoteConsumption($playerEnv, $objectEnv, $currentResearch, $mod);
+				$hourlyDelta->sub($researchConsumption);
 			}
+
+			if(!$hourlyDelta->isPositive()) {
+				//Check research requirements
+				$keyPoint = PHP_INT_MAX;
+				$keyActor = "none";
+				if($currentResearch) {
+					foreach($researchConsumption->getDataArray() as $item => $amount) {
+						$netLoss = -$hourlyDelta->getItem($item);
+						if($netLoss > 0) {
+							$amountNeeded = $netLoss * $timeDelta / 3600;
+							if($objectEnv->envItems->getItem($item) < $amountNeeded) {
+								//Ran out of resources. Find out when resources ran out
+								$keyFrame = floor(($objectEnv->envItems->getItem($item) / $netLoss) * 3600);
+								$potentialFrame = $curUpdatePoint + $keyFrame;
+								if($potentialFrame < $keyPoint) {
+									$keyPoint = $potentialFrame;
+									$keyActor = "research";
+								}
+							}
+						}
+					}
+				}
+
+				//Check building requirements
+			    foreach($hourlyDelta as $resID => $amount) {
+				    if($amount < 0) {
+				        $amountNeeded = $amount * $timeDelta / 3600;
+					    if($objectEnv->envItems->getItem($resID) < $amountNeeded) {
+							//Ran out of resources. Find out when resources ran out
+						    $keyFrame = floor(($objectEnv->envItems->getItem($resID) / $amount) * 3600);
+						    $potentialFrame = $curUpdatePoint + $keyFrame;
+						    if($potentialFrame < $keyPoint) {
+							    $keyPoint = $potentialFrame;
+							    $keyActor = $resID;
+						    }
+					    }
+
+				    }
+			    }
+
+				//Apply
+				if($keyPoint < PHP_INT_MAX) {
+					if($keyActor == "research") {
+						//Abort research
+						QueueResearch::abortResearchQueue($objectEnv);
+					} else {
+						//find buildings using the limited resource
+						foreach($buildConsumption as $buildID => $resArray) {
+							foreach($resArray as $resID => $resAmount) {
+								if($resID == $keyActor) {
+									$buildingFilter[$buildID] = true;
+									break;
+								}
+							}
+						}
+					}
+
+					$nextUpdate = $keyPoint;
+					$timeDelta = $nextUpdate - $curUpdatePoint;
+				}
+			}
+
+			$objectEnv->envItems->sum($hourlyDelta->multiply($timeDelta / 3600));
+
+			//Credit completed resources
+			QueueResearch::processResearchQueue($playerEnv, $objectEnv, $nextUpdate);
+
+			//Special: max energy
+			$maxEnergy = self::getMaxEnergyStorage($objectEnv, $mod);
+			if(($objectEnv->envItems->getItem("energy")) >= $maxEnergy) {
+				$objectEnv->envItems->setItem("energy", $maxEnergy);
+			}
+
+			$curUpdatePoint = $nextUpdate;
 		}
 
-		//Special: max energy
-		$maxEnergy = self::getMaxEnergyStorage($objectEnv, $mod);
-		if(($endRes->getItem("energy")) >= $maxEnergy) {
-			$endRes->setItem("energy", $maxEnergy);
-		}
-
-		return $endRes;
+		return true;
 	}
 
 	/**

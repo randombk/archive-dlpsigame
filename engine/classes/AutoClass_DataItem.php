@@ -63,6 +63,18 @@ class DataItem extends Data {
 		return $weight;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function isPositive() {
+		foreach ($this->dataArray as $itemID => $number) {
+			if($number < 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	//Math Operators
 	/**
 	 * @param string $itemName

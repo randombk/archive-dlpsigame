@@ -107,7 +107,7 @@
 		<div id="researchAddOverlayDesc" class="stdBorder abs" style="top: 35px; left: 135px; right: 10px; height: 75px;"></div>
 		<div id="researchAddInfoController" class="stdBorder abs" style="top: 120px; left: 10px; width: 92px; bottom: 10px;">
 			<div id="researchAddInfoNoteHolder" class="abs mousePointer" style="top: -2px; left: -2px; width: 90px; height: 120px;"></div>
-			<input id="researchInfoControlNumber" class="abs" style="bottom: 0px; left: 0px; right: 0px; height: 15px; text-align: center;" type="number" value="100" min="0">
+			<input id="researchInfoControlNumber" class="abs" style="bottom: 0px; left: 0px; right: 0px; height: 15px; text-align: center;" type="number" value="100" min="1">
 		</div>
 		<div id="researchAddInfoDetails" class="abs stdBorder scrollable" style="bottom: 31px; left: 110px; right: 10px; top: 120px; text-align: center;">
 			<div class="scrollbar">
@@ -219,7 +219,7 @@
 				}
 			});
 
-			getObjectResearchData(objectID);
+			getObjectResearchData();
 		});
 
 		function handleResearchAjax(data) {
@@ -237,7 +237,7 @@
 			}
 		}
 
-		function getObjectResearchData(objectID) {
+		function getObjectResearchData() {
 			$.post("ajaxRequest.php",
 				{"action" : "getObjectResearch", "ajaxType": "ResearchHandler", "objectID": objectID},
 				handleResearchAjax,
@@ -268,11 +268,11 @@
 				$("#researchQueueItem").text(latestGameData.researchData[researchQueue.techID].techName);
 				$("#researchQueueProgressBar")
 					.attr("data-beginning", researchQueue.startTime)
-					.attr("data-end", researchQueue.endTime)
-					.attr("data-callback", "getResearchData();")
+					.attr("data-end", researchQueue.startTime + Math.max(researchQueue.researchTime, 60))
+					.attr("data-callback", "getObjectResearchData();")
 					.progressbar({
 						value: 1,
-						max: researchQueue.endTime - researchQueue.startTime,
+						max: researchQueue.researchTime,
 						change: function() {
 							researchQueueCountdownText.text(
 								niceETA(
@@ -281,7 +281,11 @@
 							);
 						},
 						complete: function() {
-							$("#text-researchQueueProgressBar").text( "Complete!" );
+							if(researchQueue.researchTime > 60) {
+								$("#text-researchQueueProgressBar").text( "Complete!" );
+							} else {
+								$("#text-researchQueueProgressBar").text( "Complete! (Auto-refresh only works at intervals of 60 seconds or more)" );
+							}
 						}
 					});
 			} else {
@@ -413,7 +417,7 @@
 			var currentInv = isset(latestGameData.objectItems["research-notes_" + techID]) ? latestGameData.objectItems["research-notes_tech1"].quantity : 0;
 			$("#researchInfoControlInfoInventory").text(currentInv);
 			$("#researchInfoControlInfoTime").text(niceETA(moment.duration(research.getResearchTime(latestGameData), 'seconds')));
-			$("#researchInfoControlNumber").val(Math.max(notesRequired - research.techPoints - currentInv, 0));
+			$("#researchInfoControlNumber").val(Math.max(notesRequired - research.techPoints - currentInv, 1));
 
 			$("#researchInfoControlShowAddOverlay").unbind('click').bind('click', function() {
 				showResearchAddOverlay(researchData, techID);
