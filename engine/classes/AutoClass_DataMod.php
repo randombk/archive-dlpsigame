@@ -16,7 +16,7 @@ class DataMod extends Data {
 	 * @param ObjectEnvironment $objectEnv
 	 * @return DataMod
 	 */
-	public static function calculateObjectModifiers($objectEnv) {
+	public static function calculateObjectModifiers($objectEnv, $buildingFilter = array()) {
 		$instance = new self();
 
 		//Add object modifiers
@@ -25,6 +25,9 @@ class DataMod extends Data {
 
 		//Add up active building modifiers
 		foreach ($objectEnv->envBuildings->getDataArray() as $buildingID => $data) {
+			if(isset($buildingFilter[$buildingID])) {
+				continue;
+			}
 			$instance->mergeModifierArray(CalcObject::getBuildingModifiers($objectEnv, $buildingID, $data[0], $data[1]));
 		}
 

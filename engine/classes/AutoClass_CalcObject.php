@@ -22,7 +22,7 @@ class CalcObject {
 		$buildingFilter = array();
 
 		while ($curUpdatePoint < $updateTo) {
-			$mod = DataMod::calculateObjectModifiers($objectEnv);
+			$mod = DataMod::calculateObjectModifiers($objectEnv, $buildingFilter);
 			$timeDelta = $nextUpdate - $curUpdatePoint;
 
 			$hourlyDelta = new DataItem();
@@ -37,7 +37,7 @@ class CalcObject {
 			foreach ($objectEnv->envBuildings->getDataArray() as $building => $data) {
 				//Ignore filtered buildings
 				if(isset($buildingFilter[$building])) {
-					break;
+					continue;
 				}
 
 				$buildProduction[$building] = self::getBuildingProduction($objectEnv, $building, $data[0], $mod, $data[1]);
@@ -77,9 +77,9 @@ class CalcObject {
 				}
 
 				//Check building requirements
-			    foreach($hourlyDelta as $resID => $amount) {
+			    foreach($hourlyDelta->getDataArray() as $resID => $amount) {
 				    if($amount < 0) {
-				        $amountNeeded = $amount * $timeDelta / 3600;
+				        $amountNeeded = -$amount * $timeDelta / 3600;
 					    if($objectEnv->envItems->getItem($resID) < $amountNeeded) {
 							//Ran out of resources. Find out when resources ran out
 						    $keyFrame = floor(($objectEnv->envItems->getItem($resID) / $amount) * 3600);
@@ -97,11 +97,21 @@ class CalcObject {
 				if($keyPoint < PHP_INT_MAX) {
 					if($keyActor == "research") {
 						//Abort research
+						QueueResearch::processResearchQueue($playerEnv, $objectEnv, $keyPoint);
 						QueueResearch::abortResearchQueue($objectEnv);
+						Message::sendNotification(
+							$playerEnv->playerID,
+							"Research Aborted on " . $objectEnv->objectName . " (Missing Resources)",
+							"Insufficient resources to continue research. Initial round of research funding lost.",
+							"ERROR",
+							"researchError.jpg",
+							"game.php?page=research&objectID=" . $objectEnv->objectID,
+							$keyPoint
+						);
 					} else {
 						//find buildings using the limited resource
 						foreach($buildConsumption as $buildID => $resArray) {
-							foreach($resArray as $resID => $resAmount) {
+							foreach($resArray->getDataArray() as $resID => $resAmount) {
 								if($resID == $keyActor) {
 									$buildingFilter[$buildID] = true;
 									break;
@@ -127,6 +137,7 @@ class CalcObject {
 			}
 
 			$curUpdatePoint = $nextUpdate;
+			$nextUpdate = $updateTo;
 		}
 
 		return true;

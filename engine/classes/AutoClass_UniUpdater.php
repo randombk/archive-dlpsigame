@@ -51,12 +51,8 @@ class UniUpdater
 					$updateTime = min($nextUpdate[0], $updateTo);
 
 					self::updatePlayerItems($playerEnv, $updateTime);
-					self::updatePlayerResearch($playerEnv, $updateTime);
-
 					if ($nextUpdate[1] == "building" && $updateTime == $nextUpdate[0]) {
 						QueueBuilding::processBuildingQueue($playerEnv->envObjects[$nextUpdate[2]], $updateTime);
-					} else if ($nextUpdate[1] == "research" && $updateTime == $nextUpdate[0]) {
-						QueueResearch::processResearchQueue($playerEnv, $playerEnv->envObjects[$nextUpdate[2]], $updateTime);
 					}
 
 					$playerEnv->last_update = $updateTime;
@@ -102,17 +98,6 @@ class UniUpdater
 			}
 		//	$updatedTo += $updateInterval;
 		//}
-	}
-
-	/**
-	 * @param $playerEnv
-	 * @param $time
-	 */
-	public static function updatePlayerResearch($playerEnv, $time)
-	{
-		foreach ($playerEnv->envObjects as $objectEnv) {
-			QueueResearch::processResearchQueue($playerEnv, $objectEnv, $time);
-		}
 	}
 
 	/**
