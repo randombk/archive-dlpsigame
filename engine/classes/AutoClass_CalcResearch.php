@@ -99,9 +99,22 @@ class CalcResearch {
 	 * @return $this|DataItem
 	 */
 	public static function getResearchNoteConsumption($playerEnv, $objectEnv, $techID, $mod = null) {
-		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
+		if($mod == null) $mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 
 		$retObject = DataItem::fromItemArray(GameCache::get("RESEARCH")[$techID]["researchNoteConsumption"]);
+		//$retObject->multiply(1 + $mod->getMod("modResearchNoteCostMultiplier")/100);
+
+		return $retObject;
+	}
+
+	/**
+	 * @param PlayerEnvironment $playerEnv
+	 * @param ObjectEnvironment $objectEnv
+	 * @param string $techID
+	 * @return $this|array
+	 */
+	public static function getResearchNotePassive($playerEnv, $objectEnv, $techID) {
+		$retObject = DataItem::fromItemArray(GameCache::get("RESEARCH")[$techID]["researchNotePassive"]);
 		//$retObject->multiply(1 + $mod->getMod("modResearchNoteCostMultiplier")/100);
 
 		return $retObject;
@@ -115,7 +128,7 @@ class CalcResearch {
 	 * @return $this|DataItem
 	 */
 	public static function getResearchNoteCost($playerEnv, $objectEnv, $techID, $mod = null) {
-		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
+		if($mod == null) $mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 
 		$retObject = DataItem::fromItemArray(GameCache::get("RESEARCH")[$techID]["researchNoteCost"]);
 		//$retObject->multiply(1 + $mod->getMod("modResearchNoteCostMultiplier")/100);

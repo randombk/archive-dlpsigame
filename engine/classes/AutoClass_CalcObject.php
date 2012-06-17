@@ -22,7 +22,7 @@ class CalcObject {
 		$buildingFilter = array();
 
 		while ($curUpdatePoint < $updateTo) {
-			$mod = DataMod::calculateObjectModifiers($objectEnv, $buildingFilter);
+			$mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv, $buildingFilter);
 			$timeDelta = $nextUpdate - $curUpdatePoint;
 
 			$hourlyDelta = new DataItem();
@@ -40,15 +40,16 @@ class CalcObject {
 					continue;
 				}
 
-				$buildProduction[$building] = self::getBuildingProduction($objectEnv, $building, $data[0], $mod, $data[1]);
+				$buildProduction[$building] = self::getBuildingProduction($playerEnv, $objectEnv, $building, $data[0], $mod, $data[1]);
 				$hourlyDelta->sum($buildProduction[$building]);
 
-				$buildConsumption[$building] = self::getBuildingConsumption($objectEnv, $building, $data[0], $mod, $data[1]);
+				$buildConsumption[$building] = self::getBuildingConsumption($playerEnv, $objectEnv, $building, $data[0], $mod, $data[1]);
 				$hourlyDelta->sub($buildConsumption[$building]);
 			}
 
 			//Get research consumption
 			$currentResearch = QueueResearch::getCurrentResearch($objectEnv);
+			$researchConsumption = array();
 			if($currentResearch) {
 				$researchConsumption = CalcResearch::getResearchNoteConsumption($playerEnv, $objectEnv, $currentResearch, $mod);
 				$hourlyDelta->sub($researchConsumption);
@@ -56,7 +57,7 @@ class CalcObject {
 
 			if(!$hourlyDelta->isPositive()) {
 				//Check research requirements
-				$keyPoint = PHP_INT_MAX;
+				$keyPoint = $updateTo;
 				$keyActor = "none";
 				if($currentResearch) {
 					foreach($researchConsumption->getDataArray() as $item => $amount) {
@@ -76,7 +77,7 @@ class CalcObject {
 					}
 				}
 
-				//Check building requirements
+				//Find limiting resource
 			    foreach($hourlyDelta->getDataArray() as $resID => $amount) {
 				    if($amount < 0) {
 				        $amountNeeded = -$amount * $timeDelta / 3600;
@@ -89,12 +90,11 @@ class CalcObject {
 							    $keyActor = $resID;
 						    }
 					    }
-
 				    }
 			    }
 
-				//Apply
-				if($keyPoint < PHP_INT_MAX) {
+				//Apply key-point
+				if($keyPoint < $updateTo) {
 					if($keyActor == "research") {
 						//Abort research
 						QueueResearch::processResearchQueue($playerEnv, $objectEnv, $keyPoint);
@@ -109,7 +109,7 @@ class CalcObject {
 							$keyPoint
 						);
 					} else {
-						//find buildings using the limited resource
+						//find buildings using the limited resource and exclude them from next calculation
 						foreach($buildConsumption as $buildID => $resArray) {
 							foreach($resArray->getDataArray() as $resID => $resAmount) {
 								if($resID == $keyActor) {
@@ -131,7 +131,7 @@ class CalcObject {
 			QueueResearch::processResearchQueue($playerEnv, $objectEnv, $nextUpdate);
 
 			//Special: max energy
-			$maxEnergy = self::getMaxEnergyStorage($objectEnv, $mod);
+			$maxEnergy = self::getMaxEnergyStorage($playerEnv, $objectEnv, $mod);
 			if(($objectEnv->envItems->getItem("energy")) >= $maxEnergy) {
 				$objectEnv->envItems->setItem("energy", $maxEnergy);
 			}
@@ -144,32 +144,35 @@ class CalcObject {
 	}
 
 	/**
+	 * @param PlayerEnvironment $playerEnv,
 	 * @param ObjectEnvironment $objectEnv
 	 * @param DataMod|null $mod
 	 * @return int
 	 */
-	public static function getMaxEnergyStorage($objectEnv, $mod = null) {
-		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
+	public static function getMaxEnergyStorage($playerEnv, $objectEnv, $mod = null) {
+		if($mod == null) $mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 		return (int)max(0, (10 + $mod->getMod("modEnergyStorageCapacityIncrease")) * (1 + $mod->getMod("modEnergyStorageCapacityMultiplier")/100));
 	}
 
 	/**
+	 * @param PlayerEnvironment $playerEnv,
 	 * @param ObjectEnvironment $objectEnv
 	 * @param DataMod|null $mod
 	 * @return int
 	 */
-	public static function getObjectStorage($objectEnv, $mod = null) {
-		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
+	public static function getObjectStorage($playerEnv, $objectEnv, $mod = null) {
+		if($mod == null) $mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 		return (int)max(1, (1000 * $objectEnv->envObjectData["planetSize"] + $mod->getMod("modStorageCapacityIncrease")) * (1 + $mod->getMod("modStorageCapacityMultiplier")/100));
 	}
 
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @param DataMod $mod
 	 * @return array Modifier Array
 	 */
-	public static function getObjectWeightPenalty($objectEnv, $mod) {
-		$modAmount = (int)min(0, -($objectEnv->envItems->getTotalWeight() - self::getObjectStorage($objectEnv, $mod)) / (self::getObjectStorage($objectEnv, $mod) / 1000));
+	public static function getObjectWeightPenalty($playerEnv, $objectEnv, $mod) {
+		$modAmount = (int)min(0, -($objectEnv->envItems->getTotalWeight() - self::getObjectStorage($playerEnv, $objectEnv, $mod)) / (self::getObjectStorage($playerEnv, $objectEnv, $mod) / 1000));
 		return array(
 			"modResourceProductionMultiplier" => $modAmount,
 			"modResourceConsumptionMultiplier" => $modAmount
@@ -261,12 +264,13 @@ class CalcObject {
 	 */
 	public static function getBuildingModifiers($objectEnv, $buildingID, $level, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["modifiers"])) return null;
-		$numEntries = sizeof(GameCache::get("BUILDINGS")[$buildingID]["modifiers"]);
 
-		if(!$numEntries) {
+		$targetLevel = min(sizeof(GameCache::get("BUILDINGS")[$buildingID]["modifiers"]), $level);
+
+		if(!$targetLevel) {
 			return null;
 		} else {
-			$mods = GameCache::get("BUILDINGS")[$buildingID]["modifiers"][min($level -  1, $numEntries - 1)];
+			$mods = GameCache::get("BUILDINGS")[$buildingID]["modifiers"][$targetLevel - 1];
 
 			foreach($mods as $mod => $value) {
 				$mods[$mod] = $value * ($activity / 100);
@@ -277,16 +281,17 @@ class CalcObject {
 	}
 
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @param string $buildingID
 	 * @param int $level
 	 * @param DataMod $mod
 	 * @return $this|DataItem
 	 */
-	public static function getBuildingUpgradeCost($objectEnv, $buildingID, $level, $mod = null) {
+	public static function getBuildingUpgradeCost($playerEnv, $objectEnv, $buildingID, $level, $mod = null) {
 		$maxBalLevel = sizeof(GameCache::get("BUILDINGS")[$buildingID]["resReq"]);
 
-		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
+		if($mod == null) $mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 
 		$retObject = null;
 		if($level > $maxBalLevel) {
@@ -301,6 +306,7 @@ class CalcObject {
 	}
 
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @param string $buildingID
 	 * @param int $level
@@ -308,14 +314,14 @@ class CalcObject {
 	 * @return int
 	 * @throws Exception
 	 */
-	public static function getBuildTime($objectEnv, $buildingID, $level, $mod = null) {
+	public static function getBuildTime($playerEnv, $objectEnv, $buildingID, $level, $mod = null) {
 		$maxBalLevel = sizeof(GameCache::get("BUILDINGS")[$buildingID]["buildDifficulty"]);
 
 		if($maxBalLevel <= 0 || $level <= 0) {
 			throw new Exception("Invalid Parameters!");
 		}
 
-		if($mod == null) $mod = DataMod::calculateObjectModifiers($objectEnv);
+		if($mod == null) $mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 
 		$retObject = null;
 		if($level > $maxBalLevel) {
@@ -330,6 +336,7 @@ class CalcObject {
 	}
 
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @param string $buildingID
 	 * @param int $level
@@ -337,7 +344,7 @@ class CalcObject {
 	 * @param int $activity
 	 * @return $this|DataItem
 	 */
-	public static function getBuildingProduction($objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
+	public static function getBuildingProduction($playerEnv, $objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["resProduction"]))
 			return new DataItem();
 		$maxBalLevel = sizeof(GameCache::get("BUILDINGS")[$buildingID]["resProduction"]);
@@ -347,7 +354,7 @@ class CalcObject {
 		}
 
 		if($mod == null)
-			$mod = DataMod::calculateObjectModifiers($objectEnv);
+			$mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 
 		$retObject = null;
 		if($level > $maxBalLevel) {
@@ -364,6 +371,7 @@ class CalcObject {
 	}
 
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @param string $buildingID
 	 * @param int $level
@@ -371,7 +379,7 @@ class CalcObject {
 	 * @param int $activity
 	 * @return $this|DataItem
 	 */
-	public static function getBuildingConsumption($objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
+	public static function getBuildingConsumption($playerEnv, $objectEnv, $buildingID, $level, $mod = null, $activity = 100) {
 		if(!isset(GameCache::get("BUILDINGS")[$buildingID]["resConsumption"]))
 			return new DataItem();
 		$maxBalLevel = sizeof(GameCache::get("BUILDINGS")[$buildingID]["resConsumption"]);
@@ -381,7 +389,7 @@ class CalcObject {
 		}
 
 		if($mod == null)
-			$mod = DataMod::calculateObjectModifiers($objectEnv);
+			$mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 
 		$retObject = null;
 		if($level > $maxBalLevel) {

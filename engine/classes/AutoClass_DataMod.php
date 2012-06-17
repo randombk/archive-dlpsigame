@@ -10,31 +10,44 @@
 class DataMod extends Data {
 	//Easy access to mod parts to prevent excess re-calculation
 	public $objMods = array();
+	public $researchMods = array();
+	public $researchQueuePassive = array();
 	public $weightPenalty = array();
 
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
+	 * @param array $buildingFilter
 	 * @return DataMod
 	 */
-	public static function calculateObjectModifiers($objectEnv, $buildingFilter = array()) {
+	public static function calculateObjectModifiers($playerEnv, $objectEnv, $buildingFilter = array()) {
 		$instance = new self();
 
 		//Add object modifiers
 		$instance->objMods = CalcObject::getObjectModifiers($objectEnv);
-		$instance->mergeModifierArray($instance->objMods);
+
+		//Determine weight penalties
+		$instance->weightPenalty = CalcObject::getObjectWeightPenalty($playerEnv, $objectEnv, $instance);
+
+		//Get research queue modifier
+		$curResearchQueueItem = QueueResearch::getCurrentResearch($objectEnv);
+		if($curResearchQueueItem) {
+			$researchQueuePassive = CalcResearch::getResearchNotePassive($playerEnv, $objectEnv, $curResearchQueueItem);
+		}
 
 		//Add up active building modifiers
 		foreach ($objectEnv->envBuildings->getDataArray() as $buildingID => $data) {
 			if(isset($buildingFilter[$buildingID])) {
 				continue;
 			}
+			//No need to cache building modifiers, as they follow a standard, exposed formula
 			$instance->mergeModifierArray(CalcObject::getBuildingModifiers($objectEnv, $buildingID, $data[0], $data[1]));
 		}
 
-		//Determine weight penalties
-		$instance->weightPenalty = CalcObject::getObjectWeightPenalty($objectEnv, $instance);
+		$instance->mergeModifierArray($instance->objMods);
 		$instance->mergeModifierArray($instance->weightPenalty);
 
+		//Cache an updated copy in the object environment
 		$objectEnv->envMods = $instance;
 		return $instance;
 	}

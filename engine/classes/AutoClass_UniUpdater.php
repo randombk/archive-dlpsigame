@@ -5,30 +5,6 @@
  */
 
 /**
- * Class UpdatePointException
- */
-class UpdatePointException extends Exception {
-	private $errorPoint = 0;
-
-	public function __construct($errorPoint, $code = 0, Exception $previous = null) {
-		$this->errorPoint = $errorPoint;
-		parent::__construct("Recalculate from ".$errorPoint, $code, $previous);
-	}
-
-	public function __toString() {
-		return __CLASS__ . ": [{$this->code}]: {$this->errorPoint}\n";
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getErrorPoint()
-	{
-		return $this->errorPoint;
-	}
-}
-
-/**
  * Class UniUpdater
  */
 class UniUpdater
@@ -52,7 +28,7 @@ class UniUpdater
 
 					self::updatePlayerItems($playerEnv, $updateTime);
 					if ($nextUpdate[1] == "building" && $updateTime == $nextUpdate[0]) {
-						QueueBuilding::processBuildingQueue($playerEnv->envObjects[$nextUpdate[2]], $updateTime);
+						QueueBuilding::processBuildingQueue($playerEnv, $playerEnv->envObjects[$nextUpdate[2]], $updateTime);
 					}
 
 					$playerEnv->last_update = $updateTime;

@@ -15,15 +15,16 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 	}
 
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @param int $code
 	 * @param null $message
 	 */
-	private function sendBuildingInfo($objectEnv, $code = 0, $message = null) {
+	private function sendBuildingInfo($playerEnv, $objectEnv, $code = 0, $message = null) {
 		$data = array(
 			//"buildings" => self::getBuildingList($objectEnv),
 			//"items" => UtilItem::buildItemDataArray($objectEnv->envItems),
-			"canBuild" => UtilObject::getUpgradeList($objectEnv),
+			"canBuild" => UtilObject::getUpgradeList($playerEnv, $objectEnv),
 			"buildQueue" => $objectEnv->buildingQueue
 		);
 		if($message) {
@@ -39,8 +40,9 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
-				$this->sendBuildingInfo($objectEnv);
+				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+				$objectEnv = $playerEnv->envObjects[$objectID];
+				$this->sendBuildingInfo($playerEnv, $objectEnv);
 			}
 		} else {
 			AjaxError::sendError("Invalid Parameters");
@@ -56,16 +58,17 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
-				$result = QueueBuilding::appendToBuildingQueue($objectEnv, "Build", $buildingID, $buildingLevel);
+				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+				$objectEnv = $playerEnv->envObjects[$objectID];
+				$result = QueueBuilding::appendToBuildingQueue($playerEnv, $objectEnv, "Build", $buildingID, $buildingLevel);
 				if(!$result) {
 					if($buildingID == "buildNationalArchives") {
 						$objectEnv->envPlayer->applyPlayerMongo();
 					}
 					$objectEnv->apply();
-					$this->sendBuildingInfo($objectEnv);
+					$this->sendBuildingInfo($playerEnv, $objectEnv);
 				} else {
-					$this->sendBuildingInfo($objectEnv, -1, $result);
+					$this->sendBuildingInfo($playerEnv, $objectEnv, -1, $result);
 				}
 			}
 		} else {
@@ -82,12 +85,13 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
+				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+				$objectEnv = $playerEnv->envObjects[$objectID];
 				if($objectEnv->envBuildings->getBuildingActivity($buildingID) !== (int)$activity) {
 					$objectEnv->envBuildings->setBuildingActivity($buildingID, max(0, min(100, (int)$activity)));
 					$objectEnv->apply();
 				}
-				$this->sendBuildingInfo($objectEnv);
+				$this->sendBuildingInfo($playerEnv, $objectEnv);
 			}
 		} else {
 			AjaxError::sendError("Invalid Parameters");
@@ -103,7 +107,8 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 				AjaxError::sendError("Access Denied");
 			} else {
 				if(isset($activityData)) {
-					$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
+					$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+					$objectEnv = $playerEnv->envObjects[$objectID];
 					try {
 						foreach($activityData as $buildingID => $activity) {
 							if(!isset(GameCache::get("BUILDINGS")[$buildingID])) {
@@ -114,7 +119,7 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 							}
 						}
 						$objectEnv->apply();
-						$this->sendBuildingInfo($objectEnv);
+						$this->sendBuildingInfo($playerEnv, $objectEnv);
 					} catch (Exception $e) {
 						AjaxError::sendError("Invalid Parameters");
 					}
@@ -136,13 +141,14 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
-				$result = QueueBuilding::appendToBuildingQueue($objectEnv, "Destroy", $buildingID, $buildingLevel);
+				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+				$objectEnv = $playerEnv->envObjects[$objectID];
+				$result = QueueBuilding::appendToBuildingQueue($playerEnv, $objectEnv, "Destroy", $buildingID, $buildingLevel);
 				if(!$result) {
 					$objectEnv->apply();
-					$this->sendBuildingInfo($objectEnv);
+					$this->sendBuildingInfo($playerEnv, $objectEnv);
 				} else {
-					$this->sendBuildingInfo($objectEnv, -1, $result);
+					$this->sendBuildingInfo($playerEnv, $objectEnv, -1, $result);
 				}
 			}
 		} else {
@@ -159,13 +165,14 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
-				$result = QueueBuilding::appendToBuildingQueue($objectEnv, "Recycle", $buildingID, $buildingLevel);
+				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+				$objectEnv = $playerEnv->envObjects[$objectID];
+				$result = QueueBuilding::appendToBuildingQueue($playerEnv, $objectEnv, "Recycle", $buildingID, $buildingLevel);
 				if(!$result) {
 					$objectEnv->apply();
-					$this->sendBuildingInfo($objectEnv);
+					$this->sendBuildingInfo($playerEnv, $objectEnv);
 				} else {
-					$this->sendBuildingInfo($objectEnv, -1, $result);
+					$this->sendBuildingInfo($playerEnv, $objectEnv, -1, $result);
 				}
 			}
 		} else {
@@ -181,13 +188,14 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 			if(!isset($_SESSION['OBJECTS'][$objectID])) {
 				AjaxError::sendError("Access Denied");
 			} else {
-				$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
-				$result = QueueBuilding::removeFromBuildingQueue($objectEnv, $queueItemID);
+				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+				$objectEnv = $playerEnv->envObjects[$objectID];
+				$result = QueueBuilding::removeFromBuildingQueue($playerEnv, $objectEnv, $queueItemID);
 				if(!$result) {
 					$objectEnv->apply();
-					$this->sendBuildingInfo($objectEnv);
+					$this->sendBuildingInfo($playerEnv, $objectEnv);
 				} else {
-					$this->sendBuildingInfo($objectEnv, -1, $result);
+					$this->sendBuildingInfo($playerEnv, $objectEnv, -1, $result);
 				}
 			}
 		} else {

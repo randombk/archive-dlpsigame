@@ -24,15 +24,15 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 			} else {
 				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
 				$objectEnv = $playerEnv->envObjects[$objectID];
-				$objectMods = DataMod::calculateObjectModifiers($objectEnv);
+				$objectMods = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 				$data = array(
-					"buildingData" => UtilObject::getBuildingList($objectEnv, true),
+					"buildingData" => UtilObject::getBuildingList($playerEnv, $objectEnv, true),
 					"objectModifiers" => $objectMods->objMods,
 					"objectWeightPenalty" => $objectMods->weightPenalty,
 					"usedStorage" => $objectEnv->envItems->getTotalWeight(),
-					"objStorage" => CalcObject::getObjectStorage($objectEnv, $objectMods),
+					"objStorage" => CalcObject::getObjectStorage($playerEnv, $objectEnv, $objectMods),
 					"objUsedEnergyStorage" => $objectEnv->envItems->getItem("energy"),
-					"objEnergyStorage" => CalcObject::getMaxEnergyStorage($objectEnv, $objectMods),
+					"objEnergyStorage" => CalcObject::getMaxEnergyStorage($playerEnv, $objectEnv, $objectMods),
 					"numBuildings" => $objectEnv->envBuildings->getNumBuildings(),
 					"buildQueue" => $objectEnv->buildingQueue,
 					"objectData" => $objectEnv->envObjectData
@@ -48,10 +48,10 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 		$data = array();
 		$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
 		foreach($playerEnv->envObjects as $objectID => $objectEnv) {
-			$objectMods = DataMod::calculateObjectModifiers($objectEnv);
+			$objectMods = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 			$data[$objectID] = array(
 				"usedStorage" => $objectEnv->envItems->getTotalWeight(),
-				"objStorage" => CalcObject::getObjectStorage($objectEnv, $objectMods),
+				"objStorage" => CalcObject::getObjectStorage($playerEnv, $objectEnv, $objectMods),
 				"objectName" => $objectEnv->objectName,
 				"objectCoords" => $objectEnv->envObjectCoord->getCoordString()
 			);

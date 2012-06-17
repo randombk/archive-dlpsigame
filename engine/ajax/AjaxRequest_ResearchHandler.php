@@ -15,6 +15,13 @@ class AjaxRequest_ResearchHandler extends AjaxRequest {
 		parent::__construct();
 	}
 
+	/**
+	 * @param array $data
+	 * @param PlayerEnvironment $playerEnv
+	 * @param int $objectID
+	 * @param int $code
+	 * @param null|string $message
+	 */
 	private function sendObjectResearchData($data, $playerEnv, $objectID, $code = 0, $message = null) {
 		$data = array(
 			"objectID" => $objectID,

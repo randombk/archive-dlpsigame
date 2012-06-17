@@ -417,15 +417,16 @@ class UtilObject {
 	}
 
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @param bool $getActual
 	 * @return array
 	 */
-	static function getBuildingList($objectEnv, $getActual = false) {
+	static function getBuildingList($playerEnv, $objectEnv, $getActual = false) {
 		$buildings = array();
 
 		if($getActual) {
-			$mod = DataMod::calculateObjectModifiers($objectEnv);
+			$mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 		} else {
 			$mod = new DataMod();
 		}
@@ -435,21 +436,22 @@ class UtilObject {
 			$buildings[$id]["activity"] = $getActual ? $data[1] : 100;
 
 			$buildings[$id]["curModifiers"] = CalcObject::getBuildingModifiers($objectEnv, $id, $data[0], $getActual ? $data[1]: 100);
-			$buildings[$id]["curResConsumption"] = UtilItem::buildItemDataArray(CalcObject::getBuildingConsumption($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
-			$buildings[$id]["curResProduction"] = UtilItem::buildItemDataArray(CalcObject::getBuildingProduction($objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
+			$buildings[$id]["curResConsumption"] = UtilItem::buildItemDataArray(CalcObject::getBuildingConsumption($playerEnv, $objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
+			$buildings[$id]["curResProduction"] = UtilItem::buildItemDataArray(CalcObject::getBuildingProduction($playerEnv, $objectEnv, $id, $data[0], $mod, $getActual ? $data[1] : 100));
 		}
 		return $buildings;
 	}
 
 	//Returns an array containing upgradable/buildable buildings
 	/**
+	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @return array
 	 */
-	static function getUpgradeList($objectEnv) {
+	static function getUpgradeList($playerEnv, $objectEnv) {
 		$canBuild = array();
 
-		$mod = DataMod::calculateObjectModifiers($objectEnv);
+		$mod = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 
 		foreach (GameCache::get("BUILDINGS") as $id => $data) {
 			$nextLevel = $objectEnv->envBuildings->getBuildingLevel($id) + 1;
@@ -462,12 +464,12 @@ class UtilObject {
 				}
 			}
 
-			if(!QueueBuilding::hasPreReq($objectEnv, $id, $nextLevel, TIMESTAMP, true))
+			if(!QueueBuilding::hasPreReq($playerEnv, $objectEnv, $id, $nextLevel, TIMESTAMP, true))
 				continue;
 
 			$canBuild[$id]["nextLevel"] = $nextLevel;
-			$canBuild[$id]["upgradeTime"] = CalcObject::getBuildTime($objectEnv, $id, $nextLevel, $mod);
-			$canBuild[$id]["nextResReq"] = UtilItem::buildItemDataArray(CalcObject::getBuildingUpgradeCost($objectEnv, $id, $nextLevel, $mod));
+			$canBuild[$id]["upgradeTime"] = CalcObject::getBuildTime($playerEnv, $objectEnv, $id, $nextLevel, $mod);
+			$canBuild[$id]["nextResReq"] = UtilItem::buildItemDataArray(CalcObject::getBuildingUpgradeCost($playerEnv, $objectEnv, $id, $nextLevel, $mod));
 		}
 		return $canBuild;
 	}

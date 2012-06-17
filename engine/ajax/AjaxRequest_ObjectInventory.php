@@ -14,21 +14,32 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 		parent::__construct();
 	}
 
-	private function sendObjectInventoryInfo($data, $objectEnv, $objectMods = null, $code = 0, $message = null) {
+	/**
+	 * @param array $data
+	 * @param PlayerEnvironment $playerEnv
+	 * @param ObjectEnvironment $objectEnv
+	 * @param null|DataMod $objectMods
+	 * @param int $code
+	 * @param null|string $message
+	 */
+	private function sendObjectInventoryInfo($data, $playerEnv, $objectEnv, $objectMods = null, $code = 0, $message = null) {
 		if(is_null($objectMods)) {
-			$objectMods = DataMod::calculateObjectModifiers($objectEnv);
+			$objectMods = DataMod::calculateObjectModifiers($playerEnv, $objectEnv);
 		}
 		$data["objectModifiers"] = $objectMods->objMods;
 		$data["objectWeightPenalty"] = $objectMods->weightPenalty;
 		$data["usedStorage"] = $objectEnv->envItems->getTotalWeight();
-		$data["objStorage"] = CalcObject::getObjectStorage($objectEnv, $objectMods);
+		$data["objStorage"] = CalcObject::getObjectStorage($playerEnv, $objectEnv, $objectMods);
 		$data["objUsedEnergyStorage"] = $objectEnv->envItems->getItem("energy");
-		$data["objEnergyStorage"] = CalcObject::getMaxEnergyStorage($objectEnv, $objectMods);
+		$data["objEnergyStorage"] = CalcObject::getMaxEnergyStorage($playerEnv, $objectEnv, $objectMods);
 		$data["numBuildings"] = $objectEnv->envBuildings->getNumBuildings();
 		$data["objectData"] = $objectEnv->envObjectData;
 		$this->sendJSONWithObjectData($data, $objectEnv, $code);
 	}
 
+	/**
+	 *
+	 */
 	function getObjectInventoryInfo() {
 		$objectID = HTTP::REQ("objectID", 0);
 		if ($objectID > 0) {
@@ -38,13 +49,16 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 			} else {
 				$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
 				$objectEnv = $playerEnv->envObjects[$objectID];
-				$this->sendObjectInventoryInfo(array(), $objectEnv);
+				$this->sendObjectInventoryInfo(array(), $playerEnv, $objectEnv);
 			}
 		} else {
 			AjaxError::sendError("Invalid Parameters");
 		}
 	}
 
+	/**
+	 *
+	 */
 	function discardItem() {
 		$objectID = HTTP::REQ("objectID", 0);
 		$itemArray = HTTP::REQ("itemArray", "json");
@@ -54,28 +68,29 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 				AjaxError::sendError("Access Denied");
 			} else {
 				try {
-					$objectEnv = UniUpdater::updatePlayer($_SESSION["playerID"])->envObjects[$objectID];
+					$playerEnv = UniUpdater::updatePlayer($_SESSION["playerID"]);
+					$objectEnv = $playerEnv->envObjects[$objectID];
 					foreach($itemArray as $itemID => $number) {
 						$baseData = UtilItem::getItemBaseData($itemID);
 						if($baseData) {
 							if(!isset($baseData["itemFlags"]["NoDestroy"])) {
 								$haveQuantity = $objectEnv->envItems->getItem($itemID);
 								if($haveQuantity < floor($number)) {
-									$this->sendObjectInventoryInfo(array(), $objectEnv, null, -1, "You don't have the item(s) you were trying to discard");
+									$this->sendObjectInventoryInfo(array(), $playerEnv, $objectEnv, null, -1, "You don't have the item(s) you were trying to discard");
 								} else if(floor($haveQuantity) == floor($number)) {
 									$objectEnv->envItems->setItem($itemID, 0);
 								} else {
 									$objectEnv->envItems->setItem($itemID, $haveQuantity - floor($number));
 								}
 							} else {
-								$this->sendObjectInventoryInfo(array(), $objectEnv, null, -1, "One of the selected items may not be discarded");
+								$this->sendObjectInventoryInfo(array(), $playerEnv, $objectEnv, null, -1, "One of the selected items may not be discarded");
 							}
 						} else {
 							AjaxError::sendError("Invalid Parameters");
 						}
 					}
 					$objectEnv->apply();
-					$this->sendObjectInventoryInfo(array(), $objectEnv);
+					$this->sendObjectInventoryInfo(array(), $playerEnv, $objectEnv);
 				} catch (Exception $e) {
 					AjaxError::sendError("Invalid Parameters");
 				}
@@ -85,6 +100,9 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 		}
 	}
 
+	/**
+	 *
+	 */
 	function useItem() {
 		$objectID = HTTP::REQ("objectID", 0);
 		$itemID = HTTP::REQ("itemID", "");
@@ -102,14 +120,14 @@ class AjaxRequest_ObjectInventory extends AjaxRequest {
 
 						$haveQuantity = $objectEnv->envItems->getItem($itemID);
 						if($haveQuantity < floor($itemAmount)) {
-							$this->sendObjectInventoryInfo(array(), $objectEnv, null, -1, "You don't have the item you were trying to use");
+							$this->sendObjectInventoryInfo(array(), $playerEnv, $objectEnv, null, -1, "You don't have the item you were trying to use");
 						} else {
 							try {
 								$handlerHame = $baseData["itemFlags"]["Usable"]["itemhandlerUse"];
 
 								$result = ItemHandlers::$handlerHame($itemID, $itemAmount, $objectID, $playerEnv);
 								if($result === true) {
-									$this->sendObjectInventoryInfo(array(), $objectEnv);
+									$this->sendObjectInventoryInfo(array(), $playerEnv, $objectEnv);
 								} else {
 									AjaxError::sendError($result);
 								}
