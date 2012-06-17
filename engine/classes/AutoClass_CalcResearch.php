@@ -155,33 +155,45 @@ class CalcResearch {
 		return $retObject;
 	}
 
-
 	/**
-	 * IN DEVELOPMENT
-	 *
-	 * @param string $techID
 	 * @param PlayerEnvironment $playerEnv
-	 * @return null
+	 * @param string $techID
+	 * @param int $level
+	 * @return int|null
 	 */
-	public static function getReqResearchPoints($techID, $playerEnv) {
-		if(self::canResearch($playerEnv, $techID)) {
-			//$baseCost = GameCache::get("RESEARCH")[$techID][""]
-			return 200;
+	public static function getReqResearchPoints($playerEnv, $techID, $level) {
+		$costData = GameCache::get("RESEARCH")[$techID]["researchCost"];
+		$baseCost = $costData[0]*pow($level, $costData[1]) + $costData[2];
 
-		} else {
-			return null;
+		//Get discount factor
+		$sides = self::getNeighborIDs($techID);
+		$numSides = sizeof($sides);
+		$totalLevelDelta = 0;
+		foreach($sides as $sideID) {
+			$totalLevelDelta += $playerEnv->envResearch->getResearchLevel($sideID) - $level;
 		}
+		$discountFactor = ($totalLevelDelta / $numSides) / $level;
+
+		return ceil($baseCost*(1-$discountFactor));
 	}
 
 	/**
+	 * Research time of Research Note
+	 * Calculated as a factor of the distance from the center of the research map
+	 *
 	 * @param PlayerEnvironment $playerEnv
 	 * @param ObjectEnvironment $objectEnv
 	 * @param string $techID
 	 * @param DataMod $mod
-	 * @return int
+	 * @return int time
 	 * @throws Exception
 	 */
 	public static function getResearchTime($playerEnv, $objectEnv, $techID, $mod = null) {
-		return max(1, 60);
+		$q = GameCache::get("RESEARCH")[$techID]["q"];
+		$r = GameCache::get("RESEARCH")[$techID]["r"];
+
+		$distance = (abs($q) + abs($r) + abs($q + $r)) / 2;
+
+		return pow($distance, 1.3) + 60;
 	}
 }

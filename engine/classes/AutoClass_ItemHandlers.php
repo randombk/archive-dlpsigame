@@ -22,7 +22,7 @@ class ItemHandlers {
 		if($baseID == "research-notes") {
 			if($playerEnv->envPlayerData->getValue("flagNationalArchivePlanet") == $objectID) {
 				if(isset(GameCache::get("RESEARCH")[$techID])) {
-					if(CalcResearch::canResearch($techID, $playerEnv)) {
+					if(CalcResearch::canResearch($playerEnv, $techID)) {
 						$oldResearchPoints = $playerEnv->envResearch->getResearchPoints($techID);
 						$newResearchPoints = $oldResearchPoints + $numUsed;
 

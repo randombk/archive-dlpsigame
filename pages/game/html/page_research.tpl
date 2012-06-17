@@ -313,7 +313,7 @@
 						"techImage" : data.techImage,
 						"techLevel" : data.techLevel,
 						"techPoints" : data.techPoints,
-						"techPointsReq" : data.getTotalNotesRequired(),
+						"techPointsReq" : data.getTotalNotesRequired(researchData),
 						"techColor" : data.getResearchColor(researchData)
 					}));
 				}
@@ -380,7 +380,7 @@
 			var item = new Item("research-notes_" + techID);
 			var research = researchData[techID];
 
-			item.quantity = research.getTotalNotesRequired();
+			item.quantity = research.getTotalNotesRequired(researchData);
 			var template = Handlebars.templates['invObject.tmpl'];
 			var html = $(template({
 				quantity: item.quantity,
@@ -409,7 +409,7 @@
 				})
 			);
 
-			var notesRequired = research.getTotalNotesRequired();
+			var notesRequired = research.getTotalNotesRequired(researchData);
 			$("#researchInfoControlInfoTotal").text(notesRequired);
 			$("#researchInfoControlInfoProgress").text(research.techPoints);
 			$("#researchInfoControlInfoRequired").text(notesRequired - research.techPoints);

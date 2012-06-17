@@ -129,10 +129,30 @@ Research.prototype.getResearchNotePassive = function() {
 	return this.researchNotePassive;
 };
 
-Research.prototype.getTotalNotesRequired = function(){
-	return 200;
+Research.prototype.getTotalNotesRequired = function(researchData, level){
+	if(!level && level !== 0) {
+		level = this.techLevel + 1;
+	}
+
+	var costData = this.researchCost;
+	var baseCost = costData[0]*Math.pow(level, costData[1]) + costData[2];
+
+	//Get discount factor
+	var sides = this.getNeighborIDs(this.techID);
+	var numSides = sides.length;
+	var totalLevelDelta = 0;
+	for(var sideID in sides) {
+		totalLevelDelta += (isset(researchData[sideID]) ? researchData[sideID] : 0 ) - level;
+	}
+	var discountFactor = (totalLevelDelta / numSides) / level;
+
+	return Math.ceil(baseCost*(1-discountFactor));
 };
 
-Research.prototype.getResearchTime = function(objectData){
-	return 60;
+Research.prototype.getResearchTime = function(){
+	var q = this.q;
+	var r = this.r;
+
+	var distance = (Math.abs(q) + Math.abs(r) + Math.abs(q + r)) / 2;
+	return Math.pow(distance*10, 1.3) + 60;
 };
