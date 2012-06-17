@@ -58,9 +58,27 @@
 		<td>
 			<table class="innerTable">
 				<tr>
-					<th style="text-align: center; font-size: 12px;">Construction</th>
+					<th id="constructionQueueHeader" style="text-align: center; font-size: 12px;">Construction</th>
 				</tr>
-				<td id="constructionQueue"></td>
+				<tr>
+					<td id="constructionQueue"></td>
+				</tr>
+				<tr>
+					<th id="researchQueueHeader" style="text-align: center; font-size: 12px;">Research</th>
+				</tr>
+				<tr>
+					<td id="researchQueueHolder" class="stdBorder" style="height: 30px; background: rgba(2,26,58,0.8);">
+						<div style='position: relative;	width: 100%; text-align: center; margin-left: -1px;	border: 1px solid #D3D3D3; margin-top: -1px;'>
+							Current Research: <span id="researchQueueItemQuantity"></span> notes of <span id="researchQueueItem"></span>
+							<div id="researchQueueCancel" class="buttonDiv red-over abs" style="top: 0; height: 14px; left: 0; width: 60px;">
+								Cancel
+							</div>
+							<span id="researchQueueProgressBar" class='mousePointer progressbar countdown' data-progressbar='yes'>
+								<span id="text-researchQueueProgressBar" class="ui-progressbar-centerText"></span>
+							</span>
+						</div>
+					</td>
+				</tr>
 			</table>
 		</td>
 	</tr>
@@ -118,6 +136,9 @@
 
 		var lastBuildingData = {};
 		var lastObjectModData = {};
+		var lastResearchModData = {};
+		var lastResearchQueueModData = {};
+		var lastResearchQueueConsumptionData = {};
 		var lastObjectWeightPenalty = {};
 
 		var econRowTemplate = Handlebars.templates['objInfoEconomyRow.tmpl'];
@@ -131,6 +152,7 @@
 							case "msgUpdateResearchInfo":
 								parseResearchData(payload.msgData.researchData);
 								latestGameData.researchData = payload.msgData.researchData;
+								loadResearchData(latestGameData.researchData);
 								break;
 
 							case "msgUpdateItems":
@@ -151,13 +173,22 @@
 
 							case "msgUpdateBuildingData":
 								if(payload.msgData.objectID == objectID) {
+									latestGameData.buildingData = payload.msgData.buildingData;
 									loadObjectBuildingInfo(payload.msgData.buildingData);
 								}
 								break;
 
 							case "msgUpdateBuildingQueue":
 								if(payload.msgData.objectID == objectID) {
+									latestGameData.buildQueue = payload.msgData.buildQueue;
 									loadBuidingQueue(payload.msgData.buildQueue);
+								}
+								break;
+
+							case "msgUpdateResearchQueue":
+								if(payload.msgData.objectID == objectID) {
+									latestGameData.researchQueue = payload.msgData.researchQueue;
+									loadResearchQueue(payload.msgData.researchQueue);
 								}
 								break;
 
@@ -234,6 +265,14 @@
 				$.jStorage.publish("dataUpdater", new Message("msgUpdateBuildingQueue", {"objectID" : objectID, "buildQueue" : data.buildQueue}, ["all"], window.name));
 			}
 
+			if(isset(data.researchData)) {
+				$.jStorage.publish("dataUpdater", new Message("msgUpdateResearchInfo", {"researchData" : data.researchData}, ["all"], window.name));
+			}
+
+			if(isset(data.researchQueue)) {
+				$.jStorage.publish("dataUpdater", new Message("msgUpdateResearchQueue", {"objectID" : objectID, "researchQueue" : data.researchQueue}, ["all"], window.name));
+			}
+
 			$.jStorage.publish("dataUpdater", new Message(
 				"msgUpdateObjectData",
 				{
@@ -261,6 +300,7 @@
 		}
 
 		function loadBuidingQueue(buildQueue) {
+			var queueHeader = $("#constructionQueueHeader").show();
 			var queueHolder = $("#constructionQueue").html("");
 			var buildingQueueTemplate = Handlebars.templates['buildingQueueItem.tmpl'];
 
@@ -313,7 +353,82 @@
 					).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
 				});
 			} else {
-				queueHolder.text("No construction in progress");
+				queueHolder.hide();
+				queueHeader.hide();
+			}
+		}
+
+		function loadResearchQueue(researchQueue) {
+			var researchQueueHeader = $("#researchQueueHeader").show();
+			var researchQueueHolder = $("#researchQueueHolder");
+			var researchQueueProgressbar = $("#researchQueueProgressBar");
+			var researchInfoHolder = $("#researchInfoHolder");
+			$(".genResearchQueue").remove();
+			if(!isEmpty(researchQueue)) {
+				researchQueueHolder.show();
+				researchQueueProgressbar.addClass("countdown");
+				researchInfoHolder.css("top", 31);
+				var tech = latestGameData.researchData[researchQueue.techID];
+
+				var researchQueueCountdownText = $("#text-researchQueueProgressBar");
+				$("#researchQueueCancel").unbind("click").bind("click", function(){
+					$.post(
+						"ajaxRequest.php",
+						{"action" : "cancelResearchQueueItem", "ajaxType": "ResearchHandler", "objectID": objectID, "queueItemID": researchQueue.id},
+						handleResearchAjax,
+						"json"
+					).fail(function() { $("#tabContainer").prepend("An error occurred while getting data"); });
+				});
+
+				$("#researchQueueItemQuantity").text(researchQueue.numQueued);
+				$("#researchQueueItem").text(tech.techName);
+				$("#researchQueueProgressBar")
+					.attr("data-beginning", researchQueue.startTime)
+					.attr("data-end", researchQueue.startTime + Math.max(researchQueue.researchTime, 60))
+					.attr("data-callback", "getOverviewData();")
+					.progressbar({
+						value: 1,
+						max: researchQueue.researchTime,
+						change: function() {
+							researchQueueCountdownText.text(
+								niceETA(
+									moment.duration($(this).progressbar("option", "max") - $(this).progressbar("value"), 'seconds')
+								) + " left"
+							);
+						},
+						complete: function() {
+							if(researchQueue.researchTime >= 60) {
+								$("#text-researchQueueProgressBar").text( "Complete!" );
+							} else {
+								$("#text-researchQueueProgressBar").text( "Complete! (Auto-refresh only works at intervals of 60 seconds or more)" );
+							}
+						}
+					});
+
+				$('#tableModifiers tr:last').before(modRowTemplate({
+					itemName: "Active Research: " + tech.techName,
+					modifiers: tech.getResearchNotePassive(),
+					class: "genResearchQueue"
+				}));
+
+				$('#tableEconomy tr:last').before(econRowTemplate({
+					itemName: "Active Research: " + tech.techName,
+					consumption: tech.researchNoteConsumption,
+					class: "genResearchQueue"
+				}));
+
+				lastResearchQueueModData = tech.getResearchNotePassive();
+				lastResearchQueueConsumptionData = parseItemData(tech.researchNoteConsumption);
+				loadObjectTotals();
+			} else {
+				researchQueueHolder.hide();
+				researchQueueHeader.hide();
+				researchQueueProgressbar.removeClass("countdown");
+				researchInfoHolder.css("top", 0);
+
+				lastResearchQueueModData = {};
+				lastResearchQueueConsumptionData = {};
+				loadObjectTotals();
 			}
 		}
 
@@ -324,6 +439,10 @@
 
 			objAdd(modifierTotal, lastObjectWeightPenalty);
 			objAdd(modifierTotal, lastObjectModData);
+			objAdd(modifierTotal, lastResearchModData);
+			objAdd(modifierTotal, lastResearchQueueModData);
+
+			mergeItemData(economyTotal, lastResearchQueueConsumptionData, "-");
 
 			for(var key in lastBuildingData) {
 				var obj = lastBuildingData[key];
@@ -354,7 +473,7 @@
 				var building = new Building(key, [obj.level, obj.activity]);
 				if(!(isEmpty(building.getBaseBuildingConsumption()) && isEmpty(building.getBaseBuildingProduction()))) {
 					$('#tableEconomy tr:last').before(econRowTemplate({
-						itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
+						itemName: "Building: Level " + obj.level + " " + dbBuildData[key].buildName,
 						production: obj.curResProduction,
 						consumption: obj.curResConsumption,
 						activity: obj.activity,
@@ -365,7 +484,7 @@
 
 				if(obj.curModifiers) {
 					$('#tableModifiers tr:last').before(modRowTemplate({
-						itemName: "Level " + obj.level + " " + dbBuildData[key].buildName,
+						itemName: "Building: Level " + obj.level + " " + dbBuildData[key].buildName,
 						modifiers: obj.curModifiers,
 						activity: obj.activity,
 						class: "genBuilding",
@@ -381,6 +500,26 @@
 				});
 			}
 			lastBuildingData = buildingData;
+			loadObjectTotals();
+		}
+
+		function loadResearchData(researchData) {
+			$(".genResearch").remove();
+			var modData = {};
+			console.log(researchData);
+			for(var techID in researchData) {
+				var tech = researchData[techID];
+				var techMods = tech.getResearchMods();
+				if(!isEmpty(techMods)) {
+					objAdd(modData, techMods);
+					$('#tableModifiers tr:last').before(modRowTemplate({
+						itemName: "Technology: Level " + tech.techLevel + " " + tech.techName,
+						modifiers: techMods,
+						class: "genResearch"
+					}));
+				}
+			}
+			lastResearchModData = modData;
 			loadObjectTotals();
 		}
 

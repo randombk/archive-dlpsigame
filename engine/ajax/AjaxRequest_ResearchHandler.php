@@ -24,7 +24,6 @@ class AjaxRequest_ResearchHandler extends AjaxRequest {
 	 */
 	private function sendObjectResearchData($data, $playerEnv, $objectID, $code = 0, $message = null) {
 		$data = array(
-			"objectID" => $objectID,
 			"researchData" => $playerEnv->envResearch->getDataArray(),
 			"researchQueue" => $playerEnv->envObjects[$objectID]->researchQueue,
 		);

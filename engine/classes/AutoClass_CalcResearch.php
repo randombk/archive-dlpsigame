@@ -114,7 +114,7 @@ class CalcResearch {
 	 * @return $this|array
 	 */
 	public static function getResearchNotePassive($playerEnv, $objectEnv, $techID) {
-		$retObject = DataItem::fromItemArray(GameCache::get("RESEARCH")[$techID]["researchNotePassive"]);
+		$retObject = GameCache::get("RESEARCH")[$techID]["researchNotePassive"];
 		//$retObject->multiply(1 + $mod->getMod("modResearchNoteCostMultiplier")/100);
 
 		return $retObject;
@@ -163,6 +163,6 @@ class CalcResearch {
 	 * @throws Exception
 	 */
 	public static function getResearchTime($playerEnv, $objectEnv, $techID, $mod = null) {
-		return max(1, 10);
+		return max(1, 60);
 	}
 }

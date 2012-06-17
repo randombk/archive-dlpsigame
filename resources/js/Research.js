@@ -125,10 +125,14 @@ Research.prototype.getResearchEffect = function(level) {
 	return effectHTML;
 };
 
+Research.prototype.getResearchNotePassive = function() {
+	return this.researchNotePassive;
+};
+
 Research.prototype.getTotalNotesRequired = function(){
 	return 200;
 };
 
 Research.prototype.getResearchTime = function(objectData){
-	return 10;
+	return 60;
 };

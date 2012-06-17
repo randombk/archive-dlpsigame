@@ -22,8 +22,6 @@ class AjaxRequest_BuildingHandler extends AjaxRequest {
 	 */
 	private function sendBuildingInfo($playerEnv, $objectEnv, $code = 0, $message = null) {
 		$data = array(
-			//"buildings" => self::getBuildingList($objectEnv),
-			//"items" => UtilItem::buildItemDataArray($objectEnv->envItems),
 			"canBuild" => UtilObject::getUpgradeList($playerEnv, $objectEnv),
 			"buildQueue" => $objectEnv->buildingQueue
 		);

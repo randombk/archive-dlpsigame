@@ -8,7 +8,7 @@
  * Class DataMod
  */
 class DataMod extends Data {
-	//Easy access to mod parts to prevent excess re-calculation
+	//Easy access to mod components to prevent excess re-calculation
 	public $objMods = array();
 	public $researchMods = array();
 	public $researchQueuePassive = array();
@@ -32,7 +32,7 @@ class DataMod extends Data {
 		//Get research queue modifier
 		$curResearchQueueItem = QueueResearch::getCurrentResearch($objectEnv);
 		if($curResearchQueueItem) {
-			$researchQueuePassive = CalcResearch::getResearchNotePassive($playerEnv, $objectEnv, $curResearchQueueItem);
+			$instance->researchQueuePassive = CalcResearch::getResearchNotePassive($playerEnv, $objectEnv, $curResearchQueueItem);
 		}
 
 		//Add up active building modifiers
@@ -45,6 +45,7 @@ class DataMod extends Data {
 		}
 
 		$instance->mergeModifierArray($instance->objMods);
+		$instance->mergeModifierArray($instance->researchQueuePassive);
 		$instance->mergeModifierArray($instance->weightPenalty);
 
 		//Cache an updated copy in the object environment

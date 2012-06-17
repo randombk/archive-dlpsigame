@@ -28,6 +28,8 @@ class AjaxRequest_ObjectHandler extends AjaxRequest {
 				$data = array(
 					"buildingData" => UtilObject::getBuildingList($playerEnv, $objectEnv, true),
 					"objectModifiers" => $objectMods->objMods,
+					"researchData" => $playerEnv->envResearch->getDataArray(),
+					"researchQueue" => $objectEnv->researchQueue,
 					"objectWeightPenalty" => $objectMods->weightPenalty,
 					"usedStorage" => $objectEnv->envItems->getTotalWeight(),
 					"objStorage" => CalcObject::getObjectStorage($playerEnv, $objectEnv, $objectMods),
