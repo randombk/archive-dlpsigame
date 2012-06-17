@@ -44,6 +44,21 @@ class DataMod extends Data {
 			$instance->mergeModifierArray(CalcObject::getBuildingModifiers($objectEnv, $buildingID, $data[0], $data[1]));
 		}
 
+		//Add up active research modifiers
+		if($playerEnv->envResearch->researchModCache) {
+			$instance->mergeModifierArray($playerEnv->envResearch->researchModCache);
+		} else {
+			$researchCache = new self();
+			foreach ($playerEnv->envResearch->getDataArray() as $techID => $data) {
+				$level = $data[0];
+				if($level > 0) {
+					$researchCache->mergeModifierArray(CalcResearch::getResearchModifiers($playerEnv, $techID, $data[0]));
+				}
+			}
+			$playerEnv->envResearch->researchModCache = $researchCache->getDataArray();
+			$instance->mergeModifierArray($researchCache->getDataArray());
+		}
+
 		$instance->mergeModifierArray($instance->objMods);
 		$instance->mergeModifierArray($instance->researchQueuePassive);
 		$instance->mergeModifierArray($instance->weightPenalty);

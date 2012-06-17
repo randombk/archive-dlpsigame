@@ -72,11 +72,11 @@ class CalcResearch {
 	}
 
 	/**
-	 * @param string $techID
 	 * @param PlayerEnvironment $playerEnv
+	 * @param string $techID
 	 * @return bool
 	 */
-	public static function canResearch($techID, $playerEnv) {
+	public static function canResearch($playerEnv, $techID) {
 		if($playerEnv->envResearch->getResearchLevel($techID) || $playerEnv->envResearch->getResearchPoints($techID)) {
 			return true;
 		}
@@ -89,6 +89,25 @@ class CalcResearch {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param PlayerEnvironment $playerEnv
+	 * @param string $techID
+	 * @param int $level
+	 * @return array Modifier Array
+	 */
+	public static function getResearchModifiers($playerEnv, $techID, $level) {
+		if($level < 1 || !isset(GameCache::get("RESEARCH")[$techID]["techMods"])) return null;
+
+		$mods = array();
+
+		foreach (GameCache::get("RESEARCH")[$techID]["techMods"] as $modID => $modData) {
+			if($level >= $modData[0]) {
+				$mods[$modID] = $modData[1]*pow($level-$modData[0], $modData[2]) + $modData[3];
+			}
+		}
+		return $mods;
 	}
 
 	/**
@@ -145,7 +164,7 @@ class CalcResearch {
 	 * @return null
 	 */
 	public static function getReqResearchPoints($techID, $playerEnv) {
-		if(self::canResearch($techID, $playerEnv)) {
+		if(self::canResearch($playerEnv, $techID)) {
 			//$baseCost = GameCache::get("RESEARCH")[$techID][""]
 			return 200;
 

@@ -16,7 +16,7 @@ class QueueResearch {
 	 * @return bool
 	 */
 	public static function hasPreReq($playerEnv, $objectEnv, $techID, $time = TIMESTAMP) {
-		if(!CalcResearch::canResearch($techID, $playerEnv)) {
+		if(!CalcResearch::canResearch($playerEnv, $techID)) {
 			Message::sendNotification(
 				$playerEnv->playerID,
 				"Research Failed on " . $objectEnv->objectName . " (Missing Pre-Requisite)",

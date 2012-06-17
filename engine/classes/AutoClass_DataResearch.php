@@ -7,6 +7,8 @@
  * Class DataResearch
  */
 class DataResearch extends Data {
+	public $researchModCache = null;
+
 
 	/**
 	 * @param array $data
@@ -62,6 +64,8 @@ class DataResearch extends Data {
 		} else {
 			$this->dataArray[$researchID] = array($researchLevel, 0);
 		}
+		//Invalidate cache
+		$researchModCache = null;
 	}
 
 	/**
