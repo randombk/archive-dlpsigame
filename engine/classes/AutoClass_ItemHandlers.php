@@ -24,14 +24,13 @@ class ItemHandlers {
 				if(isset(GameCache::get("RESEARCH")[$techID])) {
 					if(CalcResearch::canResearch($playerEnv, $techID)) {
 						$oldResearchPoints = $playerEnv->envResearch->getResearchPoints($techID);
-						$newResearchPoints = $oldResearchPoints + $numUsed;
+						$playerEnv->envResearch->setResearchPoints($techID, $oldResearchPoints + $numUsed);
 
-						$playerEnv->envResearch->setResearchPoints($techID, $newResearchPoints);
+						CalcResearch::propagateResearchUpdate($playerEnv, $techID);
+
 						$playerEnv->envObjects[$objectID]->envItems->addItem($itemID, - $numUsed);
-
 						$playerEnv->envObjects[$objectID]->applyObjectMongo();
 						$playerEnv->applyPlayerMongo();
-
 						return true;
 					} else {
 						return "You cannot research that technology!";

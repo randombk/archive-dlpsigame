@@ -168,13 +168,14 @@ class CalcResearch {
 		//Get discount factor
 		$sides = self::getNeighborIDs($techID);
 		$numSides = sizeof($sides);
-		$totalLevelDelta = 0;
+		$totalLevel = 0;
 		foreach($sides as $sideID) {
-			$totalLevelDelta += $playerEnv->envResearch->getResearchLevel($sideID) - $level;
+			$totalLevel += $playerEnv->envResearch->getResearchLevel($sideID);
 		}
-		$discountFactor = ($totalLevelDelta / $numSides) / $level;
+		$discountFactor = (1/(($totalLevel / $numSides) / $level));
+		$discountFactor -= ($discountFactor-1)/1.5;
 
-		return ceil($baseCost*(1-$discountFactor));
+		return max(ceil($baseCost*$discountFactor), 1);
 	}
 
 	/**
@@ -189,11 +190,33 @@ class CalcResearch {
 	 * @throws Exception
 	 */
 	public static function getResearchTime($playerEnv, $objectEnv, $techID, $mod = null) {
-		$q = GameCache::get("RESEARCH")[$techID]["q"];
-		$r = GameCache::get("RESEARCH")[$techID]["r"];
-
-		$distance = (abs($q) + abs($r) + abs($q + $r)) / 2;
-
+		$distance = GameCache::get("RESEARCH")[$techID]["distance"];
 		return pow($distance, 1.3) + 60;
+	}
+
+	/**
+	 * @param PlayerEnvironment $playerEnv
+	 * @param string $techID
+	 */
+	public static function propagateResearchUpdate($playerEnv, $techID) {
+		$curLevel = $playerEnv->envResearch->getResearchLevel($techID);
+		$curNotes = $playerEnv->envResearch->getResearchPoints($techID);
+		$numRequired = CalcResearch::getReqResearchPoints($playerEnv, $techID, $curLevel + 1);
+		$needsPropagation = false;
+		while($numRequired <= $curNotes) {
+			$needsPropagation = true;
+			$curNotes -= $numRequired;
+			$curLevel += 1;
+			$numRequired = CalcResearch::getReqResearchPoints($playerEnv, $techID, $curLevel + 1);
+		}
+
+		if($needsPropagation) {
+			$playerEnv->envResearch->setResearchLevel($techID, $curLevel);
+			$playerEnv->envResearch->setResearchPoints($techID, $curNotes);
+			$sides = self::getNeighborIDs($techID);
+			foreach($sides as $sideID) {
+				self::propagateResearchUpdate($playerEnv, $sideID);
+			}
+		}
 	}
 }

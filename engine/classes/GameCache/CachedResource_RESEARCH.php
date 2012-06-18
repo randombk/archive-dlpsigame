@@ -15,11 +15,18 @@ class CachedResource_RESEARCH {
 	 */
 	public static function loadGameResource($returnPos = false) {
 		$string = file_get_contents(ROOT_PATH . 'engine/data/research.json');
-		$RESEARCH = json_decode($string, TRUE);
+		$RESEARCH = array();
+		$RESEARCHDATA = json_decode($string, TRUE);
 		$RESEARCHPOS = array();
 
-		foreach($RESEARCH as $data) {
-			$RESEARCHPOS[$data["q"] . ":" . $data["r"]] = $data;
+		foreach($RESEARCHDATA as $id => $data) {
+			//record distance from center
+			$q = $data["q"];
+			$r = $data["r"];
+
+			$data["distance"] = (abs($q) + abs($r) + abs($q + $r)) / 2;
+			$RESEARCH[$id] = $data;
+			$RESEARCHPOS[$q . ":" . $r] = $data;
 			DBMongo::setItemParams("research-notes_" . $data["techID"],
 				array (
 				    'cached' => true,

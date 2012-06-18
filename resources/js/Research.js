@@ -25,6 +25,7 @@ function Research(techID, techLevel, techPoints) {
 	//Load base data
 	this.q			= clone(this.techBaseData.q);
 	this.r			= clone(this.techBaseData.r);
+	this.distance	= clone(this.techBaseData.distance);
 	this.techImage	= clone(this.techBaseData.techImage);
 	this.techName	= clone(this.techBaseData.techName);
 	this.techNameLine1	= clone(this.techBaseData.techNameLine1);
@@ -131,28 +132,27 @@ Research.prototype.getResearchNotePassive = function() {
 
 Research.prototype.getTotalNotesRequired = function(researchData, level){
 	if(!level && level !== 0) {
-		level = this.techLevel + 1;
+		level = this.techLevel+1;
 	}
 
 	var costData = this.researchCost;
 	var baseCost = costData[0]*Math.pow(level, costData[1]) + costData[2];
 
 	//Get discount factor
-	var sides = this.getNeighborIDs(this.techID);
+	var sides = this.getNeighborIDs();
 	var numSides = sides.length;
-	var totalLevelDelta = 0;
-	for(var sideID in sides) {
-		totalLevelDelta += (isset(researchData[sideID]) ? researchData[sideID] : 0 ) - level;
+	var totalLevel = 0;
+	for(var side in sides) {
+		var sideID = sides[side];
+		totalLevel += (isset(researchData[sideID]) ? researchData[sideID].techLevel : 0 );
 	}
-	var discountFactor = (totalLevelDelta / numSides) / level;
+	var discountFactor = (1/((totalLevel / numSides) / level));
+	discountFactor -= (discountFactor-1)/1.5;
 
-	return Math.ceil(baseCost*(1-discountFactor));
+	console.log([baseCost, discountFactor]);
+	return Math.max(Math.ceil(baseCost*discountFactor), 1);
 };
 
 Research.prototype.getResearchTime = function(){
-	var q = this.q;
-	var r = this.r;
-
-	var distance = (Math.abs(q) + Math.abs(r) + Math.abs(q + r)) / 2;
-	return Math.pow(distance*10, 1.3) + 60;
+	return Math.pow(this.distance*10, 1.3) + 60;
 };
