@@ -22,26 +22,6 @@
 	border: 1px solid #D3D3D3;
 }
 
-#researchObjectListHolder {
-	position: absolute;
-	top: 151px;
-	left: 0;
-	width: 200px;
-	bottom: 0;
-	border: 1px #D3D3D3 solid;
-	background: rgba(3,26,58,0.8);
-}
-
-#researchActivityListHolder {
-	position: absolute;
-	top: 0;
-	left: 251px;
-	right: 0;
-	height: 100px;
-	border: 1px #D3D3D3 solid;
-	background: rgba(3,26,58,0.8);
-}
-
 #researchSVG g {
 	cursor: pointer;
 }
