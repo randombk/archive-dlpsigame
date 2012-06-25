@@ -9,9 +9,9 @@
 {{/block}}
 
 {{block name="content"}}
-<div id="researchControlsToggle">
+<!--div id="researchControlsToggle">
 	&lt; Hide Controls
-</div>
+</div-->
 <div class="absFill">
 	<div id="researchHolder" class="absFill">
 		<svg id="researchSVG" xmlns="http://www.w3.org/2000/svg" version="1.1" width="6000" height="6000" viewBox="-2500 -2500 5000 5000">
@@ -94,15 +94,6 @@
 			</g>
 		</svg>
 	</div>
-
-	<div id="researchObjectListHolder">
-
-	</div>
-
-	<div id="researchActivityListHolder">
-
-	</div>
-
 </div>
 
 <div id="researchOverlayHolder" class="absFill" style="text-align: center; vertical-align: middle; display: none;">
