@@ -9,12 +9,11 @@
 	<script src="resources/js/UniMap.js?v={{$VERSION}}"></script>
 {{/block}}
 {{block name="content"}}
-<div id="threecontainer" style="top: 0px; bottom: 0; left: 0; right: 0; min-height: 500px; position: absolute; background: rgba(10,10,20, 0.8);">
-</div>
+<div id="threecontainer_graphical" style="position: absolute; top: 0px; bottom: 0; left: 0; right: 0; min-height: 500px;"></div>
+<div id="threecontainer_bgInteract" style="position: absolute; top: 0px; bottom: 0; left: 0; right: 0; min-height: 500px; pointer-events: none;"></div>
 {{/block}}
 {{block name="winHandlers" append}}
 	<script type="x-shader/x-vertex" id="vertexshader">
-
 		uniform float amplitude;
 		attribute float size;
 		attribute vec3 customColor;
@@ -22,7 +21,6 @@
 		varying vec3 vColor;
 
 		void main() {
-
 		vColor = customColor;
 
 		vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
@@ -31,13 +29,10 @@
 		gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );
 
 		gl_Position = projectionMatrix * mvPosition;
-
 		}
-
 	</script>
 
 	<script type="x-shader/x-fragment" id="fragmentshader">
-
 		uniform vec3 color;
 		uniform sampler2D texture;
 
@@ -49,8 +44,8 @@
 		gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
 
 		}
-
 	</script>
+
 	<script>
 		var galaxyID = {{$galaxyID}};
 		var sectorIndex = {{$sectorIndex}};
@@ -58,7 +53,7 @@
 		$('#gamePageContainer').addClass("absFill").css("width", "100%").css("height", "100%");
 
 		(function($) {
-			var uniMap = new UniMap($("#threecontainer"));
+			var uniMap = new UniMap($("#threecontainer_graphical"), $("#threecontainer_bgInteract"));
 			uniMap.animate();
 		})(jQuery);
 	</script>

@@ -130,7 +130,7 @@
 				selectMesh.rotation = camera.rotation;
 				starHolder.add(selectMesh);
 
-				// renderer
+				//renderer
 				renderer = new THREE.WebGLRenderer( {antialiasing: true} );
 				renderer.setSize( $("#threecontainer").width(), $("#threecontainer").height() );
 				renderer.sortElements = true;

@@ -12,7 +12,7 @@
 
 					<li id="pageOverview" class="menuItem buttonDiv" ><a href="game.php?page=overview">Overview</a></li>
 					<li id="pageFleetSummary" class="menuItem buttonDiv" ><a href="game.php?page=research">Fleet Summary</a></li>
-					<li id="pageMap" class="menuItem buttonDiv" ><a href="game.php?page=map&mode=uniMap">Universe Map</a></li>
+					<li id="pageMap" class="menuItem buttonDiv" ><a href="game.php?page=map&mode=unifiedMap">Universe Map</a></li>
 					<li id="pageResearchMap" class="menuItem buttonDiv" ><a href="game.php?page=researchmap">Research Map</a></li>
 
 					<li class="menuItem menuWindowItem buttonDiv"
