@@ -5,30 +5,36 @@
 	<script src="http://threejs.org/examples/js/Detector.js?v={{$VERSION}}"></script>
 	<script src="http://threejs.org/examples/js/libs/stats.min.js?v={{$VERSION}}"></script>
 
-	<script src="http://mrdoob.github.com/three.js/examples/fonts/helvetiker_regular.typeface.js"></script>
+	<script src="http://threejs.org/examples/fonts/helvetiker_regular.typeface.js"></script>
 	<script src="resources/js/UniMap.js?v={{$VERSION}}"></script>
 {{/block}}
 {{block name="content"}}
-<div id="threecontainer_graphical" style="position: absolute; top: 0px; bottom: 0; left: 0; right: 0; min-height: 500px;"></div>
-<div id="threecontainer_bgInteract" style="position: absolute; top: 0px; bottom: 0; left: 0; right: 0; min-height: 500px; pointer-events: none;"></div>
+<div id="threecontainer_graphical" class="stdBorder" style="position: absolute; top: 0px; bottom: 0; left: 0; right: 0; min-height: 500px;"></div>
+<div id="threecontainer_bgInteract" style="position: absolute; top: 0px; bottom: 0; left: 0; right: 0; min-height: 500px; pointer-events: none;">
+	<div id="bgInteract_layerGalaxy" class="absFill" style="pointer-events: none;">
+		<div id="layerGalaxy_leftPanel" class="stdBorder abs" style="pointer-events: auto; top: 0; bottom: 0; left: 0; width: 200px; background: rgba(2,26,58,0.8);">
+			<div id="layerGalaxy_leftPanel_zoom" class="stdBorder abs" style="top: 0; bottom: 0; left: 0; width: 200px; background: rgba(2,26,58,0.8);">
+
+			</div>
+		</div>
+	</div>
+</div>
 {{/block}}
 {{block name="winHandlers" append}}
 	<script type="x-shader/x-vertex" id="vertexshader">
 		uniform float amplitude;
 		attribute float size;
 		attribute vec3 customColor;
-
 		varying vec3 vColor;
 
 		void main() {
-		vColor = customColor;
+			vColor = customColor;
+			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 
-		vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			//gl_PointSize = size;
+			gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );
 
-		//gl_PointSize = size;
-		gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );
-
-		gl_Position = projectionMatrix * mvPosition;
+			gl_Position = projectionMatrix * mvPosition;
 		}
 	</script>
 
@@ -39,10 +45,8 @@
 		varying vec3 vColor;
 
 		void main() {
-
-		gl_FragColor = vec4( color * vColor, 1.0 );
-		gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
-
+			gl_FragColor = vec4( color * vColor, 1.0 );
+			gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
 		}
 	</script>
 
@@ -52,9 +56,9 @@
 		//Override container size
 		$('#gamePageContainer').addClass("absFill").css("width", "100%").css("height", "100%");
 
-		(function($) {
+		$(window).ready(function() {
 			var uniMap = new UniMap($("#threecontainer_graphical"), $("#threecontainer_bgInteract"));
 			uniMap.animate();
-		})(jQuery);
+		});
 	</script>
 {{/block}}

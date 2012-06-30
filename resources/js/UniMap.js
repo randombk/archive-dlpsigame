@@ -54,23 +54,22 @@ function UniMap(selectorGraphics, selectorOverlay) {
 	this.selectorGraphics.append( this.rendererGraphics.domElement );
 
 	//Stats
-	this.stats = new Stats();
-	this.stats.domElement.style.position = 'absolute';
-	this.stats.domElement.style.top = '0px';
-	this.stats.domElement.style.zIndex = 100;
-	this.selectorOverlay.append( this.stats.domElement );
+	//this.stats = new Stats();
+	//this.stats.domElement.style.position = 'absolute';
+	//this.stats.domElement.style.top = '0px';
+	//this.stats.domElement.style.zIndex = 100;
+	//this.selectorGraphics.append( this.stats.domElement );
 	window.addEventListener( 'resize', this.onWindowResize, false );
 
 	this.loadView(null);
 
 	this.selectorGraphics.find("canvas").dblclick(instanceUniMap.handleDblClick);
-	this.selectorGraphics.find("canvas").mousedown(instanceUniMap.handleClick);
+	this.selectorGraphics.find("canvas").click(instanceUniMap.handleClick);
 	this.selectorGraphics.find("canvas").mousemove(instanceUniMap.handleMouseMove);
 }
 
 UniMap.prototype.loadView = function(view) {
 	this.currentView = new UniMapViewGalaxy();
-	this.camera.position.z = 2000;
 };
 
 UniMap.prototype.onWindowResize = function() {
@@ -121,7 +120,7 @@ UniMap.prototype.animate = function() {
 UniMap.prototype.render = function() {
 	this.controls.update();
 	this.rendererGraphics.render( this.currentView.scene, this.camera );
-	this.stats.update();
+	//this.stats.update();
 };
 
 UniMap.prototype.panCameraTo = function(target, position, up, rotation, speed) {
@@ -151,11 +150,14 @@ UniMap.prototype.handleMouseMove = function(e) {
 
 function UniMapViewGalaxy() {
 	this.scene =new THREE.Scene();
+	instanceUniMap.camera.position.z = 2000;
 
 	this.loadSkyBox();
 	this.loadLights();
 	this.loadHexGrid();
 	this.loadGalaxy();
+
+	this.loadOverlayInterface(0);
 
 	this.targetOpacity = 1;
 }
@@ -251,11 +253,11 @@ UniMapViewGalaxy.prototype.loadHexGrid = function() {
 				this.scene.add(new THREE.Line(lineGeo, this.hexLineMaterial));
 
 				//Draw hexagon label
-				var hexLabelGeo = new THREE.TextGeometry(id, {size: 20, height: 1, font: 'helvetiker', curveSegments: 1});
+				var hexLabelGeo = new THREE.TextGeometry(id, {size: 20, height: 2, font: 'helvetiker', curveSegments: 1});
 				var hexLabel = new THREE.Mesh(hexLabelGeo);
 				hexLabel.position.x = hex.toY(50) - 8 * id.toString().length;
 				hexLabel.position.y = hex.toX(50) - 10;
-				hexLabel.position.z = 46;
+				hexLabel.position.z = 44;
 				THREE.GeometryUtils.merge(textGeo, hexLabel);
 
 				//Draw invisible hex shape
@@ -390,6 +392,19 @@ UniMapViewGalaxy.prototype.handleZoomLevels = function() {
 	if(this.lastHoverTarget) {
 		this.lastHoverTarget.object.material.opacity = 0.7 * this.targetOpacity;
 	}
+	if(this.lastSelectTarget) {
+		this.lastSelectTarget.object.material.opacity = this.targetOpacity;
+	}
+};
+
+UniMapViewGalaxy.prototype.loadOverlayInterface = function(sectorID) {
+	if(sectorID) {
+		//Load sector info
+
+	} else {
+		//Load galaxy info
+
+	}
 };
 
 UniMapViewGalaxy.prototype.onDocumentDblClick = function( e ) {
@@ -415,7 +430,31 @@ UniMapViewGalaxy.prototype.onDocumentDblClick = function( e ) {
 };
 
 UniMapViewGalaxy.prototype.onDocumentClick = function( e ) {
+	e.preventDefault();
+	var x = (e.offsetX || e.clientX - $(e.target).offset().left + window.pageXOffset );
+	var y = (e.offsetY || e.clientY - $(e.target).offset().top + window.pageYOffset );
 
+	var vector = new THREE.Vector3( ( x / instanceUniMap.selectorGraphics.width() ) * 2 - 1, - ( y / instanceUniMap.selectorGraphics.height()  ) * 2 + 1, 0.5 );
+	instanceUniMap.projector.unprojectVector( vector, instanceUniMap.camera );
+
+	var raycaster = new THREE.Raycaster( instanceUniMap.camera.position, vector.sub( instanceUniMap.camera.position ).normalize() );
+	var intersects = raycaster.intersectObjects( this.hexObjs );
+
+	if(intersects.length) {
+		if(this.lastSelectTarget && this.lastSelectTarget !== intersects[0]) {
+			this.lastSelectTarget.object.material.opacity = 0;
+		}
+
+		this.lastSelectTarget = intersects[0];
+		this.lastSelectTarget.object.material.opacity = 1;
+
+		this.loadOverlayInterface(this.lastSelectTarget.object.id);
+	} else {
+		if(this.lastSelectTarget)
+			this.lastSelectTarget.object.material.opacity = 0;
+		this.lastSelectTarget = null;
+		this.loadOverlayInterface(0);
+	}
 };
 
 UniMapViewGalaxy.prototype.onMouseMove = function( e ) {
@@ -429,19 +468,16 @@ UniMapViewGalaxy.prototype.onMouseMove = function( e ) {
 	var raycaster = new THREE.Raycaster( instanceUniMap.camera.position, vector.sub( instanceUniMap.camera.position ).normalize() );
 	var intersects = raycaster.intersectObjects( this.hexObjs );
 
-	if(intersects.length) {
-		if(this.lastHoverTarget && this.lastHoverTarget != intersects[0]) {
+	if(intersects.length && intersects[0] !== this.lastSelectTarget) {
+		if(this.lastHoverTarget && this.lastHoverTarget !== intersects[0]) {
 			this.lastHoverTarget.object.material.opacity = 0;
 		}
 
 		this.lastHoverTarget = intersects[0];
 		this.lastHoverTarget.object.material.opacity = 0.7 * this.targetOpacity;
 	} else {
-		if(this.lastHoverTarget)
+		if(this.lastHoverTarget && this.lastHoverTarget !== this.lastSelectTarget)
 			this.lastHoverTarget.object.material.opacity = 0;
 		this.lastHoverTarget = null;
 	}
 };
-
-
-
