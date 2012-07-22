@@ -53,12 +53,6 @@ function UniMap(selectorGraphics, selectorOverlay) {
 
 	this.selectorGraphics.append( this.rendererGraphics.domElement );
 
-	//Stats
-	//this.stats = new Stats();
-	//this.stats.domElement.style.position = 'absolute';
-	//this.stats.domElement.style.top = '0px';
-	//this.stats.domElement.style.zIndex = 100;
-	//this.selectorGraphics.append( this.stats.domElement );
 	window.addEventListener( 'resize', this.onWindowResize, false );
 
 	this.loadView(null);
@@ -69,7 +63,7 @@ function UniMap(selectorGraphics, selectorOverlay) {
 }
 
 UniMap.prototype.loadView = function(view) {
-	this.currentView = new UniMapViewGalaxy();
+	this.currentView = new UniMapViewGalaxy(this);
 };
 
 UniMap.prototype.onWindowResize = function() {
@@ -120,7 +114,6 @@ UniMap.prototype.animate = function() {
 UniMap.prototype.render = function() {
 	this.controls.update();
 	this.rendererGraphics.render( this.currentView.scene, this.camera );
-	//this.stats.update();
 };
 
 UniMap.prototype.panCameraTo = function(target, position, up, rotation, speed) {
@@ -148,18 +141,21 @@ UniMap.prototype.handleMouseMove = function(e) {
 	instanceUniMap.currentView.onMouseMove(e);
 };
 
-function UniMapViewGalaxy() {
+function UniMapViewGalaxy(parent) {
+	this.parent = parent;
 	this.scene =new THREE.Scene();
-	instanceUniMap.camera.position.z = 2000;
+	this.parent.camera.position.z = 2000;
 
 	this.loadSkyBox();
 	this.loadLights();
 	this.loadHexGrid();
 	this.loadGalaxy();
 
+	this.selectorTopLabel = this.parent.selectorOverlay.find("#breadcrumb_cur");
 	this.loadOverlayInterface(0);
 
 	this.targetOpacity = 1;
+
 }
 
 UniMapViewGalaxy.prototype.loadSkyBox = function() {
@@ -400,10 +396,10 @@ UniMapViewGalaxy.prototype.handleZoomLevels = function() {
 UniMapViewGalaxy.prototype.loadOverlayInterface = function(sectorID) {
 	if(sectorID) {
 		//Load sector info
-
+		this.selectorTopLabel.text("Sector " + sectorID);
 	} else {
 		//Load galaxy info
-
+		this.selectorTopLabel.text("Galaxy 1");
 	}
 };
 
@@ -412,10 +408,10 @@ UniMapViewGalaxy.prototype.onDocumentDblClick = function( e ) {
 	var x = (e.offsetX || e.clientX - $(e.target).offset().left + window.pageXOffset );
 	var y = (e.offsetY || e.clientY - $(e.target).offset().top + window.pageYOffset );
 
-	var vector = new THREE.Vector3( ( x / instanceUniMap.selectorGraphics.width() ) * 2 - 1, - ( y / instanceUniMap.selectorGraphics.height()  ) * 2 + 1, 0.5 );
-	instanceUniMap.projector.unprojectVector( vector, instanceUniMap.camera );
+	var vector = new THREE.Vector3( ( x / this.parent.selectorGraphics.width() ) * 2 - 1, - ( y / this.parent.selectorGraphics.height()  ) * 2 + 1, 0.5 );
+	this.parent.projector.unprojectVector( vector, this.parent.camera );
 
-	var raycaster = new THREE.Raycaster( instanceUniMap.camera.position, vector.sub( instanceUniMap.camera.position ).normalize() );
+	var raycaster = new THREE.Raycaster( this.parent.camera.position, vector.sub( this.parent.camera.position ).normalize() );
 	var intersects = raycaster.intersectObjects( this.hexObjs );
 
 	if(intersects.length) {
@@ -423,21 +419,20 @@ UniMapViewGalaxy.prototype.onDocumentDblClick = function( e ) {
 		var camPosition = clone(intersects[ 0 ].object.position);
 
 		camPosition.z += 750;
-		instanceUniMap.panCameraTo(camTarget, camPosition, new THREE.Vector3(0,1,0), 0, 50 );
+		this.parent.panCameraTo(camTarget, camPosition, new THREE.Vector3(0,1,0), 0, 50 );
 	} else {
-		instanceUniMap.panCameraTo(new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,2500), new THREE.Vector3(0,1,0), 0, 50 );
+		this.parent.panCameraTo(new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,2500), new THREE.Vector3(0,1,0), 0, 50 );
 	}
 };
 
 UniMapViewGalaxy.prototype.onDocumentClick = function( e ) {
-	e.preventDefault();
 	var x = (e.offsetX || e.clientX - $(e.target).offset().left + window.pageXOffset );
 	var y = (e.offsetY || e.clientY - $(e.target).offset().top + window.pageYOffset );
 
-	var vector = new THREE.Vector3( ( x / instanceUniMap.selectorGraphics.width() ) * 2 - 1, - ( y / instanceUniMap.selectorGraphics.height()  ) * 2 + 1, 0.5 );
-	instanceUniMap.projector.unprojectVector( vector, instanceUniMap.camera );
+	var vector = new THREE.Vector3( ( x / this.parent.selectorGraphics.width() ) * 2 - 1, - ( y / this.parent.selectorGraphics.height()  ) * 2 + 1, 0.5 );
+	this.parent.projector.unprojectVector( vector, this.parent.camera );
 
-	var raycaster = new THREE.Raycaster( instanceUniMap.camera.position, vector.sub( instanceUniMap.camera.position ).normalize() );
+	var raycaster = new THREE.Raycaster( this.parent.camera.position, vector.sub( this.parent.camera.position ).normalize() );
 	var intersects = raycaster.intersectObjects( this.hexObjs );
 
 	if(intersects.length) {
@@ -458,14 +453,13 @@ UniMapViewGalaxy.prototype.onDocumentClick = function( e ) {
 };
 
 UniMapViewGalaxy.prototype.onMouseMove = function( e ) {
-	e.preventDefault();
 	var x = (e.offsetX || e.clientX - $(e.target).offset().left + window.pageXOffset );
 	var y = (e.offsetY || e.clientY - $(e.target).offset().top + window.pageYOffset );
 
-	var vector = new THREE.Vector3( ( x / instanceUniMap.selectorGraphics.width() ) * 2 - 1, - ( y / instanceUniMap.selectorGraphics.height()  ) * 2 + 1, 0.5 );
-	instanceUniMap.projector.unprojectVector( vector, instanceUniMap.camera );
+	var vector = new THREE.Vector3( ( x / this.parent.selectorGraphics.width() ) * 2 - 1, - ( y / this.parent.selectorGraphics.height()  ) * 2 + 1, 0.5 );
+	this.parent.projector.unprojectVector( vector, this.parent.camera );
 
-	var raycaster = new THREE.Raycaster( instanceUniMap.camera.position, vector.sub( instanceUniMap.camera.position ).normalize() );
+	var raycaster = new THREE.Raycaster( this.parent.camera.position, vector.sub( this.parent.camera.position ).normalize() );
 	var intersects = raycaster.intersectObjects( this.hexObjs );
 
 	if(intersects.length && intersects[0] !== this.lastSelectTarget) {
