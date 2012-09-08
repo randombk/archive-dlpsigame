@@ -29,12 +29,12 @@ $GLOBALS['_RDBMS']['host'] = 'localhost';
 $GLOBALS['_RDBMS']['port'] = '3306';
 $GLOBALS['_RDBMS']['user'] = 'root';
 $GLOBALS['_RDBMS']['userpw'] = 'edward';
-$GLOBALS['_RDBMS']['databasename'] = 'DLPSIGAME_DEV1';
+$GLOBALS['_RDBMS']['databasename'] = 'dlpsigame_dev1';
 
 //### Mongo access ###//
 $GLOBALS['_MONGO'] = array();
 $GLOBALS['_MONGO']['host'] = 'localhost';
 $GLOBALS['_MONGO']['port'] = '27017';
-$GLOBALS['_MONGO']['databasename'] = 'DLPSIGAME_DEV1';
+$GLOBALS['_MONGO']['databasename'] = 'dlpsigame_dev1';
 
 $GLOBALS['_SALT'] = 'JtP0xXyOi6RLTFs5fYW7v8';
