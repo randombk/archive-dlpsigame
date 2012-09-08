@@ -1,0 +1,51 @@
+DLPSIGAME ENGINE2 DESIGN SPECIFICATION AND DOCUMENTATION
+Copyright (C) 2012 David J. W. Li
+
+[[1]] Overview
+    [[A]] Motive
+        To port the existing DLPSIGAME Engine to C++, enabling access to more robust programming interfaces
+        and to enhance performance of the Engine to enable scaling to a multi-user environment, while keeping
+        existing functionality.
+
+    [[B]] Objectives
+        [[a]] Operating Environment
+            [[i]] Operating System
+                - Build and run on Debian Linux
+                - Limit to packages found on current stable Debian distribution
+                - Focus on x86, with x64 support
+            [[ii]] Networking
+                - Listen on pre-specified port on local server
+                - Connected via reverse proxy (Nginx) to internet
+                - Connected to a MySQL server on standard port
+                - Connected to a MongoDB server on standard port
+            [[iii]] Resources
+                - Operate in memory-constrained environment down to 100MB, with horizontal scalability to 32GB
+                - Operate in single-core environment, with unconstrained upward limit on performance
+            [[iv]] Filesystem
+                - Cross-Platform access and manipulation of required files
+        [[b]] Operation
+            [[i]] User Interface
+                - All player-exposed input and output encoded as JSON strings
+                - Accept STDIN commands to administrate server
+                - Read configuration file(s) from local directory structure
+            [[ii]] Data Interface
+                - All universe and player data to be stored in either the MySQL Database or in MongoDB
+                - Output debug/error information to file and STDERR
+            
+
+[[2]] Implementation
+    [[A]] Dependencies
+        The Engine depends on the following libraries:
+            - Boost.LockFree (Boost 1.53+) 
+                > (Boost Software License - Version 1.0)
+                > Concurrency control and threading utilities
+            - POCO C++ 
+                > (The Boost Software License 1.0)
+                > Cross-Platform networking and HTTP server
+            - Threading Building Blocks 
+                > (GPLv2 with libstdc++ runtime exception)
+                > Thread-safe containers and task delegation
+            - JsonCpp (jsoncpp.sourceforge.net)
+                > (MIT License)
+                > Parsing and working with JSON strings
+
